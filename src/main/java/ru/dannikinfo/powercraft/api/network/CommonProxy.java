@@ -1,0 +1,33 @@
+package ru.dannikinfo.powercraft.api.network;
+
+import cpw.mods.fml.common.network.simpleimpl.MessageContext;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.World;
+
+public class CommonProxy {
+
+	public void preInit() {
+		// TODO Auto-generated method stub
+	}
+
+	public void init() {
+		// TODO Auto-generated method stub
+		
+	}
+	/**
+	 * Returns a side-appropriate EntityPlayer for use during message handling
+	 */
+	public EntityPlayer getPlayerEntity(MessageContext ctx) {
+		return ctx.getServerHandler().playerEntity;
+	}
+
+	public void spawnParticle(String name, float x, float y, float z, double i, double j, double k) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public World getClientWorld() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+}

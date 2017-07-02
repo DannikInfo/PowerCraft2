@@ -1,3 +1,35 @@
+//============Transport Localization============
+tile.elevator.elevator_up.name=Elevator up
+tile.elevator.elevator_down.name=Elevator down
+tile.splitter.name=Splitter
+tile.normalbelt.name=Normal conveyor belt
+tile.speedybelt.name=Speedy conveyor belt
+tile.detectorbelt.name=Detector conveyor belt
+tile.breakbelt.name=Break conveyor belt
+tile.redirectorbelt.name=Redirector conveyor belt
+tile.separatorbelt.name=Separator conveyor belt
+tile.ejectorbelt.name=Ejector conveyor belt
+transport.gui.WholeStacks=Whole stacks
+transport.gui.SingleItems=Single items
+transport.gui.AllContentsAtOne=All contents at one
+transport.gui.FirstSlot=First slot
+transport.gui.LastSlot=Last slot
+transport.gui.RandomSlot=Random slot
+
+
+//============Decoration localization============
+tile.chimeny.Cobblestone.name=Cobblestone chimeny
+tile.chimeny.MossyCobblestone.name=Cobblestone mossy chimeny
+tile.chimeny.Brick.name=Brick chimeny
+tile.chimeny.StoneBrick.name=Stone brick chimeny
+tile.chimeny.SandStone.name=Sandstone chimeny
+tile.chimeny.Iron.name=Iron chimeny
+tile.chimeny.NetherBrick.name=Nether brick chimeny
+tile.chimeny.NetherQuartz.name=Quartz chimeny
+tile.chimeny.Clay.name=Clay chimeny
+tile.ironframe.name=Iron frame
+tile.stairs.name=Stairs
+tile.platform.name=Platform
 ---------PowerCrystal localization----------------
 tile.powercraftreloaded.Crystal.Cyan.name=Cyan crystal
 tile.powercraftreloaded.Crystal.DarkBlue.name=Darkblue crystal
@@ -7,16 +39,6 @@ tile.powercraftreloaded.Crystal.Orange.name=Orange crystal
 tile.powercraftreloaded.Crystal.Purple.name=Purple crystal
 tile.powercraftreloaded.Crystal.Red.name=Red crystal
 tile.powercraftreloaded.Crystal.Yellow.name=Yellow crystal
----------Chimeny localization----------------------
-tile.powercraftreloaded.Chimeny.Cobblestone.name=Cobblestone chimeny
-tile.powercraftreloaded.Chimeny.MossyCobblestone.name=Cobblestone mossy chimeny
-tile.powercraftreloaded.Chimeny.Brick.name=Brick chimeny
-tile.powercraftreloaded.Chimeny.StoneBrick.name=Stone brick chimeny
-tile.powercraftreloaded.Chimeny.SandStone.name=Sandstone chimeny
-tile.powercraftreloaded.Chimeny.Iron.name=Iron chimeny
-tile.powercraftreloaded.Chimeny.NetherBrick.name=Nether brick chimeny
-tile.powercraftreloaded.Chimeny.NetherQuartz.name=Quartz chimeny
-tile.powercraftreloaded.Chimeny.Clay.name=Clay chimeny
 ---------Entity spawner localization --------------
 entity.powercraftreloaded.Pig.name=Pig
 entity.powercraftreloaded.Zombie.name=Zombie

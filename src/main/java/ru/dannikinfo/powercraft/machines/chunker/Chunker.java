@@ -5,32 +5,35 @@ import java.util.Random;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
+import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
-import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeChunkManager;
-import net.minecraftforge.common.ForgeChunkManager.Ticket;
-import net.minecraftforge.common.ForgeChunkManager.Type;
 import net.minecraftforge.common.util.ForgeDirection;
+import ru.dannikinfo.powercraft.api.utils.BaseUtils;
+import ru.dannikinfo.powercraft.api.utils.WorldData;
+import ru.dannikinfo.powercraft.core.BlocksCore;
+import ru.dannikinfo.powercraft.core.ItemsCore;
 import ru.dannikinfo.powercraft.core.Main;
 
-public class Chunker extends Block {
+public class Chunker extends Block implements ITileEntityProvider{
 
 	public Object blockIcon_back;
 	public Object blockIcon_front;
 	public Object blockIcon_top;
 	public Object blockIcon_bottom;
 	public Object blockIcon_side;
-	NBTTagCompound nbt = new NBTTagCompound();
+	public NBTTagCompound nbt = new NBTTagCompound();
+	public boolean isPowered;
 	
 	public Chunker() {
 		super(Material.iron);
@@ -75,7 +78,11 @@ public class Chunker extends Block {
 	@SideOnly(Side.CLIENT)
     public void randomDisplayTick(World p_149734_1_, int p_149734_2_, int p_149734_3_, int p_149734_4_, Random p_149734_5_)
     {
-		int stats = nbt.getInteger("status");
+    	String udid = BaseUtils.udid(p_149734_2_, p_149734_3_, p_149734_4_);
+		WorldData data = WorldData.forWorld(p_149734_1_);
+		NBTTagCompound tag = data.getData();
+		int stats = tag.getInteger("status_" + udid);
+		data.markDirty();
         if(stats == 1){
 			for (int l = 0; l < 8; ++l)
 	        {
@@ -107,26 +114,55 @@ public class Chunker extends Block {
     }
 
 	public TileEntity createNewTileEntity(World var1, int var2) {
-		// TODO Auto-generated method stub
 		return new TileEntityChunker();
 	}
 	
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int n1, float f1, float f2, float f3){
-    	int stats = nbt.getInteger("status");
-    	if(!world.isRemote){
-    		if(stats == 0){
-    			TileEntityChunker tile = new TileEntityChunker();
-    			Minecraft.getMinecraft().thePlayer.sendChatMessage("Крч чанклоадер пока не работает ибо крашится че бы я не делал");
-    			//tile.loadChunks();
-    			nbt.setInteger("status", 1);
-    		}
-    		if(stats == 1){
-    			TileEntityChunker tile = (TileEntityChunker) world.getTileEntity(x, y, z);
-    			Minecraft.getMinecraft().thePlayer.sendChatMessage("Крч чанклоадер пока не работает ибо крашится че бы я не делал");
-    			//tile.unloadChunks();
-    			nbt.setInteger("status", 0);
-    		}
-    	}
-    	return true;
+	    	String udid = BaseUtils.udid(x, y, z);
+		WorldData data = WorldData.forWorld(world);
+		NBTTagCompound tag = data.getData();
+		int stats = tag.getInteger("status_" + udid);
+	    	if(!world.isRemote){
+	    		if(player.inventory.getCurrentItem() != null){ 
+	    			Item item = player.inventory.getCurrentItem().getItem();
+		    		if(item == ItemsCore.ActivationCrystal){
+			    		if(stats == 0){
+							if(
+			                        world.getBlock(x, y + 1, z) == BlocksCore.crystal && world.getBlockMetadata(x, y + 1, z) == 7 &&
+			                        world.getBlock(x + 3, y + 2, z) == BlocksCore.crystal && world.getBlockMetadata(x + 3, y + 2, z) == 6 &&
+			                        world.getBlock(x - 3, y + 2, z) == BlocksCore.crystal && world.getBlockMetadata(x - 3, y + 2, z) == 6 &&
+			                        world.getBlock(x, y + 2, z + 3) == BlocksCore.crystal && world.getBlockMetadata(x, y + 2, z + 3) == 1 &&
+			                        world.getBlock(x, y + 2, z - 3) == BlocksCore.crystal && world.getBlockMetadata(x, y + 2, z - 3) == 1 &&
+			                        world.getBlock(x + 2, y + 4, z - 2) == BlocksCore.crystal && world.getBlockMetadata(x + 2, y + 4, z - 2) == 2 &&
+			                        world.getBlock(x - 2, y + 4, z - 2) == BlocksCore.crystal && world.getBlockMetadata(x - 2, y + 4, z - 2) == 2 &&
+			                        world.getBlock(x - 2, y + 4, z + 2) == BlocksCore.crystal && world.getBlockMetadata(x - 2, y + 4, z + 2) == 2 &&
+			                        world.getBlock(x + 2, y + 4, z + 2) == BlocksCore.crystal && world.getBlockMetadata(x + 2, y + 4, z + 2) == 2 &&
+			                        world.getBlock(x + 3, y + 1, z) == Blocks.diamond_block &&
+			                        world.getBlock(x - 3, y + 1, z) == Blocks.diamond_block &&
+			                        world.getBlock(x, y + 1, z + 3) == Blocks.diamond_block &&
+			                        world.getBlock(x, y + 1 , z - 3) == Blocks.diamond_block &&
+			                        world.getBlock(x + 2, y + 5, z - 2) == Blocks.diamond_block &&
+			                        world.getBlock(x - 2, y + 5, z - 2) == Blocks.diamond_block &&
+			                        world.getBlock(x - 2, y + 5, z + 2) == Blocks.diamond_block &&
+			                        world.getBlock(x + 2, y + 5, z + 2) == Blocks.diamond_block 
+									){
+				    			TileEntityChunker tile = (TileEntityChunker) world.getTileEntity(x, y, z);
+				    			tile.loadChunks();		
+				    			tag.setInteger("status_" + udid, 1);
+				    			isPowered = true;
+							}
+			    		}
+			    		if(stats == 1){
+			    			
+			    			TileEntityChunker tile = (TileEntityChunker) world.getTileEntity(x, y, z);
+			    			tile.unloadChunks();
+			    			tag.setInteger("status_" + udid, 0);
+			    			isPowered = false;
+			    		}
+		    		}
+	    		}
+	    	}
+	    	data.markDirty();
+	    	return true;
     }
 }

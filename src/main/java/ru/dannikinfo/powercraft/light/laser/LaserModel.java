@@ -1,8 +1,11 @@
 package ru.dannikinfo.powercraft.light.laser;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
+import ru.dannikinfo.powercraft.api.utils.Color;
 
 public class LaserModel extends ModelBase
 {
@@ -66,6 +69,15 @@ public class LaserModel extends ModelBase
 	    Shape2.render(0.0625F);
 	    Shape3.render(0.0625F);
 	    Shape4.render(0.0625F);
+  }
+  
+  public void render(Color c){
+	    Shape1.render(0.0625F);
+	    Shape2.render(0.0625F);
+	    Shape3.render(0.0625F);
+	    GL11.glColor4d(c.x, c.y, c.z, 0.5);
+	    Shape4.render(0.0625F);
+
   }
 
 }

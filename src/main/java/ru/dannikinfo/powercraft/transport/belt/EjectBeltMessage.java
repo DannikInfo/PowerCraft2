@@ -49,18 +49,12 @@ public class EjectBeltMessage extends AbstractMessage<EjectBeltMessage>{
 	public void process(EntityPlayer player, Side side) {
 		TileEntityEjectionBelt tile = (TileEntityEjectionBelt) player.getEntityWorld().getTileEntity(x, y, z);
 		if(side.isServer()){
-			if(items != 0 && stacks != 0){
+			if(items != 0 && stacks != 0 && a != -1 && s != -1){
 				tile.setActionType(a);
 				tile.setItemSelectMode(s);
 				tile.setNumItemsEjected(items);
 				tile.setNumStacksEjected(stacks);
-				tile.guiOpen = false;
 			}
-		}else{
-			GuiEjectBelt.a = a;
-			GuiEjectBelt.s = s;
-			GuiEjectBelt.items = items;
-			GuiEjectBelt.stacks = stacks;
 		}
 		
 	}

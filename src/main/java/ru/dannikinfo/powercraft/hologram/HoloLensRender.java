@@ -26,7 +26,7 @@ public class HoloLensRender {
 	private static int glList;
 	private static int tick=0;
 	private static boolean update=true;
-	public static TileEntityHologramField fieldToUpdate;
+	//public static TileEntityHologramField fieldToUpdate;
 
 	private static void drawArea(EntityPlayer player){
 		ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft(), Minecraft.getMinecraft().displayWidth, Minecraft.getMinecraft().displayHeight);
@@ -84,40 +84,39 @@ public class HoloLensRender {
 				for(int zz=-8; zz<8; zz++){
 					Block block = player.worldObj.getBlock(pos.x+xx, pos.y+yy, pos.z+zz);
 					if(block!=null){
-						TileEntity tileEntity = cc.getBlockTileEntity(pos.x+xx, pos.y+yy, pos.z+zz);
-						if(tileEntity!=null && !(tileEntity instanceof TileEntityHologramField)){
-							if(TileEntityRenderer.instance.getFontRenderer()!=null){
+						//TileEntity tileEntity = cc.getBlockTileEntity(pos.x+xx, pos.y+yy, pos.z+zz);
+						//if(tileEntity!=null && !(tileEntity instanceof TileEntityHologramField)){
+							//if(TileEntityRenderer.instance.getFontRenderer()!=null){
 								GL11.glPushAttrib(-1);
-								Minecraft.getMinecraft().renderEngine.resetBoundTexture();
-								TileEntityRenderer.instance.renderTileEntityAt(tileEntity, pos.x+xx, pos.y+yy, pos.z+zz, 1);
+								//Minecraft.getMinecraft().renderEngine.resetBoundTexture();
+							//	TileEntityRenderer.instance.renderTileEntityAt(tileEntity, pos.x+xx, pos.y+yy, pos.z+zz, 1);
 								GL11.glPopAttrib();
-							}
+							//}
 						}
 					}
 				}
 			}
-		}
 		
 		double rpx = RenderManager.renderPosX;
 		double rpy = RenderManager.renderPosY;
 		double rpz = RenderManager.renderPosZ;
         
-		RenderManager.renderPosX = 0;
-		RenderManager.renderPosY = 0;
-		RenderManager.renderPosZ = 0;
+		//RenderManager.renderPosX = 0;
+		//RenderManager.renderPosY = 0;
+		//RenderManager.renderPosZ = 0;
 		
-        List var5 = player.worldObj.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(pos.x-7, pos.y-7, pos.z-7, pos.x+8, pos.y+8, pos.z+8));
+      //  List var5 = player.worldObj.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(pos.x-7, pos.y-7, pos.z-7, pos.x+8, pos.y+8, pos.z+8));
         int var6;
         Entity var7;
 
-        for (var6 = 0; var6 < var5.size(); ++var6)
-        {
+        //for (var6 = 0; var6 < var5.size(); ++var6)
+       // {
         	GL11.glPushAttrib(-1);
-            var7 = (Entity)var5.get(var6);
-            mc.renderEngine.resetBoundTexture();
-            RenderManager.instance.renderEntity(var7, 1);
+          //  var7 = (Entity)var5.get(var6);
+         //   mc.renderEngine.resetBoundTexture();
+         //   RenderManager.instance.renderEntity(var7, 1);
             GL11.glPopAttrib();
-        }
+       // }
         RenderManager.renderPosX = rpx;
 		RenderManager.renderPosY = rpy;
 		RenderManager.renderPosZ = rpz;
@@ -129,32 +128,32 @@ public class HoloLensRender {
 		GL11.glPopAttrib();
 	}
 
-	@Override
-	public void tickEvent() {
-		if(tick%20==0){
-			update=true;
-		}else{
-			if(PChg_TileEntityHologramField.mapToUpdate.size()>0){
-				fieldToUpdate = PChg_TileEntityHologramField.mapToUpdate.get(0);
-				PChg_TileEntityHologramField.mapToUpdate.remove(0);
-			}
-		}
-		tick++;
-	}
+	//@Override
+	//public void tickEvent() {
+		//if(tick%20==0){
+	//		update=true;
+	//	}else{
+	//		if(PChg_TileEntityHologramField.mapToUpdate.size()>0){
+	//			fieldToUpdate = PChg_TileEntityHologramField.mapToUpdate.get(0);
+	//			PChg_TileEntityHologramField.mapToUpdate.remove(0);
+	//		}
+	//	}
+	//	tick++;
+	//}
 
-	@Override
-	public void preOverlayRendering(PC_OverlayRenderer overlayRenderer, float timeStamp, boolean screen, int mx, int my) {
-		EntityPlayer player = PC_ClientUtils.mc().thePlayer;
-		ItemStack helmet = player.inventory.armorItemInSlot(3);
-		if(helmet!=null && helmet.itemID == PChg_App.hologramGlasses.itemID){
-			drawArea(PC_ClientUtils.mc(), player);
-		}
-	}
+	//@Override
+	//public void preOverlayRendering(PC_OverlayRenderer overlayRenderer, float timeStamp, boolean screen, int mx, int my) {
+	//	EntityPlayer player = PC_ClientUtils.mc().thePlayer;
+	//	ItemStack helmet = player.inventory.armorItemInSlot(3);
+	////	if(helmet!=null && helmet.itemID == PChg_App.hologramGlasses.itemID){
+	//		drawArea(PC_ClientUtils.mc(), player);
+	//	}
+	//}
 
-	@Override
-	public void postOverlayRendering(PC_OverlayRenderer overlayRenderer, float timeStamp, boolean screen, int mx, int my) {
+	//@Override
+	//public void postOverlayRendering(PC_OverlayRenderer overlayRenderer, float timeStamp, boolean screen, int mx, int my) {
 		
-	}
+	//}
 	
 }
 

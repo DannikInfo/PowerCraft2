@@ -15,30 +15,31 @@ public class EntityLaserFX extends EntityFX {
 	private boolean kill=false;
 	Minecraft mc;
 	final private ResourceLocation texture = new ResourceLocation(Main.MODID, "textures/laser.png");
-	public static int death = 1;
+	public static int death = 0;
 	TileEntityLaser tile;
 	
-	public EntityLaserFX(World world, int xC, int yC, int zC, int xM, int yM, int zM, float strength, int colorR, int colorG, int colorB, int death) {
+	public EntityLaserFX(World world, int xC, int yC, int zC, int xM, int yM, int zM, float strength, float x, float y, float z, int death) {
 		super(world, xC + 0.5, yC + 0.5, zC + 0.5, 0.0, 0.0, 0.0);
-		this.tile = (TileEntityLaser) world.getTileEntity(xC, yC, zC);
+		//this.tile = (TileEntityLaser) world.getTileEntity(xC, yC, zC);
 		motionX = xM;
 		motionY = yM;
 		motionZ = zM;
-		setRBGColorF(colorR, colorG, colorB);
+		setRBGColorF(x, y, z);
 		particleScale = strength * 1F;
 		this.death = death;	
+		particleMaxAge = 1;
+		
 	}
 	
 	@Override
 	public void renderParticle(Tessellator tessellator, float tickTime, float rotationX, float rotationXZ, float rotationZ, float rotationYZ, float rotationXY) {
 		double size = 0.05F * this.particleScale;
-        double x1 = posX - interpPosX;
+		double x1 = posX - interpPosX;
         double y1 = posY - interpPosY;
         double z1 = posZ - interpPosZ;
         double x2 = x1 + motionX;
 	    double y2 = y1 + motionY;
 	    double z2 = z1 + motionZ;
-	    //System.out.println(x1);
 	    double x3 = -x1;
 	    double y3 = -y1;
 	    double z3 = -z1;
@@ -59,10 +60,11 @@ public class EntityLaserFX extends EntityFX {
 	        xn *= size;
 	        yn *= size;
 	        zn *= size;
-	        
+	         
 	        Minecraft.getMinecraft().renderEngine.bindTexture(texture);
 	        GL11.glEnable(GL11.GL_BLEND);
 	        GL11.glBlendFunc(GL11.GL_ONE, GL11.GL_ONE);
+
 	        tessellator.startDrawingQuads();
 	        tessellator.setBrightness(128);
 	        tessellator.setColorRGBA_F(particleRed, particleGreen, particleBlue, 0.6F);
@@ -83,9 +85,6 @@ public class EntityLaserFX extends EntityFX {
 	        GL11.glVertex3d(x2 + 5 + 0.1, y2 - 0.1, z2 - 0.1);
 	        GL11.glVertex3d(x2 + 5 - 0.1, y2 + 0.1, z2 + 0.1);
 	        GL11.glEnd();*/
-	        if(death == 1){
-	        	setDead();
-	        }
 		}
 		
     @Override
@@ -95,11 +94,9 @@ public class EntityLaserFX extends EntityFX {
 	
 		@Override
 		public void onUpdate(){
-			if(death == 1){
-				if(kill)
-					setDead();
-				kill = true;
-			}
+			if(particleAge > 5)
+				setDead();
+			particleAge++;
 		}
 		
 	}

@@ -131,7 +131,6 @@ public class InventoryUtils {
 	
 	public static IInventory getInventoryAt(World world, int x, int y, int z) {
 		IInventory invAt = getBlockInventoryAt(world, x, y, z);
-		//System.out.println(x + ":" + y + ":" + z);
 		if (invAt != null) {
 			return invAt;
 		}
@@ -159,8 +158,36 @@ public class InventoryUtils {
 		return indexes;
 	}
 	
+	public static int getFirstEmptySlot(IInventory inv, ItemStack itemstack){
+		return getFirstEmptySlot(inv, itemstack, (int[])null);
+	}
 	
-	/*	public static int getSlotWithPlaceFor(IInventory inv, ItemStack itemstack){
+	public static int getFirstEmptySlot(IInventory inv, ItemStack itemstack, Direction side){
+		return getFirstEmptySlot(inv, itemstack, getInvIndexesForSide(inv, side));
+	}
+	
+	public static int getFirstEmptySlot(IInventory inv, ItemStack itemstack, int[] indexes){
+		if(indexes==null){
+			int size = inv.getSizeInventory();
+			for (int i = 0; i < size; i++) {
+				if (inv.getStackInSlot(i) == null) {
+					if(inv.isItemValidForSlot(i, itemstack))
+						return i;
+				}
+			}
+		}else{
+			for (int j = 0; j < indexes.length; j++) {
+				int i=indexes[j];
+				if (inv.getStackInSlot(i) == null) {
+					if(inv.isItemValidForSlot(i, itemstack))
+						return i;
+				}
+			}
+		}
+		return -1;
+	}
+	
+	public static int getSlotWithPlaceFor(IInventory inv, ItemStack itemstack){
 		return getSlotWithPlaceFor(inv, itemstack, (int[])null);
 	}
 	
@@ -174,8 +201,8 @@ public class InventoryUtils {
 			for (int i = 0; i < size; i++) {
 				ItemStack slot = inv.getStackInSlot(i);
 				if (slot != null) {
-					if(slot.isItemEqual(itemstack) && slot.getMaxStackSize()>slot.stackSize && getSlotStackLimit(inv, i)>slot.stackSize){
-						if(inv.isStackValidForSlot(i, itemstack))
+					if(slot.isItemEqual(itemstack) && slot.getMaxStackSize()>slot.stackSize && inv.getInventoryStackLimit() > slot.stackSize){
+						if(inv.isItemValidForSlot(i, itemstack))
 							return i;
 					}
 				}
@@ -185,8 +212,8 @@ public class InventoryUtils {
 				int i=indexes[j];
 				ItemStack slot = inv.getStackInSlot(i);
 				if (slot != null) {
-					if(slot.isItemEqual(itemstack) && slot.getMaxStackSize()>slot.stackSize && getSlotStackLimit(inv, i)>slot.stackSize){
-						if(inv.isStackValidForSlot(i, itemstack))
+					if(slot.isItemEqual(itemstack) && slot.getMaxStackSize()>slot.stackSize && inv.getInventoryStackLimit() > slot.stackSize){
+						if(inv.isItemValidForSlot(i, itemstack))
 							return i;
 					}
 				}
@@ -194,8 +221,8 @@ public class InventoryUtils {
 		}
 		return getFirstEmptySlot(inv, itemstack, indexes);
 	}
-	*/
-	/*public static boolean storeItemStackToInventoryFrom(IInventory inv, ItemStack itemstack){
+
+	public static boolean storeItemStackToInventoryFrom(IInventory inv, ItemStack itemstack){
 		return storeItemStackToInventoryFrom(inv, itemstack, (int[])null);
 	}
 	
@@ -203,7 +230,7 @@ public class InventoryUtils {
 		return storeItemStackToInventoryFrom(inv, itemstack, getInvIndexesForSide(inv, side));
 	}
 	
-public static boolean storeItemStackToInventoryFrom(IInventory inv, ItemStack itemstack, int[] indexes){
+	public static boolean storeItemStackToInventoryFrom(IInventory inv, ItemStack itemstack, int[] indexes){
 		while(itemstack.stackSize>0){
 			int slot = getSlotWithPlaceFor(inv, itemstack, indexes);
 			if(slot<0)
@@ -216,7 +243,7 @@ public static boolean storeItemStackToInventoryFrom(IInventory inv, ItemStack it
 	public static boolean storeItemStackToSlot(IInventory inv, ItemStack itemstack, int i){
 		ItemStack slot = inv.getStackInSlot(i);
 		if (slot == null) {
-			int store = getSlotStackLimit(inv, i);
+			int store = inv.getInventoryStackLimit();
 			if(store>itemstack.getMaxStackSize()){
 				store = itemstack.getMaxStackSize();
 			}
@@ -228,7 +255,7 @@ public static boolean storeItemStackToInventoryFrom(IInventory inv, ItemStack it
 			itemstack.stackSize -= store;
 		}else{
 			if(slot.isItemEqual(itemstack)){
-				int store = getSlotStackLimit(inv, i);
+				int store = inv.getInventoryStackLimit();
 				if(store>slot.getMaxStackSize()){
 					store = slot.getMaxStackSize();
 				}
@@ -245,7 +272,7 @@ public static boolean storeItemStackToInventoryFrom(IInventory inv, ItemStack it
 		inv.setInventorySlotContents(i, slot);
 		return itemstack.stackSize==0;
 	}
-		*/
+	
 	public static int getInventoryCountOf(IInventory inv, ItemStack itemstack){
 		return getInventoryCountOf(inv, itemstack, (int[])null);
 	}
@@ -348,7 +375,7 @@ public static boolean storeItemStackToInventoryFrom(IInventory inv, ItemStack it
 		return fullSlots;
 	}
 	
-	/*public static void moveStacks(IInventory from, IInventory to){
+	public static void moveStacks(IInventory from, IInventory to){
 		moveStacks(from, (int[])null, to, (int[])null);
 	}
 	
@@ -390,7 +417,7 @@ public static boolean storeItemStackToInventoryFrom(IInventory inv, ItemStack it
 				}
 			}
 		}
-	}*/
+	}
 	
 	public static ItemStack[] groupStacks(ItemStack[] input) {
 		List<ItemStack> list = stacksToList(input);

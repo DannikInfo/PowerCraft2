@@ -32,6 +32,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemMinecart;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityBrewingStand;
 import net.minecraft.tileentity.TileEntityFurnace;
@@ -43,9 +44,11 @@ import ru.dannikinfo.powercraft.api.utils.Direction;
 import ru.dannikinfo.powercraft.api.utils.InventoryUtils;
 import ru.dannikinfo.powercraft.api.utils.MathHelper;
 import ru.dannikinfo.powercraft.api.utils.VecI;
+import ru.dannikinfo.powercraft.deco.BlocksDeco;
 import ru.dannikinfo.powercraft.transport.BlocksTransport;
 import ru.dannikinfo.powercraft.transport.ItemsTransport;
 import ru.dannikinfo.powercraft.transport.tile.TileEntityEjectionBelt;
+
 
 public class BeltHelper
 {
@@ -93,27 +96,38 @@ public class BeltHelper
         return 0;
     }
 
-    public static boolean isEntityIgnored(Entity entity){
-        if (entity == null){
+    public static boolean isEntityIgnored(Entity entity)
+    {
+        if (entity == null)
+        {
             return true;
         }
 
-        if (!entity.isEntityAlive()){
+        if (!entity.isEntityAlive())
+        {
             return true;
         }
 
-        if (entity.ridingEntity != null){
+        if (BaseUtils.isEntityFX(entity)){
             return true;
         }
 
-        if (entity instanceof EntityPlayer){
-            if (((EntityPlayer) entity).isSneaking()){
+        if (entity.ridingEntity != null)
+        {
+            return true;
+        }
+
+        if (entity instanceof EntityPlayer)
+        {
+            if (((EntityPlayer) entity).isSneaking())
+            {
                 return true;
             }
 
-            if (((EntityPlayer) entity).inventory.armorItemInSlot(0) != null){
-                ItemStack sb = new ItemStack(ItemsTransport.SlimeBoots);
-                if (((EntityPlayer) entity).inventory.armorItemInSlot(0).getItem() == ItemsTransport.SlimeBoots){            	
+            if (((EntityPlayer) entity).inventory.armorItemInSlot(0) != null)
+            {
+                if (((EntityPlayer) entity).inventory.armorItemInSlot(0).getItem() == ItemsTransport.SlimeBoots)
+                {
                     return true;
                 }
             }
@@ -122,22 +136,28 @@ public class BeltHelper
         return false;
     }
 
-    public static void packItems(World world, VecI pos){
-        if(world.isRemote) return;
-        
+    public static void packItems(World world, VecI pos)
+    {
+    	if(world.isRemote)
+    		return;
+    	
         List<EntityItem> items = world.getEntitiesWithinAABB(EntityItem.class,
                 AxisAlignedBB.getBoundingBox(pos.x, pos.y, pos.z, pos.x + 1, pos.y + 1, pos.z + 1));
         
-        if (items.size() < 5){
+        if (items.size() < 5)
+        {
             return;
         }
 
-        for (EntityItem item1 : items){
-            if (item1 == null || item1.isDead || item1.getEntityItem() == null){
+        for (EntityItem item1 : items)
+        {
+            if (item1 == null || item1.isDead || item1.getEntityItem() == null)
+            {
                 continue;
             }
 
-            if (item1.getEntityItem().stackSize < 1){
+            if (item1.getEntityItem().stackSize < 1)
+            {
                 item1.setDead();
                 continue;
             }
@@ -209,12 +229,9 @@ public class BeltHelper
         }
 
         boolean flag = false;
-        ItemStack wb = new ItemStack(Items.water_bucket);
-        ItemStack b = new ItemStack(Items.bucket);
-        ItemStack gb = new ItemStack(Items.glass_bottle);
-        flag |= entity.getEntityItem() == wb;
-        flag |= entity.getEntityItem() == b;
-        flag |= entity.getEntityItem() == gb;
+        flag |= entity.getEntityItem().getItem() == Items.water_bucket;
+        flag |= entity.getEntityItem().getItem() == Items.lava_bucket;
+        flag |= entity.getEntityItem().getItem() == Items.glass_bottle;
 
         if (!flag)
         {
@@ -276,32 +293,34 @@ public class BeltHelper
         while (false);
     }
 
-    private static boolean doSpecialItemAction_do(World world, VecI pos, EntityItem entity){
-        ItemStack wb = new ItemStack(Items.water_bucket);
-        ItemStack b = new ItemStack(Items.bucket);
-        ItemStack gb = new ItemStack(Items.glass_bottle);
-        
-        if (entity.getEntityItem() == wb){
-            if (world.getBlock(pos.x, pos.y, pos.z) == Blocks.cauldron && BaseUtils.getMD(world, pos) < 3){
-                BaseUtils.setMD(world, pos, 3, 0);
-                entity.setEntityItemStack(b);
+    private static boolean doSpecialItemAction_do(World world, VecI pos, EntityItem entity)
+    {
+        if (entity.getEntityItem().getItem() == Items.water_bucket)
+        {
+            if (BaseUtils.getBlock(world, pos) == Blocks.cauldron && BaseUtils.getMD(world, pos) < 3)
+            {
+            	BaseUtils.setMD(world, pos, 3);
+                entity.setEntityItemStack(new ItemStack(Items.bucket));
                 return true;
             }
         }
 
-        if (entity.getEntityItem() == b){
-            if (world.getBlock(pos.x, pos.y, pos.z) == Blocks.water || world.getBlock(pos.x, pos.y, pos.z)  == Blocks.flowing_water && BaseUtils.getMD(world, pos) == 0){
-                world.setBlock(pos.x, pos.y, pos.z, Blocks.air, 0, 0);
-                entity.setEntityItemStack(wb);;
+        if (entity.getEntityItem().getItem() == Items.bucket)
+        {
+            if (BaseUtils.getBlock(world, pos) == Blocks.water|| BaseUtils.getBlock(world, pos) == Blocks.flowing_water && BaseUtils.getMD(world, pos) == 0)
+            {
+            	BaseUtils.setBlock(world, pos, Blocks.air, 0);
+                entity.setEntityItemStack(new ItemStack(Items.water_bucket));
                 return true;
             }
         }
 
-        if (entity.getEntityItem() == gb){
-            if (world.getBlock(pos.x, pos.y, pos.z) == Blocks.cauldron && !world.isAirBlock(pos.x, pos.y, pos.z))
+        if (entity.getEntityItem().getItem() == Items.glass_bottle)
+        {
+            if (BaseUtils.getBlock(world, pos) == Blocks.cauldron && BaseUtils.getBlock(world, pos) != Blocks.air)
             {
                 int meta = BaseUtils.getMD(world, pos);
-                BaseUtils.setMD(world, pos, meta - 1, 0);
+                BaseUtils.setMD(world, pos, meta - 1);
                 EntityItem entity2 = new EntityItem(world, entity.posX, entity.posY, entity.posZ, new ItemStack(Items.potionitem, 1, 0));
                 entity2.motionX = entity.motionX;
                 entity2.motionY = entity.motionY;
@@ -325,8 +344,7 @@ public class BeltHelper
 
     public static boolean storeNearby(World world, VecI pos, EntityItem entity, boolean ignoreStorageBorder)
     {
-        if (storeItemIntoMinecart(world, pos, entity))
-        {
+        if (storeItemIntoMinecart(world, pos, entity)){
             return true;
         }
 
@@ -335,12 +353,12 @@ public class BeltHelper
             return false;
         }
 
-        Block block = world.getBlock(pos.x, pos.y, pos.z);
-        Direction rot = BaseUtils.getRotation(world, pos);
+        Block block = BaseUtils.getBlock(world, pos);
+        Direction rot = Direction.getDirFromMeta(BaseUtils.getMD(world, pos));
 
         if (isBeyondStorageBorder(world, rot, pos, entity, STORAGE_BORDER) || ignoreStorageBorder)
         {
-            
+        	
             if (storeEntityItemAt(world, pos.offset(rot.getOffset()), entity, rot))
             {
                 return true;
@@ -388,24 +406,24 @@ public class BeltHelper
             {
                 if (cart instanceof EntityMinecartContainer){
 
-                    IInventory inventory = (EntityMinecartContainer)cart;
-    
-                    if (entity != null && entity.isEntityAlive())
-                    {
-                        ItemStack stackToStore = entity.getEntityItem();
-    
-               //         if (stackToStore != null && InventoryUtils.storeItemStackToInventoryFrom(inventory, stackToStore))
-           //             {
-             //               soundEffectChest(world, beltPos);
-    //
-                         //   if (stackToStore.stackSize <= 0)
-                         //   {
-                         //       entity.setDead();
-                         //       stackToStore.stackSize = 0;
-                         //       return true;
-                         //   }
-                        //}
-                    }
+	                IInventory inventory = (EntityMinecartContainer)cart;
+	
+	                if (entity != null && entity.isEntityAlive())
+	                {
+	                    ItemStack stackToStore = entity.getEntityItem();
+	
+	                    if (stackToStore != null && InventoryUtils.storeItemStackToInventoryFrom(inventory, stackToStore))
+	                    {
+	                        //soundEffectChest(world, beltPos);
+	
+	                        if (stackToStore.stackSize <= 0)
+	                        {
+	                            entity.setDead();
+	                            stackToStore.stackSize = 0;
+	                            return true;
+	                        }
+	                    }
+	                }
                 }
             }
         }
@@ -415,27 +433,50 @@ public class BeltHelper
 
     public static boolean storeEntityItemAt(World world, VecI inventoryPos, EntityItem entity, Direction side)
     {
-        if(world.isRemote)
-            return false;
+    	if(world.isRemote)
+    		return false;
         IInventory inventory = InventoryUtils.getInventoryAt(world, inventoryPos.x, inventoryPos.y, inventoryPos.z);
 
         if (inventory != null && entity != null && entity.isEntityAlive())
         {
             ItemStack stackToStore = entity.getEntityItem();
+
+            if (stackToStore != null && InventoryUtils.storeItemStackToInventoryFrom(inventory, stackToStore, side))
+            {
+               // soundEffectChest(world, inventoryPos);
+
+                if (stackToStore.stackSize <= 0)
+                {
+                    entity.setDead();
+                    stackToStore.stackSize = 0;
+                    return true;
+                }
+            }
         }
 
         return false;
+    }
+
+    public static void soundEffectChest(World world, VecI pos)
+    {
+      //  PC_SoundRegistry.playSound(pos.x + 0.5D, pos.y + 0.5D, pos.z + 0.5D, "random.pop", (world.rand.nextFloat() + 0.7F) / 5.0F,
+      //          0.5F + world.rand.nextFloat() * 0.3F);
     }
 
     public static boolean isBlocked(World world, VecI blockPos)
     {
         boolean isWall = !world.isAirBlock(blockPos.x, blockPos.y, blockPos.z) && !isTransporterAt(world, blockPos);
 
-        if (isWall){
+        if (isWall)
+        {
             Block block = BaseUtils.getBlock(world, blockPos);
 
-            if (block != null){
-                isWall = false;
+            if (block != null)
+            {
+                if (!block.getMaterial().blocksMovement())
+                {
+                    isWall = false;
+                }
             }
         }
 
@@ -445,10 +486,13 @@ public class BeltHelper
     public static boolean isConveyorAt(World world, VecI pos)
     {
         Block block = BaseUtils.getBlock(world, pos);
-        if (block != Blocks.air){
-           // if (Block.blocksList[id] instanceof PCtr_BlockBeltBase){
+
+        if (block != Blocks.air)
+        {
+            if (block instanceof BeltBase)
+            {
                 return true;
-            //}
+            }
         }
 
         return false;
@@ -457,59 +501,64 @@ public class BeltHelper
     public static boolean isTransporterAt(World world, VecI pos)
     {
         Block block = BaseUtils.getBlock(world, pos);
-        if (block != Blocks.air){
-           //if (Block.blocksList[id] instanceof PCtr_BlockBeltBase){
-             	return true;
-           //}
+
+        if (block != Blocks.air)
+        {
+            if (block instanceof BeltBase)
+            {
+                return true;
+            }
         }
+
         return false;
     }
 
     public static int getDir(Direction dir){
-        switch(dir.getMCDir()){
-        case 0:
-            return 2;
-        case 1:
-            return 1;
-        case 2:
-            return 3;
-        case 3:
-            return 0;
-        case 4:
-            return 5;
-        case 5:
-            return 4;
-        }
-        return -1;
+    	switch(dir.getMCDir()){
+    	case 0:
+			return 2;
+		case 1:
+			return 1;
+		case 2:
+			return 3;
+		case 3:
+			return 0;
+		case 4:
+			return 5;
+		case 5:
+			return 4;
+    	}
+    	return -1;
     }
     
-    public static boolean isBeyondStorageBorder(World world, Direction rotation, VecI beltPos, Entity entity, float border){
-        
-        if(rotation==Direction.BACK){
-             if (entity.posZ > beltPos.z + 1 - border){
+    public static boolean isBeyondStorageBorder(World world, Direction rotation, VecI beltPos, Entity entity, float border)
+    {
+    	
+    	if(rotation==Direction.BACK){
+    		 if (entity.posZ > beltPos.z + 1 - border){
                  return false;
              }
-        }else if(rotation==Direction.LEFT){
-            if (entity.posX < beltPos.x + border){
+    	}else if(rotation==Direction.LEFT){
+    		if (entity.posX < beltPos.x + border){
                 return false;
             }
-        }else if(rotation==Direction.FRONT){
-            if (entity.posZ < beltPos.z + border){
+    	}else if(rotation==Direction.FRONT){
+    		if (entity.posZ < beltPos.z + border){
                 return false;
             }
-        }else if(rotation==Direction.RIGHT){
-            if (entity.posX > beltPos.x + 1 - border){
+    	}else if(rotation==Direction.RIGHT){
+    		if (entity.posX > beltPos.x + 1 - border){
                 return false;
             }
-        }else if(rotation==Direction.TOP){
-            if (entity.posY > beltPos.y + 1 - border) {
+    	}else if(rotation==Direction.TOP){
+    		if (entity.posY > beltPos.y + 1 - border) {
                 return false;
             }
-        }else if(rotation==Direction.BOTTOM){
-            if (entity.posY < beltPos.y + border){
+    	}else if(rotation==Direction.BOTTOM){
+    		if (entity.posY < beltPos.y + border){
                 return false;
             }
-        }
+    	}
 
         return true;
     }
@@ -547,32 +596,40 @@ public class BeltHelper
     }
 
     public static void moveEntityOnBelt(World world, VecI pos, Entity entity, boolean bordersEnabled, boolean motionEnabled, Direction direction,
-            double max_horizontal_speed, double horizontal_boost){
-        int jumpModifier = (entity instanceof EntityItem || entity instanceof EntityXPOrb)?2:3;
-        if (motionEnabled && world.rand.nextInt(35) == 0){
+            double max_horizontal_speed, double horizontal_boost)
+    {
+    	int jumpModifier = (entity instanceof EntityItem || entity instanceof EntityXPOrb)?2:3;
+        if (motionEnabled && world.rand.nextInt(35) == 0)
+        {
             List list = world.getEntitiesWithinAABBExcludingEntity(entity,
                     AxisAlignedBB.getBoundingBox(pos.x, pos.y, pos.z, pos.x + 1, pos.y + 1, pos.z + 1));
 
-            if (world.rand.nextInt(list.size() + 1) == 0){
-                //soundEffectBelt(world, pos);
+            if (world.rand.nextInt(list.size() + 1) == 0)
+            {
+               // soundEffectBelt(world, pos);
             }
         }
 
         int moveDirection = direction.getMCSide();
         
-        if (moveDirection<4 && (entity instanceof EntityItem || entity instanceof EntityXPOrb)){
-            if(entity instanceof EntityItem){
-                if (entity.motionY > 0.2F){
-                    entity.motionY /= 3F;
-                }
-            }
-            if (entity.motionY > 0.2){
+        if (moveDirection<4 && (entity instanceof EntityItem || entity instanceof EntityXPOrb))
+        {
+        	if(entity instanceof EntityItem){
+	            if (entity.motionY > 0.2F)
+	            {
+	                entity.motionY /= 3F;
+	            }
+        	}
+        	if (entity.motionY > 0.2)
+            {
                 entity.motionY -= 0.1;
             }
         }
 
-        if (moveDirection>=4){
-            if (entity.onGround){
+        if (moveDirection>=4)
+        {
+        	if (entity.onGround)
+            {
                 entity.moveEntity(0, 0.01D, 0);
             }
         }
@@ -676,22 +733,22 @@ public class BeltHelper
                 break;
                 
             case 5:
-                
-                if (Math.abs(entity.motionY) > 0.4D)
+            	
+            	if (Math.abs(entity.motionY) > 0.4D)
                 {
                     entity.motionY *= 0.3D;
                 }
 
                 entity.fallDistance = 0;
-                
-                if (entity.motionY < (motionEnabled ? 0.2D : 0.3D)){
+            	
+            	if (entity.motionY < (motionEnabled ? 0.2D : 0.3D)){
                     entity.motionY = (motionEnabled ? 0.2D : 0.3D);
                 }
                 
 
                 if (bordersEnabled)
                 {
-                    if (entity.posX > pos.x + (1D - BORDERS))
+                	if (entity.posX > pos.x + (1D - BORDERS))
                     {
                         entity.motionX -= BBOOST;
                     }
@@ -719,8 +776,8 @@ public class BeltHelper
                 break;
 
             case 4:
-                
-                if (Math.abs(entity.motionY) > 0.4D)
+            	
+            	if (Math.abs(entity.motionY) > 0.4D)
                 {
                     entity.motionY *= 0.3D;
                 }
@@ -729,7 +786,7 @@ public class BeltHelper
 
                 if (bordersEnabled)
                 {
-                    if (entity.posX > pos.x + (1D - BORDERS))
+                	if (entity.posX > pos.x + (1D - BORDERS))
                     {
                         entity.motionX -= BBOOST;
                     }
@@ -838,7 +895,7 @@ public class BeltHelper
 
             if (entity instanceof EntityMooshroom)
             {
-                itemstack = new ItemStack(Blocks.red_mushroom, 1, 0);
+                itemstack = new ItemStack(Blocks.red_mushroom_block, 1, 0);
             }
 
             if (entity instanceof EntityWolf)
@@ -871,44 +928,65 @@ public class BeltHelper
 
     public static void soundEffectBelt(World world, VecI pos)
     {
-       // PC_SoundRegistry.playSound(pos.x + 0.5D, pos.y + 0.625D, pos.z + 0.5D, "random.wood click", (world.rand.nextFloat() + 0.2F) / 10.0F,
-        //        1.0F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.6F);
+      //  PC_SoundRegistry.playSound(pos.x + 0.5D, pos.y + 0.625D, pos.z + 0.5D, "random.wood click", (world.rand.nextFloat() + 0.2F) / 10.0F,
+      //          1.0F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.6F);
     }
 
     public static boolean blockActivated(World world, int i, int j, int k, EntityPlayer entityplayer)
     {
         ItemStack stack = entityplayer.getCurrentEquippedItem();
-        
-        if(stack != null){
-	        if(
-	        		stack.getItem() == Item.getItemFromBlock(BlocksTransport.normalbelt) ||
-	        		stack.getItem() == Item.getItemFromBlock(BlocksTransport.speedybelt) ||
-	        		stack.getItem() == Item.getItemFromBlock(BlocksTransport.detectorbelt) ||
-	        		stack.getItem() == Item.getItemFromBlock(BlocksTransport.breakbelt) ||
-	        		stack.getItem() == Item.getItemFromBlock(BlocksTransport.redirectorbelt) ||
-	        		stack.getItem() == Item.getItemFromBlock(BlocksTransport.separationbelt) ||
-	        		stack.getItem() == Item.getItemFromBlock(BlocksTransport.ejectionbelt)
-	        		){
-	        	Item item = stack.getItem();
-	        	Block block = Block.getBlockFromItem(item);
-	        	int dir = BaseUtils.getMD(world, i, j, k);
-	        	int zK = k, xK = i;
-	        	for(int a = 0; a < 31; a++){
-		   			if(dir == 2)zK = k + a;
-		   			if(dir == 5)xK = i - a;
-	    			if(dir == 3)zK = k - a;
-	    			if(dir == 4)xK = i + a;
-	        		if(world.getBlock(xK, j, zK) != block && world.getBlock(xK, j, zK) == Blocks.air){
-	        			world.setBlock(xK, j, zK, block, dir, 3);
-	        			if(!entityplayer.capabilities.isCreativeMode){
-	        				stack.splitStack(1);
-	        			}
-	        			return true;
-	        		}
-	        	}
-	        }
+
+        if (stack == null)
+        {
+            return false;
         }
 
+        Item equip_item = stack.getItem();
+
+        if (equip_item instanceof ItemMinecart)
+        {
+        	System.out.println("1");
+            if (!world.isRemote)
+            {
+                world.spawnEntityInWorld(EntityMinecart.createMinecart(world, i + 0.5F, j + 0.5F, k + 0.5F, ((ItemMinecart) equip_item).minecartType));
+            }
+
+            if (!entityplayer.capabilities.isCreativeMode)
+            {
+                entityplayer.inventory.decrStackSize(entityplayer.inventory.currentItem, 1);
+            }
+
+            return true;
+        }
+	     
+	     if(stack != null){
+	    	 if(stack.getItem() == Item.getItemFromBlock(BlocksTransport.separationbelt) ||
+		        Block.getBlockFromItem(stack.getItem()) instanceof BeltBase
+		        ){
+		        Item item = stack.getItem();
+		        Block block = Block.getBlockFromItem(item);
+		        int dir = MathHelper.floor_double((double)(entityplayer.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+		        int[] r = {2, 5, 3, 4};
+		        int zK = k, xK = i;
+		        for(int a = 0; a < 31; a++){
+			   		if(dir == 0)zK = k + a;
+			   		if(dir == 1)xK = i - a;
+		    		if(dir == 2)zK = k - a;
+		    		if(dir == 3)xK = i + a;
+		    		if(world.getBlock(xK, j, zK) == Blocks.air || world.getBlock(xK, j, zK) == block){
+		    			if(world.getBlock(xK, j, zK) != block){
+		    				world.setBlock(xK, j, zK, block, r[dir], 3);
+		    				if(!entityplayer.capabilities.isCreativeMode){
+		    					stack.splitStack(1);
+		    				}
+		    				return true;
+		    			}
+		    		}else {
+		    			break;
+		    		}
+		        }
+	    	 }
+	     }
         return false;
     }
 
@@ -957,18 +1035,20 @@ public class BeltHelper
         return false;
     }
 
-    public static boolean dispenseFromInventoryAt(World world, VecI inventoryPos, VecI beltPos){
+    public static boolean dispenseFromInventoryAt(World world, VecI inventoryPos, VecI beltPos)
+    {
         IInventory inventory = InventoryUtils.getInventoryAt(world, inventoryPos.x, inventoryPos.y, inventoryPos.z);
-        
-        if (inventory == null){
+
+        if (inventory == null)
+        {
             return false;
         }
-        
 
         return dispenseItemOntoBelt(world, inventoryPos, inventory, beltPos);
     }
 
-    public static void tryToDispenseItem(World world, VecI beltPos){
+    public static void tryToDispenseItem(World world, VecI beltPos)
+    {
         int rot = getRotation(BaseUtils.getMD(world, beltPos));
 
         if (rot == 2 && dispenseFromInventoryAt(world, beltPos.offset(0, 0, -1), beltPos))
@@ -1016,10 +1096,12 @@ public class BeltHelper
     {
         ItemStack[] stacks = dispenseStuffFromInventory(world, beltPos, inventory);
 
-        if (stacks != null){
+        if (stacks != null)
+        {
             stacks = InventoryUtils.groupStacks(stacks);
 
-            for (ItemStack stack : stacks){
+            for (ItemStack stack : stacks)
+            {
                 createEntityItemOnBelt(world, invPos, beltPos, stack);
             }
 
@@ -1079,27 +1161,27 @@ public class BeltHelper
         return flag;
     }
 
-    static ItemStack[] dispenseFromSpecialContainer(IInventory inventory, TileEntityEjectionBelt teb){
-        
-        boolean modeStacks = teb.getActionType() == 0;
-        boolean modeItems = teb.getActionType() == 1;
-        boolean modeAll = teb.getActionType() == 2;
-        boolean random = teb.getItemSelectMode() == 2;
-        boolean first = teb.getItemSelectMode() == 0;
-        boolean last = teb.getItemSelectMode() == 1;
-        int numStacks = teb.getNumStacksEjected();
-        int numItems = teb.getNumItemsEjected();
-        
+    static ItemStack[] dispenseFromSpecialContainer(IInventory inventory, 	TileEntityEjectionBelt teb){
+    	
+		boolean modeStacks = teb.getActionType() == 0;
+	    boolean modeItems = teb.getActionType() == 1;
+	    boolean modeAll = teb.getActionType() == 2;
+	    boolean random = teb.getItemSelectMode() == 2;
+	    boolean first = teb.getItemSelectMode() == 0;
+	    boolean last = teb.getItemSelectMode() == 1;
+	    int numStacks = teb.getNumStacksEjected();
+	    int numItems = teb.getNumItemsEjected();
+    	
         if (inventory instanceof TileEntityFurnace){
             ItemStack stack = inventory.getStackInSlot(2);
 
             if (stack != null && stack.stackSize > 0)
             {
-                if(modeItems){
-                    stack = inventory.decrStackSize(2, numItems);
-                }else{
-                    inventory.setInventorySlotContents(2, null);
-                }
+            	if(modeItems){
+            		stack = inventory.decrStackSize(2, numItems);
+            	}else{
+            		inventory.setInventorySlotContents(2, null);
+            	}
                 return new ItemStack[]{stack};
             }
 
@@ -1113,38 +1195,38 @@ public class BeltHelper
             List<ItemStack> l = new ArrayList<ItemStack>();
             int[] rand=null;
             if(random){
-                rand = new int[4];
-                for(int i=0; i<4; i++){
-                    rand[i] = -1;
-                }
-                for(int i=0; i<4; i++){
-                    while(true){
-                        int index = teb.rand.nextInt(4);
-                        if(rand[index]==-1){
-                            rand[index] = i;
-                            break;
-                        }
-                    }
-                }
+            	rand = new int[4];
+            	for(int i=0; i<4; i++){
+            		rand[i] = -1;
+            	}
+            	for(int i=0; i<4; i++){
+            		while(true){
+	            		int index = teb.rand.nextInt(4);
+	            		if(rand[index]==-1){
+	            			rand[index] = i;
+	            			break;
+	            		}
+            		}
+            	}
             }
             
             for (int i = last ? 3 : 0; (last ? i > 0 : i < 4) && (modeStacks ? numStacks-1>=l.size() : true); i = (last ? i-1 : i+1)){
-                int index = i;
-                
-                if(random){
-                    index = rand[index];
-                }
-                
-                ItemStack stack = inventory.getStackInSlot(index);
+            	int index = i;
+            	
+            	if(random){
+            		index = rand[index];
+            	}
+            	
+            	ItemStack stack = inventory.getStackInSlot(index);
 
                 if ((index < 3 && (stack != null && stack.stackSize > 0 && stack.getItem() == Items.potionitem && stack.getItemDamage() != 0))
                         || (index == 3 && (stack != null)))
                 {
                     inventory.setInventorySlotContents(index, null);
-                    l.add(stack);
-                    if(modeItems){
-                        break;
-                    }
+                   	l.add(stack);
+                   	if(modeItems){
+                   		break;
+                   	}
                 }
             }
             
@@ -1153,10 +1235,11 @@ public class BeltHelper
 
         return null;
     }
-    
+
     public static ItemStack[] dispenseStuffFromInventory(World world, VecI beltPos, IInventory inventory){
-         TileEntityEjectionBelt teb = (TileEntityEjectionBelt) world.getTileEntity(beltPos.x, beltPos.y, beltPos.z);
-        if (isSpecialContainer(inventory)){
+    	TileEntityEjectionBelt teb = (TileEntityEjectionBelt) BaseUtils.getTE(world, beltPos);
+        if (isSpecialContainer(inventory))
+        {
             return dispenseFromSpecialContainer(inventory, teb);
         }
 
@@ -1169,6 +1252,13 @@ public class BeltHelper
         {
             for (int i = 0; i < inventory.getSizeInventory(); i++)
             {
+               // if (inventory instanceof PC_IInventory)
+                //{
+                  //  if (!((PC_IInventory) inventory).canDispenseStackFrom(i))
+                   // {
+                    //    continue;
+                    //}
+                //}
 
                 ItemStack inSlot = inventory.getStackInSlot(i);
 
@@ -1179,7 +1269,7 @@ public class BeltHelper
                 }
             }
 
-            return stacks.toArray(new ItemStack[stacks.size()]);
+            return InventoryUtils.stacksToArray(stacks);
         }
 
         boolean random = teb.getItemSelectMode() == 2;
@@ -1215,13 +1305,13 @@ public class BeltHelper
         {
             boolean accessDenied = false;
 
-            /*if (inventory instanceof PC_IInventory)
-            {
-                if (!((PC_IInventory) inventory).canDispenseStackFrom(i))
-                {
-                    accessDenied = true;
-                }
-            }*/
+           // if (inventory instanceof PC_IInventory)
+            //{
+             //   if (!((PC_IInventory) inventory).canDispenseStackFrom(i))
+              //  {
+               //     accessDenied = true;
+               // }
+           // }
 
             ItemStack stack = inventory.getStackInSlot(i);
 
@@ -1287,10 +1377,11 @@ public class BeltHelper
             }
         }
 
-        return stacks.toArray(new ItemStack[stacks.size()]);
+        return InventoryUtils.stacksToArray(stacks);
     }
 
-    public static void createEntityItemOnBelt(World world, VecI invPos, VecI beltPos, ItemStack stack){
+    public static void createEntityItemOnBelt(World world, VecI invPos, VecI beltPos, ItemStack stack)
+    {
         EntityItem item = new EntityItem(world, beltPos.x + 0.5D, beltPos.y + 0.3D, beltPos.z + 0.5D, stack);
         item.motionX = 0.0D;
         item.motionY = 0.0D;

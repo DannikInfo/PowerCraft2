@@ -12,7 +12,7 @@ import ru.dannikinfo.powercraft.transport.belt.BeltHelper;
 
 public class TileEntitySplitter extends TileEntity {
 	
-	 public InventoryBasic basic;
+	public InventoryBasic basic;
 
 	public TileEntitySplitter(){
 		basic = new InventoryBasic("splitter", false, 30);

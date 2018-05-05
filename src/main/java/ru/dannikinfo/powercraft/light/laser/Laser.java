@@ -145,18 +145,27 @@ public class Laser extends Block implements ITileEntityProvider {
 				NBTTagCompound nbt = data.getData();
 			    int color = nbt.getInteger("color_" + udid);
 				data.markDirty();
-	    		int r = 0, g = 0, bl = 0;
+	    		int r = 0, g = 0, bl = 0, lenght = 16;
 				if(color == 0){r = 255; g = 255; bl = 255;}
-				if(color == 1){r = 0; g = 0; bl = 255;}
+				if(color == 1){r = 0; g = 0; bl = 255; lenght = 32;}
 				if(color == 2){r = 0; g = 255; bl = 0;}
 				if(color == 3){r = 255; g = 0; bl = 0;}
 			    int meta = world.getBlockMetadata(x, y, z);
 			    EntityLaserFX.death = 1;
-			    PacketManager.sendToServer(new BeamMessage(31, meta, x, y, z, r, g, bl, 0));
+			    PacketManager.sendToServer(new BeamMessage(lenght, meta, x, y, z, r, g, bl, 0));
 			}
 			
 	    }
 	    return true;
+	}
+	
+	public static int getColor(World world, int x, int y, int z){
+    	String udid = BaseUtils.udid(x, y, z);
+		WorldData data = WorldData.forWorld(world);
+		NBTTagCompound nbt = data.getData();
+	    int color = nbt.getInteger("color_" + udid);
+		data.markDirty();
+		return color;
 	}
 	
 	//public void onNeighborBlockChange(World world, int x, int y, int z, Block b) {

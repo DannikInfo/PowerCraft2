@@ -1,25 +1,25 @@
-package ru.dannikinfo.powercraft.gui.gui;
+package ru.dannikinfo.powercraft.teleporter;
 
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import ru.dannikinfo.powercraft.core.Main;
 import ru.dannikinfo.powercraft.gui.container.ContainerTeleporter;
 
-public class GuiTeleporterSettings extends GuiContainer{
+public class GuiTeleporterShift extends GuiContainer{
 
     final private ResourceLocation texture = new ResourceLocation(Main.MODID, "textures/gui/Teleporter.png");//Ваши modid и путь к текстуре gu
 
-    public GuiTeleporterSettings(EntityPlayer player, String udid){
+    public GuiTeleporterShift(EntityPlayer player, String udid){
         super(new ContainerTeleporter());//Теперь понятно, зачем такие же параметры?
         xSize = 180;//Тут размеры, сколько на сколько собстно, кликабельная картинка вашего gui(ведь файл текстуры должен быть 256 на 256!)
         ySize = 200;// и до скольки мы обрежем при рендере, чтобы понятно было.
     }
     
     public void initGui(){
-    	
+    	this.buttonList.clear();
+    	this.buttonList.add(new GuiButton(1, (this.width - ySize) / 2 + 20, this.height / 2 - 52, 60, 20, "cc"));
     }
 
     @Override
@@ -30,3 +30,4 @@ public class GuiTeleporterSettings extends GuiContainer{
         drawTexturedModalRect(zX, zY, 0, 0, xSize, ySize);//Отрисовываем на "тех самых координатах" картинку, начиная с 0, 0 координаты тестуры(u, v) и размерами, которые мы указали
     }
 }
+

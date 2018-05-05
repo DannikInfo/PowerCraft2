@@ -72,7 +72,7 @@ public class TeleporterModel extends ModelBase{
   public void render() 
 	{
 	  Shape1.render(0.0625F);
-	  //Shape2.render(0.0625F);
+	  Shape2.render(0.0625F);
 	  Shape3.render(0.0625F);
 	  Shape4.render(0.0625F);
 	  GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.9F);

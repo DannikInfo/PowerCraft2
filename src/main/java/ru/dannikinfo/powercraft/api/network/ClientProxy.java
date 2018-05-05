@@ -30,6 +30,9 @@ import ru.dannikinfo.powercraft.light.BlocksLight;
 import ru.dannikinfo.powercraft.light.laser.RendererItemLaser;
 import ru.dannikinfo.powercraft.light.laser.RendererLaser;
 import ru.dannikinfo.powercraft.light.laser.TileEntityLaser;
+import ru.dannikinfo.powercraft.light.mirror.RendererItemMirror;
+import ru.dannikinfo.powercraft.light.mirror.RendererMirror;
+import ru.dannikinfo.powercraft.light.mirror.TileEntityMirror;
 import ru.dannikinfo.powercraft.logic.BlocksLogic;
 import ru.dannikinfo.powercraft.logic.detector.RendererDetector;
 import ru.dannikinfo.powercraft.logic.detector.RendererDetectorOff;
@@ -60,6 +63,7 @@ public class ClientProxy extends CommonProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityDetectorOff.class, new RendererDetectorOff());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPlatform.class, new RendererPlatform());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityStairs.class, new RendererStairs());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMirror.class, new RendererMirror());
 		
 		//items
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(BlocksTeleporter.teleporter), (IItemRenderer) new RendererItemTeleporter());
@@ -71,6 +75,7 @@ public class ClientProxy extends CommonProxy {
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(BlocksLogic.detectoroff), (IItemRenderer) new RendererItemDetector());
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(BlocksDeco.platform), (IItemRenderer) new RendererItemPlatform());
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(BlocksDeco.stairs), (IItemRenderer) new RendererItemStairs());
+		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(BlocksLight.mirror), (IItemRenderer) new RendererItemMirror());
 	}
 	
 

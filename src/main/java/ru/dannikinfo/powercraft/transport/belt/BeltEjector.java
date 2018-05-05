@@ -1,7 +1,5 @@
 package ru.dannikinfo.powercraft.transport.belt;
 
-import java.util.Random;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -116,7 +114,9 @@ public class BeltEjector extends BeltBase implements ITileEntityProvider{
             return true;
         }
         else{
-        	entityplayer.openGui(Main.MODID, 11, world, i, j, k);
+        		//TileEntityEjectionBelt te = (TileEntityEjectionBelt) world.getTileEntity(i, j, k);
+        		//te.guiOpen = true;
+        		entityplayer.openGui(Main.MODID, 11, world, i, j, k);
             return true;
         }
     }

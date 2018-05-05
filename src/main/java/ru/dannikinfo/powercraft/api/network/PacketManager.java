@@ -14,6 +14,8 @@ import ru.dannikinfo.powercraft.logic.ChangeMobSpawnerMessage;
 import ru.dannikinfo.powercraft.logic.ClearSpawnerMessage;
 import ru.dannikinfo.powercraft.logic.pulsar.DelayPulsarMessage;
 import ru.dannikinfo.powercraft.logic.pulsar.DistanceDetectorMessage;
+import ru.dannikinfo.powercraft.machines.chunker.BeamChunkerMessage;
+import ru.dannikinfo.powercraft.machines.chunker.BeamClientChunkerMessage;
 import ru.dannikinfo.powercraft.transport.belt.EjectBeltMessage;
 
 
@@ -54,6 +56,7 @@ public class PacketManager
 		// Packets handled on CLIENT
 		//registerMessage(SyncPlayerPropsMessage.class);
 		registerMessage(BeamClientMessage.class);
+		registerMessage(BeamClientChunkerMessage.class);
 
 		// Packets handled on SERVER
 		//registerMessage(OpenGuiMessage.class);
@@ -62,6 +65,7 @@ public class PacketManager
 		registerMessage(DelayPulsarMessage.class);
 		registerMessage(DistanceDetectorMessage.class);
 		registerMessage(BeamMessage.class);
+		registerMessage(BeamChunkerMessage.class);
 
 		// If you don't want to make a 'registerMessage' method, you can do it directly:
 		//PacketDispatcher.dispatcher.registerMessage(SyncPlayerPropsMessage.class, SyncPlayerPropsMessage.class, packetId++, Side.CLIENT);

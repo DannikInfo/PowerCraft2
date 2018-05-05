@@ -81,26 +81,26 @@ public class Harvester extends Block{
 	    if(!world.isRemote){
 			if(world.isBlockIndirectlyGettingPowered(x, y, z)) {
 		    	String udid = BaseUtils.udid(x, y, z);
-				WorldData data = WorldData.forWorld(world);
-				NBTTagCompound nbt = data.getData();
+			WorldData data = WorldData.forWorld(world);
+			NBTTagCompound nbt = data.getData();
 	    		int dir = nbt.getInteger("front_" + udid);
 	    		data.markDirty();
-				i = nbt.getInteger("Block");
+			i = nbt.getInteger("Block");
 	    		isp = nbt.getBoolean("isp");	
 	    		Next:if(isp == false){ 
 	    			for(int k = 1; k < 32; ++k){
-			   			int zK = z, xK = x;
-			   			if(dir == 0)zK = z + k;
-			   			if(dir == 1)xK = x - k;
+			   		int zK = z, xK = x;
+			   		if(dir == 0)zK = z + k;
+			   		if(dir == 1)xK = x - k;
 		    			if(dir == 2)zK = z - k;
 		    			if(dir == 3)xK = x + k;
 		    			if(world.isAirBlock(xK, y, zK) || world.getBlock(xK, y , zK) == Blocks.wheat && world.getBlockMetadata(xK, y, zK) != 7  || world.getBlock(xK, y , zK) == Blocks.sapling){
 		    			}else{
-		   					i = k;
-	    					nbt.setBoolean("isp", true);
-	    					isp = true;
-	    					break Next;
-		  				}
+			   				i = k;
+		    					nbt.setBoolean("isp", true);
+		    					isp = true;
+		    					break Next;
+		    				}
 		   			}
 		   		}else{
 		   			nbt.setBoolean("isp", false);
@@ -125,9 +125,9 @@ public class Harvester extends Block{
 			    			}
 		    			}
 	    				if(c == true){
-		    				PacketManager.sendToServer(new BeamMessage(31, dir, x, y, z, 0, 255, 0, 1));
+		    				PacketManager.sendToServer(new BeamMessage(31, dir, x, y, z, 0, 255, 0, 0));
 		    			}else{
-		    				PacketManager.sendToServer(new BeamMessage(a, dir, x, y, z, 0, 255, 0, 1));
+		    				PacketManager.sendToServer(new BeamMessage(a, dir, x, y, z, 0, 255, 0, 0));
 		    			}
 		    			BaseUtils.harvest(world, xS, y, zS, i, dir);
 		   				i++;

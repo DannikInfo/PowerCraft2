@@ -36,12 +36,14 @@ public class GuiEjectBelt extends GuiContainer{
 		this.x = x;
 		this.y = y;
 		this.z = z;
-		if(a == 0)  atype1 = "ON";
-		if(a == 1)  atype2 = "ON";
-		if(a == 2)  atype3 = "ON";
-		if(s == 0) smode1 = "ON";
-		if(s == 1) smode2 = "ON";
-		if(s == 2) smode3 = "ON";
+		this.stacks = te.getNumStacksEjected();
+		this.items = te.getNumItemsEjected();
+		if(te.getActionType() == 0)  atype1 = "ON";
+		if(te.getActionType() == 1)  atype2 = "ON";
+		if(te.getActionType() == 2)  atype3 = "ON";
+		if(te.getItemSelectMode() == 0) smode1 = "ON";
+		if(te.getItemSelectMode() == 1) smode2 = "ON";
+		if(te.getItemSelectMode() == 2) smode3 = "ON";
 	}
 
 	private static final ResourceLocation field_147017_u = new ResourceLocation(Main.MODID, "textures/gui/guiSpawner.png");

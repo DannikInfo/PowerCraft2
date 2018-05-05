@@ -4,6 +4,7 @@ import cpw.mods.fml.common.network.IGuiHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import ru.dannikinfo.powercraft.api.network.PacketManager;
 import ru.dannikinfo.powercraft.api.utils.BaseUtils;
 import ru.dannikinfo.powercraft.gui.container.ContainerBigCompressor;
 import ru.dannikinfo.powercraft.gui.container.ContainerCompressor;
@@ -18,12 +19,13 @@ import ru.dannikinfo.powercraft.gui.gui.GuiDetector;
 import ru.dannikinfo.powercraft.gui.gui.GuiHighStackCompressor;
 import ru.dannikinfo.powercraft.gui.gui.GuiPulsar;
 import ru.dannikinfo.powercraft.gui.gui.GuiSpawner;
-import ru.dannikinfo.powercraft.gui.gui.GuiTeleporter;
-import ru.dannikinfo.powercraft.gui.gui.GuiTeleporterSettings;
-import ru.dannikinfo.powercraft.gui.gui.GuiTeleporterShift;
 import ru.dannikinfo.powercraft.storage.InventoryBigCompressor;
 import ru.dannikinfo.powercraft.storage.InventoryCompressor;
 import ru.dannikinfo.powercraft.storage.InventoryHighStackCompressor;
+import ru.dannikinfo.powercraft.teleporter.GuiTeleporter;
+import ru.dannikinfo.powercraft.teleporter.GuiTeleporterSettings;
+import ru.dannikinfo.powercraft.teleporter.GuiTeleporterShift;
+import ru.dannikinfo.powercraft.transport.belt.EjectBeltMessage;
 import ru.dannikinfo.powercraft.transport.gui.ContainerSepBelt;
 import ru.dannikinfo.powercraft.transport.gui.ContainerSplitter;
 import ru.dannikinfo.powercraft.transport.gui.GuiEjectBelt;
@@ -44,18 +46,6 @@ public class GuiHandler implements IGuiHandler{
                 return new ContainerBigCompressor(player, new InventoryBigCompressor(current));
         	case 3:
                 return new ContainerHighStackCompressor(player, new InventoryHighStackCompressor(current));
-        	case 4:
-                return new ContainerTeleporter();
-        	case 5:
-        		return new ContainerSpawner();
-        	case 6:
-        		return new ContainerTeleporter();
-        	case 7:
-        		return new ContainerTeleporter();
-        	case 8:
-        		return new ContainerDetector();
-        	case 9:
-        		return new ContainerPulsar();
         	case 10:
         		return new ContainerSepBelt(player.inventory, (TileEntitySeparationBelt) world.getTileEntity(x, y, z));
         	case 12:
@@ -75,11 +65,11 @@ public class GuiHandler implements IGuiHandler{
             case 3:
             	return new GuiHighStackCompressor(player, new InventoryHighStackCompressor(current));
             case 4:
-            	return new GuiTeleporter(player, udid);
+            	return new GuiTeleporter(player, x, y, z, world);
             case 5:
             	return new GuiSpawner(player, world, x, y, z);
             case 6:
-            	return new GuiTeleporterSettings(player, udid);
+            	return new GuiTeleporterSettings(player, x, y, z, world);
             case 7:
             	return new GuiTeleporterShift(player, udid);
             case 8:
@@ -89,6 +79,7 @@ public class GuiHandler implements IGuiHandler{
             case 10:
             	return new GuiSepBelt(new ContainerSepBelt(player.inventory, (TileEntitySeparationBelt) world.getTileEntity(x, y, z)));
             case 11:
+            		PacketManager.sendToServer(new EjectBeltMessage(-1, -1, 0, 0, x, y, z));
             	return new GuiEjectBelt((TileEntityEjectionBelt) world.getTileEntity(x, y, z), x, y, z);
             case 12:
             	return new GuiSplitter(new ContainerSplitter(player.inventory, (TileEntitySplitter) world.getTileEntity(x, y, z)));

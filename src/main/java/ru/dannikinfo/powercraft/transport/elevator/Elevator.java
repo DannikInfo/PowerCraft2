@@ -32,7 +32,7 @@ public class Elevator extends Block{
             "elevator_up",
             "elevator_down",
         };
-	@SideOnly(Side.CLIENT)
+    
 	private IIcon[] textures = new IIcon[this.metadata.length];
 	
     public Elevator()
@@ -46,6 +46,7 @@ public class Elevator extends Block{
     }
     
     @Override
+    @SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister)
 	{
 	     super.registerBlockIcons(iconRegister);

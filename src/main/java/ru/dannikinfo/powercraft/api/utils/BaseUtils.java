@@ -11,6 +11,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
@@ -25,6 +26,7 @@ import net.minecraft.nbt.NBTTagInt;
 import net.minecraft.nbt.NBTTagLong;
 import net.minecraft.nbt.NBTTagShort;
 import net.minecraft.nbt.NBTTagString;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -33,6 +35,7 @@ import ru.dannikinfo.powercraft.api.network.PacketManager;
 import ru.dannikinfo.powercraft.api.utils.interfaces.INBT;
 import ru.dannikinfo.powercraft.light.laser.BeamClientMessage;
 import ru.dannikinfo.powercraft.logic.BlocksLogic;
+import ru.dannikinfo.powercraft.machines.chunker.BeamClientChunkerMessage;
 
 public class BaseUtils {
 	protected static BaseUtils instance;
@@ -87,39 +90,67 @@ public class BaseUtils {
 		return Minecraft.getMinecraft();
 	}
 	
-    public void traceBeam(World world, int count, int dir, int x, int y, int z, int r, int g, int b, int death){
+    public void traceBeam(World world, int count, int dir, int x, int y, int z, int r, int g, int b, int type){
     	int zE, xE;
     	zE = 0;
     	xE = 0;
-    	if(dir == 0)zE = count;
-    	if(dir == 1)xE = -count;
-    	if(dir == 2)zE = -count;
-    	if(dir == 3)xE = count;
-    	VecI cnt = new VecI(x, y, z);
-    	VecI move = new VecI(xE, 0, zE);
-		cnt = cnt.copy();
-		VecI oldMove = move;
-		boolean dirChage = false;
-		if (move.x < 0) {
-			move.x = -move.x;
-			move.y = -move.y;
-			move.z = -move.z;
-			dirChage = true;
-		} else if (move.x == 0 && move.y < 0) {
-			move.y = -move.y;
-			move.z = -move.z;
-			dirChage = true;
-		} else if (move.x == 0 && move.y == 0 && move.z < 0) {
-			move.z = -move.z;
-			dirChage = true;
-		}
-		if (dirChage)
-			cnt = cnt.offset(oldMove);
-    	Minecraft.getMinecraft().effectRenderer.addEffect(new EntityLaserFX(world, cnt.x, cnt.y, cnt.z, move.x, move.y, move.z, 3, r, g, b, death));
+    	if(type == 0){
+	    	if(dir == 0)zE = count;
+	    	if(dir == 1)xE = -count;
+	    	if(dir == 2)zE = -count;
+	    	if(dir == 3)xE = count;
+    	}
+    	//laser dir = 0;
+    	if(type == 1){
+        	if(dir == 0 || dir == 8)zE = -count;
+        	if(dir == 1 || dir == 9){xE = count; zE = -count;}
+        	if(dir == 2 || dir == 10)xE = count;
+        	if(dir == 3 || dir == 11){xE = count; zE = count;}
+	    	if(dir == 5 || dir == 13){xE = -count; zE = count;}
+	    	if(dir == 6 || dir == 14)xE = -count;
+	    	if(dir == 7 || dir == 15){xE = -count; zE = -count;}
+    	}
+    	//laser dir = 1;
+    	if(type == 2){
+        	if(dir == 1 || dir == 9){xE = -count; zE = -count;}
+        	if(dir == 2 || dir == 10)zE = -count;
+        	if(dir == 3 || dir == 11){xE = count; zE = -count;}
+	    	if(dir == 4 || dir == 12)xE = count;
+	    	if(dir == 5 || dir == 13){xE = count; zE = count;}
+	    	if(dir == 6 || dir == 14)zE = count;
+	    	if(dir == 7 || dir == 15){xE = -count; zE = count;}
+    	}
+    	//laser dir = 2;
+    	if(type == 3){
+        	if(dir == 0 || dir == 8)zE = count;
+        	if(dir == 1 || dir == 9){xE = -count; zE = count;}
+        	if(dir == 2 || dir == 10)xE = -count;
+        	if(dir == 3 || dir == 11){xE = -count; zE = -count;}
+	    	if(dir == 5 || dir == 13){xE = count; zE = -count;}
+	    	if(dir == 6 || dir == 14)xE = count;
+	    	if(dir == 7 || dir == 15){xE = count; zE = count;}
+    	}
+    	//laser dir = 3;
+    	if(type == 4){
+        	if(dir == 1 || dir == 9){xE = count; zE = count;}
+        	if(dir == 2 || dir == 10)zE = count;
+        	if(dir == 3 || dir == 11){xE = -count; zE = count;}
+	    	if(dir == 4 || dir == 12)xE = -count;
+	    	if(dir == 5 || dir == 13){xE = -count; zE = -count;}
+	    	if(dir == 6 || dir == 14)zE = -count;
+	    	if(dir == 7 || dir == 15){xE = count; zE = -count;}
+    	}
+    	Minecraft.getMinecraft().effectRenderer.addEffect(new EntityLaserFX(world, x, y, z, xE, 0, zE, 3, r, g, b, type));
     }
+    
+
 
 	public static void traceBeamMessageRe(World world, int count, int dir, int x, int y, int z, EntityPlayer player, int r, int g, int b, int death){
     	PacketManager.sendTo(new BeamClientMessage(count, dir, x, y, z, r, g, b, death), (EntityPlayerMP) player);
+    }
+	
+	public static void traceBeamChunkerMessageRe(World world, int x, int y, int z, int x1, int y1, int z1, EntityPlayer player, int r, int g, int b, int death){
+    	PacketManager.sendTo(new BeamClientChunkerMessage(x, y, z, x1, y1, z1, r, g, b, death), (EntityPlayerMP) player);
     }
 	
 	public static void harvest(World world, int x, int y, int z, int count, int dir){
@@ -342,7 +373,7 @@ public class BaseUtils {
 	}
 	
 	public static void saveToNBT(NBTTagCompound nbtTag, String key, Object value) {
-		if (value == null) {
+		/*if (value == null) {
 			return;
 		} else if (value.getClass().isArray()) {
 			NBTTagCompound nbtTag2 = new NBTTagCompound();
@@ -405,11 +436,11 @@ public class BaseUtils {
 			nbtTag2.setString("type", ItemStack.class.getName());
 			((ItemStack) value).writeToNBT(nbtTag2);
 			nbtTag.setTag(key, nbtTag2);
-		}
+		}*/
 	}
 	
 	public static Object loadFromNBT(NBTTagCompound nbtTag, String key) {
-		Object value = nbtTag.getTag(key);
+		/*Object value = nbtTag.getTag(key);
 		if (value instanceof NBTTagCompound) {
 			NBTTagCompound nbtTag2 = nbtTag.getCompoundTag(key);
 			try {
@@ -463,12 +494,28 @@ public class BaseUtils {
 			return ((NBTTagDouble) value).getId();
 		} else if (value instanceof NBTTagString) {
 			return ((NBTTagString) value).getId();
-		}
+		}*/
 		return null;
 	}
 	
 	public static <T extends INBT<T>> T loadFromNBT(NBTTagCompound nbttagcompound, String string, T nbt) {
 		NBTTagCompound nbttag = nbttagcompound.getCompoundTag(string);
 		return nbt.readFromNBT(nbttag);
+	}
+
+	public static String getMCDirectory() {
+		return Minecraft.getMinecraft().mcDataDir.toString();
+	}
+
+	public static TileEntity getTE(World world, VecI pos) {
+		return world.getTileEntity(pos.x, pos.y, pos.z);
+	}
+
+	public static void setBlock(World world, VecI pos, Block block, int meta) {
+		world.setBlock(pos.x, pos.y, pos.z, block, meta, 0);
+	}
+	
+	public static boolean isEntityFX(Entity entity) {
+		return entity instanceof EntityFX;
 	}
 }

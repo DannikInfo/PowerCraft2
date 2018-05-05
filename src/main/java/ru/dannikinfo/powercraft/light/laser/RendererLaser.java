@@ -36,7 +36,8 @@ public class RendererLaser extends TileEntitySpecialRenderer {
             }
         }
 		bindTexture(texture);
-		model.render();
+		
+		model.render(tile.getColor());
 		GL11.glPopMatrix();
      	if(tile.isPowered){
      		GL11.glPushMatrix();

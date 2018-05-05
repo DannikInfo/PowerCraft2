@@ -1,8 +1,8 @@
 package ru.dannikinfo.powercraft.teleporter;
 
+import java.util.Map;
 import java.util.Random;
 
-import org.apache.commons.codec.digest.DigestUtils;
 import org.lwjgl.input.Keyboard;
 
 import cpw.mods.fml.relauncher.Side;
@@ -10,14 +10,13 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import ru.dannikinfo.powercraft.core.ItemsCore;
 import ru.dannikinfo.powercraft.core.Main;
@@ -66,24 +65,12 @@ public class Teleporter extends Block implements ITileEntityProvider {
 		return false;
 	}
 	
-	//block set in world => write in NBT base data
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack is){
+		int l = MathHelper.floor_double((double)(entity.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+		world.setBlockMetadataWithNotify(x, y, z, l, 2);
 		if(!world.isRemote){
-			String sX = Integer.toString(x);
-			String sY = Integer.toString(y);
-			String sZ = Integer.toString(z);
-			String preUdid = DigestUtils.md5Hex(sX)+DigestUtils.md5Hex(sY)+DigestUtils.md5Hex(sZ); 
-			String udid = DigestUtils.md5Hex(preUdid);
-			nbt.setString("udid", udid);
-			nbt.setString("name", "default");
-			nbt.setInteger("x", x);
-			nbt.setInteger("y", y);
-			nbt.setInteger("z", z);
-			nbt.setBoolean("Shift", false);
-			TileEntityTeleporter tile = (TileEntityTeleporter) world.getTileEntity(x, y, z);
-			tile.writeToNBT(nbt);
-			TeleporterManager manager = new TeleporterManager();
-				manager.start(world.getWorldInfo().getWorldName());
+			TeleporterManager t = new TeleporterManager();
+			t.create(world, x, y, z);
 		}
 	}
 
@@ -97,6 +84,7 @@ public class Teleporter extends Block implements ITileEntityProvider {
    				player.openGui(Main.instance, 7, world, x, y, z);
    			}
    		}else{
+
    			player.openGui(Main.instance, 4, world, x, y, z);
    		}
 		return true;

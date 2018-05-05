@@ -1,0 +1,116 @@
+//transport module
+pc.gui.separationBelt.group=Ignore subtypes of
+pc.gui.separationBelt.groupLogs=Logs
+pc.gui.separationBelt.groupPlanks=Planks
+pc.gui.separationBelt.groupAll=All
+pc.gui.ejector.modeEjectTitle=Ejection mode:
+pc.gui.ejector.modeStacks=Whole stacks
+pc.gui.ejector.modeItems=Single items
+pc.gui.ejector.modeAll=All contents at once
+pc.gui.ejector.modeSelectTitle=Method of selection:
+pc.gui.ejector.modeSelectFirst=First slot
+pc.gui.ejector.modeSelectLast=Last slot
+pc.gui.ejector.modeSelectRandom=Random slot
+tile.PCtr_BlockSplitter.name=Splitter
+tile.PCtr_BlockElevator.up.name=Elevator up
+tile.PCtr_BlockElevator.down.name=Elevator down
+tile.PCtr_BlockBeltNormal.name=Belt conveyor normal 
+tile.PCtr_BlockBeltSpeedy.name=Belt conveyor speedy 
+tile.PCtr_BlockBeltBreak.name=Belt conveyor break
+tile.PCtr_BlockBeltDetector.name=Belt conveyor detector 
+tile.PCtr_BlockBeltRedirector.name=Belt conveyor redirector 
+tile.PCtr_BlockBeltSeparator.name=Belt conveyor separator 
+tile.PCtr_BlockBeltEjector.name=Belt conveyor ejector
+item.PCtr_ItemStickyBoots.name=Sticky boots
+
+//core module
+pc.gui.ok=OK
+pc.gui.cancel=Cancel
+pc.gui.close=Close
+pc.gui.back=Back
+pc.gui.craftingTool.title=Crafting Tool
+pc.gui.craftingTool.trashAll=Trash All
+pc.gui.craftingTool.search=Search
+pc.gui.craftingTool.sort=Sort
+pc.gui.update.title=Mod Update Notification
+pc.gui.update.newVersionAvailable=Update available!
+pc.gui.update.readMore=Read more...
+pc.gui.update.version=Using %1$s (%2$s), Available %3$s (%4$s)
+pc.gui.update.doNotShowAgain=Don't show again
+pc.sniffer.desc=Portable radar device
+pc.sniffer.distance=Sniffing depth (blocks):
+tile.PCco_BlockPowerCrystal.color0.name=Orange crystal
+tile.PCco_BlockPowerCrystal.color1.name=Red crystal
+tile.PCco_BlockPowerCrystal.color2.name=Green crystal
+tile.PCco_BlockPowerCrystal.color3.name=Dark blue crystal
+tile.PCco_BlockPowerCrystal.color4.name=Pink crystal
+tile.PCco_BlockPowerCrystal.color5.name=Purple crystal
+tile.PCco_BlockPowerCrystal.color6.name=Light blue crystal
+tile.PCco_BlockPowerCrystal.color7.name=Yellow crystal
+item.PCco_ItemPowerDust.name=Power dust
+item.PCco_ItemActivator.name=Activation crystal
+item.PCco_ItemCraftingTool.name=Crafting tool
+item.PCco_ItemOreSniffer.name=Ore sniffer
+tile.PCco_BlockBlockSaver.name=Block saver
+
+//teleporter module
+tile.PCtp_BlockTeleporter.name=Teleporter
+
+//deco module
+tile.PCde_BlockIronFrame=Iron frame
+tile.PCde_BlockChimney.type0.name=Cobblestone chimney
+tile.PCde_BlockChimney.type1.name=Brick chimney
+tile.PCde_BlockChimney.type2.name=Stone brick chimney
+tile.PCde_BlockChimney.type3.name=Cracked stone brick chimney
+tile.PCde_BlockChimney.type4.name=Chiseled stone brick chimney
+tile.PCde_BlockChimney.type5.name=Sandstone chimney
+tile.PCde_BlockChimney.type6.name=Chiseled sandstone chimney
+tile.PCde_BlockChimney.type7.name=Smooth sandstone chimney
+tile.PCde_BlockChimney.type8.name=Nether brick chimney
+tile.PCde_BlockChimney.type9.name=Quartz chimney
+tile.PCde_BlockChimney.type10.name=Chiseled quartz chimney
+tile.PCde_BlockChimney.type11.name=Pillar Quartz chimney
+tile.PCde_BlockChimney.type12.name=Mossy cobblestone chimney
+tile.PCde_BlockChimney.type13.name=Mossy stone brick chimney
+tile.PCde_BlockChimney.type14.name=Clay chimney
+tile.PCde_BlockChimney.type15.name=Iron chimney
+tile.PCde_BlockPlatform.name=Platform
+tile.PCde_BlockStairs.name=Stairs
+
+//hologram module
+tile.PChg_BlockHologramBlockEmpty.name=Hologram block
+tile.PChg_BlockHologramField.name=Hologram field
+item.PChg_ItemArmorHologramGlasses.name=Hologram glasses
+
+//light module
+tile.PCli_BlockLight.name=Light
+tile.PCli_BlockLightningConductor.name=Lightning conductor
+tile.PCli_BlockLaser.name=Laser
+tile.PCli_BlockMirror.name=Mirror
+tile.PCli_BlockPrism.name=Prism
+tile.PCli_BlockLaserSensor.name=Laser sensor
+
+//net module
+tile.PCnt_BlockSensor.item.name=Item sensor
+tile.PCnt_BlockSensor.living.name=Mob sensor
+tile.PCnt_BlockSensor.player.name=Player sensor
+tile.PCnt_BlockRadio.rx.name=Radio receiver
+tile.PCnt_BlockRadio.tx.name=Radio transmitter
+
+//machines module
+tile.PCma_BlockAutomaticWorkbench.name=Automatic workbench
+tile.PCma_BlockRoaster.name=Roaster
+tile.PCma_BlockReplacer.name=Replacer
+tile.PCma_BlockTransmutabox.name=Transmutabox
+tile.PCma_BlockXPBank.name=XP bank
+tile.PCma_BlockBlockBuilder.name=Block builder
+tile.PCma_BlockHarvester.name=Harvester
+
+//logic module
+tile.PClo_BlockPulsar.name=Pulsar
+tile.PClo_BlockSpecial.special0.name=Day sensor
+tile.PClo_BlockSpecial.special1.name=Night sensor
+tile.PClo_BlockSpecial.special2.name=Rain sensor
+tile.PClo_BlockSpecial.special3.name=Chest empty
+tile.PClo_BlockSpecial.special4.name=Chest full
+tile.PClo_BlockSpecial.special5.name=Spawner controller

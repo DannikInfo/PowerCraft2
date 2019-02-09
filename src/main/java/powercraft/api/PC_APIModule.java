@@ -55,14 +55,14 @@ import powercraft.launcher.loader.PC_ModuleObject;
 
 @PC_Module(name = "Api", version = "3.5.2", modLoader = PC_ModLoader.FORGE_MODLOADER)
 public class PC_APIModule {
-	
+
 	protected PC_PacketHandler packetHandler;
-	
+
 	public static PC_CreativeTab creativeTab;
-	
+
 	@PC_Instance
 	private static PC_ModuleObject instance;
-	
+
 	@PC_PreInit
 	public void preInit() {
 		initVars();
@@ -85,17 +85,17 @@ public class PC_APIModule {
 		clientPreInit(modules);
 		PC_Logger.exitSection();
 	}
-	
+
 	protected void initVars() {
 		PC_Utils.create();
-		//packetHandler = new PC_PacketHandler();
+		// packetHandler = new PC_PacketHandler();
 	}
-	
+
 	protected void clientPreInit(List<PC_ModuleObject> modules) {
 		PC_ServerHooks.registerServerHooks();
 		PC_Hooks.registerHooks();
 	}
-	
+
 	@PC_Init
 	public void init() {
 		PC_Logger.enterSection("Init");
@@ -114,12 +114,14 @@ public class PC_APIModule {
 		PC_Logger.exitSection();
 		PC_Logger.enterSection("Module Field Init");
 		for (PC_ModuleObject module : modules) {
-			PC_ReflectHelper.getAllFieldsWithAnnotation(module.getModuleClass(), module, PC_FieldObject.class, getModuleFieldInit(module));
+			PC_ReflectHelper.getAllFieldsWithAnnotation(module.getModuleClass(), module, PC_FieldObject.class,
+					getModuleFieldInit(module));
 		}
 		PC_Logger.exitSection();
 		PC_Logger.enterSection("Module Entity Init");
 		for (PC_ModuleObject module : modules) {
-			List<PC_Struct2<Class<? extends Entity>, Integer>> l = module.initEntities(new ArrayList<PC_Struct2<Class<? extends Entity>, Integer>>());
+			List<PC_Struct2<Class<? extends Entity>, Integer>> l = module
+					.initEntities(new ArrayList<PC_Struct2<Class<? extends Entity>, Integer>>());
 			if (l != null) {
 				for (PC_Struct2<Class<? extends Entity>, Integer> entity : l) {
 					PC_EntityRegistry.register(module, entity.a, entity.b);
@@ -141,22 +143,23 @@ public class PC_APIModule {
 		clientInit(modules);
 		PC_Logger.exitSection();
 	}
-	
+
 	protected ModuleFieldInit getModuleFieldInit(PC_ModuleObject module) {
 		return new ModuleFieldInit(module);
 	}
-	
+
 	protected void clientInit(List<PC_ModuleObject> modules) {
 		new PC_Renderer(true);
 		new PC_Renderer(false);
-		//NetworkRegistry.INSTANCE.registerConnectionHandler(new PC_ConnectionHandler());
-		//TickRegistry.registerTickHandler(new PC_TickHandler(), Side.SERVER);
+		// NetworkRegistry.INSTANCE.registerConnectionHandler(new
+		// PC_ConnectionHandler());
+		// TickRegistry.registerTickHandler(new PC_TickHandler(), Side.SERVER);
 	}
-	
+
 	@PC_PostInit
 	public void postInit() {
 		PC_Logger.enterSection("PostInit");
-		//PC_TickRegistry.register(PC_ChunkForcerRegistry.getInstance());
+		// PC_TickRegistry.register(PC_ChunkForcerRegistry.getInstance());
 		PC_Logger.enterSection("Module Recipes Init");
 		List<PC_ModuleObject> modules = PC_ModuleRegistry.getModuleList();
 		for (PC_ModuleObject module : modules) {
@@ -171,7 +174,8 @@ public class PC_APIModule {
 		PC_Logger.enterSection("Module Data Handlers Init");
 		PC_DataHandlerRegistry.regsterDataHandler("chunckUpdateForcer", PC_ChunkForcerRegistry.getInstance());
 		for (PC_ModuleObject module : modules) {
-			List<PC_Struct2<String, PC_IDataHandler>> l = module.initDataHandlers(new ArrayList<PC_Struct2<String, PC_IDataHandler>>());
+			List<PC_Struct2<String, PC_IDataHandler>> l = module
+					.initDataHandlers(new ArrayList<PC_Struct2<String, PC_IDataHandler>>());
 			if (l != null) {
 				for (PC_Struct2<String, PC_IDataHandler> dataHandler : l) {
 					PC_DataHandlerRegistry.regsterDataHandler(dataHandler.a, dataHandler.b);
@@ -181,10 +185,11 @@ public class PC_APIModule {
 		PC_Logger.exitSection();
 		PC_Logger.enterSection("Module Packet Handlers Init");
 		for (PC_ModuleObject module : modules) {
-			List<PC_Struct2<String, PC_IPacketHandler>> l = module.initPacketHandlers(new ArrayList<PC_Struct2<String, PC_IPacketHandler>>());
+			List<PC_Struct2<String, PC_IPacketHandler>> l = module
+					.initPacketHandlers(new ArrayList<PC_Struct2<String, PC_IPacketHandler>>());
 			if (l != null) {
 				for (PC_Struct2<String, PC_IPacketHandler> packetHandler : l) {
-					//PC_PacketHandler.registerPackethandler(packetHandler.a, packetHandler.b);
+					// PC_PacketHandler.registerPackethandler(packetHandler.a, packetHandler.b);
 				}
 			}
 		}
@@ -203,28 +208,28 @@ public class PC_APIModule {
 		PC_Logger.exitSection();
 		PC_Logger.exitSection();
 	}
-	
+
 	protected void clientPostInit(List<PC_ModuleObject> modules) {
-		
+
 	}
-	
+
 	@PC_InitProperties
 	public void initProperties(PC_Property config) {
-		
+
 	}
-	
+
 	public static PC_APIModule getInstance() {
 		return (PC_APIModule) instance.getModule();
 	}
-	
+
 	protected static class ModuleFieldInit implements PC_IFieldAnnotationIterator<PC_FieldObject> {
-		
+
 		protected PC_ModuleObject module;
-		
+
 		public ModuleFieldInit(PC_ModuleObject module) {
 			this.module = module;
 		}
-		
+
 		@Override
 		public boolean onFieldWithAnnotation(PC_FieldWithAnnotation<PC_FieldObject> fieldWithAnnotation) {
 			Class<?> clazz = fieldWithAnnotation.getAnnotation().clazz();
@@ -240,14 +245,14 @@ public class PC_APIModule {
 			fieldWithAnnotation.setValue(o);
 			return false;
 		}
-		
+
 		protected void registerObject(Object object) {
 			if (object instanceof PC_IMSG) {
 				PC_MSGRegistry.registerMSGObject((PC_IMSG) object);
 			}
-			//if (object instanceof PC_ITickHandler) {
-				//PC_TickRegistry.register((PC_ITickHandler) object);
-			//}
+			// if (object instanceof PC_ITickHandler) {
+			// PC_TickRegistry.register((PC_ITickHandler) object);
+			// }
 			if (object instanceof PC_IWorldGenerator) {
 				PC_WorldGeneratorRegistry.register((PC_IWorldGenerator) object);
 			}
@@ -255,10 +260,11 @@ public class PC_APIModule {
 				PC_BuildingRegistry.register((PC_ISpecialHarvesting) object);
 			}
 			if (object instanceof PC_IDataHandler) {
-				PC_DataHandlerRegistry.regsterDataHandler(((PC_IDataHandler)object).getName(), (PC_IDataHandler)object);
+				PC_DataHandlerRegistry.regsterDataHandler(((PC_IDataHandler) object).getName(),
+						(PC_IDataHandler) object);
 			}
 		}
-		
+
 	}
-	
+
 }

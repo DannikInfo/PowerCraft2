@@ -8,15 +8,15 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface PC_OreInfo {
-	
+
 	public String oreName();
-	
+
 	public int genOresInChunk();
-	
+
 	public int genOresDepositMaxCount();
-	
+
 	public int genOresMaxY();
-	
+
 	public int genOresMinY();
-	
+
 }

@@ -9,22 +9,22 @@ import powercraft.api.utils.PC_VecI;
 @Deprecated
 public class PC_3DRecipeManager {
 
-	//AlphaI
+	// AlphaI
 	@Deprecated
-	public static void add3DRecipe(PC_3DRecipe recipe){
+	public static void add3DRecipe(PC_3DRecipe recipe) {
 		PC_RecipeRegistry.add3DRecipe(recipe);
 	}
-	
-	//AlphaI
+
+	// AlphaI
 	@Deprecated
-	public static void add3DRecipe(PC_I3DRecipeHandler obj, Object...o){
+	public static void add3DRecipe(PC_I3DRecipeHandler obj, Object... o) {
 		PC_RecipeRegistry.add3DRecipe(obj, o);
 	}
-	
-	//AlphaI
+
+	// AlphaI
 	@Deprecated
-	public static boolean searchRecipeAndDo(EntityPlayer entityplayer, World world, PC_VecI pos){
+	public static boolean searchRecipeAndDo(EntityPlayer entityplayer, World world, PC_VecI pos) {
 		return PC_RecipeRegistry.searchRecipe3DAndDo(entityplayer, world, pos);
 	}
-	
+
 }

@@ -9,7 +9,7 @@ public interface PC_IInventoryBackground {
 	public boolean renderTooltipWhenEmpty(int slotIndex);
 
 	public boolean renderGrayWhenEmpty(int slotIndex);
-	
+
 	public boolean useAlwaysBackground(int slotIndex);
-	
+
 }

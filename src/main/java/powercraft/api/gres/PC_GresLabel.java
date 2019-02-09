@@ -3,7 +3,6 @@ package powercraft.api.gres;
 import powercraft.api.utils.PC_RectI;
 import powercraft.api.utils.PC_VecI;
 
-
 /**
  * Resizable GUI plain text label
  * 
@@ -40,14 +39,14 @@ public class PC_GresLabel extends PC_GresWidget {
 		int xstart = offsetPos.x + pos.x;
 
 		switch (alignH) {
-			case CENTER:
-				xstart = xstart + size.x / 2 - wid / 2;
-				break;
-			case RIGHT:
-				xstart = xstart + size.x - wid;
-			default:
-			case LEFT:
-				break;
+		case CENTER:
+			xstart = xstart + size.x / 2 - wid / 2;
+			break;
+		case RIGHT:
+			xstart = xstart + size.x - wid;
+		default:
+		case LEFT:
+			break;
 		}
 
 		drawString(text, xstart, offsetPos.y + pos.y);
@@ -86,8 +85,10 @@ public class PC_GresLabel extends PC_GresWidget {
 	}
 
 	@Override
-	public void mouseWheel(int i) {}
+	public void mouseWheel(int i) {
+	}
 
 	@Override
-	public void addedToWidget() {}
+	public void addedToWidget() {
+	}
 }

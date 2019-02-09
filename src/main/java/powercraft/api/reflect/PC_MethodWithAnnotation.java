@@ -9,7 +9,7 @@ public class PC_MethodWithAnnotation<T extends Annotation> {
 	private Object obj;
 	private int index;
 	private T annotation;
-	
+
 	public PC_MethodWithAnnotation(Class<?> c, Object obj, int index, T annotation) {
 		this.c = c;
 		this.obj = obj;
@@ -17,20 +17,20 @@ public class PC_MethodWithAnnotation<T extends Annotation> {
 		this.annotation = annotation;
 	}
 
-	public T getAnnotation(){
+	public T getAnnotation() {
 		return annotation;
 	}
-	
-	public Class<?>[] getMethodParams(){
+
+	public Class<?>[] getMethodParams() {
 		return c.getDeclaredMethods()[index].getParameterTypes();
 	}
-	
-	public String getMethodName(){
+
+	public String getMethodName() {
 		return c.getDeclaredMethods()[index].getName();
 	}
-	
-	public Method getMethod(){
+
+	public Method getMethod() {
 		return c.getDeclaredMethods()[index];
 	}
-	
+
 }

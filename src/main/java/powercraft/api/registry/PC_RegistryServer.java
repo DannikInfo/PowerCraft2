@@ -17,15 +17,15 @@ import powercraft.api.registry.PC_LangRegistry.LangEntry;
 import powercraft.launcher.loader.PC_ModuleObject;
 
 public class PC_RegistryServer implements PC_IPacketHandler {
-	
+
 	protected static final int KEYEVENT = 0;
-	
+
 	protected static PC_RegistryServer instance;
-	
+
 	protected PC_RegistryServer() {
 		PC_PacketHandler.registerPackets();
 	}
-	
+
 	public static boolean create() {
 		if (instance == null) {
 			instance = new PC_RegistryServer();
@@ -33,31 +33,31 @@ public class PC_RegistryServer implements PC_IPacketHandler {
 		}
 		return false;
 	}
-	
+
 	public static PC_RegistryServer getInstance() {
 		return instance;
 	}
-	
+
 	protected void registerLanguage(PC_ModuleObject module, String lang, LangEntry[] translations) {
 	}
-	
+
 	protected void loadLanguage(PC_ModuleObject module) {
 	}
-	
+
 	protected void saveLanguage(PC_ModuleObject module) {
 	}
-	
+
 	protected void tileEntitySpecialRenderer(Class<? extends TileEntity> tileEntityClass) {
 		GameRegistry.registerTileEntity(tileEntityClass, tileEntityClass.getName());
 	}
-	
+
 	protected void openGres(String name, EntityPlayer player, TileEntity te, Object... o) {
 		if (!(player instanceof EntityPlayerMP)) {
 			return;
 		}
-		
+
 		int guiID = 0;
-		
+
 		try {
 			Field var6 = EntityPlayerMP.class.getDeclaredFields()[15];
 			var6.setAccessible(true);
@@ -67,14 +67,13 @@ public class PC_RegistryServer implements PC_IPacketHandler {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		
-		PC_PacketHandler.sendTo(new PC_PacketOpenGres(name, te, guiID), (EntityPlayerMP)player);
-		
+
+		PC_PacketHandler.sendTo(new PC_PacketOpenGres(name, te, o), (EntityPlayerMP) player);
+
 		Class<? extends PC_GresBaseWithInventory> c = PC_GresRegistry.getContainer(name);
-		
+
 		if (c != null) {
-			
+
 			if (PC_GresBaseWithInventory.class.isAssignableFrom(c)) {
 				try {
 					PC_GresBaseWithInventory bwi = PC_ReflectHelper.create(c, player, te, o);
@@ -87,30 +86,30 @@ public class PC_RegistryServer implements PC_IPacketHandler {
 			}
 		}
 	}
-	
+
 	protected void registerTexture(String texture) {
 	}
-	
+
 	protected void playSound(double x, double y, double z, String sound, float soundVolume, float pitch) {
 	}
-	
+
 	protected void watchForKey(String name, int key) {
 	}
-	
+
 	protected void onIconLoading(PC_Block block, Object iconRegister) {
-		
+
 	}
-	
+
 	protected IIcon registerIcon(String texture) {
 		return null;
 	}
-	
+
 	@Override
 	public boolean handleIncomingPacket(EntityPlayer player, Object[] o) {
 		switch ((Integer) o[0]) {
-			case KEYEVENT:
-				PC_KeyRegistry.onKeyEvent(player, (Boolean) o[1], (String) o[2]);
-				break;
+		case KEYEVENT:
+			PC_KeyRegistry.onKeyEvent(player, (Boolean) o[1], (String) o[2]);
+			break;
 		}
 		return false;
 	}
@@ -118,5 +117,5 @@ public class PC_RegistryServer implements PC_IPacketHandler {
 	public String getUsedLang() {
 		return null;
 	}
-	
+
 }

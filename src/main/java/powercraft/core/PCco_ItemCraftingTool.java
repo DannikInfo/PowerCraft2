@@ -12,22 +12,22 @@ import powercraft.api.registry.PC_GresRegistry;
 import powercraft.api.registry.PC_LangRegistry.LangEntry;
 import powercraft.api.registry.PC_RegistryClient;
 
-public class PCco_ItemCraftingTool extends PC_Item{
-    public PCco_ItemCraftingTool(int ids){
-    	super("craftingtool");
-        setMaxDamage(0);
-        setMaxStackSize(1);
-        setCreativeTab(CreativeTabs.tabTools);
-    }
+public class PCco_ItemCraftingTool extends PC_Item {
+	public PCco_ItemCraftingTool(int ids) {
+		super("craftingtool");
+		setMaxDamage(0);
+		setMaxStackSize(1);
+		setCreativeTab(CreativeTabs.tabTools);
+	}
 
-    @Override
-    public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer entityplayer){
-        if (!world.isRemote){
-            PC_GresRegistry.openGres("CraftingTool", entityplayer, null);
-        }
+	@Override
+	public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer entityplayer) {
+		if (!world.isRemote) {
+			PC_GresRegistry.openGres("CraftingTool", entityplayer, null);
+		}
 
-        return itemstack;
-    }
+		return itemstack;
+	}
 
 	@Override
 	public List<LangEntry> getNames(ArrayList<LangEntry> names) {

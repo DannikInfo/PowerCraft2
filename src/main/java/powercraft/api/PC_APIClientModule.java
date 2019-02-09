@@ -29,18 +29,18 @@ import powercraft.launcher.loader.PC_ModuleObject;
 
 @PC_ClientModule
 public class PC_APIClientModule extends PC_APIModule {
-	
+
 	private PC_ClientRenderer cr1, cr2;
-	
+
 	@Override
 	protected void initVars() {
 		PC_ClientUtils.create();
-		//packetHandler = new PC_ClientPacketHandler();
+		// packetHandler = new PC_ClientPacketHandler();
 	}
-	
+
 	@Override
 	protected void clientPreInit(List<PC_ModuleObject> modules) {
-		//PC_ClientHooks.registerClientHooks();
+		// PC_ClientHooks.registerClientHooks();
 		PC_Hooks.registerHooks();
 		PC_Logger.enterSection("Module Language Init");
 		new PC_ThreadLangUpdates();
@@ -56,7 +56,8 @@ public class PC_APIClientModule extends PC_APIModule {
 			List<String> l = module.loadTextureFiles(new ArrayList<String>());
 			if (l != null) {
 				for (String file : l) {
-					PC_TextureRegistry.registerTexture(PC_TextureRegistry.getPowerCraftImageDir()+PC_TextureRegistry.getTextureName(module, file));
+					PC_TextureRegistry.registerTexture(PC_TextureRegistry.getPowerCraftImageDir()
+							+ PC_TextureRegistry.getTextureName(module, file));
 				}
 			}
 		}
@@ -67,12 +68,12 @@ public class PC_APIClientModule extends PC_APIModule {
 		PC_TextureRegistry.registerTexture(PC_TextureRegistry.getGresImgDir() + "widgets.png");
 		PC_Logger.exitSection();
 	}
-	
+
 	@Override
 	protected ModuleFieldInit getModuleFieldInit(PC_ModuleObject module) {
 		return new ClientModuleFieldInit(module);
 	}
-	
+
 	@Override
 	protected void clientInit(List<PC_ModuleObject> modules) {
 		PC_ClientUtils.registerEnitiyFX(PC_EntityLaserParticleFX.class);
@@ -81,16 +82,17 @@ public class PC_APIClientModule extends PC_APIModule {
 		PC_ClientUtils.registerEnitiyFX("EntitySmokeFX", EntitySmokeFX.class);
 		RenderingRegistry.registerBlockHandler(new PC_ClientRenderer(true));
 		RenderingRegistry.registerBlockHandler(new PC_ClientRenderer(false));
-		//TickRegistry.registerTickHandler(new PC_ClientHooks(), Side.CLIENT);
-		//TickRegistry.registerTickHandler(new PC_ClientTickHandler(),
-		//		Side.CLIENT);
-		//TickRegistry.registerTickHandler(new PC_ClientTickHandler(),
-		//		Side.SERVER);
+		// TickRegistry.registerTickHandler(new PC_ClientHooks(), Side.CLIENT);
+		// TickRegistry.registerTickHandler(new PC_ClientTickHandler(),
+		// Side.CLIENT);
+		// TickRegistry.registerTickHandler(new PC_ClientTickHandler(),
+		// Side.SERVER);
 		PC_ClientUtils.registerEnitiyFX(PC_EntityLaserParticleFX.class);
 		PC_ClientUtils.registerEnitiyFX(PC_EntityLaserFX.class);
 		PC_ClientUtils.registerEnitiyFX(PC_EntityFanFX.class);
 		PC_ClientUtils.registerEnitiyFX("EntitySmokeFX", EntitySmokeFX.class);
-		//NetworkRegistry.instance().registerConnectionHandler(new PC_ConnectionHandler());
+		// NetworkRegistry.instance().registerConnectionHandler(new
+		// PC_ConnectionHandler());
 
 		PC_Logger.enterSection("Register EntityRender");
 		for (PC_ModuleObject module : modules) {
@@ -105,7 +107,8 @@ public class PC_APIClientModule extends PC_APIModule {
 		PC_Logger.exitSection();
 		PC_Logger.enterSection("Module Gui Init");
 		for (PC_ModuleObject module : modules) {
-			List<PC_Struct2<String, Class<PC_IGresClient>>> l = module.registerGuis(new ArrayList<PC_Struct2<String, Class<PC_IGresClient>>>());
+			List<PC_Struct2<String, Class<PC_IGresClient>>> l = module
+					.registerGuis(new ArrayList<PC_Struct2<String, Class<PC_IGresClient>>>());
 			if (l != null) {
 				for (PC_Struct2<String, Class<PC_IGresClient>> g : l) {
 					PC_GresRegistry.registerGresGui(g.a, g.b);
@@ -120,31 +123,31 @@ public class PC_APIClientModule extends PC_APIModule {
 				PC_GlobalVariables.splashes.addAll(l);
 			}
 		}
-		
+
 		PC_GlobalVariables.splashes.add("GRES");
-		
+
 		for (int i = 0; i < 10; i++) {
 			PC_GlobalVariables.splashes.add("Modded by MightyPork!");
 		}
-		
+
 		for (int i = 0; i < 6; i++) {
 			PC_GlobalVariables.splashes.add("Modded by XOR!");
 		}
-		
+
 		for (int i = 0; i < 5; i++) {
 			PC_GlobalVariables.splashes.add("Modded by Rapus95!");
 		}
-		
+
 		for (int i = 0; i < 4; i++) {
 			PC_GlobalVariables.splashes.add("Reviewed by RxD");
 		}
-		
+
 		PC_GlobalVariables.splashes.add("Modded by masters!");
-		
+
 		for (int i = 0; i < 3; i++) {
 			PC_GlobalVariables.splashes.add("PowerCraft " + PC_LauncherUtils.getPowerCraftVersion());
 		}
-		
+
 		PC_GlobalVariables.splashes.add("Null Pointers included!");
 		PC_GlobalVariables.splashes.add("ArrayIndexOutOfBoundsException");
 		PC_GlobalVariables.splashes.add("Null Pointer loves you!");
@@ -167,25 +170,25 @@ public class PC_APIClientModule extends PC_APIModule {
 		PC_GlobalVariables.splashes.add("Discoworld!");
 		PC_GlobalVariables.splashes.add("Also try ICE AGE mod!");
 		PC_GlobalVariables.splashes.add("Also try Backpack mod!");
-		
+
 		PC_Logger.exitSection();
 	}
-	
+
 	@Override
 	protected void clientPostInit(List<PC_ModuleObject> modules) {
 		PC_Logger.enterSection("Module Language Saving");
-		//for (PC_ModuleObject module : modules) {
-		//	PC_LangRegistry.saveLanguage(module);
-		//}
+		// for (PC_ModuleObject module : modules) {
+		// PC_LangRegistry.saveLanguage(module);
+		// }
 		PC_Logger.exitSection();
 	}
-	
+
 	private static class ClientModuleFieldInit extends ModuleFieldInit {
-		
+
 		public ClientModuleFieldInit(PC_ModuleObject module) {
 			super(module);
 		}
-		
+
 		@Override
 		protected void registerObject(Object object) {
 			super.registerObject(object);
@@ -193,7 +196,7 @@ public class PC_APIClientModule extends PC_APIModule {
 				PC_OverlayRegistry.register((PC_IOverlayRenderer) object);
 			}
 		}
-		
+
 	}
-	
+
 }

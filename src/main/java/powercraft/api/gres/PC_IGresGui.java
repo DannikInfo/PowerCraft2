@@ -4,7 +4,6 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.tileentity.TileEntity;
 import powercraft.api.utils.PC_VecI;
 
-
 public interface PC_IGresGui {
 
 	/**
@@ -41,15 +40,15 @@ public interface PC_IGresGui {
 	public void setBackground(int top, int bottom);
 
 	public PC_VecI getSize();
-	
+
 	public PC_GresBaseWithInventory getContainer();
-	
+
 	public void registerAction(PC_GresWidget widget);
-	
+
 	public TileEntity getTE();
-	
+
 	public Slot getSlotAt(int x, int y);
 
 	public PC_VecI getMousePos();
-	
+
 }

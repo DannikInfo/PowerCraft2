@@ -3,7 +3,6 @@ package powercraft.api.gres;
 import powercraft.api.utils.PC_RectI;
 import powercraft.api.utils.PC_VecI;
 
-
 /**
  * Resizable GUI vertical separation line
  * 
@@ -17,7 +16,7 @@ public class PC_GresSeparatorV extends PC_GresWidget {
 	/**
 	 * vertical separator
 	 * 
-	 * @param width width
+	 * @param width  width
 	 * @param height min height
 	 */
 	public PC_GresSeparatorV(int width, int height) {
@@ -45,7 +44,6 @@ public class PC_GresSeparatorV extends PC_GresWidget {
 		return this;
 	}
 
-
 	@Override
 	public PC_VecI calcSize() {
 		return minSize.copy();
@@ -53,7 +51,8 @@ public class PC_GresSeparatorV extends PC_GresWidget {
 
 	@Override
 	protected PC_RectI render(PC_VecI off, PC_RectI scissorOld, double scale) {
-		drawRect(off.x + size.x / 2 + pos.x, off.y + pos.y, off.x + size.x / 2 + pos.x + 1, off.y + size.y + pos.y + 1, lineColor | 0xff000000);
+		drawRect(off.x + size.x / 2 + pos.x, off.y + pos.y, off.x + size.x / 2 + pos.x + 1, off.y + size.y + pos.y + 1,
+				lineColor | 0xff000000);
 		return null;
 	}
 
@@ -88,8 +87,10 @@ public class PC_GresSeparatorV extends PC_GresWidget {
 	}
 
 	@Override
-	public void mouseWheel(int i) {}
+	public void mouseWheel(int i) {
+	}
 
 	@Override
-	public void addedToWidget() {}
+	public void addedToWidget() {
+	}
 }

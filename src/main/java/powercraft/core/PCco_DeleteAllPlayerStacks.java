@@ -9,92 +9,73 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import powercraft.api.inventory.PC_InventoryUtils;
-import powercraft.api.network.PC_IPacketHandler;
 import powercraft.api.registry.PC_ItemRegistry;
 
-public class PCco_DeleteAllPlayerStacks implements PC_IPacketHandler
-{
-    @Override
-    public boolean handleIncomingPacket(EntityPlayer player, Object[] o)
-    {
-    	
-    	final Item craftingTool = PC_ItemRegistry.getPCItemByName("PCco_ItemCraftingTool");
-    	
-        if ("Delete".equals(o[0]))
-        {
-            IInventory inv = player.inventory;
+public class PCco_DeleteAllPlayerStacks {
+	public boolean handleIncomingPacket(EntityPlayer player, Object[] o) {
 
-            for (int i = 0; i < inv.getSizeInventory() - 4; i++)
-            {
-                ItemStack stack = inv.getStackInSlot(i);
+		final Item craftingTool = PC_ItemRegistry.getPCItemByName("PCco_ItemCraftingTool");
 
-                if (stack != null)
-                {
-                    if (stack.getItem() != craftingTool)
-                    {
-                        inv.decrStackSize(i, inv.getStackInSlot(i).stackSize);
-                    }
-                }
-            }
-        }
-        else
-        {
-            InventoryPlayer inv = player.inventory;
-            List<ItemStack> stacks = new ArrayList<ItemStack>();
+		if ("Delete".equals(o[0])) {
+			IInventory inv = player.inventory;
 
-            for (int i = 0; i < inv.getSizeInventory() - 4; i++)
-            {
-                ItemStack stack = inv.getStackInSlot(i);
+			for (int i = 0; i < inv.getSizeInventory() - 4; i++) {
+				ItemStack stack = inv.getStackInSlot(i);
 
-                if (stack != null)
-                {
-                    inv.setInventorySlotContents(i, null);
-                    stacks.add(stack);
-                }
-            }
+				if (stack != null) {
+					if (stack.getItem() != craftingTool) {
+						inv.decrStackSize(i, inv.getStackInSlot(i).stackSize);
+					}
+				}
+			}
+		} else {
+			InventoryPlayer inv = player.inventory;
+			List<ItemStack> stacks = new ArrayList<ItemStack>();
 
-            if (stacks.size() == 0)
-            {
-                return false;
-            }
+			for (int i = 0; i < inv.getSizeInventory() - 4; i++) {
+				ItemStack stack = inv.getStackInSlot(i);
 
-            PC_InventoryUtils.groupStacks(stacks);
-            List<ItemStack> sorted = new ArrayList<ItemStack>();
+				if (stack != null) {
+					inv.setInventorySlotContents(i, null);
+					stacks.add(stack);
+				}
+			}
 
-            while (stacks.size() > 0)
-            {
-                ItemStack lowest = null;
-                int indexLowest = -1;
+			if (stacks.size() == 0) {
+				return false;
+			}
 
-                for (int i = 0; i < stacks.size(); i++)
-                {
-                    ItemStack checked = stacks.get(i);
+			PC_InventoryUtils.groupStacks(stacks);
+			List<ItemStack> sorted = new ArrayList<ItemStack>();
 
-                    if (checked == null)
-                    {
-                        indexLowest = i;
-                        break;
-                    }
+			while (stacks.size() > 0) {
+				ItemStack lowest = null;
+				int indexLowest = -1;
 
-                    if (lowest == null|| checked.getItem() == craftingTool && lowest.getItem() != craftingTool)
-{
-                        lowest = checked;
-                        indexLowest = i;
-                    }
-                }
+				for (int i = 0; i < stacks.size(); i++) {
+					ItemStack checked = stacks.get(i);
 
-                if (lowest != null)
-                {
-                    sorted.add(stacks.remove(indexLowest));
-                }
-            }
+					if (checked == null) {
+						indexLowest = i;
+						break;
+					}
 
-            for (ItemStack stack : sorted)
-            {
-                inv.addItemStackToInventory(stack);
-            }
-        }
+					if (lowest == null || checked.getItem() == craftingTool && lowest.getItem() != craftingTool) {
+						lowest = checked;
+						indexLowest = i;
+					}
+				}
 
-        return false;
-    }
+				if (lowest != null) {
+					sorted.add(stacks.remove(indexLowest));
+				}
+			}
+
+			for (ItemStack stack : sorted) {
+				inv.addItemStackToInventory(stack);
+			}
+		}
+
+		return false;
+	}
 }

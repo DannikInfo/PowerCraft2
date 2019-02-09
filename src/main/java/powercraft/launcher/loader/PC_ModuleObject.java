@@ -21,70 +21,70 @@ import powercraft.launcher.PC_Version;
 public class PC_ModuleObject {
 
 	private String moduleName;
-	
+
 	private List<PC_ModuleVersion> moduleVersions = new ArrayList<PC_ModuleVersion>();
-	
+
 	private PC_Version usingVersion;
 	private Class<?> moduleClass;
 	private Object module;
-	private boolean isLoaded=false;
+	private boolean isLoaded = false;
 	private List<PC_ModuleObject> after = new ArrayList<PC_ModuleObject>();
 	private PC_Property config;
 	private boolean errored = false;
-	
-	public PC_ModuleObject(String moduleName){
+
+	public PC_ModuleObject(String moduleName) {
 		this.moduleName = moduleName;
 		String version = getConfig().getString("loader.usingVersion");
-		if(!version.equals("")){
+		if (!version.equals("")) {
 			usingVersion = new PC_Version(version);
 		}
 	}
-	
+
 	public String getModuleName() {
 		return moduleName;
 	}
-	
-	public void addModule(PC_ModuleVersion module){
+
+	public void addModule(PC_ModuleVersion module) {
 		module.setModule(this);
 		moduleVersions.add(module);
 	}
-	
+
 	public void removeModule(PC_ModuleVersion module) {
 		moduleVersions.remove(module);
 	}
-	
-	public void addModuleLoadBevore(PC_ModuleObject bevore){
+
+	public void addModuleLoadBevore(PC_ModuleObject bevore) {
 		after.add(bevore);
 	}
-	
+
 	public List<PC_ModuleVersion> getVersions() {
 		return new ArrayList<PC_ModuleVersion>(moduleVersions);
 	}
-	
-	public PC_ModuleVersion getVersion(PC_Version version){
-		for(PC_ModuleVersion moduleVersion:moduleVersions){
-			if(moduleVersion.getVersion().compareTo(version)==0){
+
+	public PC_ModuleVersion getVersion(PC_Version version) {
+		for (PC_ModuleVersion moduleVersion : moduleVersions) {
+			if (moduleVersion.getVersion().compareTo(version) == 0) {
 				return moduleVersion;
 			}
 		}
 		return null;
 	}
-	
-	public PC_ModuleVersion getNewest(){
+
+	public PC_ModuleVersion getNewest() {
 		PC_ModuleVersion newest = moduleVersions.get(0);
-		for(PC_ModuleVersion module:moduleVersions){
-			if(module.getVersion().compareTo(newest.getVersion())>0){
+		for (PC_ModuleVersion module : moduleVersions) {
+			if (module.getVersion().compareTo(newest.getVersion()) > 0) {
 				newest = module;
 			}
 		}
 		return newest;
 	}
-	
-	public PC_ModuleVersion getStandartVersion(){
+
+	public PC_ModuleVersion getStandartVersion() {
 		PC_ModuleVersion version;
-		if(usingVersion!=null){
+		if (usingVersion != null) {
 			version = getVersion(usingVersion);
-			if(version!=null){
+			if (version != null) {
 				return version;
 			}
 		}
@@ -94,18 +94,18 @@ public class PC_ModuleObject {
 		saveConfig();
 		return version;
 	}
-	
-	public void load(){
-		if(!isLoaded){
+
+	public void load() {
+		if (!isLoaded) {
 			isLoaded = true;
-			for(PC_ModuleObject module:after){
+			for (PC_ModuleObject module : after) {
 				module.load();
 			}
 			try {
 				PC_ModuleVersion moduleVersion = getStandartVersion();
 				PC_ModuleClassInfo classInfo = moduleVersion.getCommon();
-				if(PC_LauncherUtils.isClient()){
-					if(moduleVersion.getClient()!=null)
+				if (PC_LauncherUtils.isClient()) {
+					if (moduleVersion.getClient() != null)
 						classInfo = moduleVersion.getClient();
 				}
 				moduleClass = PC_ModuleLoader.load(classInfo.className.replace('/', '.'), classInfo.file);
@@ -119,182 +119,182 @@ public class PC_ModuleObject {
 	public Class<?> getModuleClass() {
 		return moduleClass;
 	}
-	
-	public Object getModule(){
+
+	public Object getModule() {
 		return module;
 	}
-	
+
 	public Object callMethod(String name, Class<?>[] classes, Object[] objects) {
-		if(errored)
+		if (errored)
 			return null;
 		Class<?> c = moduleClass;
-		
-		while(c!=null){
-			
+
+		while (c != null) {
+
 			Method m = null;
 			try {
 				m = c.getMethod(name, classes);
 				m.setAccessible(true);
 			} catch (Exception e) {
 				e.printStackTrace();
-			} 
-			if(m!=null){
+			}
+			if (m != null) {
 				try {
 					return m.invoke(module, objects);
 				} catch (Exception e) {
 					e.printStackTrace();
-				} 
+				}
 				return null;
 			}
-			
-			c=c.getSuperclass();
+
+			c = c.getSuperclass();
 		}
-		
+
 		return null;
-		
+
 	}
 
 	public Object callMethod(Class<? extends Annotation> annontation, Object[] objects) {
-		if(errored)
+		if (errored)
 			return null;
 		Class<?> c = moduleClass;
-		
-		while(c!=null){
-			
+
+		while (c != null) {
+
 			Method ma[] = c.getDeclaredMethods();
-			for(Method m:ma){
-				if(m.isAnnotationPresent(annontation)){
+			for (Method m : ma) {
+				if (m.isAnnotationPresent(annontation)) {
 					try {
 						m.setAccessible(true);
 						return m.invoke(module, objects);
 					} catch (Exception e) {
 						e.printStackTrace();
-					} 
+					}
 					return null;
 				}
 			}
-			
-			c=c.getSuperclass();
+
+			c = c.getSuperclass();
 		}
 		return null;
 	}
-	
-	public void loadConfig(){
-		File f = new File(PC_LauncherUtils.getMCDirectory(), "config/PowerCraft-"+moduleName+".cfg");
-		if(f.exists()){
+
+	public void loadConfig() {
+		File f = new File(PC_LauncherUtils.getMCDirectory(), "config/PowerCraft-" + moduleName + ".cfg");
+		if (f.exists()) {
 			try {
 				InputStream is = new FileInputStream(f);
 				config = PC_Property.loadFromFile(is);
 			} catch (FileNotFoundException e) {
-				PC_Logger.severe("Can't find File "+f);
+				PC_Logger.severe("Can't find File " + f);
 			}
 		}
-		if(config==null){
+		if (config == null) {
 			config = new PC_Property(null);
 		}
 	}
-	
-	public PC_Property getConfig(){
-		if(config==null)
+
+	public PC_Property getConfig() {
+		if (config == null)
 			loadConfig();
 		return config;
 	}
-	
-	public void setConfig(PC_Property config){
+
+	public void setConfig(PC_Property config) {
 		this.config = config;
 	}
 
 	public void saveConfig() {
 		File f = PC_LauncherUtils.createFile(PC_LauncherUtils.getMCDirectory(), "config");
-		f = new File(f, "PowerCraft-"+moduleName+".cfg");
+		f = new File(f, "PowerCraft-" + moduleName + ".cfg");
 		try {
 			OutputStream os = new FileOutputStream(f);
 			config.save(os);
 		} catch (FileNotFoundException e) {
-			PC_Logger.severe("Can't find File "+f);
-		} 
+			PC_Logger.severe("Can't find File " + f);
+		}
 	}
-	
+
 	public void preInit() {
-		try{
-			callMethod(PC_Module.PC_PreInit.class, new Object[]{});
-		}catch(Throwable e){
+		try {
+			callMethod(PC_Module.PC_PreInit.class, new Object[] {});
+		} catch (Throwable e) {
 			errored();
 			PC_Logger.throwing("PC_ModuleObject", "preInit", e);
 		}
 	}
-	
-	public void init(){
-		try{
-			callMethod(PC_Module.PC_Init.class, new Object[]{});
-		}catch(Throwable e){
+
+	public void init() {
+		try {
+			callMethod(PC_Module.PC_Init.class, new Object[] {});
+		} catch (Throwable e) {
 			errored();
 			PC_Logger.throwing("PC_ModuleObject", "init", e);
 		}
 	}
-	
-	public void postInit(){
-		try{
-			callMethod(PC_Module.PC_PostInit.class, new Object[]{});
-		}catch(Throwable e){
+
+	public void postInit() {
+		try {
+			callMethod(PC_Module.PC_PostInit.class, new Object[] {});
+		} catch (Throwable e) {
 			errored();
 			PC_Logger.throwing("PC_ModuleObject", "postInit", e);
 		}
 	}
-	
-	public void initProperties(PC_Property config){
-		try{
-			callMethod(PC_Module.PC_InitProperties.class, new Object[]{config});
-		}catch(Throwable e){
+
+	public void initProperties(PC_Property config) {
+		try {
+			callMethod(PC_Module.PC_InitProperties.class, new Object[] { config });
+		} catch (Throwable e) {
 			errored();
 			PC_Logger.throwing("PC_ModuleObject", "initProperties", e);
 		}
 	}
-	
-	public List initEntities(List entities){
-		try{
-			return (List)callMethod(PC_Module.PC_InitEntities.class, new Object[]{entities});
-		}catch(Throwable e){
+
+	public List initEntities(List entities) {
+		try {
+			return (List) callMethod(PC_Module.PC_InitEntities.class, new Object[] { entities });
+		} catch (Throwable e) {
 			errored();
 			PC_Logger.throwing("PC_ModuleObject", "initEntities", e);
 		}
 		return new ArrayList();
 	}
-	
-	public List initRecipes(List recipes){
-		try{
-			return (List)callMethod(PC_Module.PC_InitRecipes.class, new Object[]{recipes});
-		}catch(Throwable e){
+
+	public List initRecipes(List recipes) {
+		try {
+			return (List) callMethod(PC_Module.PC_InitRecipes.class, new Object[] { recipes });
+		} catch (Throwable e) {
 			errored();
 			PC_Logger.throwing("PC_ModuleObject", "initRecipes", e);
 		}
 		return new ArrayList();
 	}
-	
-	public List initDataHandlers(List dataHandlers){
-		try{
-			return (List)callMethod(PC_Module.PC_InitDataHandlers.class, new Object[]{dataHandlers});
-		}catch(Throwable e){
+
+	public List initDataHandlers(List dataHandlers) {
+		try {
+			return (List) callMethod(PC_Module.PC_InitDataHandlers.class, new Object[] { dataHandlers });
+		} catch (Throwable e) {
 			errored();
 			PC_Logger.throwing("PC_ModuleObject", "initDataHandlers", e);
 		}
 		return new ArrayList();
 	}
-	
-	public List initPacketHandlers(List packetHandlers){
-		try{
-			return (List)callMethod(PC_Module.PC_InitPacketHandlers.class, new Object[]{packetHandlers});
-		}catch(Throwable e){
+
+	public List initPacketHandlers(List packetHandlers) {
+		try {
+			return (List) callMethod(PC_Module.PC_InitPacketHandlers.class, new Object[] { packetHandlers });
+		} catch (Throwable e) {
 			errored();
 			PC_Logger.throwing("PC_ModuleObject", "initPacketHandlers", e);
 		}
 		return new ArrayList();
 	}
-	
-	public List registerContainers(List containers){
-		try{
-			return (List)callMethod(PC_Module.PC_RegisterContainers.class, new Object[]{containers});
-		}catch(Throwable e){
+
+	public List registerContainers(List containers) {
+		try {
+			return (List) callMethod(PC_Module.PC_RegisterContainers.class, new Object[] { containers });
+		} catch (Throwable e) {
 			errored();
 			PC_Logger.throwing("PC_ModuleObject", "registerContainers", e);
 		}
@@ -302,9 +302,9 @@ public class PC_ModuleObject {
 	}
 
 	public List initLanguage(List arrayList) {
-		try{
-			return (List)callMethod(PC_ClientModule.PC_InitLanguage.class, new Object[]{arrayList});
-		}catch(Throwable e){
+		try {
+			return (List) callMethod(PC_ClientModule.PC_InitLanguage.class, new Object[] { arrayList });
+		} catch (Throwable e) {
 			errored();
 			PC_Logger.throwing("PC_ModuleObject", "initLanguage", e);
 		}
@@ -312,9 +312,9 @@ public class PC_ModuleObject {
 	}
 
 	public List loadTextureFiles(List arrayList) {
-		try{
-			return (List)callMethod(PC_ClientModule.PC_LoadTextureFiles.class, new Object[]{arrayList});
-		}catch(Throwable e){
+		try {
+			return (List) callMethod(PC_ClientModule.PC_LoadTextureFiles.class, new Object[] { arrayList });
+		} catch (Throwable e) {
 			errored();
 			PC_Logger.throwing("PC_ModuleObject", "loadTextureFiles", e);
 		}
@@ -322,51 +322,51 @@ public class PC_ModuleObject {
 	}
 
 	public List addSplashes(List arrayList) {
-		try{
-			return (List)callMethod(PC_ClientModule.PC_AddSplashes.class, new Object[]{arrayList});
-		}catch(Throwable e){
+		try {
+			return (List) callMethod(PC_ClientModule.PC_AddSplashes.class, new Object[] { arrayList });
+		} catch (Throwable e) {
 			errored();
 			PC_Logger.throwing("PC_ModuleObject", "addSplashes", e);
 		}
 		return new ArrayList();
 	}
-	
+
 	public List registerEntityRender(List arrayList) {
-		try{
-			return (List)callMethod(PC_ClientModule.PC_RegisterEntityRender.class, new Object[]{arrayList});
-		}catch(Throwable e){
+		try {
+			return (List) callMethod(PC_ClientModule.PC_RegisterEntityRender.class, new Object[] { arrayList });
+		} catch (Throwable e) {
 			errored();
 			PC_Logger.throwing("PC_ModuleObject", "registerEntityRender", e);
 		}
 		return new ArrayList();
 	}
 
-	public List registerGuis(List guis){
-		try{
-			return (List)callMethod(PC_ClientModule.PC_RegisterGuis.class, new Object[]{guis});
-		}catch(Throwable e){
+	public List registerGuis(List guis) {
+		try {
+			return (List) callMethod(PC_ClientModule.PC_RegisterGuis.class, new Object[] { guis });
+		} catch (Throwable e) {
 			errored();
 			PC_Logger.throwing("PC_ModuleObject", "registerGuis", e);
 		}
 		return new ArrayList();
 	}
-	
+
 	public void resolveInstances(HashMap<String, PC_ModuleObject> modules) {
-		if(errored)
+		if (errored)
 			return;
 		Class<?> c = moduleClass;
-		while(c!=null){
+		while (c != null) {
 			Field fa[] = c.getDeclaredFields();
 			for (Field f : fa) {
 				if (f.isAnnotationPresent(PC_Module.PC_Instance.class)) {
 					String modulename = f.getAnnotation(PC_Module.PC_Instance.class).module();
 					PC_ModuleObject module;
-					if(modulename.equals("")){
+					if (modulename.equals("")) {
 						module = this;
-					}else{
-						module= modules.get(modulename);
+					} else {
+						module = modules.get(modulename);
 					}
-					if(module!=null){
+					if (module != null) {
 						f.setAccessible(true);
 						try {
 							f.set(this.module, module);
@@ -376,7 +376,7 @@ public class PC_ModuleObject {
 					}
 				}
 			}
-	
+
 			c = c.getSuperclass();
 		}
 	}
@@ -384,5 +384,5 @@ public class PC_ModuleObject {
 	public void errored() {
 		errored = true;
 	}
-	
+
 }

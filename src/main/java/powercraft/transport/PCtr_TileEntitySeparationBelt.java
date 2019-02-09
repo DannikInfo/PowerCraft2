@@ -2,164 +2,145 @@ package powercraft.transport;
 
 import java.util.Random;
 
-import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.init.Blocks;
-import net.minecraft.inventory.InventoryBasic;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import powercraft.api.entity.PC_EntityItem;
 import powercraft.api.utils.PC_Direction;
 import powercraft.api.utils.PC_VecI;
 
-public class PCtr_TileEntitySeparationBelt extends PCtr_TileEntitySeparationBeltBase
-{
-	public PCtr_TileEntitySeparationBelt()
-    {
-        //separatorContents = new ItemStack[18];
-        sepInv = new InventoryBasic("sepbelt", false, 18);
-    }
+public class PCtr_TileEntitySeparationBelt extends PCtr_TileEntitySeparationBeltBase {
+	public PCtr_TileEntitySeparationBelt() {
+		separatorContents = new ItemStack[18];
+	}
 
-    public PC_Direction calculateItemDirection(Entity entity)
-    {
-    	 boolean notItem = !(entity instanceof EntityItem);
+	public PC_Direction calculateItemDirection(Entity entity) {
+		boolean notItem = !(entity instanceof EntityItem);
 
-         ItemStack itemstack = PCtr_BeltHelper.getItemStackForEntity(entity);
-         
-         if (itemstack == null){
-             return PC_Direction.FRONT;
-         }
+		ItemStack itemstack = PCtr_BeltHelper.getItemStackForEntity(entity);
 
-         int countLeft = 0;
-         int countRight = 0;
+		if (itemstack == null) {
+			return PC_Direction.FRONT;
+		}
 
-         for (int i = 0; i < sepInv.getSizeInventory(); i++)
-         {
-             ItemStack stack = sepInv.getStackInSlot(i);
+		int countLeft = 0;
+		int countRight = 0;
 
-             if (stack != null){
-                 int tmpi = i % 6;
+		for (int i = 0; i < separatorContents.length; i++) {
+			ItemStack stack = separatorContents[i];
 
-                 if (tmpi >= 3){
-                     countLeft += stack.stackSize;
-                 }
+			if (stack != null) {
+				int tmpi = i % 6;
 
-                 if (tmpi <= 2){
-                     countRight += stack.stackSize;
-                 }
-            	}
-                
-         }
-         
-         
+				if (tmpi >= 3) {
+					countLeft += stack.stackSize;
+				}
 
-         if (countLeft == 0 && countRight == 0)
-         {
-             return PC_Direction.FRONT;
-         }
+				if (tmpi <= 2) {
+					countRight += stack.stackSize;
+				}
+			}
 
-         if (countLeft == 0 && countRight > 0)
-         {
-             return PC_Direction.LEFT;
-         }
+		}
 
-         if (countLeft > 0 && countRight == 0)
-         {
-             return PC_Direction.RIGHT;
-         }
-         
-         if (countLeft > 0 && countRight > 0)
-         {
-             if (notItem){
-                 return PC_Direction.FRONT;
-             }
+		if (countLeft == 0 && countRight == 0) {
+			return PC_Direction.FRONT;
+		}
 
-             PC_Direction[] translate = { PC_Direction.LEFT, PC_Direction.FRONT, PC_Direction.RIGHT };
-             int meta = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
-             int leftX = xCoord, leftZ = zCoord;
-             int rightX = xCoord, rightZ = zCoord;
+		if (countLeft == 0 && countRight > 0) {
+			return PC_Direction.LEFT;
+		}
 
-             switch (PCtr_BeltHelper.getRotation(meta))
-             {
-                 case 0:
-                     leftX++;
-                     rightX--;
-                     break;
+		if (countLeft > 0 && countRight == 0) {
+			return PC_Direction.RIGHT;
+		}
 
-                 case 1:
-                     leftZ++;
-                     rightZ--;
-                     break;
+		if (countLeft > 0 && countRight > 0) {
+			if (notItem) {
+				return PC_Direction.FRONT;
+			}
 
-                 case 2:
-                     leftX--;
-                     rightX++;
-                     break;
+			PC_Direction[] translate = { PC_Direction.LEFT, PC_Direction.FRONT, PC_Direction.RIGHT };
+			int meta = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
+			int leftX = xCoord, leftZ = zCoord;
+			int rightX = xCoord, rightZ = zCoord;
 
-                 case 3:
-                     leftZ--;
-                     rightZ++;
-                     break;
-             }
+			switch (PCtr_BeltHelper.getRotation(meta)) {
+			case 0:
+				leftX++;
+				rightX--;
+				break;
 
-             translate[2] = (PCtr_BeltHelper.isTransporterAt(worldObj, new PC_VecI(leftX, yCoord, leftZ)) ? PC_Direction.LEFT : PC_Direction.FRONT);
-             translate[0] = (PCtr_BeltHelper.isTransporterAt(worldObj, new PC_VecI(rightX, yCoord, rightZ)) ? PC_Direction.RIGHT : PC_Direction.FRONT);
+			case 1:
+				leftZ++;
+				rightZ--;
+				break;
 
-             if (translate[0] == translate[2])
-             {
-                 translate[0] = PC_Direction.LEFT;
-                 translate[2] = PC_Direction.RIGHT;
-             }
+			case 2:
+				leftX--;
+				rightX++;
+				break;
 
-             if (itemstack.stackSize == 1)
-             {
-             	if(worldObj.isRemote){
-                     return PC_Direction.FRONT;
-                 }
-             	Random rand = new Random();
-                 int newredir = (1 + rand.nextInt((countLeft + countRight))) <= countLeft ? 1 : -1;
-                 return translate[1 - newredir];
-             }
+			case 3:
+				leftZ--;
+				rightZ++;
+				break;
+			}
 
-             float fractionLeft = (float) countLeft / (float)(countLeft + countRight);
-             int partLeft = Math.round(itemstack.stackSize * fractionLeft);
-             int partRight = itemstack.stackSize - partLeft;
+			translate[2] = (PCtr_BeltHelper.isTransporterAt(worldObj, new PC_VecI(leftX, yCoord, leftZ))
+					? PC_Direction.LEFT
+					: PC_Direction.FRONT);
+			translate[0] = (PCtr_BeltHelper.isTransporterAt(worldObj, new PC_VecI(rightX, yCoord, rightZ))
+					? PC_Direction.RIGHT
+					: PC_Direction.FRONT);
 
-             if (partLeft > 0)
-             {
-                 itemstack.stackSize = partLeft;
-             }
-             else
-             {
-                 return translate[2];
-             }
-             
-             if (partRight > 0)
-             {
-             	if(!worldObj.isRemote){
- 	                ItemStack rightStack = itemstack.copy();
- 	                rightStack.stackSize = partRight;
- 	                EntityItem entityitem2 = new EntityItem(worldObj, entity.posX, entity.posY, entity.posZ, rightStack);
- 	                entityitem2.motionX = entity.motionX;
- 	                entityitem2.motionY = entity.motionY;
- 	                entityitem2.motionZ = entity.motionZ;
- 	                worldObj.spawnEntityInWorld(entityitem2);
- 	                //setItemDirection(entityitem2, translate[2]);
- 	                EntityItem entityNew = new EntityItem(worldObj, entity.posX, entity.posY, entity.posZ, itemstack);
- 	                entityNew.motionX = entity.motionX;
- 	                entityNew.motionY = entity.motionY;
- 	                entityNew.motionZ = entity.motionZ;
- 	                worldObj.spawnEntityInWorld(entityNew);
- 	                entity.setDead();
- 	                entity = entityNew;
- 	            }
-             }
-             
-             return translate[0];
-         }
+			if (translate[0] == translate[2]) {
+				translate[0] = PC_Direction.LEFT;
+				translate[2] = PC_Direction.RIGHT;
+			}
 
-         return PC_Direction.FRONT;
-    }
+			if (itemstack.stackSize == 1) {
+				if (worldObj.isRemote) {
+					return PC_Direction.FRONT;
+				}
+				Random rand = new Random();
+				int newredir = (1 + rand.nextInt((countLeft + countRight))) <= countLeft ? 1 : -1;
+				return translate[1 - newredir];
+			}
 
+			float fractionLeft = (float) countLeft / (float) (countLeft + countRight);
+			int partLeft = Math.round(itemstack.stackSize * fractionLeft);
+			int partRight = itemstack.stackSize - partLeft;
+
+			if (partLeft > 0) {
+				itemstack.stackSize = partLeft;
+			} else {
+				return translate[2];
+			}
+
+			if (partRight > 0) {
+				if (!worldObj.isRemote) {
+					ItemStack rightStack = itemstack.copy();
+					rightStack.stackSize = partRight;
+					EntityItem entityitem2 = new EntityItem(worldObj, entity.posX, entity.posY, entity.posZ,
+							rightStack);
+					entityitem2.motionX = entity.motionX;
+					entityitem2.motionY = entity.motionY;
+					entityitem2.motionZ = entity.motionZ;
+					worldObj.spawnEntityInWorld(entityitem2);
+					// setItemDirection(entityitem2, translate[2]);
+					EntityItem entityNew = new EntityItem(worldObj, entity.posX, entity.posY, entity.posZ, itemstack);
+					entityNew.motionX = entity.motionX;
+					entityNew.motionY = entity.motionY;
+					entityNew.motionZ = entity.motionZ;
+					worldObj.spawnEntityInWorld(entityNew);
+					entity.setDead();
+					entity = entityNew;
+				}
+			}
+
+			return translate[0];
+		}
+
+		return PC_Direction.FRONT;
+	}
 }

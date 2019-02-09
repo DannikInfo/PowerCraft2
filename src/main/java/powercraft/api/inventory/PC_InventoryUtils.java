@@ -21,6 +21,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import powercraft.api.registry.PC_RecipeRegistry;
+import powercraft.api.tileentity.PC_TileEntityWithInventory;
 import powercraft.api.utils.PC_Direction;
 import powercraft.api.utils.PC_Utils;
 import powercraft.api.utils.PC_VecI;
@@ -28,42 +29,36 @@ import powercraft.api.utils.PC_VecI;
 public class PC_InventoryUtils {
 
 	public static void loadInventoryFromNBT(NBTTagCompound outerTag, String invTagName, IInventory inventory) {
-		NBTTagList nbttaglist = outerTag.getTagList(invTagName, 0);
+		NBTTagList list = outerTag.getTagList("Items", 10);
 
-		for (int i = 0; i < nbttaglist.tagCount(); i++) {
-			NBTTagCompound nbttagcompound1 = (NBTTagCompound) nbttaglist.getCompoundTagAt(i);
-			NBTBase nbtTag = nbttagcompound1.getTag("Slot");
-			int j = -1;
-			if (nbtTag instanceof NBTTagByte) {
-				j = ((NBTTagByte) nbtTag).getId() & 0xff;
-			} else if (nbtTag instanceof NBTTagInt) {
-				j = ((NBTTagInt) nbtTag).getId();
-			}
+		for (int i = 0; i < list.tagCount(); ++i) {
+			NBTTagCompound tag = list.getCompoundTagAt(i);
+			int j = tag.getByte("Slot") & 255;
 
 			if (j >= 0 && j < inventory.getSizeInventory()) {
-				inventory.setInventorySlotContents(j, ItemStack.loadItemStackFromNBT(nbttagcompound1));
+				inventory.setInventorySlotContents(j, ItemStack.loadItemStackFromNBT(tag));
 			}
 		}
 	}
 
 	public static void saveInventoryToNBT(NBTTagCompound outerTag, String invTagName, IInventory inventory) {
-		NBTTagList nbttaglist = new NBTTagList();
-		for (int i = 0; i < inventory.getSizeInventory(); i++) {
+		NBTTagList list = new NBTTagList();
+
+		for (int i = 0; i < inventory.getSizeInventory(); ++i) {
 			if (inventory.getStackInSlot(i) != null) {
-				NBTTagCompound nbttagcompound1 = new NBTTagCompound();
-				nbttagcompound1.setInteger("Slot", i);
-				inventory.getStackInSlot(i).writeToNBT(nbttagcompound1);
-				nbttaglist.appendTag(nbttagcompound1);
+				NBTTagCompound tag = new NBTTagCompound();
+				tag.setByte("Slot", (byte) i);
+				inventory.getStackInSlot(i).writeToNBT(tag);
+				list.appendTag(tag);
 			}
 		}
-
-		outerTag.setTag(invTagName, nbttaglist);
+		outerTag.setTag("Items", list);
 	}
 
 	public static IInventory getBlockInventoryAt(World world, PC_VecI pos) {
 		return getBlockInventoryAt(world, pos.x, pos.y, pos.z);
 	}
-	
+
 	public static IInventory getBlockInventoryAt(IBlockAccess world, int x, int y, int z) {
 		TileEntity te = PC_Utils.getTE(world, x, y, z);
 
@@ -83,55 +78,51 @@ public class PC_InventoryUtils {
 		Block id = PC_Utils.getBID(world, x, y, z);
 
 		if (id == Blocks.chest) {
-			if (PC_Utils.getBID(world, x-1, y, z) == Blocks.chest) {
-				inv = new InventoryLargeChest("Large chest", (IInventory) PC_Utils.getTE(world, x-1, y, z), inv);
+			if (PC_Utils.getBID(world, x - 1, y, z) == Blocks.chest) {
+				inv = new InventoryLargeChest("Large chest", (IInventory) PC_Utils.getTE(world, x - 1, y, z), inv);
 			}
 
-			if (PC_Utils.getBID(world, x+1, y, z) == Blocks.chest) {
-				inv = new InventoryLargeChest("Large chest", inv, (IInventory) PC_Utils.getTE(world, x+1, y, z));
+			if (PC_Utils.getBID(world, x + 1, y, z) == Blocks.chest) {
+				inv = new InventoryLargeChest("Large chest", inv, (IInventory) PC_Utils.getTE(world, x + 1, y, z));
 			}
 
-			if (PC_Utils.getBID(world, x, y, z-1) == Blocks.chest) {
-				inv = new InventoryLargeChest("Large chest", (IInventory) PC_Utils.getTE(world, x, y, z-1), inv);
+			if (PC_Utils.getBID(world, x, y, z - 1) == Blocks.chest) {
+				inv = new InventoryLargeChest("Large chest", (IInventory) PC_Utils.getTE(world, x, y, z - 1), inv);
 			}
 
-			if (PC_Utils.getBID(world, x, y, z+1) == Blocks.chest) {
-				inv = new InventoryLargeChest("Large chest", inv, (IInventory) PC_Utils.getTE(world, x, y, z+1));
+			if (PC_Utils.getBID(world, x, y, z + 1) == Blocks.chest) {
+				inv = new InventoryLargeChest("Large chest", inv, (IInventory) PC_Utils.getTE(world, x, y, z + 1));
 			}
 		}
-		
+
 		return inv;
 	}
 
 	public static IInventory getEntityInventoryAt(World world, PC_VecI pos) {
 		return getEntityInventoryAt(world, pos.x, pos.y, pos.z);
 	}
-	
-	public static IInventory getEntityInventoryAt(World world, int x, int y, int z){
-		List<IInventory> list = world.getEntitiesWithinAABB(
-				IInventory.class,
-				AxisAlignedBB.getBoundingBox(x, y, z, x + 1, y + 1, z + 1)
-						.expand(0.6D, 0.6D, 0.6D));
+
+	public static IInventory getEntityInventoryAt(World world, int x, int y, int z) {
+		List<IInventory> list = world.getEntitiesWithinAABB(IInventory.class,
+				AxisAlignedBB.getBoundingBox(x, y, z, x + 1, y + 1, z + 1).expand(0.6D, 0.6D, 0.6D));
 
 		if (list.size() >= 1) {
 			return list.get(0);
 		}
 
-		List<PC_IInventoryWrapper> list2 = world.getEntitiesWithinAABB(
-				PC_IInventoryWrapper.class,
-				AxisAlignedBB.getBoundingBox(x, y, z, x + 1, y + 1, z + 1)
-						.expand(0.6D, 0.6D, 0.6D));
+		List<PC_IInventoryWrapper> list2 = world.getEntitiesWithinAABB(PC_IInventoryWrapper.class,
+				AxisAlignedBB.getBoundingBox(x, y, z, x + 1, y + 1, z + 1).expand(0.6D, 0.6D, 0.6D));
 
 		if (list2.size() >= 1) {
 			return list2.get(0).getInventory();
 		}
 		return null;
 	}
-	
+
 	public static IInventory getInventoryAt(World world, PC_VecI pos) {
 		return getInventoryAt(world, pos.x, pos.y, pos.z);
 	}
-	
+
 	public static IInventory getInventoryAt(World world, int x, int y, int z) {
 		IInventory invAt = getBlockInventoryAt(world, x, y, z);
 
@@ -141,88 +132,90 @@ public class PC_InventoryUtils {
 
 		return getEntityInventoryAt(world, x, y, z);
 	}
-	
-	public static int[] getInvIndexesForSide(IInventory inv, PC_Direction side){
-		if(side==null)
+
+	public static int[] getInvIndexesForSide(IInventory inv, PC_Direction side) {
+		if (side == null)
 			return null;
 		int sideID = side.getMCDir();
-		if(inv instanceof ISidedInventory && sideID>=0){
+		if (inv instanceof ISidedInventory && sideID >= 0) {
 			return ((ISidedInventory) inv).getAccessibleSlotsFromSide(sideID);
 		}
 		return null;
 	}
-	
-	public static int getSlotStackLimit(IInventory inv, int i){
-		if(inv instanceof PC_IInventory){
+
+	public static int getSlotStackLimit(IInventory inv, int i) {
+		if (inv instanceof PC_IInventory) {
 			return ((PC_IInventory) inv).getSlotStackLimit(i);
 		}
 		return inv.getInventoryStackLimit();
 	}
-	
-	public static int[] makeIndexList(int start, int end){
-		int[] indexes = new int[end-start];
-		for(int i=0; i<indexes.length; i++){
-			indexes[i] = i+start;
+
+	public static int[] makeIndexList(int start, int end) {
+		int[] indexes = new int[end - start];
+		for (int i = 0; i < indexes.length; i++) {
+			indexes[i] = i + start;
 		}
 		return indexes;
 	}
-	
-	public static int getFirstEmptySlot(IInventory inv, ItemStack itemstack){
-		return getFirstEmptySlot(inv, itemstack, (int[])null);
+
+	public static int getFirstEmptySlot(IInventory inv, ItemStack itemstack) {
+		return getFirstEmptySlot(inv, itemstack, (int[]) null);
 	}
-	
-	public static int getFirstEmptySlot(IInventory inv, ItemStack itemstack, PC_Direction side){
+
+	public static int getFirstEmptySlot(IInventory inv, ItemStack itemstack, PC_Direction side) {
 		return getFirstEmptySlot(inv, itemstack, getInvIndexesForSide(inv, side));
 	}
-	
-	public static int getFirstEmptySlot(IInventory inv, ItemStack itemstack, int[] indexes){
-		if(indexes==null){
+
+	public static int getFirstEmptySlot(IInventory inv, ItemStack itemstack, int[] indexes) {
+		if (indexes == null) {
 			int size = inv.getSizeInventory();
 			for (int i = 0; i < size; i++) {
 				if (inv.getStackInSlot(i) == null) {
-					if(inv.isItemValidForSlot(i, itemstack))
+					if (inv.isItemValidForSlot(i, itemstack))
 						return i;
 				}
 			}
-		}else{
+		} else {
 			for (int j = 0; j < indexes.length; j++) {
-				int i=indexes[j];
+				int i = indexes[j];
 				if (inv.getStackInSlot(i) == null) {
-					if(inv.isItemValidForSlot(i, itemstack))
+					if (inv.isItemValidForSlot(i, itemstack))
 						return i;
 				}
 			}
 		}
 		return -1;
 	}
-	
-	public static int getSlotWithPlaceFor(IInventory inv, ItemStack itemstack){
-		return getSlotWithPlaceFor(inv, itemstack, (int[])null);
+
+	public static int getSlotWithPlaceFor(IInventory inv, ItemStack itemstack) {
+		return getSlotWithPlaceFor(inv, itemstack, (int[]) null);
 	}
-	
-	public static int getSlotWithPlaceFor(IInventory inv, ItemStack itemstack, PC_Direction side){
+
+	public static int getSlotWithPlaceFor(IInventory inv, ItemStack itemstack, PC_Direction side) {
 		return getSlotWithPlaceFor(inv, itemstack, getInvIndexesForSide(inv, side));
 	}
-	
-	public static int getSlotWithPlaceFor(IInventory inv, ItemStack itemstack, int[] indexes){
-		if(indexes==null){
+
+	public static int getSlotWithPlaceFor(IInventory inv, ItemStack itemstack, int[] indexes) {
+		if (indexes == null) {
 			int size = inv.getSizeInventory();
 			for (int i = 0; i < size; i++) {
 				ItemStack slot = inv.getStackInSlot(i);
 				if (slot != null) {
-					if(slot.isItemEqual(itemstack) && slot.getMaxStackSize()>slot.stackSize && getSlotStackLimit(inv, i)>slot.stackSize){
-						if(inv.isItemValidForSlot(i, itemstack))
+					if (slot.isItemEqual(itemstack) && slot.getMaxStackSize() > slot.stackSize
+							&& getSlotStackLimit(inv, i) > slot.stackSize) {
+						if (inv.isItemValidForSlot(i, itemstack))
 							return i;
 					}
 				}
 			}
-		}else{
+		} else {
 			for (int j = 0; j < indexes.length; j++) {
-				int i=indexes[j];
+				int i = indexes[j];
 				ItemStack slot = inv.getStackInSlot(i);
 				if (slot != null) {
-					if(slot.isItemEqual(itemstack) && slot.getMaxStackSize()>slot.stackSize && getSlotStackLimit(inv, i)>slot.stackSize){
-						if(inv.isItemValidForSlot(i, itemstack))
+					if (slot.isItemEqual(itemstack) && slot.getMaxStackSize() > slot.stackSize
+							&& getSlotStackLimit(inv, i) > slot.stackSize) {
+						if (inv.isItemValidForSlot(i, itemstack))
 							return i;
 					}
 				}
@@ -230,47 +223,47 @@ public class PC_InventoryUtils {
 		}
 		return getFirstEmptySlot(inv, itemstack, indexes);
 	}
-	
-	public static boolean storeItemStackToInventoryFrom(IInventory inv, ItemStack itemstack){
-		return storeItemStackToInventoryFrom(inv, itemstack, (int[])null);
+
+	public static boolean storeItemStackToInventoryFrom(IInventory inv, ItemStack itemstack) {
+		return storeItemStackToInventoryFrom(inv, itemstack, (int[]) null);
 	}
-	
-	public static boolean storeItemStackToInventoryFrom(IInventory inv, ItemStack itemstack, PC_Direction side){
+
+	public static boolean storeItemStackToInventoryFrom(IInventory inv, ItemStack itemstack, PC_Direction side) {
 		return storeItemStackToInventoryFrom(inv, itemstack, getInvIndexesForSide(inv, side));
 	}
-	
-	public static boolean storeItemStackToInventoryFrom(IInventory inv, ItemStack itemstack, int[] indexes){
-		while(itemstack.stackSize>0){
+
+	public static boolean storeItemStackToInventoryFrom(IInventory inv, ItemStack itemstack, int[] indexes) {
+		while (itemstack.stackSize > 0) {
 			int slot = getSlotWithPlaceFor(inv, itemstack, indexes);
-			if(slot<0)
+			if (slot < 0)
 				break;
 			storeItemStackToSlot(inv, itemstack, slot);
 		}
-		return itemstack.stackSize==0;
+		return itemstack.stackSize == 0;
 	}
-	
-	public static boolean storeItemStackToSlot(IInventory inv, ItemStack itemstack, int i){
+
+	public static boolean storeItemStackToSlot(IInventory inv, ItemStack itemstack, int i) {
 		ItemStack slot = inv.getStackInSlot(i);
 		if (slot == null) {
 			int store = getSlotStackLimit(inv, i);
-			if(store>itemstack.getMaxStackSize()){
+			if (store > itemstack.getMaxStackSize()) {
 				store = itemstack.getMaxStackSize();
 			}
-			if(store>itemstack.stackSize){
+			if (store > itemstack.stackSize) {
 				store = itemstack.stackSize;
 			}
 			slot = itemstack.copy();
 			slot.stackSize = store;
 			itemstack.stackSize -= store;
-		}else{
-			if(slot.isItemEqual(itemstack)){
+		} else {
+			if (slot.isItemEqual(itemstack)) {
 				int store = getSlotStackLimit(inv, i);
-				if(store>slot.getMaxStackSize()){
+				if (store > slot.getMaxStackSize()) {
 					store = slot.getMaxStackSize();
 				}
 				store -= slot.stackSize;
-				if(store>0){
-					if(store>itemstack.stackSize){
+				if (store > 0) {
+					if (store > itemstack.stackSize) {
 						store = itemstack.stackSize;
 					}
 					itemstack.stackSize -= store;
@@ -279,63 +272,63 @@ public class PC_InventoryUtils {
 			}
 		}
 		inv.setInventorySlotContents(i, slot);
-		return itemstack.stackSize==0;
+		return itemstack.stackSize == 0;
 	}
-	
-	public static int getInventorySpaceFor(IInventory inv, ItemStack itemstack){
-		return getInventorySpaceFor(inv, itemstack, (int[])null);
+
+	public static int getInventorySpaceFor(IInventory inv, ItemStack itemstack) {
+		return getInventorySpaceFor(inv, itemstack, (int[]) null);
 	}
-	
-	public static int getInventorySpaceFor(IInventory inv, ItemStack itemstack, PC_Direction side){
+
+	public static int getInventorySpaceFor(IInventory inv, ItemStack itemstack, PC_Direction side) {
 		return getInventorySpaceFor(inv, itemstack, getInvIndexesForSide(inv, side));
 	}
-	
-	public static int getInventorySpaceFor(IInventory inv, ItemStack itemstack, int[] indexes){
-		int space=0;
-		if(indexes==null){
+
+	public static int getInventorySpaceFor(IInventory inv, ItemStack itemstack, int[] indexes) {
+		int space = 0;
+		if (indexes == null) {
 			int size = inv.getSizeInventory();
 			for (int i = 0; i < size; i++) {
 				ItemStack slot = inv.getStackInSlot(i);
 				int slotStackLimit = getSlotStackLimit(inv, i);
-				if(itemstack==null){
+				if (itemstack == null) {
 					if (slot == null) {
 						space += slotStackLimit;
 					}
-				}else{
-					if(slotStackLimit>itemstack.getMaxStackSize()){
+				} else {
+					if (slotStackLimit > itemstack.getMaxStackSize()) {
 						slotStackLimit = itemstack.getMaxStackSize();
 					}
 					if (slot != null) {
-						if(slot.isItemEqual(itemstack) && slotStackLimit>slot.stackSize){
-							if(inv.isItemValidForSlot(i, itemstack)){
-								space += slotStackLimit-slot.stackSize;
+						if (slot.isItemEqual(itemstack) && slotStackLimit > slot.stackSize) {
+							if (inv.isItemValidForSlot(i, itemstack)) {
+								space += slotStackLimit - slot.stackSize;
 							}
 						}
-					}else{
+					} else {
 						space += slotStackLimit;
 					}
 				}
 			}
-		}else{
+		} else {
 			for (int j = 0; j < indexes.length; j++) {
-				int i=indexes[j];
+				int i = indexes[j];
 				ItemStack slot = inv.getStackInSlot(i);
 				int slotStackLimit = getSlotStackLimit(inv, i);
-				if(itemstack==null){
+				if (itemstack == null) {
 					if (slot == null) {
 						space += slotStackLimit;
 					}
-				}else{
-					if(slotStackLimit>itemstack.getMaxStackSize()){
+				} else {
+					if (slotStackLimit > itemstack.getMaxStackSize()) {
 						slotStackLimit = itemstack.getMaxStackSize();
 					}
 					if (slot != null) {
-						if(slot.isItemEqual(itemstack) && slotStackLimit>slot.stackSize){
-							if(inv.isItemValidForSlot(i, itemstack)){
-								space += slotStackLimit-slot.stackSize;
+						if (slot.isItemEqual(itemstack) && slotStackLimit > slot.stackSize) {
+							if (inv.isItemValidForSlot(i, itemstack)) {
+								space += slotStackLimit - slot.stackSize;
 							}
 						}
-					}else{
+					} else {
 						space += slotStackLimit;
 					}
 				}
@@ -343,60 +336,60 @@ public class PC_InventoryUtils {
 		}
 		return space;
 	}
-	
-	public static int getInventoryCountOf(IInventory inv, ItemStack itemstack){
-		return getInventoryCountOf(inv, itemstack, (int[])null);
+
+	public static int getInventoryCountOf(IInventory inv, ItemStack itemstack) {
+		return getInventoryCountOf(inv, itemstack, (int[]) null);
 	}
-	
-	public static int getInventoryCountOf(IInventory inv, ItemStack itemstack, PC_Direction side){
+
+	public static int getInventoryCountOf(IInventory inv, ItemStack itemstack, PC_Direction side) {
 		return getInventoryCountOf(inv, itemstack, getInvIndexesForSide(inv, side));
 	}
-	
-	public static int getInventoryCountOf(IInventory inv, ItemStack itemstack, int[] indexes){
-		int count=0;
-		if(indexes==null){
+
+	public static int getInventoryCountOf(IInventory inv, ItemStack itemstack, int[] indexes) {
+		int count = 0;
+		if (indexes == null) {
 			int size = inv.getSizeInventory();
 			for (int i = 0; i < size; i++) {
 				ItemStack slot = inv.getStackInSlot(i);
 				if (slot != null) {
-					if(itemstack==null){
+					if (itemstack == null) {
 						count += slot.stackSize;
-					}else{
-						if(slot.isItemEqual(itemstack)){
+					} else {
+						if (slot.isItemEqual(itemstack)) {
 							count += slot.stackSize;
 						}
 					}
 				}
-			}	
-		}else{
+			}
+		} else {
 			for (int j = 0; j < indexes.length; j++) {
-				int i=indexes[j];
+				int i = indexes[j];
 				ItemStack slot = inv.getStackInSlot(i);
 				if (slot != null) {
-					if(itemstack==null){
+					if (itemstack == null) {
 						count += slot.stackSize;
-					}else{
-						if(slot.isItemEqual(itemstack)){
+					} else {
+						if (slot.isItemEqual(itemstack)) {
 							count += slot.stackSize;
 						}
 					}
 				}
-			}	
+			}
 		}
 		return count;
 	}
-	
-	public static int getInventoryFreeSlots(IInventory inv){
-		return getInventoryFreeSlots(inv, (int[])null);
+
+	public static int getInventoryFreeSlots(IInventory inv) {
+		return getInventoryFreeSlots(inv, (int[]) null);
 	}
-	
-	public static int getInventoryFreeSlots(IInventory inv, PC_Direction side){
+
+	public static int getInventoryFreeSlots(IInventory inv, PC_Direction side) {
 		return getInventoryFreeSlots(inv, getInvIndexesForSide(inv, side));
 	}
-	
-	public static int getInventoryFreeSlots(IInventory inv, int[] indexes){
-		int freeSlots=0;
-		if(indexes==null){
+
+	public static int getInventoryFreeSlots(IInventory inv, int[] indexes) {
+		int freeSlots = 0;
+		if (indexes == null) {
 			int size = inv.getSizeInventory();
 			for (int i = 0; i < size; i++) {
 				ItemStack slot = inv.getStackInSlot(i);
@@ -404,9 +397,9 @@ public class PC_InventoryUtils {
 					freeSlots++;
 				}
 			}
-		}else{
+		} else {
 			for (int j = 0; j < indexes.length; j++) {
-				int i=indexes[j];
+				int i = indexes[j];
 				ItemStack slot = inv.getStackInSlot(i);
 				if (slot == null) {
 					freeSlots++;
@@ -415,18 +408,18 @@ public class PC_InventoryUtils {
 		}
 		return freeSlots;
 	}
-	
-	public static int getInventoryFullSlots(IInventory inv){
-		return getInventoryFullSlots(inv, (int[])null);
+
+	public static int getInventoryFullSlots(IInventory inv) {
+		return getInventoryFullSlots(inv, (int[]) null);
 	}
-	
-	public static int getInventoryFullSlots(IInventory inv, PC_Direction side){
+
+	public static int getInventoryFullSlots(IInventory inv, PC_Direction side) {
 		return getInventoryFullSlots(inv, getInvIndexesForSide(inv, side));
 	}
-	
-	public static int getInventoryFullSlots(IInventory inv, int[] indexes){
-		int fullSlots=0;
-		if(indexes==null){
+
+	public static int getInventoryFullSlots(IInventory inv, int[] indexes) {
+		int fullSlots = 0;
+		if (indexes == null) {
 			int size = inv.getSizeInventory();
 			for (int i = 0; i < size; i++) {
 				ItemStack slot = inv.getStackInSlot(i);
@@ -434,9 +427,9 @@ public class PC_InventoryUtils {
 					fullSlots++;
 				}
 			}
-		}else{
+		} else {
 			for (int j = 0; j < indexes.length; j++) {
-				int i=indexes[j];
+				int i = indexes[j];
 				ItemStack slot = inv.getStackInSlot(i);
 				if (slot != null) {
 					fullSlots++;
@@ -445,43 +438,43 @@ public class PC_InventoryUtils {
 		}
 		return fullSlots;
 	}
-	
-	public static void moveStacks(IInventory from, IInventory to){
-		moveStacks(from, (int[])null, to, (int[])null);
+
+	public static void moveStacks(IInventory from, IInventory to) {
+		moveStacks(from, (int[]) null, to, (int[]) null);
 	}
-	
+
 	public static void moveStacks(IInventory from, PC_Direction fromSide, IInventory to, PC_Direction toSide) {
 		moveStacks(from, getInvIndexesForSide(from, fromSide), to, toSide);
 	}
-	
+
 	public static void moveStacks(IInventory from, int[] indexes, IInventory to, PC_Direction toSide) {
 		moveStacks(from, indexes, to, getInvIndexesForSide(to, toSide));
 	}
-	
+
 	public static void moveStacks(IInventory from, PC_Direction fromSide, IInventory to, int[] indexes) {
 		moveStacks(from, getInvIndexesForSide(from, fromSide), to, indexes);
 	}
-	
+
 	public static void moveStacks(IInventory from, int[] fromIndexes, IInventory to, int[] toIndexes) {
-		if(fromIndexes==null){
+		if (fromIndexes == null) {
 			int size = from.getSizeInventory();
 			for (int i = 0; i < size; i++) {
 				if (from.getStackInSlot(i) != null) {
-					
+
 					storeItemStackToInventoryFrom(to, from.getStackInSlot(i), toIndexes);
-	
+
 					if (from.getStackInSlot(i) != null && from.getStackInSlot(i).stackSize <= 0) {
 						from.setInventorySlotContents(i, null);
 					}
 				}
 			}
-		}else{
+		} else {
 			for (int j = 0; j < fromIndexes.length; j++) {
-				int i=fromIndexes[j];
+				int i = fromIndexes[j];
 				if (from.getStackInSlot(i) != null) {
-					
+
 					storeItemStackToInventoryFrom(to, from.getStackInSlot(i), toIndexes);
-	
+
 					if (from.getStackInSlot(i) != null && from.getStackInSlot(i).stackSize <= 0) {
 						from.setInventorySlotContents(i, null);
 					}
@@ -489,7 +482,7 @@ public class PC_InventoryUtils {
 			}
 		}
 	}
-	
+
 	public static ItemStack[] groupStacks(ItemStack[] input) {
 		List<ItemStack> list = stacksToList(input);
 		groupStacks(list);
@@ -505,9 +498,7 @@ public class PC_InventoryUtils {
 			if (st1 != null) {
 				for (ItemStack st2 : input) {
 					if (st2 != null && st2.isItemEqual(st1)) {
-						int movedToFirst = Math.min(st2.stackSize, st1
-								.getItem().getItemStackLimit()
-								- st1.stackSize);
+						int movedToFirst = Math.min(st2.stackSize, st1.getItem().getItemStackLimit() - st1.stackSize);
 
 						if (movedToFirst <= 0) {
 							break;
@@ -549,21 +540,22 @@ public class PC_InventoryUtils {
 				}
 				ItemStack itemstack = inventory.getStackInSlot(i);
 				inventory.setInventorySlotContents(i, null);
-				PC_Utils.dropItemStack(world, pos, itemstack);
+				if (!world.isRemote && itemstack != null)
+					PC_Utils.dropItemStack(world, pos, itemstack);
 			}
 		}
 	}
-	
+
 	public static int useFuel(IInventory inv, World world, PC_VecI pos) {
-		return useFuel(inv, (int[])null, world, pos);
+		return useFuel(inv, (int[]) null, world, pos);
 	}
-	
+
 	public static int useFuel(IInventory inv, PC_Direction side, World world, PC_VecI pos) {
 		return useFuel(inv, getInvIndexesForSide(inv, side), world, pos);
 	}
-	
+
 	public static int useFuel(IInventory inv, int[] indexes, World world, PC_VecI pos) {
-		if(indexes==null){
+		if (indexes == null) {
 			int size = inv.getSizeInventory();
 			for (int i = 0; i < size; i++) {
 				ItemStack is = inv.getStackInSlot(i);
@@ -580,9 +572,9 @@ public class PC_InventoryUtils {
 					return fuel;
 				}
 			}
-		}else{
+		} else {
 			for (int j = 0; j < indexes.length; j++) {
-				int i=indexes[j];
+				int i = indexes[j];
 				ItemStack is = inv.getStackInSlot(i);
 				int fuel = PC_RecipeRegistry.getFuelValue(is);
 				if (fuel > 0) {
@@ -600,5 +592,5 @@ public class PC_InventoryUtils {
 		}
 		return 0;
 	}
-	
+
 }

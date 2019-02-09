@@ -1,12 +1,10 @@
 package powercraft.api.gres;
 
-
 import java.util.List;
 
 import net.minecraft.client.gui.FontRenderer;
 import powercraft.api.utils.PC_RectI;
 import powercraft.api.utils.PC_VecI;
-
 
 /**
  * Resizable GUI multi-line text label with fixed width and dynamic height
@@ -22,7 +20,7 @@ public class PC_GresLabelMultiline extends PC_GresWidget {
 	/**
 	 * Multiline label
 	 * 
-	 * @param text text
+	 * @param text  text
 	 * @param width fixed widget width (text will wrap)
 	 */
 	public PC_GresLabelMultiline(String text, int width) {
@@ -70,28 +68,28 @@ public class PC_GresLabelMultiline extends PC_GresWidget {
 
 		String[] lines_nl = text.split("\n");
 
-		l1:
-		for (String s : lines_nl) {
+		l1: for (String s : lines_nl) {
 			s.trim();
 			if (s.length() > 0) {
 				List<String> lines = fontRenderer.listFormattedStringToWidth(s, getMinSize().x);
 
 				for (String ss : lines) {
-					if (cnt == maxRows) break l1;
+					if (cnt == maxRows)
+						break l1;
 					ss.trim();
 					if (ss.length() > 0) {
 						int wid = getStringWidth(ss);
 						int xstart = offsetPos.x + pos.x;
 
 						switch (alignH) {
-							case CENTER:
-								xstart = xstart + size.x / 2 - wid / 2;
-								break;
-							case RIGHT:
-								xstart = xstart + size.x - wid;
-							default:
-							case LEFT:
-								break;
+						case CENTER:
+							xstart = xstart + size.x / 2 - wid / 2;
+							break;
+						case RIGHT:
+							xstart = xstart + size.x - wid;
+						default:
+						case LEFT:
+							break;
 						}
 
 						drawString(ss, xstart, offsetPos.y + pos.y + (fontRenderer.FONT_HEIGHT + 1) * cnt);
@@ -138,14 +136,14 @@ public class PC_GresLabelMultiline extends PC_GresWidget {
 
 		String[] lines_nl = text.split("\n");
 
-		l1:
-		for (String s : lines_nl) {
+		l1: for (String s : lines_nl) {
 			s.trim();
 			if (s.length() > 0) {
 				List<String> lines = fontRenderer.listFormattedStringToWidth(s, minSize.x);
 
 				for (String ss : lines) {
-					if (cnt == maxRows) break l1;
+					if (cnt == maxRows)
+						break l1;
 					ss.trim();
 					if (s.length() > 0) {
 						cnt++;
@@ -160,8 +158,10 @@ public class PC_GresLabelMultiline extends PC_GresWidget {
 	}
 
 	@Override
-	public void mouseWheel(int i) {}
+	public void mouseWheel(int i) {
+	}
 
 	@Override
-	public void addedToWidget() {}
+	public void addedToWidget() {
+	}
 }

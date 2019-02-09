@@ -15,13 +15,13 @@ import powercraft.launcher.PC_Logger;
 import powercraft.launcher.PC_Property;
 
 public class PC_GlobalVariables {
-	
+
 	public static List<String> splashes = new ArrayList<String>();
 	public static boolean hackSplashes = true;
 	public static String useUserName = "";
 	public static int blockStartIndex = 3000;
 	public static int itemStartIndex = 17000;
-	public static int indexRecentlyHit = 46;
+	public static int indexRecentlyHit = 45;
 	public static int indexItemSthiftedIndex = 168;
 	public static int indexBlockID = 179;
 	public static List<TileEntity> tileEntity = new ArrayList<TileEntity>();
@@ -29,9 +29,9 @@ public class PC_GlobalVariables {
 	public static HashMap<String, Object> oldConsts = null;
 	public static boolean idResolve;
 	public static boolean soundEnabled;
-	
+
 	public static PC_Property config;
-	
+
 	public static void loadConfig() {
 		File f = new File(PC_Utils.getMCDirectory(), "config/PowerCraft.cfg");
 		if (f.exists()) {
@@ -45,17 +45,17 @@ public class PC_GlobalVariables {
 		if (config == null) {
 			config = new PC_Property(null);
 		}
-		
+
 		hackSplashes = config.getBoolean("hacks.splash", true);
 		useUserName = config.getString("hacks.userName", "");
 		idResolve = config.getBoolean("hacks.idResolve", true, "Resolve and change PowerCraft item IDs");
 		config.getBoolean("cheats.survivalCheating", false);
-		
+
 		if (PC_Utils.isClient())
 			soundEnabled = config.getBoolean("sound.enabled", true);
-		
+
 	}
-	
+
 	public static void saveConfig() {
 		File f = new File(PC_Utils.getMCDirectory(), "config/PowerCraft.cfg");
 		if (config != null) {
@@ -67,5 +67,5 @@ public class PC_GlobalVariables {
 			}
 		}
 	}
-	
+
 }

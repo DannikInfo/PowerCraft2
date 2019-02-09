@@ -6,11 +6,11 @@ public enum PC_Side {
 	SERVER(Side.SERVER), CLIENT(Side.CLIENT);
 
 	public final Side side;
-	
-	PC_Side(Side side){
+
+	PC_Side(Side side) {
 		this.side = side;
 	}
-	
+
 	public static PC_Side from(Side side) {
 		switch (side) {
 		case CLIENT:

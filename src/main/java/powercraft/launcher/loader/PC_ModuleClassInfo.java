@@ -13,5 +13,5 @@ public class PC_ModuleClassInfo {
 	public boolean isClient;
 	public File file;
 	public File startFile;
-	
+
 }

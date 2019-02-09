@@ -1,13 +1,11 @@
 package powercraft.api.gres;
 
-
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.util.ResourceLocation;
 import powercraft.api.utils.PC_RectI;
 import powercraft.api.utils.PC_VecI;
 import powercraft.launcher.mod_PowerCraft;
-
 
 /**
  * Resizable GUI image widget
@@ -22,18 +20,17 @@ public class PC_GresImage extends PC_GresWidget {
 	private PC_VecI imgSize2 = new PC_VecI(0, 0);
 	private PC_VecI imgOffset2 = new PC_VecI(0, 0);
 	private PC_VecI imgPos2 = new PC_VecI(0, 0);
-	private boolean showImage2=false;
+	private boolean showImage2 = false;
 	private String texture;
 
 	/**
 	 * Image from a texture file.
 	 * 
-	 * @param texture Name of a texture file inside minecraft.jar. Must be
-	 *            256x256!
+	 * @param texture Name of a texture file inside minecraft.jar. Must be 256x256!
 	 * @param offsetX start of texture x
 	 * @param offsetY start of texture y
-	 * @param imgW image width
-	 * @param imgH image height
+	 * @param imgW    image width
+	 * @param imgH    image height
 	 */
 	public PC_GresImage(String texture, int offsetX, int offsetY, int imgW, int imgH) {
 		super("");
@@ -54,21 +51,21 @@ public class PC_GresImage extends PC_GresWidget {
 
 	}
 
-	public void setImg2Size(PC_VecI size){
+	public void setImg2Size(PC_VecI size) {
 		showImage2 = true;
 		imgSize2 = size.copy();
 	}
-	
-	public void setImg2Offset(PC_VecI offset){
+
+	public void setImg2Offset(PC_VecI offset) {
 		showImage2 = true;
 		imgOffset2 = offset.copy();
 	}
-	
+
 	public void setImg2Pos(PC_VecI pos) {
 		showImage2 = true;
 		imgPos2 = pos.copy();
 	}
-	
+
 	@Override
 	protected PC_RectI render(PC_VecI offsetPos, PC_RectI scissorOld, double scale) {
 
@@ -78,8 +75,9 @@ public class PC_GresImage extends PC_GresWidget {
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
 		drawTexturedModalRect(pos.x + offsetPos.x, pos.y + offsetPos.y, imgOffset.x, imgOffset.y, imgSize.x, imgSize.y);
-		if(showImage2){
-			drawTexturedModalRect(pos.x + offsetPos.x + imgPos2.x, pos.y + offsetPos.y + imgPos2.y, imgOffset2.x, imgOffset2.y, imgSize2.x, imgSize2.y);
+		if (showImage2) {
+			drawTexturedModalRect(pos.x + offsetPos.x + imgPos2.x, pos.y + offsetPos.y + imgPos2.y, imgOffset2.x,
+					imgOffset2.y, imgSize2.x, imgSize2.y);
 		}
 
 		GL11.glDisable(GL11.GL_BLEND);
@@ -92,8 +90,6 @@ public class PC_GresImage extends PC_GresWidget {
 		return MouseOver.THIS;
 	}
 
-
-
 	@Override
 	public boolean mouseClick(PC_VecI mpos, int key) {
 		return false;
@@ -105,7 +101,8 @@ public class PC_GresImage extends PC_GresWidget {
 	}
 
 	@Override
-	public void mouseMove(PC_VecI mpos) {}
+	public void mouseMove(PC_VecI mpos) {
+	}
 
 	@Override
 	public PC_VecI getMinSize() {
@@ -113,9 +110,11 @@ public class PC_GresImage extends PC_GresWidget {
 	}
 
 	@Override
-	public void mouseWheel(int i) {}
+	public void mouseWheel(int i) {
+	}
 
 	@Override
-	public void addedToWidget() {}
+	public void addedToWidget() {
+	}
 
 }

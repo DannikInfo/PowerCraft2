@@ -18,11 +18,11 @@ import powercraft.api.registry.PC_MSGRegistry;
 import powercraft.api.utils.PC_Utils;
 import powercraft.api.utils.PC_VecI;
 
-@PC_BlockInfo(name="Redstone Storage")
+@PC_BlockInfo(name = "Redstone Storage")
 public class PCde_BlockRedstoneStorage extends PC_Block implements PC_IItemInfo {
 	private boolean wiresProvidePower = true;
 	private Set blocksNeedingUpdate = new HashSet();
-	
+
 	public PCde_BlockRedstoneStorage(int id) {
 		super(Material.rock);
 		setHardness(1.5F);
@@ -35,10 +35,10 @@ public class PCde_BlockRedstoneStorage extends PC_Block implements PC_IItemInfo 
 		arrayList.add(new ItemStack(this));
 		return arrayList;
 	}
-	
+
 	@Override
-	public boolean showInCraftingTool(){
+	public boolean showInCraftingTool() {
 		return false;
 	}
-	
+
 }

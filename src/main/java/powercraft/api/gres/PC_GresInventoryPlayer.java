@@ -3,7 +3,6 @@ package powercraft.api.gres;
 import net.minecraft.inventory.Slot;
 import powercraft.api.utils.PC_VecI;
 
-
 /**
  * @author MightyPork
  * @copy (c) 2012
@@ -30,13 +29,14 @@ public class PC_GresInventoryPlayer extends PC_GresLayoutV {
 		setAlignV(PC_GresAlign.TOP);
 		canAddWidget = false;
 	}
-	
+
 	public void hideSlots() {
 		PC_GresBaseWithInventory containerManager = gui.getContainer();
-		if (containerManager == null) return;
-		
+		if (containerManager == null)
+			return;
+
 		Slot[][] slots = containerManager.inventoryPlayerUpper;
-	
+
 		for (int x = 0; x < slots.length; x++) {
 			for (int y = 0; y < slots[0].length; y++) {
 				if (slots[x][y] != null) {
@@ -44,9 +44,9 @@ public class PC_GresInventoryPlayer extends PC_GresLayoutV {
 				}
 			}
 		}
-		
+
 		slots = containerManager.inventoryPlayerLower;
-	
+
 		for (int x = 0; x < slots.length; x++) {
 			for (int y = 0; y < slots[0].length; y++) {
 				if (slots[x][y] != null) {
@@ -58,16 +58,16 @@ public class PC_GresInventoryPlayer extends PC_GresLayoutV {
 
 	@Override
 	public void addedToWidget() {
-		if(gui==null)
+		if (gui == null)
 			return;
 		PC_GresBaseWithInventory containerManager = gui.getContainer();
 		if (containerManager == null) {
 			return;
 		}
 
-
 		canAddWidget = true;
-		PC_GresWidget label = new PC_GresLabel("container.inventory").setWidgetMargin(2).setColor(textColorDisabled, 0x404040);
+		PC_GresWidget label = new PC_GresLabel("container.inventory").setWidgetMargin(2).setColor(textColorDisabled,
+				0x404040);
 		label.enable(false);
 		if (showLabel) {
 			add(label);
@@ -94,11 +94,11 @@ public class PC_GresInventoryPlayer extends PC_GresLayoutV {
 		return inv1.mouseClick(mousePos, key) || inv2.mouseClick(mousePos, key);
 	}
 
-	protected void visibleChanged(boolean show){
-		if(inv1!=null){
+	protected void visibleChanged(boolean show) {
+		if (inv1 != null) {
 			inv1.visibleChanged(show);
 			inv2.visibleChanged(show);
 		}
 	}
-	
+
 }

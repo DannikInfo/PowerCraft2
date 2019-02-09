@@ -12,8 +12,8 @@ public class PC_SlogGhost extends PC_Slot {
 	@Override
 	public boolean isItemValid(ItemStack itemStack) {
 		itemStack = itemStack.copy();
-		itemStack.stackSize=1;
-		if(super.isItemValid(itemStack)){
+		itemStack.stackSize = 1;
+		if (super.isItemValid(itemStack)) {
 			putStack(itemStack);
 		}
 		return false;
@@ -25,6 +25,4 @@ public class PC_SlogGhost extends PC_Slot {
 		return null;
 	}
 
-	
-	
 }

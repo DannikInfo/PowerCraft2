@@ -21,7 +21,7 @@ tile.PCtr_BlockBeltDetector.name=Belt conveyor detector
 tile.PCtr_BlockBeltRedirector.name=Belt conveyor redirector 
 tile.PCtr_BlockBeltSeparator.name=Belt conveyor separator 
 tile.PCtr_BlockBeltEjector.name=Belt conveyor ejector
-item.PCtr_ItemStickyBoots.name=Sticky boots
+item.PCtr_ItemArmorStickyBoots.name=Sticky boots
 
 //core module
 pc.gui.ok=OK
@@ -52,9 +52,28 @@ item.PCco_ItemActivator.name=Activation crystal
 item.PCco_ItemCraftingTool.name=Crafting tool
 item.PCco_ItemOreSniffer.name=Ore sniffer
 tile.PCco_BlockBlockSaver.name=Block saver
+pc.notstable.desc=Not stable!!
 
 //teleporter module
 tile.PCtp_BlockTeleporter.name=Teleporter
+pc.gui.teleporter.name=Name:
+pc.gui.teleporter.target=Target:
+pc.gui.teleporter.nothing=<Nothing>
+pc.gui.teleporter.page1=Teleporter
+pc.gui.teleporter.animals=animals
+pc.gui.teleporter.monsters=monsters
+pc.gui.teleporter.items=items
+pc.gui.teleporter.players=players
+pc.gui.teleporter.lasers=lasers
+pc.gui.teleporter.sneakTrigger=sneakTrigger
+pc.gui.teleporter.playerChoose=playerChoose
+pc.gui.teleporter.soundEnabled=soundEnabled
+pc.gui.teleporter.north=north
+pc.gui.teleporter.east=east
+pc.gui.teleporter.south=south
+pc.gui.teleporter.west=west
+pc.gui.teleporter.page2=Property
+pc.gui.teleportTo.title=Teleport To
 
 //deco module
 tile.PCde_BlockIronFrame=Iron frame
@@ -89,6 +108,13 @@ tile.PCli_BlockLaser.name=Laser
 tile.PCli_BlockMirror.name=Mirror
 tile.PCli_BlockPrism.name=Prism
 tile.PCli_BlockLaserSensor.name=Laser sensor
+pc.gui.light.isHuge=is Huge
+pc.gui.light.isStable=is Stable
+pc.damage.laser=%s wanted to know his reflexivity
+item.PCli_ItemLaserComposition.name=Laser composition
+item.PCli_ItemLaserComposition.distance.name=Distance Level %s
+item.PCli_ItemLaserComposition.kill.name=Kill Level %s
+item.PCli_ItemLaserComposition.sensor.name=Sensor Level %s
 
 //net module
 tile.PCnt_BlockSensor.item.name=Item sensor
@@ -105,7 +131,22 @@ tile.PCma_BlockTransmutabox.name=Transmutabox
 tile.PCma_BlockXPBank.name=XP bank
 tile.PCma_BlockBlockBuilder.name=Block builder
 tile.PCma_BlockHarvester.name=Harvester
-
+pc.gui.automaticWorkbench.redstoneActivated=Redstone triggered
+pc.roaster.insertFuel=fuel
+pc.gui.blockReplacer.title=Block Replacer
+pc.gui.blockReplacer.errWrongValue=Expects a value between -16 and 16.
+pc.gui.blockReplacer.err3zeros=Expects at least 1 value unequal 0.
+pc.gui.blockReplacer.particleFrame=Particles
+pc.gui.xpbank.storagePoints=Stored XP:
+pc.gui.xpbank.currentPlayerLevel=Your level:
+pc.gui.xpbank.xpUnit=points
+pc.gui.xpbank.xpLevels=levels
+pc.gui.xpbank.withdraw=Withdraw:
+pc.gui.xpbank.deposit=Deposit:
+pc.gui.xpbank.oneLevel=1 level
+pc.gui.xpbank.all=all
+pc.gui.transmutabox.timeCritical=Time critical?
+        
 //logic module
 tile.PClo_BlockPulsar.name=Pulsar
 tile.PClo_BlockSpecial.special0.name=Day sensor
@@ -114,3 +155,12 @@ tile.PClo_BlockSpecial.special2.name=Rain sensor
 tile.PClo_BlockSpecial.special3.name=Chest empty
 tile.PClo_BlockSpecial.special4.name=Chest full
 tile.PClo_BlockSpecial.special5.name=Spawner controller
+
+//storage module
+pc.gui.compressor.name=name:
+pc.gui.compressor.takeStacks=Fill Stacks
+pc.gui.compressor.putStacks=Fill Inv Stacks
+item.PCis_ItemCompressor.normal.name=Compressor
+item.PCis_ItemCompressor.enderaccess.name=Ender compressor
+item.PCis_ItemCompressor.height.name=Height compressor
+item.PCis_ItemCompressor.big.name=Big compressor

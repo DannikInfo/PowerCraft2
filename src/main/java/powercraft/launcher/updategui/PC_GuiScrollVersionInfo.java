@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PC_GuiScrollVersionInfo extends PC_GuiScroll {
-	
+
 	private PC_GuiScrollVersions version;
-	
+
 	public PC_GuiScrollVersionInfo(int x, int y, int width, int height, PC_GuiScrollVersions version) {
 		super(x, y, width, height);
 		this.version = version;
@@ -19,7 +19,7 @@ public class PC_GuiScrollVersionInfo extends PC_GuiScroll {
 
 	@Override
 	public int getElementHeight(int element) {
-		return getInfoText().size()*10+4;
+		return getInfoText().size() * 10 + 4;
 	}
 
 	@Override
@@ -29,24 +29,24 @@ public class PC_GuiScrollVersionInfo extends PC_GuiScroll {
 
 	@Override
 	public void drawElement(int element, int par1, int par2, float par3) {
-		List<String>lText = getInfoText();
-		for(int i=0; i<lText.size(); i++){
-			fontRendererObj.drawString(lText.get(i), 2, i*10+2, 0xFFFFFFFF);
+		List<String> lText = getInfoText();
+		for (int i = 0; i < lText.size(); i++) {
+			fontRendererObj.drawString(lText.get(i), 2, i * 10 + 2, 0xFFFFFFFF);
 		}
 	}
 
-	public List<String> getInfoText(){
+	public List<String> getInfoText() {
 		String info = version.getActiveVersionInfo();
-		if(this.gswidth-12>10){
-			return fontRendererObj.listFormattedStringToWidth(info, this.gswidth-12);
-		}else{
+		if (this.gswidth - 12 > 10) {
+			return fontRendererObj.listFormattedStringToWidth(info, this.gswidth - 12);
+		} else {
 			return new ArrayList<String>();
 		}
 	}
-	
+
 	@Override
 	public void clickElement(int element, int par1, int par2, int par3) {
-		
+
 	}
 
 }

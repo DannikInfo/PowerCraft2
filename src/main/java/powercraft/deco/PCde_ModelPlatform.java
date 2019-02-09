@@ -17,14 +17,14 @@ public class PCde_ModelPlatform extends ModelBase {
 
 		ironLedge = new ModelRenderer[5];
 
-		//ledges
+		// ledges
 		ironLedge[0] = new ModelRenderer(this, 64, 0);
 		ironLedge[0].addBox(-8F, 7F, -8F, 16, 1, 16, 0.0F);
 
 		ironLedge[1] = new ModelRenderer(this, 0, 37);
 		ironLedge[1].addBox(-8F, -4F, -8F, 1, 11, 16, 0.0F);
 		ironLedge[1].rotateAngleY = (float) (Math.PI * 1.5F);
-		
+
 		ironLedge[2] = new ModelRenderer(this, 0, 37);
 		ironLedge[2].addBox(-8.0002F, -4.00008F, -8.0002F, 1, 11, 16, 0.0F);
 		ironLedge[2].rotateAngleY = (float) (Math.PI * 0F);
@@ -42,10 +42,10 @@ public class PCde_ModelPlatform extends ModelBase {
 	/**
 	 * Set which fences are shown.
 	 * 
-	 * @param a 1st
-	 * @param b 2nd
-	 * @param c 3rd
-	 * @param d 4th
+	 * @param a     1st
+	 * @param b     2nd
+	 * @param c     3rd
+	 * @param d     4th
 	 * @param floor floor piece
 	 */
 	public void setLedgeFences(boolean a, boolean b, boolean c, boolean d, boolean floor) {
@@ -59,8 +59,8 @@ public class PCde_ModelPlatform extends ModelBase {
 	/**
 	 * Do render.
 	 * 
-	 * @param type device type. Equals to type in tile entity. NonSolid block
-	 *            adds 100 to it.
+	 * @param type device type. Equals to type in tile entity. NonSolid block adds
+	 *             100 to it.
 	 */
 	public void render() {
 		// parts[1].render(0.0625F);
@@ -73,5 +73,5 @@ public class PCde_ModelPlatform extends ModelBase {
 			part.render(0.0625F); // length of one size and position unit
 		}
 	}
-	
+
 }

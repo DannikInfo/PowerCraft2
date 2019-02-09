@@ -13,7 +13,7 @@ import powercraft.launcher.PC_Logger;
 public final class PC_ReflectHelper {
 
 	public static Class<?> getWrapper(Class<?> c) {
-		if(c==null)
+		if (c == null)
 			return null;
 		if (c.isPrimitive()) {
 			if (c == boolean.class) {
@@ -37,8 +37,8 @@ public final class PC_ReflectHelper {
 		return c;
 	}
 
-	private static boolean isBetter(Class<?>[] params1, boolean varArg1,
-			Class<?>[] params2, boolean varArg2, Class<?>[] paramsExpect) {
+	private static boolean isBetter(Class<?>[] params1, boolean varArg1, Class<?>[] params2, boolean varArg2,
+			Class<?>[] paramsExpect) {
 		if (varArg1) {
 			if (params1.length < paramsExpect.length - 1) {
 				return false;
@@ -73,8 +73,8 @@ public final class PC_ReflectHelper {
 			if (params2 != null) {
 				pc2 = params2[i];
 			}
-			if(expect!=null){
-				if (!pc1.isAssignableFrom(expect)){
+			if (expect != null) {
+				if (!pc1.isAssignableFrom(expect)) {
 					return false;
 				}
 			}
@@ -103,9 +103,9 @@ public final class PC_ReflectHelper {
 
 		Class classes[] = new Class[o.length];
 		for (int i = 0; i < o.length; i++) {
-			if(o[i] == null){
+			if (o[i] == null) {
 				classes[i] = null;
-			}else{
+			} else {
 				classes[i] = o[i].getClass();
 			}
 		}
@@ -126,70 +126,72 @@ public final class PC_ReflectHelper {
 
 	}
 
-	public static Field findNearesBestField(Class<?> c, int i, Class<?> expect){
+	public static Field findNearesBestField(Class<?> c, int i, Class<?> expect) {
 		Field fields[] = c.getDeclaredFields();
 		Field f;
-		if(i>=0 && i<fields.length){
+		if (i >= 0 && i < fields.length) {
 			f = fields[i];
-			if(expect.isAssignableFrom(f.getType())){
+			if (expect.isAssignableFrom(f.getType())) {
 				return f;
 			}
-		}else{
-			if(i<0)
-				i=0;
-			if(i>=fields.length){
-				i=fields.length-1;
+		} else {
+			if (i < 0)
+				i = 0;
+			if (i >= fields.length) {
+				i = fields.length - 1;
 			}
 		}
-		int min=i-1, max=i+1;
-		while(min>=0 || max<fields.length){
-			if(max<fields.length){
+		int min = i - 1, max = i + 1;
+		while (min >= 0 || max < fields.length) {
+			if (max < fields.length) {
 				f = fields[max];
-				if(expect.isAssignableFrom(f.getType())){
-					PC_Logger.warning("Field in "+c+" which should be at index "+i+" not found, now using index "+max);
+				if (expect.isAssignableFrom(f.getType())) {
+					PC_Logger.warning(
+							"Field in " + c + " which should be at index " + i + " not found, now using index " + max);
 					return f;
 				}
 				max++;
 			}
-			if(min>=0){
+			if (min >= 0) {
 				f = fields[min];
-				if(expect.isAssignableFrom(f.getType())){
-					PC_Logger.warning("Field in "+c+" which should be at index "+i+" not found, now using index "+min);
+				if (expect.isAssignableFrom(f.getType())) {
+					PC_Logger.warning(
+							"Field in " + c + " which should be at index " + i + " not found, now using index " + min);
 					return f;
 				}
 				min--;
 			}
 		}
-		PC_Logger.warning("Field in "+c+" which should be at index "+i+" not found");
+		PC_Logger.warning("Field in " + c + " which should be at index " + i + " not found");
 		return null;
 	}
-	
-	public static <T>T getValue(Class<?> c, Object o, int i, Class<T> expect) {
+
+	public static <T> T getValue(Class<?> c, Object o, int i, Class<T> expect) {
 		try {
 			Field f;
-			if(expect==null){
+			if (expect == null) {
 				f = c.getDeclaredFields()[i];
-			}else{
+			} else {
 				f = findNearesBestField(c, i, expect);
 			}
 			f.setAccessible(true);
-			return (T)f.get(o);
+			return (T) f.get(o);
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
-	
-	public static boolean setValue(Class<?> c, Object o, int i, Object v){
-		return setValue(c, o, i, v, v!=null?v.getClass():Object.class);
+
+	public static boolean setValue(Class<?> c, Object o, int i, Object v) {
+		return setValue(c, o, i, v, v != null ? v.getClass() : Object.class);
 	}
-	
+
 	public static boolean setValue(Class<?> c, Object o, int i, Object v, Class<?> expect) {
 		try {
 			Field f;
-			if(expect==null){
+			if (expect == null) {
 				f = c.getDeclaredFields()[i];
-			}else{
+			} else {
 				f = findNearesBestField(c, i, expect);
 			}
 			f.setAccessible(true);
@@ -215,11 +217,10 @@ public final class PC_ReflectHelper {
 		return false;
 	}
 
-	public static void setFieldsWithAnnotationTo(Class<?> c, Object obj,
-			Class<? extends Annotation> annotationClass,
+	public static void setFieldsWithAnnotationTo(Class<?> c, Object obj, Class<? extends Annotation> annotationClass,
 			Object value) {
 		Field fa[] = c.getDeclaredFields();
-		
+
 		for (Field f : fa) {
 			if (f.isAnnotationPresent(annotationClass)) {
 				f.setAccessible(true);
@@ -230,14 +231,14 @@ public final class PC_ReflectHelper {
 				}
 			}
 		}
-		
-		if(c!=Object.class){
+
+		if (c != Object.class) {
 			setFieldsWithAnnotationTo(c.getSuperclass(), obj, annotationClass, value);
 		}
-		
+
 	}
 
-	public static List<Object> getFieldsWithAnnotation(Class<?> c, Object obj, 
+	public static List<Object> getFieldsWithAnnotation(Class<?> c, Object obj,
 			Class<? extends Annotation> annotationClass) {
 		List<Object> l = new ArrayList<Object>();
 		Field fa[] = c.getDeclaredFields();
@@ -253,87 +254,92 @@ public final class PC_ReflectHelper {
 			}
 		}
 
-		if(c!=Object.class){
+		if (c != Object.class) {
 			l.addAll(getFieldsWithAnnotation(c.getSuperclass(), obj, annotationClass));
 		}
-		
+
 		return l;
 	}
-	
-	public static <T extends Annotation>T getAnnotation(Class<?> c, Class<T> annotationClass){
-		if(c.isAnnotationPresent(annotationClass)){
+
+	public static <T extends Annotation> T getAnnotation(Class<?> c, Class<T> annotationClass) {
+		if (c.isAnnotationPresent(annotationClass)) {
 			return c.getAnnotation(annotationClass);
 		}
 		return null;
 	}
-	
-	public static <T extends Annotation>T getAnnotation(Field f, Class<T> annotationClass){
-		if(f.isAnnotationPresent(annotationClass)){
+
+	public static <T extends Annotation> T getAnnotation(Field f, Class<T> annotationClass) {
+		if (f.isAnnotationPresent(annotationClass)) {
 			return f.getAnnotation(annotationClass);
 		}
 		return null;
 	}
-	
-	public static <T extends Annotation>T getAnnotation(Method m, Class<T> annotationClass){
-		if(m.isAnnotationPresent(annotationClass)){
+
+	public static <T extends Annotation> T getAnnotation(Method m, Class<T> annotationClass) {
+		if (m.isAnnotationPresent(annotationClass)) {
 			return m.getAnnotation(annotationClass);
 		}
 		return null;
 	}
-	
-	public static <T extends Annotation>T getAnnotation(Constructor<?> c, Class<T> annotationClass){
-		if(c.isAnnotationPresent(annotationClass)){
+
+	public static <T extends Annotation> T getAnnotation(Constructor<?> c, Class<T> annotationClass) {
+		if (c.isAnnotationPresent(annotationClass)) {
 			return c.getAnnotation(annotationClass);
 		}
 		return null;
 	}
-	
-	public static <T extends Annotation>List<Field> getAllFieldsWithAnnotation(Class<?> c, Class<T> annotationClass){
+
+	public static <T extends Annotation> List<Field> getAllFieldsWithAnnotation(Class<?> c, Class<T> annotationClass) {
 		return getAllFieldsWithAnnotation(c, null, annotationClass, null);
 	}
-	
-	public static <T extends Annotation>List<Field> getAllFieldsWithAnnotation(Class<?> c, Object obj, Class<T> annotationClass, PC_IFieldAnnotationIterator<T> iterator){
+
+	public static <T extends Annotation> List<Field> getAllFieldsWithAnnotation(Class<?> c, Object obj,
+			Class<T> annotationClass, PC_IFieldAnnotationIterator<T> iterator) {
 		Field fa[] = c.getDeclaredFields();
 		List<Field> fields = new ArrayList<Field>();
-		for(int i=0; i<fa.length; i++){
-			if(fa[i].isAnnotationPresent(annotationClass)){
-				if(iterator!=null){
-					if(iterator.onFieldWithAnnotation(new PC_FieldWithAnnotation<T>(c, obj, i, fa[i].getAnnotation(annotationClass)))){
+		for (int i = 0; i < fa.length; i++) {
+			if (fa[i].isAnnotationPresent(annotationClass)) {
+				if (iterator != null) {
+					if (iterator.onFieldWithAnnotation(
+							new PC_FieldWithAnnotation<T>(c, obj, i, fa[i].getAnnotation(annotationClass)))) {
 						fields.add(fa[i]);
 					}
-				}else{
+				} else {
 					fields.add(fa[i]);
 				}
 			}
 		}
-		if(c!=Object.class){
+		if (c != Object.class) {
 			fields.addAll(getAllFieldsWithAnnotation(c.getSuperclass(), obj, annotationClass, iterator));
 		}
 		return fields;
 	}
-	
-	public static <T extends Annotation>List<Method> getAllMethodsWithAnnotation(Class<?> c, Class<T> annotationClass){
+
+	public static <T extends Annotation> List<Method> getAllMethodsWithAnnotation(Class<?> c,
+			Class<T> annotationClass) {
 		return getAllMethodsWithAnnotation(c, null, annotationClass, null);
 	}
-	
-	public static <T extends Annotation>List<Method> getAllMethodsWithAnnotation(Class<?> c, Object obj, Class<T> annotationClass, PC_IMethodAnnotationIterator<T> iterator){
+
+	public static <T extends Annotation> List<Method> getAllMethodsWithAnnotation(Class<?> c, Object obj,
+			Class<T> annotationClass, PC_IMethodAnnotationIterator<T> iterator) {
 		Method ma[] = c.getDeclaredMethods();
 		List<Method> methods = new ArrayList<Method>();
-		for(int i=0; i<ma.length; i++){
-			if(ma[i].isAnnotationPresent(annotationClass)){
-				if(iterator!=null){
-					if(iterator.onMethodWithAnnotation(new PC_MethodWithAnnotation<T>(c, obj, i, ma[i].getAnnotation(annotationClass)))){
+		for (int i = 0; i < ma.length; i++) {
+			if (ma[i].isAnnotationPresent(annotationClass)) {
+				if (iterator != null) {
+					if (iterator.onMethodWithAnnotation(
+							new PC_MethodWithAnnotation<T>(c, obj, i, ma[i].getAnnotation(annotationClass)))) {
 						methods.add(ma[i]);
 					}
-				}else{
+				} else {
 					methods.add(ma[i]);
 				}
 			}
 		}
-		if(c!=Object.class){
+		if (c != Object.class) {
 			methods.addAll(getAllMethodsWithAnnotation(c.getSuperclass(), obj, annotationClass, iterator));
 		}
 		return methods;
 	}
-	
+
 }

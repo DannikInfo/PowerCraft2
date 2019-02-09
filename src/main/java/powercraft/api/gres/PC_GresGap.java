@@ -3,7 +3,6 @@ package powercraft.api.gres;
 import powercraft.api.utils.PC_RectI;
 import powercraft.api.utils.PC_VecI;
 
-
 /**
  * GUI gap with fixed size
  * 
@@ -15,7 +14,7 @@ public class PC_GresGap extends PC_GresWidget {
 	/**
 	 * gap
 	 * 
-	 * @param width min width
+	 * @param width  min width
 	 * @param height min height
 	 */
 	public PC_GresGap(int width, int height) {
@@ -25,7 +24,8 @@ public class PC_GresGap extends PC_GresWidget {
 
 	@Override
 	public PC_VecI calcSize() {
-		if (!visible) return zerosize;
+		if (!visible)
+			return zerosize;
 		return minSize.copy();
 	}
 
@@ -65,8 +65,10 @@ public class PC_GresGap extends PC_GresWidget {
 	}
 
 	@Override
-	public void mouseWheel(int i) {}
+	public void mouseWheel(int i) {
+	}
 
 	@Override
-	public void addedToWidget() {}
+	public void addedToWidget() {
+	}
 }

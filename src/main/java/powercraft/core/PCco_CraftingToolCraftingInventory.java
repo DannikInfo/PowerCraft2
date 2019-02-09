@@ -23,73 +23,73 @@ public class PCco_CraftingToolCraftingInventory implements PC_IInventory {
 	private int tick2 = 0;
 	private RecipeSearchThread recipeSearch;
 	private PCco_GuiCraftingTool gui;
-	
+
 	public PCco_CraftingToolCraftingInventory(PCco_GuiCraftingTool gui) {
 		this.gui = gui;
 	}
 
-	public void setProduct(ItemStack product){
+	public void setProduct(ItemStack product) {
 		this.product = product;
 		craftings.clear();
-		if(recipeSearch!=null){
+		if (recipeSearch != null) {
 			recipeSearch.stopSearch();
-			recipeSearch=null;
+			recipeSearch = null;
 		}
 		recipeSearch = new RecipeSearchThread();
 	}
-	
-	public void setScroll(int scroll){
+
+	public void setScroll(int scroll) {
 		this.scroll = scroll;
-		if(craftings.size()>0){
-			if(tick>=craftings.get(scroll).a){
-				tick=0;
+		if (craftings.size() > 0) {
+			if (tick >= craftings.get(scroll).a) {
+				tick = 0;
 			}
 		}
 	}
-	
-	public int getNumRecipes(){
+
+	public int getNumRecipes() {
 		return craftings.size();
 	}
-	
-	public void nextTick(){
+
+	public void nextTick() {
 		tick2++;
-		if(tick2>20){
-			tick2=0;
-			if(craftings.size()>0){
+		if (tick2 > 20) {
+			tick2 = 0;
+			if (craftings.size() > 0) {
 				tick++;
-				if(tick>=craftings.get(scroll).a){
-					tick=0;
+				if (tick >= craftings.get(scroll).a) {
+					tick = 0;
 				}
 			}
 		}
 	}
-	
-	private ItemStack getItemStackInSlot(int i){
-		int page = i/10;
-		i = i%10;
-		if(i==0){
-			if(craftings.size()>0){
+
+	private ItemStack getItemStackInSlot(int i) {
+		int page = i / 10;
+		i = i % 10;
+		if (i == 0) {
+			if (craftings.size() > 0) {
 				InventoryCrafting inventorycrafting = new InventoryCrafting(gui, 3, 3);
-				for(int j=0; j<9; j++){
-					List<ItemStack> list = craftings.get(scroll+page).c[j];
-					if(list!=null)
+				for (int j = 0; j < 9; j++) {
+					List<ItemStack> list = craftings.get(scroll + page).c[j];
+					if (list != null)
 						inventorycrafting.setInventorySlotContents(j, list.get(tick));
 				}
-				return craftings.get(scroll+page).b.getCraftingResult(inventorycrafting);
+				return craftings.get(scroll + page).b.getCraftingResult(inventorycrafting);
 			}
 			return product;
 		}
-		if(craftings.size()>0){
-			List<ItemStack> list = craftings.get(scroll+page).c[i-1];
-			if(list!=null){
+		if (craftings.size() > 0) {
+			List<ItemStack> list = craftings.get(scroll + page).c[i - 1];
+			if (list != null) {
 				ItemStack is = list.get(tick);
-				is.stackSize=1;
+				is.stackSize = 1;
 				return is;
 			}
 		}
 		return null;
 	}
-	
+
 	@Override
 	public int getSizeInventory() {
 		return 10;
@@ -111,7 +111,8 @@ public class PCco_CraftingToolCraftingInventory implements PC_IInventory {
 	}
 
 	@Override
-	public void setInventorySlotContents(int i, ItemStack itemstack) {}
+	public void setInventorySlotContents(int i, ItemStack itemstack) {
+	}
 
 	@Override
 	public String getInventoryName() {
@@ -129,10 +130,12 @@ public class PCco_CraftingToolCraftingInventory implements PC_IInventory {
 	}
 
 	@Override
-	public void openInventory() {}
+	public void openInventory() {
+	}
 
 	@Override
-	public void closeInventory() {}
+	public void closeInventory() {
+	}
 
 	@Override
 	public boolean isItemValidForSlot(int p_94041_1_, ItemStack p_94041_2_) {
@@ -162,41 +165,41 @@ public class PCco_CraftingToolCraftingInventory implements PC_IInventory {
 	@Override
 	public int getSlotStackLimit(int i) {
 		ItemStack is = getItemStackInSlot(i);
-		if(is!=null)
+		if (is != null)
 			return is.getMaxStackSize();
 		return 0;
 	}
 
-	private class RecipeSearchThread extends Thread{
-		
+	private class RecipeSearchThread extends Thread {
+
 		private boolean stop;
-		
-		public RecipeSearchThread(){
+
+		public RecipeSearchThread() {
 			setDaemon(true);
 			start();
 		}
-		
-		public void stopSearch(){
-			stop=true;
+
+		public void stopSearch() {
+			stop = true;
 		}
 
 		@Override
-		public void run(){
-			
+		public void run() {
+
 			List<IRecipe> recipes = PC_RecipeRegistry.getRecipesForProduct(product);
-			for(IRecipe recipe : recipes){
-				
+			for (IRecipe recipe : recipes) {
+
 				List<ItemStack>[][] expectedInputs2d = PC_RecipeRegistry.getExpectedInput(recipe, 3, 3);
-				if(stop)
+				if (stop)
 					return;
 				List<ItemStack>[] expectedInputs = new List[9];
-				int nums=1;
-				for(int y=0; y<3; y++){
-					for(int x=0; x<3; x++){
+				int nums = 1;
+				for (int y = 0; y < 3; y++) {
+					for (int x = 0; x < 3; x++) {
 						List<ItemStack> list2 = expectedInputs2d[x][y];
-						if(list2!=null && list2.size()>0){
-							List<ItemStack> list = expectedInputs[y*3+x] = new ArrayList<ItemStack>();
-							for(ItemStack is:list2){
+						if (list2 != null && list2.size() > 0) {
+							List<ItemStack> list = expectedInputs[y * 3 + x] = new ArrayList<ItemStack>();
+							for (ItemStack is : list2) {
 								ItemStack isd = is;
 								Item i = isd.getItem();
 								i.getSubItems(i, i.getCreativeTab(), list);
@@ -205,21 +208,21 @@ public class PCco_CraftingToolCraftingInventory implements PC_IInventory {
 						}
 					}
 				}
-				if(stop)
+				if (stop)
 					return;
 				List<ItemStack>[] crafting = new List[9];
-				for(int i=0; i<crafting.length; i++){
-					if(expectedInputs[i]!=null){
+				for (int i = 0; i < crafting.length; i++) {
+					if (expectedInputs[i] != null) {
 						crafting[i] = new ArrayList<ItemStack>();
 					}
 				}
-				if(stop)
+				if (stop)
 					return;
-				for(int n=0; n<nums; n++){
+				for (int n = 0; n < nums; n++) {
 					int n1 = n;
-					for(int i=0; i<crafting.length; i++){
+					for (int i = 0; i < crafting.length; i++) {
 						List<ItemStack> list = expectedInputs[i];
-						if(list!=null){
+						if (list != null) {
 							int n2 = n1 % list.size();
 							n1 = n1 / list.size();
 							ItemStack is = list.get(n2);
@@ -227,13 +230,13 @@ public class PCco_CraftingToolCraftingInventory implements PC_IInventory {
 						}
 					}
 				}
-				if(stop)
+				if (stop)
 					return;
 				craftings.add(new PC_Struct3<Integer, IRecipe, List<ItemStack>[]>(nums, recipe, crafting));
 				gui.updateCraftings();
 			}
 		}
-		
+
 	}
 
 	@Override
@@ -253,12 +256,18 @@ public class PCco_CraftingToolCraftingInventory implements PC_IInventory {
 
 	@Override
 	public void markDirty() {
-		
+
 	}
 
 	@Override
 	public boolean hasCustomInventoryName() {
 		return true;
+	}
+
+	@Override
+	public void syncInventory(int side, EntityPlayer player) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

@@ -1,6 +1,5 @@
 package powercraft.api.gres;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +21,6 @@ import powercraft.api.utils.PC_RectI;
 import powercraft.api.utils.PC_VecI;
 import powercraft.launcher.mod_PowerCraft;
 
-
 /**
  * Base class for GUI-system
  * 
@@ -34,18 +32,15 @@ public abstract class PC_GresWidget extends Gui implements PC_ITileEntityWatcher
 	/** zero coord */
 	public static final PC_VecI zerosize = new PC_VecI(0, 0);
 
-
 	/** Minecraft instance */
 	protected static Minecraft mc = PC_ClientUtils.mc();
 
 	protected static String imgdir = PC_TextureRegistry.getGresImgDir();
-	
-	protected enum MouseOver{
-		NON,
-		THIS,
-		CHILD
+
+	protected enum MouseOver {
+		NON, THIS, CHILD
 	}
-	
+
 	/**
 	 * align vertical
 	 * 
@@ -70,8 +65,8 @@ public abstract class PC_GresWidget extends Gui implements PC_ITileEntityWatcher
 	}
 
 	@SuppressWarnings("javadoc")
-	public static final int textColorEnabled = 0, textColorShadowEnabled = 1, textColorDisabled = 2, textColorShadowDisabled = 3, textColorHover = 4,
-			textColorClicked = 5;
+	public static final int textColorEnabled = 0, textColorShadowEnabled = 1, textColorDisabled = 2,
+			textColorShadowDisabled = 3, textColorHover = 4, textColorClicked = 5;
 
 	/** Array of text colors */
 	protected int color[] = { 0x000000, 0, 0x333333, 0, 0x000000, 0x000000 };
@@ -79,12 +74,11 @@ public abstract class PC_GresWidget extends Gui implements PC_ITileEntityWatcher
 	/** Parent widget */
 	protected PC_GresWidget parent = null;
 
-
 	/** List of children */
 	protected ArrayList<PC_GresWidget> childs = new ArrayList<PC_GresWidget>();
 
 	protected ArrayList<PC_GresWidgetTab> tabs = new ArrayList<PC_GresWidgetTab>();
-	
+
 	/** Font renderer */
 	protected FontRenderer fontRenderer = null;
 
@@ -137,13 +131,13 @@ public abstract class PC_GresWidget extends Gui implements PC_ITileEntityWatcher
 
 	/** Additional widget tag (general purpose) */
 	public String tag = "";
-	
+
 	protected String tooltipLangKey = "";
 	protected String tooltipValue = "";
 	protected String tooltip;
-	
+
 	protected String tileEnityObjectKey;
-	
+
 	/**
 	 * A widget
 	 */
@@ -168,7 +162,7 @@ public abstract class PC_GresWidget extends Gui implements PC_ITileEntityWatcher
 	/**
 	 * A widget
 	 * 
-	 * @param labelKey widget's label / text
+	 * @param labelKey   widget's label / text
 	 * @param labelValue widget's label / text
 	 */
 	public PC_GresWidget(String labelKey, String langValue) {
@@ -177,11 +171,11 @@ public abstract class PC_GresWidget extends Gui implements PC_ITileEntityWatcher
 		this.size = minSize.copy();
 		this.minSize = minSize.copy();
 	}
-	
+
 	/**
 	 * A widget
 	 * 
-	 * @param width widget minWidth
+	 * @param width  widget minWidth
 	 * @param height widget minHeight
 	 */
 	public PC_GresWidget(int width, int height) {
@@ -193,30 +187,31 @@ public abstract class PC_GresWidget extends Gui implements PC_ITileEntityWatcher
 	/**
 	 * A widget
 	 * 
-	 * @param width widget minWidth
+	 * @param width  widget minWidth
 	 * @param height widget minHeight
-	 * @param label widget label / text
+	 * @param label  widget label / text
 	 */
 	public PC_GresWidget(int width, int height, String labelKey) {
 		this(width, height);
 		setTextLangKey(labelKey);
 	}
-	
+
 	/**
 	 * A widget
 	 * 
-	 * @param width widget minWidth
+	 * @param width  widget minWidth
 	 * @param height widget minHeight
-	 * @param label widget label / text
+	 * @param label  widget label / text
 	 */
 	public PC_GresWidget(int width, int height, String labelKey, String langValue) {
 		this(width, height);
 		setText(labelKey, langValue);
 	}
-	
+
 	/**
-	 * Set visibility. Invisible widgets dont take space in layouts.
-	 * Same as css display:none
+	 * Set visibility. Invisible widgets dont take space in layouts. Same as css
+	 * display:none
+	 * 
 	 * @param show flag visible
 	 * @return this
 	 */
@@ -226,22 +221,23 @@ public abstract class PC_GresWidget extends Gui implements PC_ITileEntityWatcher
 		return this;
 	}
 
-	private void updateVisible(boolean show){
+	private void updateVisible(boolean show) {
 		visibleChanged(show);
-		for(PC_GresWidget w:childs){
+		for (PC_GresWidget w : childs) {
 			w.updateVisible(show);
 		}
-		for(PC_GresWidget w:tabs){
+		for (PC_GresWidget w : tabs) {
 			w.updateVisible(show);
 		}
 	}
-	
-	protected void visibleChanged(boolean show){}
-	
-	public void setTileEnityObjectKey(String tileEnityObjectKey){
+
+	protected void visibleChanged(boolean show) {
+	}
+
+	public void setTileEnityObjectKey(String tileEnityObjectKey) {
 		this.tileEnityObjectKey = tileEnityObjectKey;
 	}
-	
+
 	/**
 	 * @return true if is visible
 	 */
@@ -315,34 +311,34 @@ public abstract class PC_GresWidget extends Gui implements PC_ITileEntityWatcher
 		tooltip = PC_LangRegistry.tr(tooltipLangKey, tooltipValue);
 		return this;
 	}
-	
+
 	public String getTooltipLangKey() {
 		return tooltipLangKey;
 	}
-	
+
 	public PC_GresWidget setTooltipLangKey(String tooltipLangKey) {
 		this.tooltipLangKey = tooltipLangKey;
 		tooltip = PC_LangRegistry.tr(tooltipLangKey, tooltipValue);
 		return this;
 	}
-	
+
 	public String getTooltipValue() {
 		return tooltipValue;
 	}
-	
+
 	public PC_GresWidget setTooltipValue(String tooltipValue) {
 		this.tooltipValue = tooltipValue;
 		tooltip = PC_LangRegistry.tr(tooltipLangKey, tooltipValue);
 		return this;
 	}
-	
+
 	/**
 	 * @return widget's text / label
 	 */
 	public String getText() {
 		return text;
 	}
-	
+
 	/**
 	 * Set widget's label, resize if needed
 	 * 
@@ -360,27 +356,27 @@ public abstract class PC_GresWidget extends Gui implements PC_ITileEntityWatcher
 		text = PC_LangRegistry.tr(textLangKey, textValue);
 		return this;
 	}
-	
+
 	public String getTextLangKey() {
 		return textLangKey;
 	}
-	
+
 	public PC_GresWidget setTextLangKey(String textLangKey) {
 		this.textLangKey = textLangKey;
 		text = PC_LangRegistry.tr(textLangKey, textValue);
 		return this;
 	}
-	
+
 	public String getTextValue() {
 		return textValue;
 	}
-	
+
 	public PC_GresWidget setTextValue(String textValue) {
 		this.textValue = textValue;
 		text = PC_LangRegistry.tr(textLangKey, textValue);
 		return this;
 	}
-	
+
 	/**
 	 * @return widget's font renderer
 	 */
@@ -465,7 +461,7 @@ public abstract class PC_GresWidget extends Gui implements PC_ITileEntityWatcher
 		this.hasFocus = focus;
 		return this;
 	}
-	
+
 	/**
 	 * Increment cursor counter, used for text field animations
 	 */
@@ -477,7 +473,8 @@ public abstract class PC_GresWidget extends Gui implements PC_ITileEntityWatcher
 	 * @return minimal size, {width,height}
 	 */
 	public PC_VecI getMinSize() {
-		if (!visible) return new PC_VecI(0, 0);
+		if (!visible)
+			return new PC_VecI(0, 0);
 		return calcSize().copy();
 	}
 
@@ -572,15 +569,16 @@ public abstract class PC_GresWidget extends Gui implements PC_ITileEntityWatcher
 	 * @return {width, height}
 	 */
 	public PC_VecI getSize() {
-		if (!visible) return new PC_VecI(0, 0);
+		if (!visible)
+			return new PC_VecI(0, 0);
 		return size.copy();
 	}
 
 	/**
 	 * Set widget size
 	 * 
-	 * @param width width
-	 * @param height height
+	 * @param width      width
+	 * @param height     height
 	 * @param calcParent flag whether to ask parent for position recalculation
 	 * @return this
 	 */
@@ -595,7 +593,7 @@ public abstract class PC_GresWidget extends Gui implements PC_ITileEntityWatcher
 	/**
 	 * Set size, recalculate position
 	 * 
-	 * @param width width
+	 * @param width  width
 	 * @param height height
 	 * @return this
 	 */
@@ -606,7 +604,7 @@ public abstract class PC_GresWidget extends Gui implements PC_ITileEntityWatcher
 	/**
 	 * Set size, recalculate position
 	 * 
-	 * @param gswidth width
+	 * @param gswidth  width
 	 * @param gsheight height
 	 * @return this
 	 */
@@ -614,7 +612,7 @@ public abstract class PC_GresWidget extends Gui implements PC_ITileEntityWatcher
 		this.size.setTo(size);
 		return this;
 	}
-	
+
 	/**
 	 * Get position
 	 * 
@@ -668,7 +666,8 @@ public abstract class PC_GresWidget extends Gui implements PC_ITileEntityWatcher
 			for (int i = 0; i < childs.size(); i++) {
 				childs.get(i).calcChildPositions();
 				PC_VecI childSize = childs.get(i).calcSize();
-				if (!childs.get(i).isVisible()) childSize = new PC_VecI(0, 0);
+				if (!childs.get(i).isVisible())
+					childSize = new PC_VecI(0, 0);
 				if (childSize.y > maxh) {
 					maxh = childSize.y;
 				}
@@ -702,7 +701,6 @@ public abstract class PC_GresWidget extends Gui implements PC_ITileEntityWatcher
 		return parent;
 	}
 
-
 	/**
 	 * Add child widget
 	 * 
@@ -710,11 +708,11 @@ public abstract class PC_GresWidget extends Gui implements PC_ITileEntityWatcher
 	 * @return this
 	 */
 	public PC_GresWidget add(PC_GresWidget newwidget) {
-		if(newwidget instanceof PC_GresWidgetTab){
+		if (newwidget instanceof PC_GresWidgetTab) {
 			newwidget.parent = this;
 			newwidget.setFontRenderer(fontRenderer);
 			newwidget.setGui(gui);
-			tabs.add((PC_GresWidgetTab)newwidget);
+			tabs.add((PC_GresWidgetTab) newwidget);
 			newwidget.callAddedToWidget();
 			return this;
 		}
@@ -763,7 +761,7 @@ public abstract class PC_GresWidget extends Gui implements PC_ITileEntityWatcher
 	 * Set color to index
 	 * 
 	 * @param colorIndex color index (constant)
-	 * @param color the color, eg. 0xFFFFFF.
+	 * @param color      the color, eg. 0xFFFFFF.
 	 * @return this
 	 */
 	public PC_GresWidget setColor(int colorIndex, int color) {
@@ -811,23 +809,24 @@ public abstract class PC_GresWidget extends Gui implements PC_ITileEntityWatcher
 	 * Draw string, using colors from the color array.
 	 * 
 	 * @param text text to draw (usually the label)
-	 * @param x pos x
-	 * @param y pos y
+	 * @param x    pos x
+	 * @param y    pos y
 	 */
 	protected void drawString(String text, int x, int y) {
 		FontRenderer fr = getFontRenderer();
 		if (color[enabled ? textColorShadowEnabled : textColorShadowDisabled] != 0) {
 			fr.drawString(text, x + 1, y + 1, color[enabled ? textColorShadowEnabled : textColorShadowDisabled]);
 		}
-		fr.drawString(text, x, y, color[enabled ? (isMouseOver ? textColorHover : textColorEnabled) : textColorDisabled]);
+		fr.drawString(text, x, y,
+				color[enabled ? (isMouseOver ? textColorHover : textColorEnabled) : textColorDisabled]);
 	}
 
 	/**
 	 * Draw string, using overide color
 	 * 
-	 * @param text text to draw (usually the label)
-	 * @param x pos x
-	 * @param y pos y
+	 * @param text          text to draw (usually the label)
+	 * @param x             pos x
+	 * @param y             pos y
 	 * @param colorOverride custom color
 	 */
 	protected void drawStringColor(String text, int x, int y, int colorOverride) {
@@ -837,61 +836,67 @@ public abstract class PC_GresWidget extends Gui implements PC_ITileEntityWatcher
 		}
 		fr.drawString(text, x, y, colorOverride);
 	}
-	
-	public static PC_RectI setDrawRect(PC_RectI old, PC_RectI _new, double scale){
+
+	public static PC_RectI setDrawRect(PC_RectI old, PC_RectI _new, double scale) {
 		PC_RectI rect;
-		if(old==null){
+		if (old == null) {
 			rect = _new.copy();
-		}else{
+		} else {
 			rect = old.averageQuantity(_new);
 		}
-		if(rect.width<=0 || rect.height<=0) return null;
+		if (rect.width <= 0 || rect.height <= 0)
+			return null;
 		int h = mc.displayHeight;
-		GL11.glScissor((int)(rect.x * scale), h - (int)((rect.y + rect.height) * scale), (int)(rect.width * scale), (int)(rect.height * scale));
+		GL11.glScissor((int) (rect.x * scale), h - (int) ((rect.y + rect.height) * scale), (int) (rect.width * scale),
+				(int) (rect.height * scale));
 		return rect;
 	}
-	
+
 	/**
 	 * Render this and all children at correct positions
 	 * 
 	 * @param posOffset offset from top left
 	 */
 	public void updateRenderer(PC_VecI posOffset, PC_RectI scissorOld, double scale) {
-		if (!visible) return;
-		
+		if (!visible)
+			return;
+
 		tabRenderer(posOffset.offset(pos), null, scale);
-		
-		PC_RectI scissorNew = setDrawRect(scissorOld, new PC_RectI(posOffset.x + pos.x, posOffset.y + pos.y, size.x, size.y), scale);
-		if(scissorNew==null)return;
-		
+
+		PC_RectI scissorNew = setDrawRect(scissorOld,
+				new PC_RectI(posOffset.x + pos.x, posOffset.y + pos.y, size.x, size.y), scale);
+		if (scissorNew == null)
+			return;
+
 		PC_RectI rect = render(posOffset, scissorNew, scale);
-		if(rect!=null)
+		if (rect != null)
 			scissorNew = setDrawRect(scissorNew, rect, scale);
-		
+
 		childRenderer(posOffset.offset(pos), scissorNew, scale);
 	}
 
-	public void childRenderer(PC_VecI posOffset, PC_RectI scissorNew, double scale){
+	public void childRenderer(PC_VecI posOffset, PC_RectI scissorNew, double scale) {
 		if (childs != null) {
 			for (int i = 0; i < childs.size(); i++) {
-				if (childs.get(i).visible) childs.get(i).updateRenderer(posOffset, scissorNew, scale);
+				if (childs.get(i).visible)
+					childs.get(i).updateRenderer(posOffset, scissorNew, scale);
 			}
 		}
 	}
-	
-	public void tabRenderer(PC_VecI posOffset, PC_RectI scissorNew, double scale){
+
+	public void tabRenderer(PC_VecI posOffset, PC_RectI scissorNew, double scale) {
 		if (tabs != null) {
-			int y=5;
+			int y = 5;
 			for (int i = 0; i < tabs.size(); i++) {
 				if (tabs.get(i).visible) {
-					tabs.get(i).setPosition(size.x-2, y);
+					tabs.get(i).setPosition(size.x - 2, y);
 					tabs.get(i).updateRenderer(posOffset, scissorNew, scale);
-					y += tabs.get(i).getSize().y+2;
+					y += tabs.get(i).getSize().y + 2;
 				}
 			}
 		}
 	}
-	
+
 	/**
 	 * Do render this widget
 	 * 
@@ -900,22 +905,23 @@ public abstract class PC_GresWidget extends Gui implements PC_ITileEntityWatcher
 	protected abstract PC_RectI render(PC_VecI posOffset, PC_RectI scissorOld, double scale);
 
 	/**
-	 * Get the widget under mouse cursor. First tries children, then self, null
-	 * at last.
+	 * Get the widget under mouse cursor. First tries children, then self, null at
+	 * last.
 	 * 
 	 * @param mousePos mouse absolute x
 	 * @return the widget under mouse
 	 */
 	public PC_GresWidget getWidgetUnderMouse(PC_VecI mousePos) {
-		if (!visible) return null;
+		if (!visible)
+			return null;
 		PC_GresWidget widget;
 		PC_VecI mpos = mousePos.copy().add(-pos.x, -pos.y, 0);
-			
-		
+
 		MouseOver mo = MouseOver.NON;
-		
+
 		// mouse not over this widget
-		if (mpos.x < 0 || mpos.x >= getSize().x || mpos.y < 0 || mpos.y >= getSize().y || (mo = mouseOver(mpos)) != MouseOver.CHILD) {
+		if (mpos.x < 0 || mpos.x >= getSize().x || mpos.y < 0 || mpos.y >= getSize().y
+				|| (mo = mouseOver(mpos)) != MouseOver.CHILD) {
 			this.isMouseOver = false;
 
 			if (childs != null) {
@@ -926,12 +932,12 @@ public abstract class PC_GresWidget extends Gui implements PC_ITileEntityWatcher
 					childs.get(i).getTabUnderMouse(new PC_VecI(-1, -1));
 				}
 			}
-			
-			if(mo==MouseOver.THIS){
+
+			if (mo == MouseOver.THIS) {
 				this.isMouseOver = true;
 				return this;
 			}
-			
+
 			return getTabUnderMouse(mousePos);
 		}
 
@@ -953,12 +959,13 @@ public abstract class PC_GresWidget extends Gui implements PC_ITileEntityWatcher
 
 			}
 		}
-		
+
 		return this;
 	}
-	
+
 	public PC_GresWidget getTabUnderMouse(PC_VecI mousePos) {
-		if (!visible) return null;
+		if (!visible)
+			return null;
 		PC_GresWidget widget;
 		PC_VecI mpos = mousePos.copy().add(-pos.x, -pos.y, 0);
 
@@ -974,7 +981,7 @@ public abstract class PC_GresWidget extends Gui implements PC_ITileEntityWatcher
 
 			}
 		}
-		
+
 		if (tabs != null) {
 			for (int i = 0; i < tabs.size(); i++) {
 				widget = tabs.get(i).getWidgetUnderMouse(mpos);
@@ -986,10 +993,10 @@ public abstract class PC_GresWidget extends Gui implements PC_ITileEntityWatcher
 				}
 			}
 		}
-		
+
 		return null;
 	}
-	
+
 	/**
 	 * Get absolute position on screen
 	 * 
@@ -1009,9 +1016,9 @@ public abstract class PC_GresWidget extends Gui implements PC_ITileEntityWatcher
 	/**
 	 * Render textured rect with Alpha support at given position.
 	 * 
-	 * @param offset offset relative to root top left
-	 * @param texture texture to render (filename)
-	 * @param rectSize size of the rendered texture
+	 * @param offset    offset relative to root top left
+	 * @param texture   texture to render (filename)
+	 * @param rectSize  size of the rendered texture
 	 * @param imgOffset offset within the texture image (from top left)
 	 */
 	protected void renderImage(PC_VecI offset, String texture, PC_VecI rectSize, PC_VecI imgOffset) {
@@ -1021,13 +1028,14 @@ public abstract class PC_GresWidget extends Gui implements PC_ITileEntityWatcher
 	/**
 	 * Render textured rect with Alpha support at given position.
 	 * 
-	 * @param gui the gui being drawed on
-	 * @param texture texture to render (filename)
-	 * @param startPos left top corner absolute position
-	 * @param rectSize size of the rendered texture
+	 * @param gui       the gui being drawed on
+	 * @param texture   texture to render (filename)
+	 * @param startPos  left top corner absolute position
+	 * @param rectSize  size of the rendered texture
 	 * @param imgOffset offset within the texture image (from top left)
 	 */
-	protected static void renderImage_static(Gui gui, String texture, PC_VecI startPos, PC_VecI rectSize, PC_VecI imgOffset) {
+	protected static void renderImage_static(Gui gui, String texture, PC_VecI startPos, PC_VecI rectSize,
+			PC_VecI imgOffset) {
 
 		mc.renderEngine.bindTexture(new ResourceLocation(mod_PowerCraft.MODID, texture));
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -1043,128 +1051,150 @@ public abstract class PC_GresWidget extends Gui implements PC_ITileEntityWatcher
 	/**
 	 * Render texture using 9patch-like scaling method.<br>
 	 * 
-	 * @param offset offset relative to root top left
-	 * @param texture texture to render (filename)
-	 * @param rectSize rectangle size
+	 * @param offset    offset relative to root top left
+	 * @param texture   texture to render (filename)
+	 * @param rectSize  rectangle size
 	 * @param imgOffset offset within the texture image (from top left)
-	 * @param imgSize size of the whole "scalable" region in texture file (eg.
-	 *            the whole huge "button" field)
+	 * @param imgSize   size of the whole "scalable" region in texture file (eg. the
+	 *                  whole huge "button" field)
 	 */
-	protected void renderTextureSliced(PC_VecI offset, String texture, PC_VecI rectSize, PC_VecI imgOffset, PC_VecI imgSize) {
-		renderTextureSliced_static(this, offset.offset(pos), texture, rectSize, imgOffset, imgSize, new PC_RectI(0, 0, 0, 0));
+	protected void renderTextureSliced(PC_VecI offset, String texture, PC_VecI rectSize, PC_VecI imgOffset,
+			PC_VecI imgSize) {
+		renderTextureSliced_static(this, offset.offset(pos), texture, rectSize, imgOffset, imgSize,
+				new PC_RectI(0, 0, 0, 0));
 	}
 
-	protected void renderTextureSliced(PC_VecI offset, String texture, PC_VecI rectSize, PC_VecI imgOffset, PC_VecI imgSize, PC_RectI frame) {
+	protected void renderTextureSliced(PC_VecI offset, String texture, PC_VecI rectSize, PC_VecI imgOffset,
+			PC_VecI imgSize, PC_RectI frame) {
 		renderTextureSliced_static(this, offset.offset(pos), texture, rectSize, imgOffset, imgSize, frame);
 	}
-	
-	protected void renderTextureSlicedColored(PC_VecI offset, String texture, PC_VecI rectSize, PC_VecI imgOffset, PC_VecI imgSize) {
-		renderTextureSliced_static(this, offset.offset(pos), texture, rectSize, imgOffset, imgSize, new PC_RectI(0, 0, 0, 0), color[enabled ? (isMouseOver ? textColorHover : textColorEnabled) : textColorDisabled]);
+
+	protected void renderTextureSlicedColored(PC_VecI offset, String texture, PC_VecI rectSize, PC_VecI imgOffset,
+			PC_VecI imgSize) {
+		renderTextureSliced_static(this, offset.offset(pos), texture, rectSize, imgOffset, imgSize,
+				new PC_RectI(0, 0, 0, 0),
+				color[enabled ? (isMouseOver ? textColorHover : textColorEnabled) : textColorDisabled]);
 	}
 
-	protected void renderTextureSlicedColored(PC_VecI offset, String texture, PC_VecI rectSize, PC_VecI imgOffset, PC_VecI imgSize, PC_RectI frame) {
-		renderTextureSliced_static(this, offset.offset(pos), texture, rectSize, imgOffset, imgSize, frame, color[enabled ? (isMouseOver ? textColorHover : textColorEnabled) : textColorDisabled]);
+	protected void renderTextureSlicedColored(PC_VecI offset, String texture, PC_VecI rectSize, PC_VecI imgOffset,
+			PC_VecI imgSize, PC_RectI frame) {
+		renderTextureSliced_static(this, offset.offset(pos), texture, rectSize, imgOffset, imgSize, frame,
+				color[enabled ? (isMouseOver ? textColorHover : textColorEnabled) : textColorDisabled]);
 	}
-	
+
 	/**
 	 * Render texture using 9patch-like scaling method.<br>
 	 * 
-	 * @param gui the gui being drawed on
-	 * @param startPos offset relative to parent top left
-	 * @param texture texture to render (filename)
-	 * @param rectSize rectangle size
+	 * @param gui       the gui being drawed on
+	 * @param startPos  offset relative to parent top left
+	 * @param texture   texture to render (filename)
+	 * @param rectSize  rectangle size
 	 * @param imgOffset offset within the texture image (from top left)
-	 * @param imgSize size of the whole "scalable" region in texture file (eg.
-	 *            the whole huge "button" field)
+	 * @param imgSize   size of the whole "scalable" region in texture file (eg. the
+	 *                  whole huge "button" field)
 	 */
-	
-	protected static void renderTextureSliced_static(Gui gui, PC_VecI startPos, String texture, PC_VecI rectSize, PC_VecI imgOffset, PC_VecI imgSize){
+
+	protected static void renderTextureSliced_static(Gui gui, PC_VecI startPos, String texture, PC_VecI rectSize,
+			PC_VecI imgOffset, PC_VecI imgSize) {
 		renderTextureSliced_static(gui, startPos, texture, rectSize, imgOffset, imgSize, new PC_RectI(0, 0, 0, 0));
 	}
-	
-	private static void renderTextureSliced_static(Gui gui, PC_VecI startPos, PC_VecI rectSize, PC_VecI imgOffset, PC_VecI imgSize){
-		for(int x=0; x<rectSize.x; x+=imgSize.x){
-			for(int y=0; y<rectSize.y; y+=imgSize.y){
+
+	private static void renderTextureSliced_static(Gui gui, PC_VecI startPos, PC_VecI rectSize, PC_VecI imgOffset,
+			PC_VecI imgSize) {
+		for (int x = 0; x < rectSize.x; x += imgSize.x) {
+			for (int y = 0; y < rectSize.y; y += imgSize.y) {
 				int sx = imgSize.x;
 				int sy = imgSize.y;
-				if(x + sx > rectSize.x){
-					sx = rectSize.x-x;
+				if (x + sx > rectSize.x) {
+					sx = rectSize.x - x;
 				}
-				if(y + sy > rectSize.y){
-					sy = rectSize.y-y;
+				if (y + sy > rectSize.y) {
+					sy = rectSize.y - y;
 				}
 				gui.drawTexturedModalRect(startPos.x + x, startPos.y + y, imgOffset.x, imgOffset.y, sx, sy);
 			}
 		}
 	}
-	
-	protected static void renderTextureSliced_static(Gui gui, PC_VecI startPos, String texture, PC_VecI rectSize, PC_VecI imgOffset, PC_VecI imgSize, PC_RectI frame) {
+
+	protected static void renderTextureSliced_static(Gui gui, PC_VecI startPos, String texture, PC_VecI rectSize,
+			PC_VecI imgOffset, PC_VecI imgSize, PC_RectI frame) {
 		renderTextureSliced_static(gui, startPos, texture, rectSize, imgOffset, imgSize, frame, 0xFFFFFFFF);
 	}
-		
-	
-	protected static void renderTextureSliced_static(Gui gui, PC_VecI startPos, String texture, PC_VecI rectSize, PC_VecI imgOffset, PC_VecI imgSize, PC_RectI frame, int color) {
-		
+
+	protected static void renderTextureSliced_static(Gui gui, PC_VecI startPos, String texture, PC_VecI rectSize,
+			PC_VecI imgOffset, PC_VecI imgSize, PC_RectI frame, int color) {
+
 		GL11.glColor4f(PC_Color.red(color), PC_Color.green(color), PC_Color.blue(color), 1.0f);
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		mc.getTextureManager().bindTexture(new ResourceLocation(mod_PowerCraft.MODID, texture));
-		if(frame.y>0){
-			if(frame.x>0){
+		if (frame.y > 0) {
+			if (frame.x > 0) {
 				gui.drawTexturedModalRect(startPos.x, startPos.y, imgOffset.x, imgOffset.y, frame.x, frame.y);
 			}
-			renderTextureSliced_static(gui, 
-					new PC_VecI(startPos.x + frame.x, startPos.y), new PC_VecI(rectSize.x - frame.x - frame.width, frame.y), 
-					new PC_VecI(imgOffset.x + frame.x, imgOffset.y), new PC_VecI(imgSize.x - frame.x - frame.width, imgSize.y));
-			if(frame.width>0){
-				gui.drawTexturedModalRect(startPos.x + rectSize.x - frame.width, startPos.y, imgSize.x - frame.width, imgOffset.y, frame.width, frame.y);
+			renderTextureSliced_static(gui, new PC_VecI(startPos.x + frame.x, startPos.y),
+					new PC_VecI(rectSize.x - frame.x - frame.width, frame.y),
+					new PC_VecI(imgOffset.x + frame.x, imgOffset.y),
+					new PC_VecI(imgSize.x - frame.x - frame.width, imgSize.y));
+			if (frame.width > 0) {
+				gui.drawTexturedModalRect(startPos.x + rectSize.x - frame.width, startPos.y, imgSize.x - frame.width,
+						imgOffset.y, frame.width, frame.y);
 			}
 		}
-		if(frame.x>0){
-			renderTextureSliced_static(gui, 
-					new PC_VecI(startPos.x, startPos.y + frame.y), new PC_VecI(frame.x, rectSize.y - frame.y - frame.height), 
-					new PC_VecI(imgOffset.x, imgOffset.y + frame.y), new PC_VecI(imgSize.x, imgSize.y - frame.y - frame.height));
+		if (frame.x > 0) {
+			renderTextureSliced_static(gui, new PC_VecI(startPos.x, startPos.y + frame.y),
+					new PC_VecI(frame.x, rectSize.y - frame.y - frame.height),
+					new PC_VecI(imgOffset.x, imgOffset.y + frame.y),
+					new PC_VecI(imgSize.x, imgSize.y - frame.y - frame.height));
 		}
-		
-		renderTextureSliced_static(gui, 
-				new PC_VecI(startPos.x + frame.x, startPos.y + frame.y), new PC_VecI(rectSize.x - frame.x - frame.width, rectSize.y - frame.y - frame.height), 
-				new PC_VecI(imgOffset.x + frame.x, imgOffset.y + frame.y), new PC_VecI(imgSize.x - frame.x - frame.width, imgSize.y - frame.y - frame.height));
-		
-		if(frame.width>0){
-			renderTextureSliced_static(gui, 
-					new PC_VecI(startPos.x + rectSize.x - frame.width, startPos.y + frame.y), new PC_VecI(frame.width, rectSize.y - frame.y - frame.height), 
-					new PC_VecI(imgOffset.x + imgSize.x - frame.width, imgOffset.y + frame.y), new PC_VecI(frame.width, imgSize.y - frame.y - frame.height));
+
+		renderTextureSliced_static(gui, new PC_VecI(startPos.x + frame.x, startPos.y + frame.y),
+				new PC_VecI(rectSize.x - frame.x - frame.width, rectSize.y - frame.y - frame.height),
+				new PC_VecI(imgOffset.x + frame.x, imgOffset.y + frame.y),
+				new PC_VecI(imgSize.x - frame.x - frame.width, imgSize.y - frame.y - frame.height));
+
+		if (frame.width > 0) {
+			renderTextureSliced_static(gui, new PC_VecI(startPos.x + rectSize.x - frame.width, startPos.y + frame.y),
+					new PC_VecI(frame.width, rectSize.y - frame.y - frame.height),
+					new PC_VecI(imgOffset.x + imgSize.x - frame.width, imgOffset.y + frame.y),
+					new PC_VecI(frame.width, imgSize.y - frame.y - frame.height));
 		}
-		
-		if(frame.height>0){
-			if(frame.x>0){
-				gui.drawTexturedModalRect(startPos.x, startPos.y + rectSize.y - frame.height, imgOffset.x, imgOffset.y + imgSize.y - frame.height, frame.x, frame.height);
+
+		if (frame.height > 0) {
+			if (frame.x > 0) {
+				gui.drawTexturedModalRect(startPos.x, startPos.y + rectSize.y - frame.height, imgOffset.x,
+						imgOffset.y + imgSize.y - frame.height, frame.x, frame.height);
 			}
-			renderTextureSliced_static(gui, 
-					new PC_VecI(startPos.x + frame.x, startPos.y + rectSize.y - frame.height), new PC_VecI(rectSize.x - frame.x - frame.width, frame.height), 
-					new PC_VecI(imgOffset.x + frame.x, imgOffset.y + imgSize.y - frame.height), new PC_VecI(imgSize.x - frame.x - frame.width, frame.height));
-			if(frame.width>0){
-				gui.drawTexturedModalRect(startPos.x + rectSize.x - frame.width, startPos.y + rectSize.y - frame.height, imgOffset.x + imgSize.x - frame.width, imgOffset.y + imgSize.y - frame.height, frame.width, frame.height);
+			renderTextureSliced_static(gui, new PC_VecI(startPos.x + frame.x, startPos.y + rectSize.y - frame.height),
+					new PC_VecI(rectSize.x - frame.x - frame.width, frame.height),
+					new PC_VecI(imgOffset.x + frame.x, imgOffset.y + imgSize.y - frame.height),
+					new PC_VecI(imgSize.x - frame.x - frame.width, frame.height));
+			if (frame.width > 0) {
+				gui.drawTexturedModalRect(startPos.x + rectSize.x - frame.width, startPos.y + rectSize.y - frame.height,
+						imgOffset.x + imgSize.x - frame.width, imgOffset.y + imgSize.y - frame.height, frame.width,
+						frame.height);
 			}
 		}
-		
+
 		GL11.glDisable(GL11.GL_BLEND);
 
 	}
 
-	protected static void drawTexturedModalRectWithIcon(int x, int y, int sizeX, int sizeY, IIcon icon) {
+	protected static void drawTexturedModalRectWithIcon(int x, int y, int sizeX, int sizeY, IIcon icon,
+			String texture) {
+
 		Tessellator tessellator = Tessellator.instance;
 		float f3 = icon.getMinU();
-        float f4 = icon.getMaxU();
-        float f5 = icon.getMinV();
-        float f6 = icon.getMaxV();
+		float f4 = icon.getMaxU();
+		float f5 = icon.getMinV();
+		float f6 = icon.getMaxV();
 		tessellator.startDrawingQuads();
-        tessellator.setNormal(0.0F, 1.0F, 0.0F);
-        tessellator.addVertexWithUV(x, y+sizeY, 0.0D, (double)f3, (double)f6);
-        tessellator.addVertexWithUV(x+sizeX, y+sizeY, 0.0D, (double)f4, (double)f6);
-        tessellator.addVertexWithUV(x+sizeX, y, 0.0D, (double)f4, (double)f5);
-        tessellator.addVertexWithUV(x, y, 0.0D, (double)f3, (double)f5);
-        tessellator.draw();
+		tessellator.setNormal(0.0F, 1.0F, 0.0F);
+		tessellator.addVertexWithUV(x, y + sizeY, 0.0D, (double) f3, (double) f6);
+		tessellator.addVertexWithUV(x + sizeX, y + sizeY, 0.0D, (double) f4, (double) f6);
+		tessellator.addVertexWithUV(x + sizeX, y, 0.0D, (double) f4, (double) f5);
+		tessellator.addVertexWithUV(x, y, 0.0D, (double) f3, (double) f5);
+		tessellator.draw();
 	}
 
 	/**
@@ -1180,7 +1210,7 @@ public abstract class PC_GresWidget extends Gui implements PC_ITileEntityWatcher
 	 * Mouse clicked on widget.
 	 * 
 	 * @param mousePos mouse position
-	 * @param key mouse button index, -1 = mouse up.
+	 * @param key      mouse button index, -1 = mouse up.
 	 * @return event accepted
 	 */
 	public abstract boolean mouseClick(PC_VecI mousePos, int key);
@@ -1202,7 +1232,7 @@ public abstract class PC_GresWidget extends Gui implements PC_ITileEntityWatcher
 	/**
 	 * On key pressed.
 	 * 
-	 * @param c character of the key
+	 * @param c   character of the key
 	 * @param key key index
 	 * @return true if key was valid and was used.
 	 */
@@ -1223,10 +1253,10 @@ public abstract class PC_GresWidget extends Gui implements PC_ITileEntityWatcher
 	 */
 	public abstract void addedToWidget();
 
-	protected static void drawButton(PC_GresWidget widget, PC_VecI pos, PC_VecI size, String text, int state){
-	
+	protected static void drawButton(PC_GresWidget widget, PC_VecI pos, PC_VecI size, String text, int state) {
+
 		int txC = 0xe0e0e0;
-	
+
 		if (state == 0) {
 			txC = 0xa0a0a0; // dark
 		}
@@ -1236,38 +1266,40 @@ public abstract class PC_GresWidget extends Gui implements PC_ITileEntityWatcher
 		if (state > 1) {
 			txC = 0xffffa0; // yellow
 		}
-	
-		renderTextureSliced_static(widget, pos, imgdir + "button.png", size, new PC_VecI(0, state * 50), new PC_VecI(256, 50), new PC_RectI(2, 2, 2, 3));
-	
-		widget.drawCenteredString(widget.getFontRenderer(), text, pos.x + size.x / 2, pos.y + (size.y - widget.getFontRenderer().FONT_HEIGHT)
-				/ 2, txC);
+
+		renderTextureSliced_static(widget, pos, imgdir + "button.png", size, new PC_VecI(0, state * 50),
+				new PC_VecI(256, 50), new PC_RectI(2, 2, 2, 3));
+
+		widget.drawCenteredString(widget.getFontRenderer(), text, pos.x + size.x / 2,
+				pos.y + (size.y - widget.getFontRenderer().FONT_HEIGHT) / 2, txC);
 	}
 
 	public Slot getSlotUnderMouse(PC_VecI mousePos) {
 		return null;
 	}
-	
+
 	public List<String> getTooltip(PC_VecI mousePos) {
-		if(tooltip==null || tooltip.equals("")){
+		if (tooltip == null || tooltip.equals("")) {
 			return null;
 		}
-		List<String>l = new ArrayList<String>();
+		List<String> l = new ArrayList<String>();
 		l.add(tooltip);
 		return l;
 	}
-	
-	public void keyChange(String key, Object value){
-		if(key.equals(tileEnityObjectKey)){
+
+	public void keyChange(String key, Object value) {
+		if (key.equals(tileEnityObjectKey)) {
 			onObjectChange(value);
 		}
-		for(PC_GresWidget w:childs){
+		for (PC_GresWidget w : childs) {
 			w.keyChange(key, value);
 		}
 	}
-	
-	protected void onObjectChange(Object value){}
-	
-	public void tick(){
+
+	protected void onObjectChange(Object value) {
+	}
+
+	public void tick() {
 		if (childs != null) {
 			for (int i = 0; i < childs.size(); i++) {
 				childs.get(i).tick();
@@ -1280,7 +1312,8 @@ public abstract class PC_GresWidget extends Gui implements PC_ITileEntityWatcher
 		}
 		onTick();
 	}
-	
-	protected void onTick(){}
-	
+
+	protected void onTick() {
+	}
+
 }

@@ -13,34 +13,34 @@ import powercraft.launcher.loader.PC_ModuleDiscovery;
 public class PC_LauncherUtils {
 
 	protected static PC_LauncherUtils instance;
-	
-	public PC_LauncherUtils(){
+
+	public PC_LauncherUtils() {
 		instance = this;
 	}
-	
-	public static MinecraftServer mcs(){
+
+	public static MinecraftServer mcs() {
 		return MinecraftServer.getServer();
 	}
-	
-	public static boolean isClient(){
+
+	public static boolean isClient() {
 		return instance.pIsClient();
 	}
-	
+
 	public static File createFile(File pfile, String name) {
 		File file = new File(pfile, name);
-		if(!file.exists())
+		if (!file.exists())
 			file.mkdirs();
-	    return file;
+		return file;
 	}
 
 	public static File getMCDirectory() {
 		return instance.pGetMCDirectory();
 	}
-	
+
 	public static File getPowerCraftFile() {
 		return createFile(getMCDirectory(), "PowerCraft");
 	}
-	
+
 	public static File getPowerCraftModuleFile() {
 		return createFile(getPowerCraftFile(), "Modules");
 	}
@@ -56,39 +56,39 @@ public class PC_LauncherUtils {
 	public static String getPowerCraftName() {
 		return mod_PowerCraft.getInstance().getName();
 	}
-	
-	public static void addAuthor(String name){
+
+	public static void addAuthor(String name) {
 		mod_PowerCraft.getInstance().getModMetadata().authorList.add(name);
 	}
-	
-	public static void addCredit(String name){
-		mod_PowerCraft.getInstance().getModMetadata().credits += ", "+name;
+
+	public static void addCredit(String name) {
+		mod_PowerCraft.getInstance().getModMetadata().credits += ", " + name;
 	}
 
 	public static boolean usingModLoader(PC_ModLoader modLoader) {
-		if(modLoader==PC_ModLoader.ALL)
+		if (modLoader == PC_ModLoader.ALL)
 			return true;
-		return modLoader==getModLoader();
+		return modLoader == getModLoader();
 	}
-	
+
 	public static PC_ModLoader getModLoader() {
 		return PC_ModLoader.FORGE_MODLOADER;
 	}
-	
-	public static boolean isDeveloperVersion(){
+
+	public static boolean isDeveloperVersion() {
 		return PC_Launcher.isDeveloperVersion();
 	}
-	
-	public static void openUpdateGui(boolean requestDownloadTarget){
+
+	public static void openUpdateGui(boolean requestDownloadTarget) {
 		instance.pOpenUpdateGui(requestDownloadTarget);
 	}
-	
-	public static PC_ModuleDiscovery searchModules(boolean addAny){
+
+	public static PC_ModuleDiscovery searchModules(boolean addAny) {
 		File modules = PC_LauncherUtils.getPowerCraftModuleFile();
 		File res = null;
 		try {
 			URL url = mod_PowerCraft.class.getResource("../../");
-			if(url!=null){
+			if (url != null) {
 				res = new File(url.toURI());
 			}
 		} catch (URISyntaxException e) {
@@ -98,29 +98,29 @@ public class PC_LauncherUtils {
 		moduleDiscovery.search(modules, addAny, res, false);
 		return moduleDiscovery;
 	}
-	
+
 	public static void lookForUpdates() {
 		instance.pLookForUpdates();
 	}
-	
-	public void pLookForUpdates(){
-		
+
+	public void pLookForUpdates() {
+
 	}
-	
-	public void pOpenUpdateGui(boolean requestDownloadTarget){
-		
+
+	public void pOpenUpdateGui(boolean requestDownloadTarget) {
+
 	}
-	
-	protected boolean pIsClient(){
+
+	protected boolean pIsClient() {
 		return false;
 	}
-	
+
 	protected File pGetMCDirectory() {
 		return mcs().getFile("");
 	}
-	
+
 	public EntityPlayer getPlayerEntity(MessageContext ctx) {
 		return ctx.getServerHandler().playerEntity;
 	}
-	
+
 }

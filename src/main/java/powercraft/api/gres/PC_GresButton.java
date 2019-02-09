@@ -5,7 +5,6 @@ import net.minecraft.client.gui.FontRenderer;
 import powercraft.api.utils.PC_RectI;
 import powercraft.api.utils.PC_VecI;
 
-
 /**
  * Resizable GUI button
  * 
@@ -15,8 +14,8 @@ import powercraft.api.utils.PC_VecI;
 public class PC_GresButton extends PC_GresWidget {
 
 	/**
-	 * Button inner padding - distance from the borders. Added twice, once on
-	 * each side.
+	 * Button inner padding - distance from the borders. Added twice, once on each
+	 * side.
 	 */
 	protected PC_VecI buttonScale = new PC_VecI(6, 6);
 
@@ -47,10 +46,12 @@ public class PC_GresButton extends PC_GresWidget {
 
 	@Override
 	public PC_VecI calcSize() {
-		if (!visible) return zerosize;
+		if (!visible)
+			return zerosize;
 		FontRenderer fontRenderer = getFontRenderer();
 
-		if (buttonScale == null) buttonScale = new PC_VecI(6, 6);
+		if (buttonScale == null)
+			buttonScale = new PC_VecI(6, 6);
 
 		size.setTo(fontRenderer.getStringWidth(text), fontRenderer.FONT_HEIGHT, 0).add(buttonScale).add(buttonScale);
 
@@ -95,11 +96,12 @@ public class PC_GresButton extends PC_GresWidget {
 			txC = 0xffffa0; // yellow
 		}
 
-		renderTextureSliced(offsetPos, imgdir + "button.png", size, new PC_VecI(0, state * 50), new PC_VecI(256, 50), new PC_RectI(2, 2, 2, 3));
+		renderTextureSliced(offsetPos, imgdir + "button.png", size, new PC_VecI(0, state * 50), new PC_VecI(256, 50),
+				new PC_RectI(2, 2, 2, 3));
 
-		drawCenteredString(getFontRenderer(), text, offsetPos.x + pos.x + size.x / 2, offsetPos.y + pos.y + (size.y - getFontRenderer().FONT_HEIGHT)
-				/ 2, txC);
-		
+		drawCenteredString(getFontRenderer(), text, offsetPos.x + pos.x + size.x / 2,
+				offsetPos.y + pos.y + (size.y - getFontRenderer().FONT_HEIGHT) / 2, txC);
+
 		return null;
 	}
 
@@ -108,7 +110,6 @@ public class PC_GresButton extends PC_GresWidget {
 		isMouseOver = true;
 		return MouseOver.THIS;
 	}
-
 
 	@Override
 	public boolean mouseClick(PC_VecI mpos, int key) {
@@ -123,7 +124,7 @@ public class PC_GresButton extends PC_GresWidget {
 			return true;
 		}
 		isClicked = key == -1 ? false : true;
-		//if (key != -1) mc.getSoundHandler().playSound(ISound.AttenuationType.);
+		// if (key != -1) mc.getSoundHandler().playSound(ISound.AttenuationType.);
 		return false;
 	}
 
@@ -145,9 +146,11 @@ public class PC_GresButton extends PC_GresWidget {
 	}
 
 	@Override
-	public void mouseWheel(int i) {}
+	public void mouseWheel(int i) {
+	}
 
 	@Override
-	public void addedToWidget() {}
+	public void addedToWidget() {
+	}
 
 }

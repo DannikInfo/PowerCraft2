@@ -1,12 +1,10 @@
 package powercraft.api.gres;
 
-
 import net.minecraft.util.ResourceLocation;
 import powercraft.api.utils.PC_Color;
 import powercraft.api.utils.PC_RectI;
 import powercraft.api.utils.PC_VecI;
 import powercraft.launcher.mod_PowerCraft;
-
 
 /**
  * Resizable GUI user-editable colorable progress bar widget
@@ -156,8 +154,8 @@ public class PC_GresProgressBar extends PC_GresWidget {
 	}
 
 	/**
-	 * @param labelMultiplier the label multiplier (if set to 100, percent sign
-	 *            will be shown)
+	 * @param labelMultiplier the label multiplier (if set to 100, percent sign will
+	 *                        be shown)
 	 * @return this
 	 */
 	public PC_GresProgressBar setLabelMultiplier(int labelMultiplier) {
@@ -236,10 +234,10 @@ public class PC_GresProgressBar extends PC_GresWidget {
 	/**
 	 * Configure label on right
 	 * 
-	 * @param append label unit (eg. %, km, t)
-	 * @param longest longest expected text shown on label (eg. 100% or 999km)
-	 * @param multiplier fraction multiplier. The fraction is multiplied by this
-	 *            and rounded before showing as label.
+	 * @param append     label unit (eg. %, km, t)
+	 * @param longest    longest expected text shown on label (eg. 100% or 999km)
+	 * @param multiplier fraction multiplier. The fraction is multiplied by this and
+	 *                   rounded before showing as label.
 	 * @return this
 	 */
 	public PC_GresProgressBar configureLabel(String append, String longest, int multiplier) {
@@ -270,7 +268,8 @@ public class PC_GresProgressBar extends PC_GresWidget {
 
 		String texture = imgdir + "widgets.png";
 
-		renderTextureSliced(offsetPos, texture, size.copy().add(showLabel ? -(labelWidth + 3) : 0, 0, 0), new PC_VecI(0, 11 * 2), new PC_VecI(256, 11), new PC_RectI(1, 1, 1, 1));
+		renderTextureSliced(offsetPos, texture, size.copy().add(showLabel ? -(labelWidth + 3) : 0, 0, 0),
+				new PC_VecI(0, 11 * 2), new PC_VecI(256, 11), new PC_RectI(1, 1, 1, 1));
 
 		mc.renderEngine.bindTexture(new ResourceLocation(mod_PowerCraft.MODID, texture));
 
@@ -299,7 +298,6 @@ public class PC_GresProgressBar extends PC_GresWidget {
 	public MouseOver mouseOver(PC_VecI mpos) {
 		return MouseOver.THIS;
 	}
-
 
 	private boolean dragging = false;
 
@@ -346,8 +344,10 @@ public class PC_GresProgressBar extends PC_GresWidget {
 	}
 
 	@Override
-	public void mouseWheel(int i) {}
+	public void mouseWheel(int i) {
+	}
 
 	@Override
-	public void addedToWidget() {}
+	public void addedToWidget() {
+	}
 }

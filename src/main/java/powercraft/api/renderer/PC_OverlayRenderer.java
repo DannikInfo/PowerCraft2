@@ -9,11 +9,11 @@ import powercraft.api.registry.PC_OverlayRegistry;
 import powercraft.api.utils.PC_ClientUtils;
 
 public class PC_OverlayRenderer extends GuiIngame {
-	
+
 	public PC_OverlayRenderer(Minecraft minecraft) {
 		super(minecraft);
 	}
-	
+
 	@Override
 	public void renderGameOverlay(float timeStamp, boolean screen, int mx, int my) {
 		PC_ClientUtils.mc().entityRenderer.setupOverlayRendering();
@@ -23,5 +23,5 @@ public class PC_OverlayRenderer extends GuiIngame {
 		super.renderGameOverlay(timeStamp, screen, mx, my);
 		PC_OverlayRegistry.postOverlayRendering(this, timeStamp, screen, mx, my);
 	}
-	
+
 }

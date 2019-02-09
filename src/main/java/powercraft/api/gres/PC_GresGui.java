@@ -1,6 +1,5 @@
 package powercraft.api.gres;
 
-
 import java.util.List;
 
 import org.lwjgl.input.Keyboard;
@@ -15,7 +14,6 @@ import powercraft.api.tileentity.PC_ITileEntityWatcher;
 import powercraft.api.utils.PC_ClientUtils;
 import powercraft.api.utils.PC_RectI;
 import powercraft.api.utils.PC_VecI;
-
 
 /**
  * GuiScreen class
@@ -37,19 +35,19 @@ public class PC_GresGui extends GuiScreen implements PC_IGresGui, PC_ITileEntity
 	private int guiLeft;
 	private int guiTop;
 	private TileEntity tileEntity;
-	
+
 	/**
 	 * Constructor for creating a gui
 	 * 
 	 * @param gui the gui
 	 */
 	public PC_GresGui(TileEntity te, PC_IGresClient gui) {
-		this.gui = (PC_IGresClient)gui;
+		this.gui = (PC_IGresClient) gui;
 		this.guiLeft = (this.width - this.xSize) / 2;
-        this.guiTop = (this.height - this.ySize) / 2;
-        tileEntity = te;
-        //if(tileEntity!=null)
-		//	tileEntity.addTileEntityWatcher(this);
+		this.guiTop = (this.height - this.ySize) / 2;
+		tileEntity = te;
+		// if(tileEntity!=null)
+		// tileEntity.addTileEntityWatcher(this);
 	}
 
 	@Override
@@ -100,8 +98,8 @@ public class PC_GresGui extends GuiScreen implements PC_IGresGui, PC_ITileEntity
 	@Override
 	public void initGui() {
 		Keyboard.enableRepeatEvents(true);
-        guiLeft = (width - xSize) / 2;
-        guiTop = (height - ySize) / 2;
+		guiLeft = (width - xSize) / 2;
+		guiTop = (height - ySize) / 2;
 		child = new PC_GresLayoutV();
 		child.setFontRenderer(fontRendererObj);
 		child.setGui(this);
@@ -113,15 +111,16 @@ public class PC_GresGui extends GuiScreen implements PC_IGresGui, PC_ITileEntity
 	public void onGuiClosed() {
 		Keyboard.enableRepeatEvents(false);
 		gui.onGuiClosed(this);
-		//if(tileEntity!=null)
-		//	tileEntity.removeTileEntityWatcher(this);
+		// if(tileEntity!=null)
+		// tileEntity.removeTileEntityWatcher(this);
 		super.onGuiClosed();
 	}
 
 	@Override
 	protected void keyTyped(char c, int i) {
 
-		if (i == Keyboard.KEY_F11) {}
+		if (i == Keyboard.KEY_F11) {
+		}
 
 		if (lastFocus != null && lastFocus.visible) {
 			if (lastFocus.keyTyped(c, i)) {
@@ -137,7 +136,8 @@ public class PC_GresGui extends GuiScreen implements PC_IGresGui, PC_ITileEntity
 	protected void mouseClicked(int x, int y, int button) {
 
 		PC_GresWidget newFocus = child.getWidgetUnderMouse(new PC_VecI(x, y));
-		if (newFocus != null && !newFocus.visible) newFocus = null;
+		if (newFocus != null && !newFocus.visible)
+			newFocus = null;
 
 		if (newFocus != lastFocus) {
 			if (lastFocus != null) {
@@ -156,9 +156,9 @@ public class PC_GresGui extends GuiScreen implements PC_IGresGui, PC_ITileEntity
 			}
 		}
 		super.mouseClicked(x, y, button);
-		if(makeAction)
+		if (makeAction)
 			registerAction(newFocus);
-		
+
 	}
 
 	private void mouseMoved(int x, int y) {
@@ -186,7 +186,6 @@ public class PC_GresGui extends GuiScreen implements PC_IGresGui, PC_ITileEntity
 		}
 	}
 
-
 	/**
 	 * state = -1 ... move, other ... up
 	 */
@@ -206,12 +205,13 @@ public class PC_GresGui extends GuiScreen implements PC_IGresGui, PC_ITileEntity
 		return pauseGame;
 	}
 
-
 	protected void drawGuiContainerBackgroundLayer(float f, int i, int j) {
-		ScaledResolution sr = new ScaledResolution(PC_ClientUtils.mc(), PC_ClientUtils.mc().displayWidth, PC_ClientUtils.mc().displayHeight);
+		ScaledResolution sr = new ScaledResolution(PC_ClientUtils.mc(), PC_ClientUtils.mc().displayWidth,
+				PC_ClientUtils.mc().displayHeight);
 		GL11.glPushMatrix();
 		GL11.glEnable(GL11.GL_SCISSOR_TEST);
-		child.updateRenderer(new PC_VecI(0, 0), new PC_RectI(0, 0, sr.getScaledWidth(), sr.getScaledHeight()), sr.getScaleFactor());
+		child.updateRenderer(new PC_VecI(0, 0), new PC_RectI(0, 0, sr.getScaledWidth(), sr.getScaledHeight()),
+				sr.getScaleFactor());
 		GL11.glDisable(GL11.GL_SCISSOR_TEST);
 		GL11.glPopMatrix();
 	}
@@ -234,7 +234,6 @@ public class PC_GresGui extends GuiScreen implements PC_IGresGui, PC_ITileEntity
 		}
 	}
 
-
 	/**
 	 * Draws the screen and all the components in it. COPY FROM GuiContainer!<BR>
 	 * NEEDED TO OVERRIDE render() AND FOR CUSTOM SLOT RENDERING.<br>
@@ -242,23 +241,23 @@ public class PC_GresGui extends GuiScreen implements PC_IGresGui, PC_ITileEntity
 	 */
 	@Override
 	public void drawScreen(int par1, int par2, float par3) {
-		
+
 		gui.updateTick(this);
 
-		if(!gui.drawBackground(this, par1, par2, par3))
+		if (!gui.drawBackground(this, par1, par2, par3))
 			drawDefaultBackground();
-		
+
 		int i = guiLeft;
 		int j = guiTop;
 		drawGuiContainerBackgroundLayer(par3, par1, par2);
-		
+
 		GL11.glPushMatrix();
 		GL11.glTranslatef(i, j, 0.0F);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
-			
+
 		List list = getTooltipAtPosition(par1, par2);
-		
+
 		if (list != null && list.size() > 0) {
 			int l1 = 0;
 
@@ -310,7 +309,7 @@ public class PC_GresGui extends GuiScreen implements PC_IGresGui, PC_ITileEntity
 
 		GL11.glPopMatrix();
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
-		
+
 	}
 
 	/**
@@ -320,8 +319,8 @@ public class PC_GresGui extends GuiScreen implements PC_IGresGui, PC_ITileEntity
 	 * Returns if the passed mouse position is over the specified slot.
 	 * 
 	 * @param par1Slot the slot to check
-	 * @param par2 x ?
-	 * @param par3 y ?
+	 * @param par2     x ?
+	 * @param par3     y ?
 	 * @return is over
 	 */
 	private boolean isMouseOverSlot(Slot par1Slot, int par2, int par3) {
@@ -329,8 +328,8 @@ public class PC_GresGui extends GuiScreen implements PC_IGresGui, PC_ITileEntity
 		int j = guiTop;
 		par2 -= i;
 		par3 -= j;
-		return par2 >= par1Slot.xDisplayPosition - 1 && par2 < par1Slot.xDisplayPosition + 16 + 1 && par3 >= par1Slot.yDisplayPosition - 1
-				&& par3 < par1Slot.yDisplayPosition + 16 + 1;
+		return par2 >= par1Slot.xDisplayPosition - 1 && par2 < par1Slot.xDisplayPosition + 16 + 1
+				&& par3 >= par1Slot.yDisplayPosition - 1 && par3 < par1Slot.yDisplayPosition + 16 + 1;
 	}
 
 	@Override
@@ -342,30 +341,28 @@ public class PC_GresGui extends GuiScreen implements PC_IGresGui, PC_ITileEntity
 	public void registerAction(PC_GresWidget widget) {
 		gui.actionPerformed(widget, this);
 	}
-	
-	/**
-     * Handles mouse input.
-     */
-    public void handleMouseInput()
-    {
-        PC_VecI mp = getMousePos();
 
-        if (Mouse.getEventButtonState())
-        {
-            this.mouseClicked(mp.x, mp.y, Mouse.getEventButton());
-        }else{
-            this.mouseMovedOrUp(mp.x, mp.y, Mouse.getEventButton());
-        }
-    }
+	/**
+	 * Handles mouse input.
+	 */
+	public void handleMouseInput() {
+		PC_VecI mp = getMousePos();
+
+		if (Mouse.getEventButtonState()) {
+			this.mouseClicked(mp.x, mp.y, Mouse.getEventButton());
+		} else {
+			this.mouseMovedOrUp(mp.x, mp.y, Mouse.getEventButton());
+		}
+	}
 
 	@Override
 	public PC_GresBaseWithInventory getContainer() {
 		return null;
 	}
-	
+
 	public List<String> getTooltipAtPosition(int x, int y) {
 		PC_GresWidget w = child.getWidgetUnderMouse(new PC_VecI(x, y));
-		if(w==null)
+		if (w == null)
 			return null;
 		PC_VecI fpos = w.getPositionOnScreen();
 		return w.getTooltip(new PC_VecI(x - fpos.x, y - fpos.y));
@@ -390,8 +387,8 @@ public class PC_GresGui extends GuiScreen implements PC_IGresGui, PC_ITileEntity
 	@Override
 	public PC_VecI getMousePos() {
 		int x = Mouse.getEventX() * this.width / this.mc.displayWidth;
-	    int y = this.height - Mouse.getEventY() * this.height / this.mc.displayHeight - 1;
+		int y = this.height - Mouse.getEventY() * this.height / this.mc.displayHeight - 1;
 		return new PC_VecI(x, y);
 	}
-	
+
 }

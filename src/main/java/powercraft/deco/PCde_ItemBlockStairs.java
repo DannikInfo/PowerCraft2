@@ -20,7 +20,8 @@ public class PCde_ItemBlockStairs extends PC_ItemBlock {
 	}
 
 	@Override
-	public boolean onItemUse(ItemStack itemstack, EntityPlayer entityplayer, World world, int i, int j, int k, int l, float par8, float par9, float par10) {
+	public boolean onItemUse(ItemStack itemstack, EntityPlayer entityplayer, World world, int i, int j, int k, int l,
+			float par8, float par9, float par10) {
 		Block id = world.getBlock(i, j, k);
 
 		if (id == Blocks.snow) {
@@ -53,18 +54,14 @@ public class PCde_ItemBlockStairs extends PC_ItemBlock {
 
 		if (itemstack.stackSize == 0) {
 			return false;
-		}else if (!entityplayer.canPlayerEdit(i, j, k, l, itemstack))
-        {
-            return false;
-        }
-
-
+		} else if (!entityplayer.canPlayerEdit(i, j, k, l, itemstack)) {
+			return false;
+		}
 
 		// special placing rules for Ledge
 		Block bID = PC_Utils.getBID(world, i, j - 1, k);
-		
-		if (bID == PCde_App.stairs|| bID == PCde_App.platform) {
 
+		if (bID == PCde_App.stairs || bID == PCde_App.platform) {
 
 			int dir = ((MathHelper.floor_double(((entityplayer.rotationYaw * 4F) / 360F) + 0.5D) & 3) + 2) % 4;
 
@@ -94,28 +91,28 @@ public class PCde_ItemBlockStairs extends PC_ItemBlock {
 			j--;
 		}
 
-
 		if (j == 255 && bID.getMaterial().isSolid()) {
 			return false;
 		}
 
 		if (world.canPlaceEntityOnSide(PCde_App.stairs, i, j, k, false, l, entityplayer, itemstack)) {
 			Block block = PCde_App.stairs;
-			if(PC_Utils.setBID(world, i, j, k, block, 0)){
+			if (PC_Utils.setBID(world, i, j, k, block, 0)) {
 				// set tile entity
 				PCde_TileEntityStairs ted = (PCde_TileEntityStairs) world.getTileEntity(i, j, k);
 				if (ted == null) {
 					ted = (PCde_TileEntityStairs) ((BlockContainer) block).createNewTileEntity(world, 0);
 				}
 				world.setTileEntity(i, j, k, ted);
-				//block.onBlockPlaced(world, i, j, k, l);
+				// block.onBlockPlaced(world, i, j, k, l);
 				block.onBlockPlacedBy(world, i, j, k, entityplayer, itemstack);
 
 				world.markBlockRangeForRenderUpdate(i, j, k, i, j, k);
 				world.markBlockForUpdate(i, j, k);
 
-				//world.playSoundEffect(i + 0.5F, j + 0.5F, k + 0.5F, block.setStepSound(p_149672_1_), (block.stepSound.getVolume() + 1.0F) / 2.0F,
-				//		block.stepSound.getPitch() * 0.8F);
+				// world.playSoundEffect(i + 0.5F, j + 0.5F, k + 0.5F,
+				// block.setStepSound(p_149672_1_), (block.stepSound.getVolume() + 1.0F) / 2.0F,
+				// block.stepSound.getPitch() * 0.8F);
 
 				itemstack.stackSize--;
 			}

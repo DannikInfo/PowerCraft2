@@ -16,9 +16,9 @@ public class PC_RenderBlocks extends RenderBlocks {
 		super(blockAccess);
 	}
 	
-	@Override
+	@Override//TODO: Необходимо доделать это!
 	public boolean renderStandardBlockWithAmbientOcclusion(Block par1Block, int par2, int par3, int par4, float par5, float par6, float par7){
-		this.enableAO = true;
+		/*this.enableAO = true;
         boolean flag = false;
         float f3 = 0.0F;
         float f4 = 0.0F;
@@ -798,8 +798,8 @@ public class PC_RenderBlocks extends RenderBlocks {
             flag = true;
         }
 
-        this.enableAO = false;
-        return flag;
+        this.enableAO = false;*/
+        return false;//flag;
     }
 	
 	@Override

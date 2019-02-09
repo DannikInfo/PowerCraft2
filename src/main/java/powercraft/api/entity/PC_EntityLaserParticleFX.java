@@ -21,11 +21,11 @@ public class PC_EntityLaserParticleFX extends EntityReddustFX {
 	 * Laser particle
 	 * 
 	 * @param par1World the world
-	 * @param pos double coordinate position
-	 * @param color beam color
-	 * @param motion laser movement vector (unit vector)
-	 * @param par beam half (0 - both, 1 - first, 2 - second) - used to draw
-	 *            half-block beam when the direction changes on this block.
+	 * @param pos       double coordinate position
+	 * @param color     beam color
+	 * @param motion    laser movement vector (unit vector)
+	 * @param par       beam half (0 - both, 1 - first, 2 - second) - used to draw
+	 *                  half-block beam when the direction changes on this block.
 	 */
 	public PC_EntityLaserParticleFX(World par1World, PC_VecF pos, PC_Color color, PC_VecF motion, int par) {
 		super(par1World, pos.x, pos.y, pos.z, 0.45F, color.x, color.y, color.z);
@@ -33,14 +33,15 @@ public class PC_EntityLaserParticleFX extends EntityReddustFX {
 		motionX = motion.x;
 		motionZ = motion.y;
 		motionY = motion.z;
-		
+
 		part = par;
 
 		noClip = true;
 	}
 
 	@Override
-	public void renderParticle(Tessellator par1Tessellator, float par2, float par3, float par4, float par5, float par6, float par7) {
+	public void renderParticle(Tessellator par1Tessellator, float par2, float par3, float par4, float par5, float par6,
+			float par7) {
 		super.renderParticle(par1Tessellator, par2, par3, par4, par5, par6, par7);
 	}
 

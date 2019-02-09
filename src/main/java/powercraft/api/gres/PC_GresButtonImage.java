@@ -1,13 +1,11 @@
 package powercraft.api.gres;
 
-
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.util.ResourceLocation;
 import powercraft.api.utils.PC_RectI;
 import powercraft.api.utils.PC_VecI;
 import powercraft.launcher.mod_PowerCraft;
-
 
 /**
  * Resizable GUI button with image
@@ -19,7 +17,6 @@ public class PC_GresButtonImage extends PC_GresButton {
 
 	private String texture;
 	private PC_VecI textureLeftTop, imageSize;
-
 
 	/**
 	 * @param imageFile
@@ -38,11 +35,15 @@ public class PC_GresButtonImage extends PC_GresButton {
 
 	@Override
 	public PC_VecI calcSize() {
-		if (!visible) return zerosize;
+		if (!visible)
+			return zerosize;
 
-		if (buttonScale == null) buttonScale = new PC_VecI(4, 4);
-		if (size == null) size = new PC_VecI();
-		if (imageSize == null) imageSize = new PC_VecI();
+		if (buttonScale == null)
+			buttonScale = new PC_VecI(4, 4);
+		if (size == null)
+			size = new PC_VecI();
+		if (imageSize == null)
+			imageSize = new PC_VecI();
 
 		size.setTo(imageSize).add(buttonScale).add(buttonScale);
 
@@ -70,7 +71,8 @@ public class PC_GresButtonImage extends PC_GresButton {
 			state = 1; // enabled and not hover
 		}
 
-		renderTextureSliced(offsetPos, imgdir + "button.png", size, new PC_VecI(0, state * 50), new PC_VecI(256, 50), new PC_RectI(2, 2, 2, 3));
+		renderTextureSliced(offsetPos, imgdir + "button.png", size, new PC_VecI(0, state * 50), new PC_VecI(256, 50),
+				new PC_RectI(2, 2, 2, 3));
 
 		// and here goes the image
 		mc.renderEngine.bindTexture(new ResourceLocation(mod_PowerCraft.MODID, texture));
@@ -78,8 +80,9 @@ public class PC_GresButtonImage extends PC_GresButton {
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
-		drawTexturedModalRect(pos.x + offsetPos.x + (size.x - imageSize.x) / 2, pos.y + offsetPos.y + (size.y - imageSize.y) / 2, textureLeftTop.x,
-				textureLeftTop.y, imageSize.x, imageSize.y);
+		drawTexturedModalRect(pos.x + offsetPos.x + (size.x - imageSize.x) / 2,
+				pos.y + offsetPos.y + (size.y - imageSize.y) / 2, textureLeftTop.x, textureLeftTop.y, imageSize.x,
+				imageSize.y);
 
 		GL11.glDisable(GL11.GL_BLEND);
 

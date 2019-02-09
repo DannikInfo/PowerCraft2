@@ -31,7 +31,7 @@ import powercraft.api.utils.PC_Utils;
 import powercraft.api.utils.PC_VecI;
 import powercraft.launcher.mod_PowerCraft;
 
-@PC_BlockInfo(name="Stairs", tileEntity=PCde_TileEntityStairs.class, canPlacedRotated=true)
+@PC_BlockInfo(name = "Stairs", tileEntity = PCde_TileEntityStairs.class, canPlacedRotated = true)
 public class PCde_BlockStairs extends PC_Block {
 
 	public PCde_BlockStairs(int id) {
@@ -41,9 +41,9 @@ public class PCde_BlockStairs extends PC_Block {
 		setStepSound(Block.soundTypeMetal);
 		setCreativeTab(CreativeTabs.tabDecorations);
 	}
-	
-	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack is){
-		int l = MathHelper.floor_double((double)(entity.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack is) {
+		int l = MathHelper.floor_double((double) (entity.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
 		world.setBlockMetadataWithNotify(x, y, z, l, 2);
 	}
 
@@ -51,7 +51,7 @@ public class PCde_BlockStairs extends PC_Block {
 	 * Get fences that are shown for stairs.
 	 * 
 	 * @param world world
-	 * @param pos block pos
+	 * @param pos   block pos
 	 * @return bool{X+, X-, Z+, Z-}
 	 */
 	private boolean[] getFencesShownStairsAbsolute(World world, PC_VecI pos) {
@@ -133,17 +133,18 @@ public class PCde_BlockStairs extends PC_Block {
 		setBlockBounds(0, 0, 0, 1, 1, 1);
 	}
 
-	public void addACollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB axisalignedbb, List arraylist, Entity entity) {
+	public void addACollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB axisalignedbb, List arraylist,
+			Entity entity) {
 		AxisAlignedBB axisalignedbb1 = super.getCollisionBoundingBoxFromPool(world, x, y, z);
 
-        if (axisalignedbb1 != null && axisalignedbb.intersectsWith(axisalignedbb1))
-        {
-        	arraylist.add(axisalignedbb1);
-        }
+		if (axisalignedbb1 != null && axisalignedbb.intersectsWith(axisalignedbb1)) {
+			arraylist.add(axisalignedbb1);
+		}
 	}
-	
+
 	@Override
-	public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB axisalignedbb, List arraylist, Entity entity) {
+	public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB axisalignedbb, List arraylist,
+			Entity entity) {
 
 		PC_Direction dir = getRotation(PC_Utils.getMD(world, x, y, z)).mirror();
 
@@ -199,14 +200,16 @@ public class PCde_BlockStairs extends PC_Block {
 	public boolean renderAsNormalBlock() {
 		return false;
 	}
-	
+
 	public boolean renderInventoryBlock(int metadata, Object renderer) {
-		
+
 		PCde_ModelStairs model = new PCde_ModelStairs();
-		
+
 		float f = 1.0F;
 
-		Minecraft.getMinecraft().getTextureManager().bindTexture(new ResourceLocation(mod_PowerCraft.MODID, PC_TextureRegistry.getPowerCraftImageDir()+PC_TextureRegistry.getTextureName(PCde_App.instance, "block_deco.png")));
+		Minecraft.getMinecraft().getTextureManager()
+				.bindTexture(new ResourceLocation(mod_PowerCraft.MODID, PC_TextureRegistry.getPowerCraftImageDir()
+						+ PC_TextureRegistry.getTextureName(PCde_App.instance, "block_deco.png")));
 
 		PC_Renderer.glPushMatrix();
 		PC_Renderer.glRotatef(180 + 90, 0, 1, 0);
@@ -218,33 +221,33 @@ public class PCde_BlockStairs extends PC_Block {
 
 		PC_Renderer.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		PC_Renderer.glPopMatrix();
-		
+
 		return true;
-		
+
 	}
-	
+
 	@Override
 	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Object renderer) {
 		return true;
 	}
 
 	@Override
-	public PC_VecI moveBlockTryToPlaceAt(World world, int x, int y, int z,
-			PC_Direction dir, float xHit, float yHit, float zHit,
-			ItemStack itemStack, EntityPlayer entityPlayer) {
-		
+	public PC_VecI moveBlockTryToPlaceAt(World world, int x, int y, int z, PC_Direction dir, float xHit, float yHit,
+			float zHit, ItemStack itemStack, EntityPlayer entityPlayer) {
+
 		Item item = itemStack.getItem();
-		if(item instanceof ItemBlock){
+		if (item instanceof ItemBlock) {
 			Block block = Block.getBlockFromItem(item);
 			PC_Direction rot = getRotation(PC_Utils.getMD(world, x, y, z));
-			PC_Direction pRot = PC_Direction.getFromPlayerDir(MathHelper.floor_double(((entityPlayer.rotationYaw * 4F) / 360F) + 0.5D) & 3);
+			PC_Direction pRot = PC_Direction
+					.getFromPlayerDir(MathHelper.floor_double(((entityPlayer.rotationYaw * 4F) / 360F) + 0.5D) & 3);
 			PC_VecI offset = pRot.getOffset();
-			if(rot==pRot){
-				if(block==PCde_App.stairs || block==PCde_App.platform){
+			if (rot == pRot) {
+				if (block == PCde_App.stairs || block == PCde_App.platform) {
 					offset.y++;
 				}
-			}else if(rot==pRot.mirror()){
-				if(block==PCde_App.stairs && PC_KeyRegistry.isPlacingReversed(entityPlayer)){
+			} else if (rot == pRot.mirror()) {
+				if (block == PCde_App.stairs && PC_KeyRegistry.isPlacingReversed(entityPlayer)) {
 					offset.y--;
 				}
 			}
@@ -252,7 +255,7 @@ public class PCde_BlockStairs extends PC_Block {
 		}
 		return null;
 	}
-	
+
 	@Override
 	public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int par4) {
 		setBlockBounds(0, 0, 0, 1, 1.5f, 1);

@@ -10,17 +10,17 @@ import powercraft.api.utils.PC_Utils;
 import powercraft.api.utils.PC_VecI;
 
 public class PC_ChunkForcerRegistry implements PC_IDataHandler {
-	
+
 	private static PC_ChunkForcerRegistry instance;
 	private static HashMap<Integer, HashMap<PC_VecI, Integer>> chunks = new HashMap<Integer, HashMap<PC_VecI, Integer>>();
 	private static boolean needSave = false;
-	
+
 	public static PC_ChunkForcerRegistry getInstance() {
 		if (instance == null)
 			instance = new PC_ChunkForcerRegistry();
 		return instance;
 	}
-	
+
 	private HashMap<PC_VecI, Integer> loadList(NBTTagCompound nbtTag, HashMap<PC_VecI, Integer> distance) {
 		int count = nbtTag.getInteger("count");
 		for (int i = 0; i < count; i++) {
@@ -31,18 +31,19 @@ public class PC_ChunkForcerRegistry implements PC_IDataHandler {
 		}
 		return distance;
 	}
-	
+
 	@Override
 	public void load(NBTTagCompound nbtTag) {
 		reset();
 		int count = nbtTag.getInteger("count");
 		for (int i = 0; i < count; i++) {
 			int dim = nbtTag.getInteger("key[" + i + "]");
-			HashMap<PC_VecI, Integer> distance = loadList(nbtTag.getCompoundTag("value[" + i + "]"), new HashMap<PC_VecI, Integer>());
+			HashMap<PC_VecI, Integer> distance = loadList(nbtTag.getCompoundTag("value[" + i + "]"),
+					new HashMap<PC_VecI, Integer>());
 			chunks.put(dim, distance);
 		}
 	}
-	
+
 	private NBTTagCompound saveList(NBTTagCompound nbtTag, HashMap<PC_VecI, Integer> distance) {
 		nbtTag.setInteger("count", distance.size());
 		int i = 0;
@@ -53,7 +54,7 @@ public class PC_ChunkForcerRegistry implements PC_IDataHandler {
 		}
 		return nbtTag;
 	}
-	
+
 	@Override
 	public NBTTagCompound save(NBTTagCompound nbtTag) {
 		needSave = false;
@@ -66,20 +67,18 @@ public class PC_ChunkForcerRegistry implements PC_IDataHandler {
 		}
 		return nbtTag;
 	}
-	
+
 	@Override
 	public boolean needSave() {
 		return needSave;
 	}
-	
+
 	@Override
 	public void reset() {
 		needSave = false;
 		chunks.clear();
 	}
-	
 
-	
 	public static void forceChunkUpdate(World world, PC_VecI pos, int radius) {
 		if (world.isRemote)
 			return;
@@ -93,7 +92,7 @@ public class PC_ChunkForcerRegistry implements PC_IDataHandler {
 		distance.put(pos, radius);
 		needSave = true;
 	}
-	
+
 	public static void stopForceChunkUpdate(World world, PC_VecI pos) {
 		if (world.isRemote)
 			return;
@@ -111,10 +110,10 @@ public class PC_ChunkForcerRegistry implements PC_IDataHandler {
 			}
 		}
 	}
-	
+
 	@Override
 	public String getName() {
 		return "PC_ChunkForcerRegistry";
 	}
-	
+
 }

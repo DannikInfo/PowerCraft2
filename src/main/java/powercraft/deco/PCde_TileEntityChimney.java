@@ -12,10 +12,10 @@ import powercraft.api.utils.PC_VecI;
 public class PCde_TileEntityChimney extends PC_TileEntity {
 
 	private static Random rand = new Random();
-	
+
 	@Override
 	public void updateEntity() {
-		
+
 		if (rand.nextInt(6) == 0) {
 			tryToSmoke();
 		}
@@ -41,19 +41,21 @@ public class PCde_TileEntityChimney extends PC_TileEntity {
 			double smK = zCoord + rand.nextFloat() * 0.4F + 0.2F;
 
 			PC_Utils.spawnParticle("EntitySmokeFX", worldObj, smI, smJ, smK, 0.0D, 0.0D, 0.0D, 2.0F);
-			
+
 		}
 	}
 
 	private boolean doesBlockSmoke(PC_VecI pos) {
 		Block block = PC_Utils.getBlock(worldObj, pos);
-		if (block == Blocks.lit_furnace) return true;
-		if (block == Blocks.fire) return true;
-		if (block instanceof PC_Block){
-			/*Object o = ((PC_Block) block).msg(PC_MSGRegistry.MSG_DOES_SMOKE, worldObj, pos);
-			if(o instanceof Boolean){
-				return (Boolean)o;
-			}*/
+		if (block == Blocks.lit_furnace)
+			return true;
+		if (block == Blocks.fire)
+			return true;
+		if (block instanceof PC_Block) {
+			/*
+			 * Object o = ((PC_Block) block).msg(PC_MSGRegistry.MSG_DOES_SMOKE, worldObj,
+			 * pos); if(o instanceof Boolean){ return (Boolean)o; }
+			 */
 		}
 		return false;
 	}
@@ -70,9 +72,9 @@ public class PCde_TileEntityChimney extends PC_TileEntity {
 	}
 
 	private void tryToSmoke() {
-		if(!worldObj.isRemote)
+		if (!worldObj.isRemote)
 			return;
-		if (worldObj.isAirBlock(xCoord, yCoord + 1, zCoord)) { //test if air is above chimney	    
+		if (worldObj.isAirBlock(xCoord, yCoord + 1, zCoord)) { // test if air is above chimney
 
 			PC_VecI cursor = getCoord().copy();
 
@@ -87,7 +89,8 @@ public class PCde_TileEntityChimney extends PC_TileEntity {
 					smoke |= isBlockLitFurnace(cursor.offset(1, 0, 0));
 					smoke |= isBlockLitFurnace(cursor.offset(0, 0, -1));
 					smoke |= isBlockLitFurnace(cursor.offset(0, 0, 1));
-					if (smoke) break;
+					if (smoke)
+						break;
 					continue;
 				} else {
 					// no more chimney. check what is underneath.
@@ -98,7 +101,7 @@ public class PCde_TileEntityChimney extends PC_TileEntity {
 						break;
 					}
 
-					//a block under
+					// a block under
 					if (doesBlockSmoke(cursor.offset(0, -1, 0))) {
 						smoke = true;
 						break;
@@ -109,28 +112,32 @@ public class PCde_TileEntityChimney extends PC_TileEntity {
 					smoke |= doesBlockSmoke(cursor.offset(1, 0, 0));
 					smoke |= doesBlockSmoke(cursor.offset(0, 0, -1));
 					smoke |= doesBlockSmoke(cursor.offset(0, 0, 1));
-					if (smoke) break;
+					if (smoke)
+						break;
 
 					// smoke sources by corner
 					smoke |= doesBlockSmoke(cursor.offset(1, 0, -1));
 					smoke |= doesBlockSmoke(cursor.offset(-1, 0, 1));
 					smoke |= doesBlockSmoke(cursor.offset(-1, 0, -1));
 					smoke |= doesBlockSmoke(cursor.offset(1, 0, 1));
-					if (smoke) break;
+					if (smoke)
+						break;
 
 					// under by side
 					smoke |= doesBlockSmoke(cursor.offset(-1, -1, 0));
 					smoke |= doesBlockSmoke(cursor.offset(1, -1, 0));
 					smoke |= doesBlockSmoke(cursor.offset(0, -1, -1));
 					smoke |= doesBlockSmoke(cursor.offset(0, -1, 1));
-					if (smoke) break;
+					if (smoke)
+						break;
 
-					//under by corner
+					// under by corner
 					smoke |= doesBlockSmoke(cursor.offset(1, -1, -1));
 					smoke |= doesBlockSmoke(cursor.offset(-1, -1, 1));
 					smoke |= doesBlockSmoke(cursor.offset(-1, -1, -1));
 					smoke |= doesBlockSmoke(cursor.offset(1, -1, 1));
-					if (smoke) break;
+					if (smoke)
+						break;
 				}
 			}
 
@@ -140,5 +147,5 @@ public class PCde_TileEntityChimney extends PC_TileEntity {
 
 		}
 	}
-	
+
 }

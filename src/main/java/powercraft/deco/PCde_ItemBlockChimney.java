@@ -21,7 +21,7 @@ public class PCde_ItemBlockChimney extends PC_ItemBlock {
 	public int getMetadata(int metadata) {
 		return metadata;
 	}
-	
+
 	@Override
 	public String getUnlocalizedName(ItemStack itemstack) {
 		return getUnlocalizedName() + ".type" + itemstack.getItemDamage();
@@ -45,8 +45,8 @@ public class PCde_ItemBlockChimney extends PC_ItemBlock {
 		arrayList.add(new ItemStack(this, 1, 13));
 		arrayList.add(new ItemStack(this, 1, 14));
 		arrayList.add(new ItemStack(this, 1, 15));
-		
+
 		return arrayList;
 	}
-	
+
 }

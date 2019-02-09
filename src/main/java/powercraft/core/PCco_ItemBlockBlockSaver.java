@@ -24,15 +24,15 @@ public class PCco_ItemBlockBlockSaver extends PC_ItemBlock {
 	public PCco_ItemBlockBlockSaver(Block block) {
 		super(block);
 	}
-	
+
 	@Override
 	public boolean showInCraftingTool() {
 		return false;
 	}
 
 	@Override
-    public boolean onItemUse(ItemStack itemstack, EntityPlayer entityplayer, World world, int x, int y, int z, int face, float par8, float par9, float par10)
-    {
+	public boolean onItemUse(ItemStack itemstack, EntityPlayer entityplayer, World world, int x, int y, int z, int face,
+			float par8, float par9, float par10) {
 		Block i = world.getBlock(x, y, z);
 
 		if (i == Blocks.snow) {
@@ -79,7 +79,7 @@ public class PCco_ItemBlockBlockSaver extends PC_ItemBlock {
 		}
 
 		ItemStack setItem = new ItemStack(placed, 0, placedMeta);
-		
+
 		if (y == 255 && Block.getBlockFromItem(placed).getMaterial().isSolid()) {
 			return false;
 		}
@@ -91,11 +91,12 @@ public class PCco_ItemBlockBlockSaver extends PC_ItemBlock {
 
 			if (PC_Utils.setBID(world, pos, Block.getBlockFromItem(placed), placedMeta)) {
 				if (PC_Utils.getBID(world, pos) == Block.getBlockFromItem(placed)) {
-					/** @todo onBlockPlacedBy*/
+					/** @todo onBlockPlacedBy */
 					Block.getBlockFromItem(placed).onBlockPlacedBy(world, x, y, z, entityplayer, setItem);
 
-					//world.playSoundEffect(x + 0.5F, y + 0.5F, z + 0.5F, block.stepSound.getStepSound(), (block.stepSound.getVolume() + 1.0F) / 2.0F,
-					//		block.stepSound.getPitch() * 0.8F);
+					// world.playSoundEffect(x + 0.5F, y + 0.5F, z + 0.5F,
+					// block.stepSound.getStepSound(), (block.stepSound.getVolume() + 1.0F) / 2.0F,
+					// block.stepSound.getPitch() * 0.8F);
 
 					if (itemstack.hasTagCompound()) {
 						NBTTagCompound tag = itemstack.getTagCompound();
@@ -119,15 +120,15 @@ public class PCco_ItemBlockBlockSaver extends PC_ItemBlock {
 
 				}
 
-
-				entityplayer.inventory.setInventorySlotContents(entityplayer.inventory.currentItem, itemstack.splitStack(itemstack.stackSize - 1));
+				entityplayer.inventory.setInventorySlotContents(entityplayer.inventory.currentItem,
+						itemstack.splitStack(itemstack.stackSize - 1));
 			}
 
 			return true;
 		} else {
 			return false;
 		}
-    }
+	}
 
 	private int getBlockMetadata(ItemStack itemstack) {
 		if (!itemstack.hasTagCompound()) {
@@ -136,7 +137,6 @@ public class PCco_ItemBlockBlockSaver extends PC_ItemBlock {
 			return itemstack.getTagCompound().getInteger("BlockMeta");
 		}
 	}
-
 
 	private int getBlockID(ItemStack itemstack) {
 		if (!itemstack.hasTagCompound()) {
@@ -160,17 +160,15 @@ public class PCco_ItemBlockBlockSaver extends PC_ItemBlock {
 
 	@Override
 	public void onUpdate(ItemStack itemStack, World world, Entity entity, int slot, boolean isCurrentItem) {
-		if(entity instanceof EntityLivingBase){
-			EntityLivingBase living = (EntityLivingBase)entity;
+		if (entity instanceof EntityLivingBase) {
+			EntityLivingBase living = (EntityLivingBase) entity;
 			living.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 100, 1));
 			living.addPotionEffect(new PotionEffect(Potion.digSlowdown.id, 100, 1));
 			living.addPotionEffect(new PotionEffect(Potion.hunger.id, 100, 1));
 			living.addPotionEffect(new PotionEffect(Potion.weakness.id, 100, 1));
 			living.addPotionEffect(new PotionEffect(Potion.jump.id, 100, -2));
-			
+
 		}
 	}
-	
-	
-	
+
 }

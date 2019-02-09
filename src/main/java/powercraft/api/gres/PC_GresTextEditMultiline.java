@@ -1,6 +1,5 @@
 package powercraft.api.gres;
 
-
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
@@ -14,7 +13,6 @@ import org.lwjgl.input.Keyboard;
 import powercraft.api.utils.PC_RectI;
 import powercraft.api.utils.PC_VecI;
 
-
 /**
  * Multiline text edit
  * 
@@ -24,8 +22,8 @@ import powercraft.api.utils.PC_VecI;
 public class PC_GresTextEditMultiline extends PC_GresWidget {
 	public static interface AutoAdd {
 
-
-		public StringAdd charAdd(PC_GresTextEditMultiline te, char c, Keyword kw, int blocks, String textBevore, String textBehind);
+		public StringAdd charAdd(PC_GresTextEditMultiline te, char c, Keyword kw, int blocks, String textBevore,
+				String textBehind);
 
 	}
 
@@ -118,7 +116,8 @@ public class PC_GresTextEditMultiline extends PC_GresWidget {
 		}
 
 		public String getLine(int line) {
-			if (line >= 0 && line < getNumLines()) return lines[line].toString();
+			if (line >= 0 && line < getNumLines())
+				return lines[line].toString();
 			return "";
 		}
 
@@ -185,7 +184,8 @@ public class PC_GresTextEditMultiline extends PC_GresWidget {
 				bbev = lines[line].getNotEndedBlock();
 				notEndedKeywordBevore = lines[line].setString(s, notEndedKeywordBevore, notEndedBlockBevore);
 				notEndedBlockBevore = lines[line].getNotEndedBlock();
-				if (kwbev != notEndedKeywordBevore || bbev != notEndedBlockBevore) update(line + 1);
+				if (kwbev != notEndedKeywordBevore || bbev != notEndedBlockBevore)
+					update(line + 1);
 			}
 			return this;
 		}
@@ -225,7 +225,8 @@ public class PC_GresTextEditMultiline extends PC_GresWidget {
 				bbev = lines[line].getNotEndedBlock();
 				notEndedKeywordBevore = lines[line].update(notEndedKeywordBevore, notEndedBlockBevore);
 				notEndedBlockBevore = lines[line].getNotEndedBlock();
-				if (kwbev != notEndedKeywordBevore || bbev != notEndedBlockBevore) update(line + 1);
+				if (kwbev != notEndedKeywordBevore || bbev != notEndedBlockBevore)
+					update(line + 1);
 			}
 		}
 	}
@@ -256,7 +257,7 @@ public class PC_GresTextEditMultiline extends PC_GresWidget {
 		/**
 		 * Keyword coloring of plain word
 		 * 
-		 * @param word keyword string
+		 * @param word  keyword string
 		 * @param color color
 		 */
 		public Keyword(String word, int color) {
@@ -267,8 +268,8 @@ public class PC_GresTextEditMultiline extends PC_GresWidget {
 		/**
 		 * keyword coloring
 		 * 
-		 * @param word the word string or regexp pattern
-		 * @param color color
+		 * @param word   the word string or regexp pattern
+		 * @param color  color
 		 * @param regexp is string a regexp pattern?
 		 */
 		public Keyword(String word, int color, boolean regexp) {
@@ -288,9 +289,9 @@ public class PC_GresTextEditMultiline extends PC_GresWidget {
 		/**
 		 * keyword coloring
 		 * 
-		 * @param word the word string or regexp pattern
-		 * @param color color
-		 * @param regexp is string a regexp pattern?
+		 * @param word          the word string or regexp pattern
+		 * @param color         color
+		 * @param regexp        is string a regexp pattern?
 		 * @param nextWordColor color
 		 */
 		public Keyword(String word, int color, boolean regexp, int nextWordKeywordColor) {
@@ -303,9 +304,9 @@ public class PC_GresTextEditMultiline extends PC_GresWidget {
 		/**
 		 * keyword coloring - sequence
 		 * 
-		 * @param start the string the sequence starts with
-		 * @param end the end of the sequence
-		 * @param color color
+		 * @param start  the string the sequence starts with
+		 * @param end    the end of the sequence
+		 * @param color  color
 		 * @param regexp is string a regexp pattern?
 		 */
 		public Keyword(String start, String end, int color, boolean regexp) {
@@ -333,17 +334,22 @@ public class PC_GresTextEditMultiline extends PC_GresWidget {
 		}
 
 		public Keyword getKeyword(String word) {
-			if (keyWords == null) return null;
+			if (keyWords == null)
+				return null;
 			for (Keyword kw : keyWords) {
-				if (!kw.isRegexp && word.equals(kw.word)) return kw;
-				if (kw.isRegexp && word.matches(kw.word)) return kw;
+				if (!kw.isRegexp && word.equals(kw.word))
+					return kw;
+				if (kw.isRegexp && word.matches(kw.word))
+					return kw;
 			}
 			return null;
 		}
 
 		public Keyword getKeywordForChar(int i) {
-			if (i >= 0 && i < line.length) return line[i].kw;
-			if (i >= line.length) return notEndedKeyword;
+			if (i >= 0 && i < line.length)
+				return line[i].kw;
+			if (i >= line.length)
+				return notEndedKeyword;
 			return null;
 		}
 
@@ -357,13 +363,18 @@ public class PC_GresTextEditMultiline extends PC_GresWidget {
 			for (int i = 0; i < s.length(); i++) {
 				c = s.charAt(i);
 				if (Character.isLetterOrDigit(c) || c == '_' || c == '.') {
-					if (ret.type == 0) ret.type = 1;
-					if (ret.type != 1) return ret;
+					if (ret.type == 0)
+						ret.type = 1;
+					if (ret.type != 1)
+						return ret;
 				} else if (c != ' ' && c != '\t' && c != '\n' && c != '\r') {
-					if (ret.type == 0) ret.type = 2;
-					if (ret.type != 2) return ret;
+					if (ret.type == 0)
+						ret.type = 2;
+					if (ret.type != 2)
+						return ret;
 				} else {
-					if (ret.type != 0) return ret;
+					if (ret.type != 0)
+						return ret;
 				}
 				if (ret.type != 0) {
 					ret.text += c;
@@ -398,7 +409,8 @@ public class PC_GresTextEditMultiline extends PC_GresWidget {
 				c = line[i].c;
 				charWidth = getFontRenderer().getCharWidth(c);
 				if (xV >= scroll.x) {
-					if (xV + charWidth > size.x + scroll.x - 24) return;
+					if (xV + charWidth > size.x + scroll.x - 24)
+						return;
 					if (c != '\t')
 						drawStringColor("" + c, offsetPos.x + xV - scroll.x, offsetPos.y, fg != null ? 0xff000000 | fg
 								: line[i].kw == null ? 0xff000000 | colorDefault : line[i].kw.color);
@@ -463,9 +475,12 @@ public class PC_GresTextEditMultiline extends PC_GresWidget {
 							i++;
 						}
 						if (kw != null) {
-							if (kw.openBlock) notEndedBlock++;
-							if (kw.closeBlock) notEndedBlock--;
-							if (notEndedBlock < 0) notEndedBlock = 0;
+							if (kw.openBlock)
+								notEndedBlock++;
+							if (kw.closeBlock)
+								notEndedBlock--;
+							if (notEndedBlock < 0)
+								notEndedBlock = 0;
 						}
 						i--;
 					} else if (text.type == 2) {
@@ -487,9 +502,12 @@ public class PC_GresTextEditMultiline extends PC_GresWidget {
 										notEndedKeyword = kw;
 										ending = notEndedKeyword.end;
 									}
-									if (kw.openBlock) notEndedBlock++;
-									if (kw.closeBlock) notEndedBlock--;
-									if (notEndedBlock < 0) notEndedBlock = 0;
+									if (kw.openBlock)
+										notEndedBlock++;
+									if (kw.closeBlock)
+										notEndedBlock--;
+									if (notEndedBlock < 0)
+										notEndedBlock = 0;
 
 									break;
 								}
@@ -505,7 +523,8 @@ public class PC_GresTextEditMultiline extends PC_GresWidget {
 				eqal = "" + br;
 				if (!notEndedKeyword.isRegexp && eqal.equals(ending))
 					notEndedKeyword = null;
-				else if (notEndedKeyword.isRegexp && eqal.matches(ending)) notEndedKeyword = null;
+				else if (notEndedKeyword.isRegexp && eqal.matches(ending))
+					notEndedKeyword = null;
 			}
 			return notEndedKeyword;
 		}
@@ -540,7 +559,7 @@ public class PC_GresTextEditMultiline extends PC_GresWidget {
 	 */
 	public static FontRenderer getFR() {
 		return mc.fontRenderer;
-		//TODO return mod_PCcore.fontRendererDefault;
+		// TODO return mod_PCcore.fontRendererDefault;
 	}
 
 	private PC_VecI lastMousePosition = new PC_VecI(0, 0);
@@ -549,17 +568,19 @@ public class PC_GresTextEditMultiline extends PC_GresWidget {
 	private int mousePressed = 0;
 	private PC_VecI scroll = new PC_VecI(0, 0);
 	private List<Keyword> keyWords = null;
+
 	public void setKeywords(List<Keyword> kw) {
 		this.keyWords = kw;
 		text.update();
 	}
-	//private ArrayList<Keyword> oneFrameKeyWords = new ArrayList<Keyword>();
-	//private ArrayList<Keyword> newOneFrameKeyWords;
+
+	// private ArrayList<Keyword> oneFrameKeyWords = new ArrayList<Keyword>();
+	// private ArrayList<Keyword> newOneFrameKeyWords;
 	private AutoAdd autoAdd = null;
 	private int vScrollSize = 0, hScrollSize = 0;
 	private float vScrollPos = 0, hScrollPos = 0;
 
-	//private int nextWordKeywordColor = 0;
+	// private int nextWordKeywordColor = 0;
 
 	private TextFile text;
 	private Integer bg = null, fg = null;
@@ -583,12 +604,13 @@ public class PC_GresTextEditMultiline extends PC_GresWidget {
 	/**
 	 * Multi-row text edit
 	 * 
-	 * @param text initial text
-	 * @param minWidth width
+	 * @param text      initial text
+	 * @param minWidth  width
 	 * @param minHeight height
 	 */
 	public PC_GresTextEditMultiline(String text, int minWidth, int minHeight, int colorDefault, int colorBackground) {
-		super(minWidth > 20 ? minWidth : 20, minHeight > getFR().FONT_HEIGHT + 26 ? minHeight : getFR().FONT_HEIGHT + 26, "");
+		super(minWidth > 20 ? minWidth : 20,
+				minHeight > getFR().FONT_HEIGHT + 26 ? minHeight : getFR().FONT_HEIGHT + 26, "");
 		canAddWidget = false;
 		this.colorDefault = colorDefault;
 		this.colorBackground = colorBackground;
@@ -604,17 +626,19 @@ public class PC_GresTextEditMultiline extends PC_GresWidget {
 	/**
 	 * Multi-row text edit
 	 * 
-	 * @param text initial text
-	 * @param minWidth width
+	 * @param text      initial text
+	 * @param minWidth  width
 	 * @param minHeight height
-	 * @param keyWords list of keywords
+	 * @param keyWords  list of keywords
 	 */
-	public PC_GresTextEditMultiline(String text, int minWidth, int minHeight, int colorDefault, int colorBackground, List<Keyword> keyWords) {
-		super(minWidth > 20 ? minWidth : 20, minHeight > getFR().FONT_HEIGHT + 26 ? minHeight : getFR().FONT_HEIGHT + 26, "");
+	public PC_GresTextEditMultiline(String text, int minWidth, int minHeight, int colorDefault, int colorBackground,
+			List<Keyword> keyWords) {
+		super(minWidth > 20 ? minWidth : 20,
+				minHeight > getFR().FONT_HEIGHT + 26 ? minHeight : getFR().FONT_HEIGHT + 26, "");
 		canAddWidget = false;
 		this.colorDefault = colorDefault;
 		this.colorBackground = colorBackground;
-		color[textColorEnabled] = 0xff000000 |colorDefault;
+		color[textColorEnabled] = 0xff000000 | colorDefault;
 		color[textColorShadowEnabled] = 0; // 0xff383838;
 		color[textColorClicked] = 0xff000000 | colorDefault;
 		color[textColorHover] = 0xff000000 | colorDefault;
@@ -627,14 +651,16 @@ public class PC_GresTextEditMultiline extends PC_GresWidget {
 	/**
 	 * Multi-row text edit
 	 * 
-	 * @param text initial text
-	 * @param minWidth width
+	 * @param text      initial text
+	 * @param minWidth  width
 	 * @param minHeight height
-	 * @param keyWords list of keywords
-	 * @param autoAdd autoAdd function
+	 * @param keyWords  list of keywords
+	 * @param autoAdd   autoAdd function
 	 */
-	public PC_GresTextEditMultiline(String text, int minWidth, int minHeight, int colorDefault, int colorBackground, List<Keyword> keyWords, AutoAdd autoAdd) {
-		super(minWidth > 20 ? minWidth : 20, minHeight > getFR().FONT_HEIGHT + 26 ? minHeight : getFR().FONT_HEIGHT + 26, "");
+	public PC_GresTextEditMultiline(String text, int minWidth, int minHeight, int colorDefault, int colorBackground,
+			List<Keyword> keyWords, AutoAdd autoAdd) {
+		super(minWidth > 20 ? minWidth : 20,
+				minHeight > getFR().FONT_HEIGHT + 26 ? minHeight : getFR().FONT_HEIGHT + 26, "");
 		canAddWidget = false;
 		this.colorDefault = colorDefault;
 		this.colorBackground = colorBackground;
@@ -663,7 +689,8 @@ public class PC_GresTextEditMultiline extends PC_GresWidget {
 	}
 
 	@Override
-	public void addedToWidget() {}
+	public void addedToWidget() {
+	}
 
 	/**
 	 * Replace selection with given key
@@ -680,8 +707,9 @@ public class PC_GresTextEditMultiline extends PC_GresWidget {
 		StringAdd sa = null;
 		if (autoAdd != null) {
 
-			sa = autoAdd.charAdd(this, c, text.getKeywordForChar(mouseSelectEnd.y, mouseSelectEnd.x), text.getBlocksForLine(mouseSelectEnd.y),
-					text.getString(0, 0, mouseSelectEnd.y, mouseSelectEnd.x), s);
+			sa = autoAdd.charAdd(this, c, text.getKeywordForChar(mouseSelectEnd.y, mouseSelectEnd.x),
+					text.getBlocksForLine(mouseSelectEnd.y), text.getString(0, 0, mouseSelectEnd.y, mouseSelectEnd.x),
+					s);
 		}
 		if (sa == null) {
 			text.addString("" + c, mouseSelectEnd.y, mouseSelectEnd.x, mouseSelectEnd.y, mouseSelectEnd.x);
@@ -689,13 +717,15 @@ public class PC_GresTextEditMultiline extends PC_GresWidget {
 		} else {
 			text.addString(c + sa.addString, mouseSelectEnd.y, mouseSelectEnd.x, mouseSelectEnd.y, mouseSelectEnd.x);
 			moveCursor(1);
-			if (sa.jumpToEnd) moveCursor(sa.addString.length());
+			if (sa.jumpToEnd)
+				moveCursor(sa.addString.length());
 		}
 		mouseSelectStart.setTo(mouseSelectEnd);
 	}
 
 	@Override
-	public void calcChildPositions() {}
+	public void calcChildPositions() {
+	}
 
 	private void calcScrollPosition() {
 
@@ -771,8 +801,8 @@ public class PC_GresTextEditMultiline extends PC_GresWidget {
 			exx = size.x - 24;
 		}
 
-		drawRect(offsetPos.x + pos.x + sxx + 6, offsetPos.y + pos.y + 6 + cy * getFR().FONT_HEIGHT, offsetPos.x + pos.x + exx + 6, offsetPos.y
-				+ pos.y + 6 + (cy + 1) * getFR().FONT_HEIGHT, 0xff3399FF);
+		drawRect(offsetPos.x + pos.x + sxx + 6, offsetPos.y + pos.y + 6 + cy * getFR().FONT_HEIGHT,
+				offsetPos.x + pos.x + exx + 6, offsetPos.y + pos.y + 6 + (cy + 1) * getFR().FONT_HEIGHT, 0xff3399FF);
 	}
 
 	@Override
@@ -838,13 +868,16 @@ public class PC_GresTextEditMultiline extends PC_GresWidget {
 	}
 
 	private void key_backspace() {
-		if ((mouseSelectStart.x == mouseSelectEnd.x && mouseSelectStart.y == mouseSelectEnd.y)) moveCursor(-1);
+		if ((mouseSelectStart.x == mouseSelectEnd.x && mouseSelectStart.y == mouseSelectEnd.y))
+			moveCursor(-1);
 		deleteSelected();
 	}
 
 	private void key_delete() {
-		if ((mouseSelectStart.x == mouseSelectEnd.x && mouseSelectStart.y == mouseSelectEnd.y)) moveCursor(1);
-		if ((mouseSelectStart.x == mouseSelectEnd.x && mouseSelectStart.y == mouseSelectEnd.y)) moveCursor(-1);
+		if ((mouseSelectStart.x == mouseSelectEnd.x && mouseSelectStart.y == mouseSelectEnd.y))
+			moveCursor(1);
+		if ((mouseSelectStart.x == mouseSelectEnd.x && mouseSelectStart.y == mouseSelectEnd.y))
+			moveCursor(-1);
 		deleteSelected();
 	}
 
@@ -855,70 +888,70 @@ public class PC_GresTextEditMultiline extends PC_GresWidget {
 			return false;
 		}
 		switch (c) {
-			case 3:
-				GuiScreen.setClipboardString(getSelect());
-				setScrollToCursor();
-				return true;
+		case 3:
+			GuiScreen.setClipboardString(getSelect());
+			setScrollToCursor();
+			return true;
 
-			case 22:
-				setSelected(GuiScreen.getClipboardString());
-				setScrollToCursor();
-				return true;
+		case 22:
+			setSelected(GuiScreen.getClipboardString());
+			setScrollToCursor();
+			return true;
 
-			case 24:
-				GuiScreen.setClipboardString(getSelect());
-				deleteSelected();
-				setScrollToCursor();
-				return true;
+		case 24:
+			GuiScreen.setClipboardString(getSelect());
+			deleteSelected();
+			setScrollToCursor();
+			return true;
 		}
 		switch (key) {
-			case Keyboard.KEY_RETURN:
-				addKey(br);
+		case Keyboard.KEY_RETURN:
+			addKey(br);
+			setScrollToCursor();
+			return true;
+		case Keyboard.KEY_BACK:
+			key_backspace();
+			setScrollToCursor();
+			return true;
+		case Keyboard.KEY_DELETE:
+			key_delete();
+			setScrollToCursor();
+			return true;
+		case Keyboard.KEY_LEFT:
+			moveCursor(-1);
+			if (!(Keyboard.isKeyDown(Keyboard.KEY_RSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))) {
+				mouseSelectStart.setTo(mouseSelectEnd);
+			}
+			setScrollToCursor();
+			return true;
+		case Keyboard.KEY_RIGHT:
+			moveCursor(1);
+			if (!(Keyboard.isKeyDown(Keyboard.KEY_RSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))) {
+				mouseSelectStart.setTo(mouseSelectEnd);
+			}
+			setScrollToCursor();
+			return true;
+		case Keyboard.KEY_UP:
+			mouseSelectEnd.setTo(lineUp());
+			if (!(Keyboard.isKeyDown(Keyboard.KEY_RSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))) {
+				mouseSelectStart.setTo(mouseSelectEnd);
+			}
+			setScrollToCursor();
+			return true;
+		case Keyboard.KEY_DOWN:
+			mouseSelectEnd.setTo(lineDown());
+			if (!(Keyboard.isKeyDown(Keyboard.KEY_RSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))) {
+				mouseSelectStart.setTo(mouseSelectEnd);
+			}
+			setScrollToCursor();
+			return true;
+		default:
+			if (ChatAllowedCharacters.isAllowedCharacter(c) || c == '\t') {
+				addKey(c);
 				setScrollToCursor();
 				return true;
-			case Keyboard.KEY_BACK:
-				key_backspace();
-				setScrollToCursor();
-				return true;
-			case Keyboard.KEY_DELETE:
-				key_delete();
-				setScrollToCursor();
-				return true;
-			case Keyboard.KEY_LEFT:
-				moveCursor(-1);
-				if (!(Keyboard.isKeyDown(Keyboard.KEY_RSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))) {
-					mouseSelectStart.setTo(mouseSelectEnd);
-				}
-				setScrollToCursor();
-				return true;
-			case Keyboard.KEY_RIGHT:
-				moveCursor(1);
-				if (!(Keyboard.isKeyDown(Keyboard.KEY_RSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))) {
-					mouseSelectStart.setTo(mouseSelectEnd);
-				}
-				setScrollToCursor();
-				return true;
-			case Keyboard.KEY_UP:
-				mouseSelectEnd.setTo(lineUp());
-				if (!(Keyboard.isKeyDown(Keyboard.KEY_RSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))) {
-					mouseSelectStart.setTo(mouseSelectEnd);
-				}
-				setScrollToCursor();
-				return true;
-			case Keyboard.KEY_DOWN:
-				mouseSelectEnd.setTo(lineDown());
-				if (!(Keyboard.isKeyDown(Keyboard.KEY_RSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))) {
-					mouseSelectStart.setTo(mouseSelectEnd);
-				}
-				setScrollToCursor();
-				return true;
-			default:
-				if (ChatAllowedCharacters.isAllowedCharacter(c) || c == '\t') {
-					addKey(c);
-					setScrollToCursor();
-					return true;
-				}
-				return false;
+			}
+			return false;
 		}
 	}
 
@@ -1001,18 +1034,18 @@ public class PC_GresTextEditMultiline extends PC_GresWidget {
 	@Override
 	public void mouseMove(PC_VecI mousePos) {
 		switch (mousePressed) {
-			case 1:
-				mouseSelectEnd.setTo(getMousePositionInString(mousePos));
-				setScrollToCursor();
-				break;
-			case 2:
-				vScrollPos += mousePos.y - lastMousePosition.y;
-				updateScrollPosition();
-				break;
-			case 3:
-				hScrollPos += mousePos.x - lastMousePosition.x;
-				updateScrollPosition();
-				break;
+		case 1:
+			mouseSelectEnd.setTo(getMousePositionInString(mousePos));
+			setScrollToCursor();
+			break;
+		case 2:
+			vScrollPos += mousePos.y - lastMousePosition.y;
+			updateScrollPosition();
+			break;
+		case 3:
+			hScrollPos += mousePos.x - lastMousePosition.x;
+			updateScrollPosition();
+			break;
 		}
 		lastMousePosition.setTo(mousePos);
 	}
@@ -1069,41 +1102,46 @@ public class PC_GresTextEditMultiline extends PC_GresWidget {
 
 	@Override
 	protected PC_RectI render(PC_VecI offsetPos, PC_RectI scissorOld, double scale) {
-		
+
 		drawHorizontalLine(offsetPos.x + pos.x, offsetPos.x + pos.x + size.x - 1, offsetPos.y + pos.y, 0xffA0A0A0);
-		drawHorizontalLine(offsetPos.x + pos.x, offsetPos.x + pos.x + size.x - 12, offsetPos.y + pos.y + size.y - 1, 0xffA0A0A0);
+		drawHorizontalLine(offsetPos.x + pos.x, offsetPos.x + pos.x + size.x - 12, offsetPos.y + pos.y + size.y - 1,
+				0xffA0A0A0);
 
 		drawVerticalLine(offsetPos.x + pos.x, offsetPos.y + pos.y, offsetPos.y + pos.y + size.y - 1, 0xffA0A0A0);
-		drawVerticalLine(offsetPos.x + pos.x + size.x - 1, offsetPos.y + pos.y, offsetPos.y + pos.y + size.y - 12, 0xffA0A0A0);
+		drawVerticalLine(offsetPos.x + pos.x + size.x - 1, offsetPos.y + pos.y, offsetPos.y + pos.y + size.y - 12,
+				0xffA0A0A0);
 
-		drawRect(offsetPos.x + pos.x + 1, offsetPos.y + pos.y + 1, offsetPos.x + pos.x + size.x - 12, offsetPos.y + pos.y + size.y - 12,
-				0xff000000 | (bg != null ? bg : colorBackground));
+		drawRect(offsetPos.x + pos.x + 1, offsetPos.y + pos.y + 1, offsetPos.x + pos.x + size.x - 12,
+				offsetPos.y + pos.y + size.y - 12, 0xff000000 | (bg != null ? bg : colorBackground));
 
 		int scrollbarBg = 0x909090;
 
-		drawRect(offsetPos.x + pos.x + 1, offsetPos.y + pos.y + size.y - 11, offsetPos.x + pos.x + size.x - 12, offsetPos.y + pos.y + size.y - 1,
-				scrollbarBg);
+		drawRect(offsetPos.x + pos.x + 1, offsetPos.y + pos.y + size.y - 11, offsetPos.x + pos.x + size.x - 12,
+				offsetPos.y + pos.y + size.y - 1, scrollbarBg);
 
-		drawRect(offsetPos.x + pos.x + size.x - 11, offsetPos.y + pos.y + 1, offsetPos.x + pos.x + size.x - 1, offsetPos.y + pos.y + size.y - 12,
-				scrollbarBg);
+		drawRect(offsetPos.x + pos.x + size.x - 11, offsetPos.y + pos.y + 1, offsetPos.x + pos.x + size.x - 1,
+				offsetPos.y + pos.y + size.y - 12, scrollbarBg);
 
-		drawHorizontalLine(offsetPos.x + pos.x, offsetPos.x + pos.x + size.x - 1, offsetPos.y + pos.y + size.y - 12, 0xffA0A0A0);
+		drawHorizontalLine(offsetPos.x + pos.x, offsetPos.x + pos.x + size.x - 1, offsetPos.y + pos.y + size.y - 12,
+				0xffA0A0A0);
 
-		drawVerticalLine(offsetPos.x + pos.x + size.x - 12, offsetPos.y + pos.y, offsetPos.y + pos.y + size.y - 1, 0xffA0A0A0);
+		drawVerticalLine(offsetPos.x + pos.x + size.x - 12, offsetPos.y + pos.y, offsetPos.y + pos.y + size.y - 1,
+				0xffA0A0A0);
 
 		if (mousePressed == 0 || mousePressed == 1) {
 			calcScrollPosition();
 		}
 
-		renderTextureSliced(offsetPos.copy().add((int) hScrollPos + 1, size.y - 11, 0), imgdir + "scrollbar_handle.png", new PC_VecI(
-				hScrollSize - 1, 10), new PC_VecI(0, 0), new PC_VecI(256, 256), new PC_RectI(1, 1, 1, 1));
+		renderTextureSliced(offsetPos.copy().add((int) hScrollPos + 1, size.y - 11, 0), imgdir + "scrollbar_handle.png",
+				new PC_VecI(hScrollSize - 1, 10), new PC_VecI(0, 0), new PC_VecI(256, 256), new PC_RectI(1, 1, 1, 1));
 
-		renderTextureSliced(offsetPos.copy().add(size.x - 11, 1 + (int) vScrollPos, 0), imgdir + "scrollbar_handle.png", new PC_VecI(
-				10, vScrollSize - 1), new PC_VecI(0, 0), new PC_VecI(256, 256), new PC_RectI(1, 1, 1, 1));
+		renderTextureSliced(offsetPos.copy().add(size.x - 11, 1 + (int) vScrollPos, 0), imgdir + "scrollbar_handle.png",
+				new PC_VecI(10, vScrollSize - 1), new PC_VecI(0, 0), new PC_VecI(256, 256), new PC_RectI(1, 1, 1, 1));
 
 		if ((!(mouseSelectStart.x == mouseSelectEnd.x && mouseSelectStart.y == mouseSelectEnd.y)) && hasFocus) {
 			PC_VecI cs = mouseSelectStart, ce = mouseSelectEnd;
-			if (mouseSelectStart.y > mouseSelectEnd.y || (mouseSelectStart.y == mouseSelectEnd.y && mouseSelectStart.x > mouseSelectEnd.x)) {
+			if (mouseSelectStart.y > mouseSelectEnd.y
+					|| (mouseSelectStart.y == mouseSelectEnd.y && mouseSelectStart.x > mouseSelectEnd.x)) {
 				cs = mouseSelectEnd;
 				ce = mouseSelectStart;
 			}
@@ -1128,22 +1166,22 @@ public class PC_GresTextEditMultiline extends PC_GresWidget {
 
 		}
 
-		
-		
 		text.render(offsetPos);
 
 		if (enabled && hasFocus && (cursorCounter / 6) % 2 == 0) {
 			if (coordsInDrawRect(new PC_VecI(mouseSelectEnd.x > 0 ? mouseSelectEnd.x - 1 : 0, mouseSelectEnd.y))) {
 				try {
-					drawVerticalLine(offsetPos.x + pos.x + _getStringWidth(getLine(mouseSelectEnd.y).substring(0, mouseSelectEnd.x)) + 5 - scroll.x,
-							offsetPos.y + pos.y + 6 + (mouseSelectEnd.y - scroll.y) * getFR().FONT_HEIGHT, offsetPos.y + pos.y + 6
-									+ (mouseSelectEnd.y - scroll.y + 1) * getFR().FONT_HEIGHT, color[enabled ? textColorEnabled : textColorDisabled]);
+					drawVerticalLine(offsetPos.x + pos.x
+							+ _getStringWidth(getLine(mouseSelectEnd.y).substring(0, mouseSelectEnd.x)) + 5 - scroll.x,
+							offsetPos.y + pos.y + 6 + (mouseSelectEnd.y - scroll.y) * getFR().FONT_HEIGHT,
+							offsetPos.y + pos.y + 6 + (mouseSelectEnd.y - scroll.y + 1) * getFR().FONT_HEIGHT,
+							color[enabled ? textColorEnabled : textColorDisabled]);
 				} catch (StringIndexOutOfBoundsException e) {
 					e.printStackTrace();
 				}
 			}
 		}
-		
+
 		return null;
 	}
 
@@ -1244,9 +1282,9 @@ public class PC_GresTextEditMultiline extends PC_GresWidget {
 
 	@Override
 	public List<String> getTooltip(PC_VecI mousePos) {
-		if(Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)||Keyboard.isKeyDown(Keyboard.KEY_RCONTROL))
-			return Arrays.asList("Line: "+(getMousePositionInString(mousePos).y+1));
+		if (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL))
+			return Arrays.asList("Line: " + (getMousePositionInString(mousePos).y + 1));
 		return null;
 	}
-	
+
 }

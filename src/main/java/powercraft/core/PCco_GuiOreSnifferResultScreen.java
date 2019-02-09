@@ -31,9 +31,9 @@ public class PCco_GuiOreSnifferResultScreen implements PC_IGresClient {
 	private PC_VecI[][] startpos;
 	private World world;
 	private PC_VecI start;
-	
+
 	private static final int range = 16;
-	
+
 	private void rotateRight() {
 		PC_VecI swap = startpos[0][0];
 		startpos[0][0] = startpos[0][1];
@@ -45,17 +45,17 @@ public class PCco_GuiOreSnifferResultScreen implements PC_IGresClient {
 		startpos[2][0] = startpos[1][0];
 		startpos[1][0] = swap;
 	}
-	
-	public PCco_GuiOreSnifferResultScreen(EntityPlayer player, PC_TileEntity te, Object[]o){
-		//super(player, te, o);
+
+	public PCco_GuiOreSnifferResultScreen(EntityPlayer player, PC_TileEntity te, Object[] o) {
+		// super(player, te, o);
 		int[] offsetX = { 0, 0, 0, 0, 1, -1 };
 		int[] offsetZ = { 0, 0, 1, -1, 0, 0 };
 		int[] offsetY = { 1, -1, 0, 0, 0, 0 };
 		this.startpos = new PC_VecI[3][3];
 		this.world = player.worldObj;
-		this.start = new PC_VecI((Integer)o[0], (Integer)o[1], (Integer)o[2]);
-		this.vector = new PC_VecI(offsetX[(Integer)o[3]], offsetY[(Integer)o[3]], offsetZ[(Integer)o[3]]);
-				
+		this.start = new PC_VecI((Integer) o[0], (Integer) o[1], (Integer) o[2]);
+		this.vector = new PC_VecI(offsetX[(Integer) o[3]], offsetY[(Integer) o[3]], offsetZ[(Integer) o[3]]);
+
 		int l = PC_MathHelper.floor_double(((player.rotationYaw * 4F) / 360F) + 0.5D) & 3;
 
 		if (vector.equals(new PC_VecI(0, -1, 0))) {
@@ -77,7 +77,6 @@ public class PCco_GuiOreSnifferResultScreen implements PC_IGresClient {
 				rotateRight();
 			}
 
-
 		} else if (vector.equals(new PC_VecI(1, 0, 0))) {
 			this.startpos[0][0] = start.offset(0, 1, -1);
 			this.startpos[1][0] = start.offset(0, 1, 0);
@@ -98,7 +97,6 @@ public class PCco_GuiOreSnifferResultScreen implements PC_IGresClient {
 			this.startpos[0][2] = start.offset(-1, -1, 0);
 			this.startpos[1][2] = start.offset(0, -1, 0);
 			this.startpos[2][2] = start.offset(1, -1, 0);
-
 
 		} else if (vector.equals(new PC_VecI(0, 1, 0))) {
 			this.startpos[0][2] = start.offset(-1, 0, -1);
@@ -139,7 +137,7 @@ public class PCco_GuiOreSnifferResultScreen implements PC_IGresClient {
 			this.startpos[0][2] = start.offset(1, -1, 0);
 		}
 	}
-	
+
 	@Override
 	public void initGui(PC_IGresGui gui) {
 		PC_GresWindow w = new PC_GresWindow("item.PCco_ItemOreSniffer.name");
@@ -179,14 +177,14 @@ public class PCco_GuiOreSnifferResultScreen implements PC_IGresClient {
 		for (int x = 0; x < 3; x++) {
 			for (int y = 0; y < 3; y++) {
 				ItemStack stack = null;
-				
+
 				PC_VecI pos = startpos[x][y].offset(vector.copy().mul(distance));
 
 				Block block = PC_Utils.getBID(world, pos);
 				int meta = PC_Utils.getMD(world, pos);
 
 				if (block != Blocks.air && block != null) {
-					if(block==Blocks.redstone_wire){
+					if (block == Blocks.redstone_wire) {
 						block = Block.getBlockFromItem(Items.redstone);
 					}
 					stack = new ItemStack(block, 1, meta);
@@ -196,10 +194,11 @@ public class PCco_GuiOreSnifferResultScreen implements PC_IGresClient {
 			}
 		}
 	}
-	
+
 	@Override
-	public void onGuiClosed(PC_IGresGui gui) {}
-	
+	public void onGuiClosed(PC_IGresGui gui) {
+	}
+
 	@Override
 	public void actionPerformed(PC_GresWidget widget, PC_IGresGui gui) {
 		if (widget == slider) {
@@ -210,16 +209,18 @@ public class PCco_GuiOreSnifferResultScreen implements PC_IGresClient {
 
 	@Override
 	public void onKeyPressed(PC_IGresGui gui, char c, int i) {
-		if(i==Keyboard.KEY_RETURN || i==Keyboard.KEY_ESCAPE || i==Keyboard.KEY_E){
+		if (i == Keyboard.KEY_RETURN || i == Keyboard.KEY_ESCAPE || i == Keyboard.KEY_E) {
 			gui.close();
 		}
 	}
 
 	@Override
-	public void updateTick(PC_IGresGui gui) {}
+	public void updateTick(PC_IGresGui gui) {
+	}
 
 	@Override
-	public void updateScreen(PC_IGresGui gui) {}
+	public void updateScreen(PC_IGresGui gui) {
+	}
 
 	@Override
 	public boolean drawBackground(PC_IGresGui gui, int par1, int par2, float par3) {
@@ -227,6 +228,7 @@ public class PCco_GuiOreSnifferResultScreen implements PC_IGresClient {
 	}
 
 	@Override
-	public void keyChange(String key, Object value) {}
+	public void keyChange(String key, Object value) {
+	}
 
 }

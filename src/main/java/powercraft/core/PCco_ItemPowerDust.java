@@ -13,23 +13,23 @@ public class PCco_ItemPowerDust extends PC_Item {
 
 	public PCco_ItemPowerDust(int id) {
 		super("powerdust");
-	    setCreativeTab(CreativeTabs.tabMaterials);
+		setCreativeTab(CreativeTabs.tabMaterials);
 	}
-	
-    @Override
-    public boolean hasEffect(ItemStack itemstack){
-        return true;
-    }
+
+	@Override
+	public boolean hasEffect(ItemStack itemstack) {
+		return true;
+	}
 
 	@Override
 	public List<LangEntry> getNames(ArrayList<LangEntry> names) {
 		names.add(new LangEntry(getUnlocalizedName(), "Power dust"));
-        return names;
+		return names;
 	}
 
 	@Override
 	public int getBurnTime(ItemStack fuel) {
 		return 3600;
 	}
-	
+
 }

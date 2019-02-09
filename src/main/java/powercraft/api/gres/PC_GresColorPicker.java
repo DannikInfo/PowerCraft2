@@ -1,6 +1,5 @@
 package powercraft.api.gres;
 
-
 import net.minecraft.client.renderer.Tessellator;
 
 import org.lwjgl.opengl.GL11;
@@ -8,7 +7,6 @@ import org.lwjgl.util.Color;
 
 import powercraft.api.utils.PC_RectI;
 import powercraft.api.utils.PC_VecI;
-
 
 /**
  * Color picker
@@ -25,8 +23,9 @@ public class PC_GresColorPicker extends PC_GresWidget {
 
 	/**
 	 * color picker
-	 * @param color initial color
-	 * @param width width px
+	 * 
+	 * @param color  initial color
+	 * @param width  width px
 	 * @param height height px
 	 */
 	public PC_GresColorPicker(int color, int width, int height) {
@@ -35,7 +34,8 @@ public class PC_GresColorPicker extends PC_GresWidget {
 		colorArray = new int[width][height];
 		size = calcSize();
 
-		if (parent != null) parent.calcChildPositions();
+		if (parent != null)
+			parent.calcChildPositions();
 
 		float[] hsv = { 0, 1, 1 };
 
@@ -43,8 +43,9 @@ public class PC_GresColorPicker extends PC_GresWidget {
 		int wi = colorArray.length;
 
 		int col = 0;
-		for (hsv[0] = 0; hsv[0] <= 1; hsv[0] += 1F / (wi-2), col++) {
-			if (col >= colorArray.length) col = colorArray.length - 1;
+		for (hsv[0] = 0; hsv[0] <= 1; hsv[0] += 1F / (wi - 2), col++) {
+			if (col >= colorArray.length)
+				col = colorArray.length - 1;
 			int i = 0;
 			for (int row = 0; row <= he / 2; row++) {
 				float mp = (1F / (colorArray[0].length / 2)) * i++;
@@ -60,20 +61,20 @@ public class PC_GresColorPicker extends PC_GresWidget {
 				colorArray[col][row] = clr(cc.getRed(), cc.getGreen(), cc.getBlue());
 			}
 		}
-		
+
 		for (int row = 0; row < colorArray[0].length; row++) {
 			Color cc = new Color();
-			cc.fromHSB(0, 0, row*(1F/colorArray[0].length));
-			colorArray[colorArray.length-1][row] = clr(cc.getRed(), cc.getGreen(), cc.getBlue());
-			colorArray[colorArray.length-2][row] = clr(cc.getRed(), cc.getGreen(), cc.getBlue());
+			cc.fromHSB(0, 0, row * (1F / colorArray[0].length));
+			colorArray[colorArray.length - 1][row] = clr(cc.getRed(), cc.getGreen(), cc.getBlue());
+			colorArray[colorArray.length - 2][row] = clr(cc.getRed(), cc.getGreen(), cc.getBlue());
 		}
-		
 
 		this.setColor(color);
 	}
 
 	/**
 	 * Set selected color
+	 * 
 	 * @param color color rgb
 	 */
 	public void setColor(int color) {
@@ -94,6 +95,7 @@ public class PC_GresColorPicker extends PC_GresWidget {
 
 	/**
 	 * get selected color
+	 * 
 	 * @return color rgb
 	 */
 	public int getColor() {
@@ -107,7 +109,8 @@ public class PC_GresColorPicker extends PC_GresWidget {
 
 	@Override
 	public PC_VecI calcSize() {
-		if (!visible) return zerosize;
+		if (!visible)
+			return zerosize;
 		if (colorArray == null)
 			return zerosize;
 		else
@@ -115,7 +118,8 @@ public class PC_GresColorPicker extends PC_GresWidget {
 	}
 
 	@Override
-	public void calcChildPositions() {}
+	public void calcChildPositions() {
+	}
 
 	private boolean dragging = false;
 
@@ -138,7 +142,6 @@ public class PC_GresColorPicker extends PC_GresWidget {
 							color = ~color;
 						}
 
-
 						posX = x * px + pos.x + posOffset.x;
 						posY = y * px + pos.y + posOffset.y;
 						tessellator.setColorRGBA((color >> 16) & 0xFF, (color >> 8) & 0xFF, color & 0xFF, 255);
@@ -156,7 +159,7 @@ public class PC_GresColorPicker extends PC_GresWidget {
 		}
 		tessellator.draw();
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
-		
+
 		return null;
 	}
 
@@ -170,7 +173,8 @@ public class PC_GresColorPicker extends PC_GresWidget {
 		dragging = (key != -1);
 		lx = mousePos.x / px;
 		ly = mousePos.y / px;
-		if(lx<0||ly<0||lx>=colorArray.length||ly>=colorArray[lx].length) return false;
+		if (lx < 0 || ly < 0 || lx >= colorArray.length || ly >= colorArray[lx].length)
+			return false;
 		color = colorArray[lx][ly];
 		return true;
 	}
@@ -184,10 +188,12 @@ public class PC_GresColorPicker extends PC_GresWidget {
 	}
 
 	@Override
-	public void addedToWidget() {}
+	public void addedToWidget() {
+	}
 
 	@Override
-	public void mouseWheel(int i) {}
+	public void mouseWheel(int i) {
+	}
 
 	@Override
 	public boolean keyTyped(char c, int key) {

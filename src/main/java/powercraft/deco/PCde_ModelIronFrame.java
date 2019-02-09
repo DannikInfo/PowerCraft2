@@ -6,7 +6,7 @@ import net.minecraft.client.model.ModelRenderer;
 public class PCde_ModelIronFrame extends ModelBase {
 
 	private ModelRenderer ironFrame[];
-	
+
 	/**
 	 * Radio block model.
 	 */
@@ -16,8 +16,6 @@ public class PCde_ModelIronFrame extends ModelBase {
 		textureHeight = 64;
 
 		ironFrame = new ModelRenderer[8];
-
-
 
 		// frame
 		// top bottom
@@ -67,7 +65,6 @@ public class PCde_ModelIronFrame extends ModelBase {
 		ironFrame[side + 3].showModel = show;
 	}
 
-
 	/**
 	 * Do render.
 	 * 
@@ -83,5 +80,5 @@ public class PCde_ModelIronFrame extends ModelBase {
 			part.render(0.0625F); // length of one size and position unit
 		}
 	}
-	
+
 }

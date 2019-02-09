@@ -12,76 +12,66 @@ import powercraft.api.utils.PC_Direction;
 import powercraft.api.utils.PC_VecI;
 import powercraft.launcher.mod_PowerCraft;
 
-@PC_BlockInfo(name="break belt", canPlacedRotated=true)
-public class PCtr_BlockBeltBreak extends PCtr_BlockBeltBase{
-	
-    public PCtr_BlockBeltBreak(int id){
-        super("belt_break");
-        setBlockName("PCtr_BlockBeltBreak");
-    }
-   
+@PC_BlockInfo(name = "break belt", canPlacedRotated = true)
+public class PCtr_BlockBeltBreak extends PCtr_BlockBeltBase {
 
-    @Override
-    public void onEntityCollidedWithBlock(World world, int i, int j, int k, Entity entity)
-    {
-        PC_VecI pos = new PC_VecI(i, j, k);
+	public PCtr_BlockBeltBreak(int id) {
+		super("belt_break");
+		setBlockName("PCtr_BlockBeltBreak");
+	}
 
-        if (PCtr_BeltHelper.isEntityIgnored(entity))
-        {
-            return;
-        }
+	@Override
+	public void onEntityCollidedWithBlock(World world, int i, int j, int k, Entity entity) {
+		PC_VecI pos = new PC_VecI(i, j, k);
 
-        if (entity instanceof EntityItem)
-        {
-            PCtr_BeltHelper.packItems(world, pos);
-        }
+		if (PCtr_BeltHelper.isEntityIgnored(entity)) {
+			return;
+		}
 
-        if (entity instanceof EntityItem)
-        {
-            PCtr_BeltHelper.doSpecialItemAction(world, pos, (EntityItem) entity);
+		if (entity instanceof EntityItem) {
+			PCtr_BeltHelper.packItems(world, pos);
+		}
 
-            if (PCtr_BeltHelper.storeNearby(world, pos, (EntityItem) entity, isPowered(world, pos)))
-            {
-                return;
-            }
-        }
+		if (entity instanceof EntityItem) {
+			PCtr_BeltHelper.doSpecialItemAction(world, pos, (EntityItem) entity);
 
-        boolean halted = isPowered(world, pos);
+			if (PCtr_BeltHelper.storeNearby(world, pos, (EntityItem) entity, isPowered(world, pos))) {
+				return;
+			}
+		}
 
-        if (halted)
-        {
-            if (entity instanceof EntityMinecart && halted)
-            {
-                entity.motionX *= 0.2D;
-                entity.motionZ *= 0.2D;
-            }
-            else
-            {
-                entity.motionX *= 0.6D;
-                entity.motionZ *= 0.6D;
-            }
-        }
+		boolean halted = isPowered(world, pos);
 
-        PC_Direction direction = getRotation(world.getBlockMetadata(i, j, k));
+		if (halted) {
+			if (entity instanceof EntityMinecart && halted) {
+				entity.motionX *= 0.2D;
+				entity.motionZ *= 0.2D;
+			} else {
+				entity.motionX *= 0.6D;
+				entity.motionZ *= 0.6D;
+			}
+		}
 
-        PC_VecI pos_leading_to = pos.offset(direction.getOffset());
+		PC_Direction direction = getRotation(world.getBlockMetadata(i, j, k));
 
-        boolean leadsToNowhere = PCtr_BeltHelper.isBlocked(world, pos_leading_to);
-        leadsToNowhere = leadsToNowhere && PCtr_BeltHelper.isBeyondStorageBorder(world, direction, pos, entity, PCtr_BeltHelper.STORAGE_BORDER_LONG);
+		PC_VecI pos_leading_to = pos.offset(direction.getOffset());
 
-        if (!leadsToNowhere)
-        {
-            PCtr_BeltHelper.entityPreventDespawning(world, pos, !halted, entity);
-        }
+		boolean leadsToNowhere = PCtr_BeltHelper.isBlocked(world, pos_leading_to);
+		leadsToNowhere = leadsToNowhere && PCtr_BeltHelper.isBeyondStorageBorder(world, direction, pos, entity,
+				PCtr_BeltHelper.STORAGE_BORDER_LONG);
 
-        double speed_max = PCtr_BeltHelper.MAX_HORIZONTAL_SPEED * 0.6D;
-        double boost = PCtr_BeltHelper.HORIZONTAL_BOOST * 0.6D;
-        PCtr_BeltHelper.moveEntityOnBelt(world, pos, entity, true, !halted && !leadsToNowhere, direction, speed_max, boost);
-    }
+		if (!leadsToNowhere) {
+			PCtr_BeltHelper.entityPreventDespawning(world, pos, !halted, entity);
+		}
 
-    private boolean isPowered(World world, PC_VecI pos)
-    {
-    	return getRedstonePowereValue(world, pos.x, pos.y, pos.z)>0;
-    }
+		double speed_max = PCtr_BeltHelper.MAX_HORIZONTAL_SPEED * 0.6D;
+		double boost = PCtr_BeltHelper.HORIZONTAL_BOOST * 0.6D;
+		PCtr_BeltHelper.moveEntityOnBelt(world, pos, entity, true, !halted && !leadsToNowhere, direction, speed_max,
+				boost);
+	}
+
+	private boolean isPowered(World world, PC_VecI pos) {
+		return getRedstonePowereValue(world, pos.x, pos.y, pos.z) > 0;
+	}
 
 }

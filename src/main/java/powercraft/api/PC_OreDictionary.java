@@ -34,22 +34,21 @@ public class PC_OreDictionary {
 	}
 
 	public static void register(String name, ItemStack ore) {
-		//List<PC_ItemStack> l;
-		//if (ores.containsKey(name)) {
-		//	l = ores.get(name);
-		//} else {
-		//	ores.put(name, l = new ArrayList<PC_ItemStack>());
-		//}
-		//l.add(ore);
+		// List<PC_ItemStack> l;
+		// if (ores.containsKey(name)) {
+		// l = ores.get(name);
+		// } else {
+		// ores.put(name, l = new ArrayList<PC_ItemStack>());
+		// }
+		// l.add(ore);
 		OreDictionary.registerOre(name, ore);
 	}
 
 	public static void unloadOres() {
-		HashMap<Integer, ArrayList<ItemStack>> hm = PC_ReflectHelper.getValue(
-				OreDictionary.class, OreDictionary.class, 3, HashMap.class);
+		HashMap<Integer, ArrayList<ItemStack>> hm = PC_ReflectHelper.getValue(OreDictionary.class, OreDictionary.class,
+				3, HashMap.class);
 		for (Entry<String, List<PC_ItemStack>> e : ores.entrySet()) {
-			ArrayList<ItemStack> list = hm.get(OreDictionary.getOreID(e
-					.getKey()));
+			ArrayList<ItemStack> list = hm.get(OreDictionary.getOreID(e.getKey()));
 			Iterator<ItemStack> i = list.iterator();
 			while (i.hasNext()) {
 				ItemStack is = i.next();
@@ -64,11 +63,10 @@ public class PC_OreDictionary {
 	}
 
 	public static void loadOres() {
-		HashMap<Integer, ArrayList<ItemStack>> hm = PC_ReflectHelper.getValue(
-				OreDictionary.class, OreDictionary.class, 3, HashMap.class);
+		HashMap<Integer, ArrayList<ItemStack>> hm = PC_ReflectHelper.getValue(OreDictionary.class, OreDictionary.class,
+				3, HashMap.class);
 		for (Entry<String, List<PC_ItemStack>> e : ores.entrySet()) {
-			ArrayList<ItemStack> list = hm.get(OreDictionary.getOreID(e
-					.getKey()));
+			ArrayList<ItemStack> list = hm.get(OreDictionary.getOreID(e.getKey()));
 			for (PC_ItemStack pcis : e.getValue()) {
 				list.add(pcis.toItemStack());
 			}

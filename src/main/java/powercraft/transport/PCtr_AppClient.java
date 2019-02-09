@@ -13,12 +13,11 @@ import powercraft.launcher.loader.PC_ClientModule.PC_RegisterGuis;
 @PC_ClientModule
 public class PCtr_AppClient extends PCtr_App {
 
-    @PC_LoadTextureFiles
-	public List<String> loadTextureFiles(List<String> textures)
-    {
+	@PC_LoadTextureFiles
+	public List<String> loadTextureFiles(List<String> textures) {
 		textures.add("slimeboots.png");
 		return textures;
-    }
+	}
 
 	@PC_InitLanguage
 	public List<LangEntry> initLanguage(List<LangEntry> lang) {
@@ -34,15 +33,17 @@ public class PCtr_AppClient extends PCtr_App {
 		lang.add(new LangEntry("pc.gui.ejector.modeSelectFirst", "First slot"));
 		lang.add(new LangEntry("pc.gui.ejector.modeSelectLast", "Last slot"));
 		lang.add(new LangEntry("pc.gui.ejector.modeSelectRandom", "Random slot"));
-        return lang;
+		return lang;
 	}
-	
+
 	@PC_RegisterGuis
-	public List<PC_Struct2<String, Class<? extends PC_IGresClient>>> registerGuis(List<PC_Struct2<String, Class<? extends PC_IGresClient>>> guis) {
-		guis.add(new PC_Struct2<String, Class<? extends PC_IGresClient>>("SeperationBelt", PCtr_GuiSeparationBelt.class));
+	public List<PC_Struct2<String, Class<? extends PC_IGresClient>>> registerGuis(
+			List<PC_Struct2<String, Class<? extends PC_IGresClient>>> guis) {
+		guis.add(new PC_Struct2<String, Class<? extends PC_IGresClient>>("SeperationBelt",
+				PCtr_GuiSeparationBelt.class));
 		guis.add(new PC_Struct2<String, Class<? extends PC_IGresClient>>("EjectionBelt", PCtr_GuiEjectionBelt.class));
 		guis.add(new PC_Struct2<String, Class<? extends PC_IGresClient>>("Splitter", PCtr_GuiSplitter.class));
 		return guis;
 	}
-	
+
 }

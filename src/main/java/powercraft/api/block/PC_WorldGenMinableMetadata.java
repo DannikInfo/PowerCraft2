@@ -12,14 +12,14 @@ import powercraft.api.utils.PC_Utils;
 public class PC_WorldGenMinableMetadata extends WorldGenerator {
 	private int meta, size;
 	private Block block;
-	
+
 	public PC_WorldGenMinableMetadata(Block block, int blockMeta, int depositSize) {
 		super();
 		this.block = block;
 		meta = blockMeta;
 		size = depositSize;
 	}
-	
+
 	@Override
 	public boolean generate(World par1World, Random par2Random, int par3, int par4, int par5) {
 		float f = par2Random.nextFloat() * (float) Math.PI;
@@ -29,7 +29,7 @@ public class PC_WorldGenMinableMetadata extends WorldGenerator {
 		double d3 = (par5 + 8) - (PC_MathHelper.cos(f) * size) / 8F;
 		double d4 = (par4 + par2Random.nextInt(3)) - 2;
 		double d5 = (par4 + par2Random.nextInt(3)) - 2;
-		
+
 		for (int i = 0; i <= size; i++) {
 			double d6 = d + ((d1 - d) * i) / size;
 			double d7 = d4 + ((d5 - d4) * i) / size;
@@ -43,32 +43,33 @@ public class PC_WorldGenMinableMetadata extends WorldGenerator {
 			int i1 = PC_MathHelper.floor_double(d6 + d10 / 2D);
 			int j1 = PC_MathHelper.floor_double(d7 + d11 / 2D);
 			int k1 = PC_MathHelper.floor_double(d8 + d10 / 2D);
-			
+
 			for (int l1 = j; l1 <= i1; l1++) {
 				double d12 = ((l1 + 0.5D) - d6) / (d10 / 2D);
-				
+
 				if (d12 * d12 >= 1.0D) {
 					continue;
 				}
-				
+
 				for (int i2 = k; i2 <= j1; i2++) {
 					double d13 = ((i2 + 0.5D) - d7) / (d11 / 2D);
-					
+
 					if (d12 * d12 + d13 * d13 >= 1.0D) {
 						continue;
 					}
-					
+
 					for (int j2 = l; j2 <= k1; j2++) {
 						double d14 = ((j2 + 0.5D) - d8) / (d10 / 2D);
-						
-						if (d12 * d12 + d13 * d13 + d14 * d14 < 1.0D && par1World.getBlock(l1, i2, j2) == Blocks.stone) {
+
+						if (d12 * d12 + d13 * d13 + d14 * d14 < 1.0D
+								&& par1World.getBlock(l1, i2, j2) == Blocks.stone) {
 							PC_Utils.setBID(par1World, l1, i2, j2, block, meta);
 						}
 					}
 				}
 			}
 		}
-		
+
 		return true;
 	}
 }

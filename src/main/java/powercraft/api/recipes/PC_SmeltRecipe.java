@@ -7,26 +7,26 @@ public class PC_SmeltRecipe implements PC_IRecipe {
 	private ItemStack result;
 	private ItemStack input;
 	private float experience;
-	
-	public PC_SmeltRecipe(ItemStack result, ItemStack input){
+
+	public PC_SmeltRecipe(ItemStack result, ItemStack input) {
 		this(result, input, 0.0f);
 	}
-	
-	public PC_SmeltRecipe(ItemStack result, ItemStack input, float experience){
+
+	public PC_SmeltRecipe(ItemStack result, ItemStack input, float experience) {
 		this.result = result;
 		this.input = input;
 		this.experience = experience;
 	}
-	
-	public ItemStack getResult(){
+
+	public ItemStack getResult() {
 		return result.copy();
 	}
-	
-	public ItemStack getInput(){
+
+	public ItemStack getInput() {
 		return input.copy();
 	}
-	
-	public float getExperience(){
+
+	public float getExperience() {
 		return experience;
 	}
 
@@ -34,5 +34,5 @@ public class PC_SmeltRecipe implements PC_IRecipe {
 	public boolean canBeCrafted() {
 		return true;
 	}
-	
+
 }

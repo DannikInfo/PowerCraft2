@@ -12,46 +12,46 @@ public class PC_AnnotationVisitor extends AnnotationVisitor {
 	private PC_Version version;
 	private String dependencies = "";
 	private PC_ModLoader modLoader = PC_ModLoader.ALL;
-	
+
 	public PC_AnnotationVisitor() {
 		super(Opcodes.ASM4);
 	}
 
 	@Override
 	public void visit(String name, Object value) {
-        if(name.equals("name")){
-        	this.name = (String)value;
-        }else if(name.equals("version")){
-        	version = new PC_Version((String)value);
-        }else if(name.equals("dependencies")){
-        	dependencies = (String)value;
-        }
-    }
+		if (name.equals("name")) {
+			this.name = (String) value;
+		} else if (name.equals("version")) {
+			version = new PC_Version((String) value);
+		} else if (name.equals("dependencies")) {
+			dependencies = (String) value;
+		}
+	}
 
 	@Override
-    public void visitEnum(String name, String desc, String value) {
-        if(name.equals("modLoader")){
-        	if(desc.equals("Lpowercraft/launcher/loader/PC_ModLoader;")){
-        		modLoader = PC_ModLoader.valueOf(value);
-        	}
-        }
-    }
+	public void visitEnum(String name, String desc, String value) {
+		if (name.equals("modLoader")) {
+			if (desc.equals("Lpowercraft/launcher/loader/PC_ModLoader;")) {
+				modLoader = PC_ModLoader.valueOf(value);
+			}
+		}
+	}
 
 	@Override
-    public AnnotationVisitor visitAnnotation(String name, String desc) {
-        return null;
-    }
+	public AnnotationVisitor visitAnnotation(String name, String desc) {
+		return null;
+	}
 
 	@Override
-    public AnnotationVisitor visitArray(String name) {
-       
-        return null;
-    }
-    
+	public AnnotationVisitor visitArray(String name) {
+
+		return null;
+	}
+
 	@Override
-    public void visitEnd() {
-        
-    }
+	public void visitEnd() {
+
+	}
 
 	public String getModuleName() {
 		return name;
@@ -64,9 +64,9 @@ public class PC_AnnotationVisitor extends AnnotationVisitor {
 	public PC_Version getVersion() {
 		return version;
 	}
-	
+
 	public PC_ModLoader getModLoader() {
 		return modLoader;
 	}
-	
+
 }

@@ -1,13 +1,11 @@
 package powercraft.api.gres;
 
-
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.util.ResourceLocation;
 import powercraft.api.utils.PC_RectI;
 import powercraft.api.utils.PC_VecI;
 import powercraft.launcher.mod_PowerCraft;
-
 
 /**
  * Resizable GUI checkbox
@@ -94,9 +92,8 @@ public class PC_GresCheckBox extends PC_GresWidget {
 
 		drawTexturedModalRect(pos.x + offsetPos.x, pos.y + offsetPos.y, WIDTH * state, 0, WIDTH, WIDTH);
 
-
 		drawString(text, offsetPos.x + pos.x + WIDTH + 3, offsetPos.y + pos.y + 2);
-		
+
 		return null;
 	}
 
@@ -114,7 +111,7 @@ public class PC_GresCheckBox extends PC_GresWidget {
 			checked ^= true;
 		}
 
-		//if (key != -1) mc.sndManager.playSoundFX("random.click", 1.0F, 1.0F);
+		// if (key != -1) mc.sndManager.playSoundFX("random.click", 1.0F, 1.0F);
 		return true;
 	}
 
@@ -129,8 +126,10 @@ public class PC_GresCheckBox extends PC_GresWidget {
 	}
 
 	@Override
-	public void mouseWheel(int i) {}
+	public void mouseWheel(int i) {
+	}
 
 	@Override
-	public void addedToWidget() {}
+	public void addedToWidget() {
+	}
 }

@@ -22,7 +22,9 @@ public class PCde_TileEntityIronFrame extends PC_TileEntity implements PC_ITileE
 
 		float f = 1.0F;
 
-		Minecraft.getMinecraft().getTextureManager().bindTexture(new ResourceLocation(mod_PowerCraft.MODID, PC_TextureRegistry.getPowerCraftImageDir()+PC_TextureRegistry.getTextureName(PCde_App.instance, "block_deco.png")));
+		Minecraft.getMinecraft().getTextureManager()
+				.bindTexture(new ResourceLocation(mod_PowerCraft.MODID, PC_TextureRegistry.getPowerCraftImageDir()
+						+ PC_TextureRegistry.getTextureName(PCde_App.instance, "block_deco.png")));
 
 		PC_Renderer.glPushMatrix();
 		PC_Renderer.glScalef(f, -f, -f);
@@ -40,16 +42,22 @@ public class PCde_TileEntityIronFrame extends PC_TileEntity implements PC_ITileE
 
 	private boolean needsFullFace(PC_VecI pos) {
 		Block id = PC_Utils.getBID(worldObj, pos);
-		if (id == Blocks.torch) return true;
-		if (id == Blocks.redstone_torch) return true;
-		if (id == Blocks.unlit_redstone_torch) return true;
-		if (id == Blocks.lever) return true;
-		if (id == Blocks.stone_button) return true;
-		if (id == Blocks.wooden_button) return true;
-		if (PC_MSGRegistry.hasFlag(worldObj, pos, PC_MSGRegistry.DECO_FRAME_ATTACHED)) return true;
+		if (id == Blocks.torch)
+			return true;
+		if (id == Blocks.redstone_torch)
+			return true;
+		if (id == Blocks.unlit_redstone_torch)
+			return true;
+		if (id == Blocks.lever)
+			return true;
+		if (id == Blocks.stone_button)
+			return true;
+		if (id == Blocks.wooden_button)
+			return true;
+		if (PC_MSGRegistry.hasFlag(worldObj, pos, PC_MSGRegistry.DECO_FRAME_ATTACHED))
+			return true;
 		return false;
 
 	}
-	
-	
+
 }

@@ -10,49 +10,44 @@ import powercraft.api.utils.PC_Direction;
 import powercraft.api.utils.PC_Utils;
 import powercraft.api.utils.PC_VecI;
 
-@PC_BlockInfo(name="normal belt", canPlacedRotated=true)
-public class PCtr_BlockBeltNormal extends PCtr_BlockBeltBase
-{
-    public PCtr_BlockBeltNormal(int id){
-        super("belt_normal");
-        setBlockName("PCtr_BlockBeltNormal");
-    }
+@PC_BlockInfo(name = "normal belt", canPlacedRotated = true)
+public class PCtr_BlockBeltNormal extends PCtr_BlockBeltBase {
+	public PCtr_BlockBeltNormal(int id) {
+		super("belt_normal");
+		setBlockName("PCtr_BlockBeltNormal");
+	}
 
-    @Override
-    public void onEntityCollidedWithBlock(World world, int i, int j, int k, Entity entity)
-    {
-        PC_VecI pos = new PC_VecI(i, j, k);
+	@Override
+	public void onEntityCollidedWithBlock(World world, int i, int j, int k, Entity entity) {
+		PC_VecI pos = new PC_VecI(i, j, k);
 
-        if (PCtr_BeltHelper.isEntityIgnored(entity))
-        {
-            return;
-        }
-        
-        if (entity instanceof EntityItem)
-        {
-            PCtr_BeltHelper.packItems(world, pos);
+		if (PCtr_BeltHelper.isEntityIgnored(entity)) {
+			return;
+		}
 
-            PCtr_BeltHelper.doSpecialItemAction(world, pos, (EntityItem) entity);
+		if (entity instanceof EntityItem) {
+			PCtr_BeltHelper.packItems(world, pos);
 
-            if (PCtr_BeltHelper.storeNearby(world, pos, (EntityItem) entity, false))
-            {
-                return;
-            }
-        }
+			PCtr_BeltHelper.doSpecialItemAction(world, pos, (EntityItem) entity);
 
-        PC_Direction direction = getRotation(PC_Utils.getMD(world, pos));
-        PC_VecI pos_leading_to = pos.offset(direction.getOffset());
+			if (PCtr_BeltHelper.storeNearby(world, pos, (EntityItem) entity, false)) {
+				return;
+			}
+		}
 
-        boolean leadsToNowhere = PCtr_BeltHelper.isBlocked(world, pos_leading_to);
-        leadsToNowhere = leadsToNowhere && PCtr_BeltHelper.isBeyondStorageBorder(world, direction, pos, entity, PCtr_BeltHelper.STORAGE_BORDER_LONG);
+		PC_Direction direction = getRotation(PC_Utils.getMD(world, pos));
+		PC_VecI pos_leading_to = pos.offset(direction.getOffset());
 
-        if (!leadsToNowhere)
-        {
-            PCtr_BeltHelper.entityPreventDespawning(world, pos, true, entity);
-        }
+		boolean leadsToNowhere = PCtr_BeltHelper.isBlocked(world, pos_leading_to);
+		leadsToNowhere = leadsToNowhere && PCtr_BeltHelper.isBeyondStorageBorder(world, direction, pos, entity,
+				PCtr_BeltHelper.STORAGE_BORDER_LONG);
 
-        double speed_max = PCtr_BeltHelper.MAX_HORIZONTAL_SPEED;
-        double boost = PCtr_BeltHelper.HORIZONTAL_BOOST;
-        PCtr_BeltHelper.moveEntityOnBelt(world, pos, entity, true, !leadsToNowhere, direction, speed_max, boost);
-    }
+		if (!leadsToNowhere) {
+			PCtr_BeltHelper.entityPreventDespawning(world, pos, true, entity);
+		}
+
+		double speed_max = PCtr_BeltHelper.MAX_HORIZONTAL_SPEED;
+		double boost = PCtr_BeltHelper.HORIZONTAL_BOOST;
+		PCtr_BeltHelper.moveEntityOnBelt(world, pos, entity, true, !leadsToNowhere, direction, speed_max, boost);
+	}
 }

@@ -8,22 +8,25 @@ import net.minecraft.network.PacketBuffer;
 import powercraft.api.network.AbstractMessage.AbstractServerMessage;
 import powercraft.core.PCco_ClientMobSpawnerSetter;
 
-public class PC_PacketSpawnerSet extends AbstractServerMessage<PC_PacketSpawnerSet>{
-	
+public class PC_PacketSpawnerSet extends AbstractServerMessage<PC_PacketSpawnerSet> {
+
 	String mob;
 	int x, y, z;
-	
-	public PC_PacketSpawnerSet() {}	
 
+	public PC_PacketSpawnerSet() {
+	}
+
+	//TODO: Сделать это через PC_PacketSyncTEServer!
+	
 	public PC_PacketSpawnerSet(int x, int y, int z, String mob) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
 		this.mob = mob;
 	}
-	
+
 	@Override
-	protected void read(PacketBuffer buffer) throws IOException{
+	protected void read(PacketBuffer buffer) throws IOException {
 		x = buffer.readInt();
 		y = buffer.readInt();
 		z = buffer.readInt();
@@ -40,7 +43,7 @@ public class PC_PacketSpawnerSet extends AbstractServerMessage<PC_PacketSpawnerS
 
 	@Override
 	public void process(EntityPlayer player, Side side) {
-		new PCco_ClientMobSpawnerSetter().handleIncomingPacket(player, new Object[]{x, y, z, mob});
+		new PCco_ClientMobSpawnerSetter().handleIncomingPacket(player, new Object[] { x, y, z, mob });
 	}
 
 }

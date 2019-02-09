@@ -13,9 +13,8 @@ public class PCde_ModelStairs extends ModelBase {
 
 		textureWidth = 128;
 		textureHeight = 64;
-		
-		ironLedgeStairs = new ModelRenderer[4];
 
+		ironLedgeStairs = new ModelRenderer[4];
 
 		ironLedgeStairs[0] = new ModelRenderer(this, 64, 17);
 		ironLedgeStairs[0].addBox(-8F, -9F, -8F, 8, 1, 16, 0.0F);

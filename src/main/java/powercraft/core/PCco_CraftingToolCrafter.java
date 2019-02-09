@@ -7,22 +7,18 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
-import powercraft.api.network.PC_IPacketHandler;
 import powercraft.api.registry.PC_RecipeRegistry;
 import powercraft.api.utils.PC_GlobalVariables;
 
-public class PCco_CraftingToolCrafter implements PC_IPacketHandler {
+public class PCco_CraftingToolCrafter {
 
 	private static int MAX_RECURSION = 4;
 
 	public static boolean tryToCraft(ItemStack product, EntityPlayer thePlayer) {
-		if (thePlayer.capabilities.isCreativeMode
-				|| PC_GlobalVariables.config
-						.getBoolean("cheats.survivalCheating")) {
+		if (thePlayer.capabilities.isCreativeMode || PC_GlobalVariables.config.getBoolean("cheats.survivalCheating")) {
 			return true;
 		}
-		return craft(product, getPlayerInventory(thePlayer),
-				new ArrayList<ItemStack>(), 0, thePlayer) > 0;
+		return craft(product, getPlayerInventory(thePlayer), new ArrayList<ItemStack>(), 0, thePlayer) > 0;
 	}
 
 	public static ItemStack[] getPlayerInventory(EntityPlayer thePlayer) {
@@ -35,8 +31,7 @@ public class PCco_CraftingToolCrafter implements PC_IPacketHandler {
 		return inv;
 	}
 
-	public static void setPlayerInventory(ItemStack[] inv,
-			EntityPlayer thePlayer) {
+	public static void setPlayerInventory(ItemStack[] inv, EntityPlayer thePlayer) {
 		for (int i = 0; i < thePlayer.inventory.getSizeInventory(); i++) {
 			thePlayer.inventory.setInventorySlotContents(i, inv[i]);
 		}
@@ -65,8 +60,8 @@ public class PCco_CraftingToolCrafter implements PC_IPacketHandler {
 		return get.stackSize;
 	}
 
-	private static int testItem(List<ItemStack> l, ItemStack[] is,
-			List<ItemStack> not, int rec, EntityPlayer thePlayer) {
+	private static int testItem(List<ItemStack> l, ItemStack[] is, List<ItemStack> not, int rec,
+			EntityPlayer thePlayer) {
 		int i = 0;
 		for (ItemStack stack : l) {
 			if (testItem(stack, is) == 0)
@@ -79,8 +74,7 @@ public class PCco_CraftingToolCrafter implements PC_IPacketHandler {
 			int size = 0;
 			List<ItemStack> notc = new ArrayList<ItemStack>(not);
 			while (size < need) {
-				int nSize = craft(stack, isc, notc, rec,
-						thePlayer);
+				int nSize = craft(stack, isc, notc, rec, thePlayer);
 				if (nSize == 0) {
 					size = 0;
 					break;
@@ -102,13 +96,10 @@ public class PCco_CraftingToolCrafter implements PC_IPacketHandler {
 		return -1;
 	}
 
-	private static boolean storeTo(ItemStack get, ItemStack[] is,
-			EntityPlayer thePlayer) {
+	private static boolean storeTo(ItemStack get, ItemStack[] is, EntityPlayer thePlayer) {
 		for (int i = 0; i < is.length; i++) {
 			if (get.equals(is[i])) {
-				int canPut = Math.min(
-						thePlayer.inventory.getInventoryStackLimit(),
-						is[i].getMaxStackSize())
+				int canPut = Math.min(thePlayer.inventory.getInventoryStackLimit(), is[i].getMaxStackSize())
 						- is[i].stackSize;
 				if (get.stackSize > canPut) {
 					get.stackSize = (get.stackSize - canPut);
@@ -139,8 +130,7 @@ public class PCco_CraftingToolCrafter implements PC_IPacketHandler {
 	}
 
 	public static int craft(ItemStack craft, ItemStack[] is, List<ItemStack> not, int rec, EntityPlayer thePlayer) {
-		if(thePlayer.capabilities.isCreativeMode || PC_GlobalVariables.config
-						.getBoolean("cheats.survivalCheating")){
+		if (thePlayer.capabilities.isCreativeMode || PC_GlobalVariables.config.getBoolean("cheats.survivalCheating")) {
 			return 1;
 		}
 		List<IRecipe> recipes = PC_RecipeRegistry.getRecipesForProduct(craft);
@@ -152,8 +142,7 @@ public class PCco_CraftingToolCrafter implements PC_IPacketHandler {
 		rec++;
 		for (IRecipe recipe : recipes) {
 			ItemStack[] isc = setTo(null, is);
-			List<ItemStack>[][] inp = PC_RecipeRegistry.getExpectedInput(
-					recipe, -1, -1);
+			List<ItemStack>[][] inp = PC_RecipeRegistry.getExpectedInput(recipe, -1, -1);
 			List<List<ItemStack>> input = new ArrayList<List<ItemStack>>();
 			if (inp == null)
 				continue;
@@ -182,29 +171,6 @@ public class PCco_CraftingToolCrafter implements PC_IPacketHandler {
 			return recipe.getRecipeOutput().stackSize;
 		}
 		return 0;
-	}
-
-	@Override
-	public boolean handleIncomingPacket(EntityPlayer player, Object[] o) {
-		Item item = (Item) o[0];
-		int damage = (Integer) o[1];
-		ItemStack is = new ItemStack(item, 1, damage);
-		ItemStack[] pi = PCco_CraftingToolCrafter.getPlayerInventory(player);
-		is.stackSize = PCco_CraftingToolCrafter.craft(is, pi, new ArrayList<ItemStack>(), 0, player);
-		if(is.stackSize>0){
-			ItemStack pis = player.inventory.getItemStack();
-			if(pis==null){
-				PCco_CraftingToolCrafter.setPlayerInventory(pi, player);
-				player.inventory.setItemStack(is);
-			}else if(pis.isItemEqual(is)){
-				if(pis.stackSize+is.stackSize<=is.getMaxStackSize()){
-					pis.stackSize += is.stackSize;
-					PCco_CraftingToolCrafter.setPlayerInventory(pi, player);
-					player.inventory.setItemStack(pis);
-				}
-			}
-		}
-		return false;
 	}
 
 }

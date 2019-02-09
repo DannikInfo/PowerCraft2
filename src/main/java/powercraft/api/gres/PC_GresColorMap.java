@@ -1,13 +1,11 @@
 package powercraft.api.gres;
 
-
 import net.minecraft.client.renderer.Tessellator;
 
 import org.lwjgl.opengl.GL11;
 
 import powercraft.api.utils.PC_RectI;
 import powercraft.api.utils.PC_VecI;
-
 
 /**
  * Color array display
@@ -18,16 +16,17 @@ import powercraft.api.utils.PC_VecI;
 public class PC_GresColorMap extends PC_GresWidget {
 
 	private int colorArray[][] = null;
-	private char lastKey=0;
-	private PC_VecI lastMousePos = new PC_VecI(-1,-1);
-	private int lastMouseKey=-1;
-	private String lastEvent="";
+	private char lastKey = 0;
+	private PC_VecI lastMousePos = new PC_VecI(-1, -1);
+	private int lastMouseKey = -1;
+	private String lastEvent = "";
 	private int px = 3;
 	private boolean border = true;
 	private boolean acceptKeyboardInput = true;
 
 	/**
 	 * enable-disable border.
+	 * 
 	 * @param flag
 	 * @return this
 	 */
@@ -38,6 +37,7 @@ public class PC_GresColorMap extends PC_GresWidget {
 
 	/**
 	 * enable/disable keyboard event consumption
+	 * 
 	 * @param flag flag
 	 * @return this
 	 */
@@ -55,7 +55,8 @@ public class PC_GresColorMap extends PC_GresWidget {
 	public PC_GresColorMap setScale(int scale) {
 		px = scale;
 		minSize = size = calcSize();
-		if (parent != null) parent.calcChildPositions();
+		if (parent != null)
+			parent.calcChildPositions();
 		return this;
 	}
 
@@ -67,21 +68,25 @@ public class PC_GresColorMap extends PC_GresWidget {
 		this.colorArray = colorArray;
 		canAddWidget = false;
 		size = calcSize();
-		if (parent != null) parent.calcChildPositions();
+		if (parent != null)
+			parent.calcChildPositions();
 	}
 
 	/**
 	 * set color arrap
+	 * 
 	 * @param colorArray the array of rgb
 	 */
 	public void setColorArray(int colorArray[][]) {
 		this.colorArray = colorArray;
 		size = calcSize();
-		if (parent != null) parent.calcChildPositions();
+		if (parent != null)
+			parent.calcChildPositions();
 	}
 
 	/**
 	 * get color array
+	 * 
 	 * @return the array of rgb
 	 */
 	public int[][] getColorArray() {
@@ -100,13 +105,14 @@ public class PC_GresColorMap extends PC_GresWidget {
 	 */
 	public PC_VecI getLastMousePos() {
 		PC_VecI co = new PC_VecI();
-		if(lastMousePos!=null)
+		if (lastMousePos != null)
 			co.setTo(lastMousePos);
 		return new PC_VecI(co.x / px, co.y / px);
 	}
 
 	/**
 	 * get last mouse button
+	 * 
 	 * @return 0 left 1 right then others
 	 */
 	public int getLastMouseKey() {
@@ -122,15 +128,18 @@ public class PC_GresColorMap extends PC_GresWidget {
 
 	@Override
 	public PC_VecI calcSize() {
-		if (!visible) return zerosize;
+		if (!visible)
+			return zerosize;
 		if (colorArray == null)
 			return zerosize;
 		else
-			return new PC_VecI(Math.round(colorArray.length * px + 2 * px), Math.round(colorArray[0].length * px + 2 * px));
+			return new PC_VecI(Math.round(colorArray.length * px + 2 * px),
+					Math.round(colorArray[0].length * px + 2 * px));
 	}
 
 	/**
 	 * calculate size after change of scale, to predict growth
+	 * 
 	 * @param change
 	 * @return size after change
 	 */
@@ -143,7 +152,8 @@ public class PC_GresColorMap extends PC_GresWidget {
 	}
 
 	@Override
-	public void calcChildPositions() {}
+	public void calcChildPositions() {
+	}
 
 	private boolean dragging = false;
 
@@ -161,11 +171,12 @@ public class PC_GresColorMap extends PC_GresWidget {
 		if (colorArray != null) {
 			for (int x = -1; x < colorArray.length + 1; x++) {
 				for (int y = -1; y < colorArray[0].length + 1; y++) {
-					border = false;					
+					border = false;
 					if (x == -1 || y == -1 || x == colorArray.length || y == colorArray[x].length) {
 						color = 0x606060;
 						border = this.border;
-						if(!this.border) color = -1;
+						if (!this.border)
+							color = -1;
 					} else {
 						color = colorArray[x][y];
 					}
@@ -175,19 +186,21 @@ public class PC_GresColorMap extends PC_GresWidget {
 						tessellator.setColorRGBA((color >> 16) & 0xFF, (color >> 8) & 0xFF, color & 0xFF, 255);
 						tessellator.addVertex(posX, posY, 0.0D);
 						tessellator.addVertex(posX + pixelW * px - (border ? bdrdist * 2 : 0), posY, 0.0D);
-						tessellator.addVertex(posX + pixelW * px - (border ? bdrdist * 2 : 0), posY + pixelH * px - (border ? bdrdist * 2 : 0), 0.0D);
+						tessellator.addVertex(posX + pixelW * px - (border ? bdrdist * 2 : 0),
+								posY + pixelH * px - (border ? bdrdist * 2 : 0), 0.0D);
 						tessellator.addVertex(posX, posY + pixelH * px - (border ? bdrdist * 2 : 0), 0.0D);
 						tessellator.addVertex(posX + pixelW * px - (border ? bdrdist * 2 : 0), posY, 0.0D);
 						tessellator.addVertex(posX, posY, 0.0D);
 						tessellator.addVertex(posX, posY + pixelH * px - (border ? bdrdist * 2 : 0), 0.0D);
-						tessellator.addVertex(posX + pixelW * px - (border ? bdrdist * 2 : 0), posY + pixelH * px - (border ? bdrdist * 2 : 0), 0.0D);
+						tessellator.addVertex(posX + pixelW * px - (border ? bdrdist * 2 : 0),
+								posY + pixelH * px - (border ? bdrdist * 2 : 0), 0.0D);
 					}
 				}
 			}
 		}
 		tessellator.draw();
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
-		
+
 		return null;
 	}
 
@@ -219,21 +232,25 @@ public class PC_GresColorMap extends PC_GresWidget {
 	}
 
 	@Override
-	public void mouseWheel(int i) {}
+	public void mouseWheel(int i) {
+	}
 
 	@Override
 	public boolean keyTyped(char c, int key) {
-		if (!acceptKeyboardInput) return false;
+		if (!acceptKeyboardInput)
+			return false;
 		lastKey = c;
 		lastEvent = "key";
 		return true;
 	}
 
 	@Override
-	public void addedToWidget() {}
+	public void addedToWidget() {
+	}
 
 	/**
 	 * get pixel scale
+	 * 
 	 * @return scale
 	 */
 	public int getScale() {

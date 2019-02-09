@@ -11,7 +11,8 @@ import net.minecraft.world.World;
 public interface PC_ISpecialHarvesting {
 
 	public boolean useFor(World world, int x, int y, int z, Block block, int meta, int priority);
-	
-	public List<PC_Struct2<PC_VecI, ItemStack>> harvest(World world, int x, int y, int z, Block block, int meta, int fortune);
+
+	public List<PC_Struct2<PC_VecI, ItemStack>> harvest(World world, int x, int y, int z, Block block, int meta,
+			int fortune);
 
 }

@@ -12,7 +12,7 @@ public @interface PC_Shining {
 	@Target(ElementType.FIELD)
 	public @interface ON {
 	}
-	
+
 	@Retention(RetentionPolicy.RUNTIME)
 	@Target(ElementType.FIELD)
 	public @interface OFF {

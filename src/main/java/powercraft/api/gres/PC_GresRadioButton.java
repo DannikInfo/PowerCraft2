@@ -1,6 +1,5 @@
 package powercraft.api.gres;
 
-
 import java.util.HashSet;
 import java.util.Iterator;
 
@@ -10,7 +9,6 @@ import net.minecraft.util.ResourceLocation;
 import powercraft.api.utils.PC_RectI;
 import powercraft.api.utils.PC_VecI;
 import powercraft.launcher.mod_PowerCraft;
-
 
 /**
  * Resizable GUI radio button
@@ -27,11 +25,11 @@ public class PC_GresRadioButton extends PC_GresWidget {
 	 * @copy (c) 2012
 	 */
 	public static class PC_GresRadioGroup extends HashSet<PC_GresRadioButton> {
-		public PC_GresRadioButton getChecked(){
-			Iterator<PC_GresRadioButton> i=iterator();
-			while(i.hasNext()){
+		public PC_GresRadioButton getChecked() {
+			Iterator<PC_GresRadioButton> i = iterator();
+			while (i.hasNext()) {
 				PC_GresRadioButton rb = i.next();
-				if(rb.isChecked())
+				if (rb.isChecked())
 					return rb;
 			}
 			return null;
@@ -130,7 +128,7 @@ public class PC_GresRadioButton extends PC_GresWidget {
 		drawTexturedModalRect(pos.x + offsetPos.x, pos.y + offsetPos.y, WIDTH * state, WIDTH, WIDTH, WIDTH);
 
 		drawString(text, offsetPos.x + pos.x + WIDTH + 3, offsetPos.y + pos.y + 2);
-		
+
 		return null;
 	}
 
@@ -149,7 +147,7 @@ public class PC_GresRadioButton extends PC_GresWidget {
 			return true;
 		}
 
-		//if (key != -1) mc.sndManager.playSoundFX("random.click", 1.0F, 1.0F);
+		// if (key != -1) mc.sndManager.playSoundFX("random.click", 1.0F, 1.0F);
 		return false;
 	}
 
@@ -164,8 +162,10 @@ public class PC_GresRadioButton extends PC_GresWidget {
 	}
 
 	@Override
-	public void mouseWheel(int i) {}
+	public void mouseWheel(int i) {
+	}
 
 	@Override
-	public void addedToWidget() {}
+	public void addedToWidget() {
+	}
 }

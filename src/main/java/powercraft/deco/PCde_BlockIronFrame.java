@@ -29,7 +29,7 @@ import powercraft.api.utils.PC_Utils;
 import powercraft.api.utils.PC_VecI;
 import powercraft.launcher.mod_PowerCraft;
 
-@PC_BlockInfo(name="Iron Frame", tileEntity=PCde_TileEntityIronFrame.class)
+@PC_BlockInfo(name = "Iron Frame", tileEntity = PCde_TileEntityIronFrame.class)
 public class PCde_BlockIronFrame extends PC_Block implements PC_IItemInfo {
 
 	public PCde_BlockIronFrame(int id) {
@@ -39,7 +39,7 @@ public class PCde_BlockIronFrame extends PC_Block implements PC_IItemInfo {
 		setStepSound(Block.soundTypeMetal);
 		setCreativeTab(CreativeTabs.tabDecorations);
 	}
-	
+
 	@Override
 	public boolean isOpaqueCube() {
 		return false;
@@ -55,7 +55,9 @@ public class PCde_BlockIronFrame extends PC_Block implements PC_IItemInfo {
 		PCde_ModelIronFrame model = new PCde_ModelIronFrame();
 		float f = 1.0F;
 
-		Minecraft.getMinecraft().getTextureManager().bindTexture(new ResourceLocation(mod_PowerCraft.MODID, PC_TextureRegistry.getPowerCraftImageDir()+PC_TextureRegistry.getTextureName(PCde_App.instance, "block_deco.png")));
+		Minecraft.getMinecraft().getTextureManager()
+				.bindTexture(new ResourceLocation(mod_PowerCraft.MODID, PC_TextureRegistry.getPowerCraftImageDir()
+						+ PC_TextureRegistry.getTextureName(PCde_App.instance, "block_deco.png")));
 
 		PC_Renderer.glPushMatrix();
 		PC_Renderer.glScalef(f, -f, -f);
@@ -69,42 +71,42 @@ public class PCde_BlockIronFrame extends PC_Block implements PC_IItemInfo {
 
 		PC_Renderer.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		PC_Renderer.glPopMatrix();
-		
+
 		return true;
-		
+
 	}
-	
+
 	@Override
 	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Object renderer) {
 		return true;
 	}
-	
+
 	@Override
-	public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB axisAlignedBB, List list, Entity entity) {
-		if(entity instanceof EntityEnderEye)
+	public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB axisAlignedBB, List list,
+			Entity entity) {
+		if (entity instanceof EntityEnderEye)
 			return;
-		if(entity instanceof EntityFireworkRocket)
+		if (entity instanceof EntityFireworkRocket)
 			return;
-		if(entity instanceof EntityItem)
+		if (entity instanceof EntityItem)
 			return;
-		if(entity instanceof EntityXPOrb)
+		if (entity instanceof EntityXPOrb)
 			return;
-		if(PC_Utils.isEntityFX(entity))
+		if (PC_Utils.isEntityFX(entity))
 			return;
-		if(entity==null)
+		if (entity == null)
 			return;
 		setBlockBounds(0, 0, 0, 1, 1, 1);
 		AxisAlignedBB axisalignedbb1 = super.getCollisionBoundingBoxFromPool(world, x, y, z);
 
-        if (axisalignedbb1 != null && axisAlignedBB.intersectsWith(axisalignedbb1))
-        {
-        	list.add(axisalignedbb1);
-        }
+		if (axisalignedbb1 != null && axisAlignedBB.intersectsWith(axisalignedbb1)) {
+			list.add(axisalignedbb1);
+		}
 	}
 
 	@Override
 	public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int par4) {
 		return null;
 	}
-	
+
 }

@@ -18,15 +18,17 @@ import powercraft.api.gres.PC_GresWidget.PC_GresAlign;
 import powercraft.api.gres.PC_GresWindow;
 import powercraft.api.gres.PC_IGresClient;
 import powercraft.api.gres.PC_IGresGui;
+import powercraft.api.network.PC_PacketHandler;
+import powercraft.api.network.packet.PC_PacketSyncTEServer;
 import powercraft.api.tileentity.PC_TileEntity;
 
 public class PCtr_GuiEjectionBelt implements PC_IGresClient {
-	
+
 	private PCtr_TileEntityEjectionBelt teb;
 
 	private PC_GresWidget btnOK;
 	private PC_GresWidget btnCANCEL;
-	
+
 	private PC_GresWidget editItems;
 	private PC_GresWidget editSlots;
 
@@ -37,25 +39,24 @@ public class PCtr_GuiEjectionBelt implements PC_IGresClient {
 	private PC_GresRadioButton radioSelectFirst;
 	private PC_GresRadioButton radioSelectLast;
 	private PC_GresRadioButton radioSelectRandom;
-	
-	public PCtr_GuiEjectionBelt(EntityPlayer player, PC_TileEntity te, Object[] o){
-		teb = (PCtr_TileEntityEjectionBelt)te;
+
+	public PCtr_GuiEjectionBelt(EntityPlayer player, PC_TileEntity te, Object[] o) {
+		teb = (PCtr_TileEntityEjectionBelt) te;
 	}
-	
+
 	@Override
 	public void initGui(PC_IGresGui gui) {
+		PC_PacketHandler.sendToServer(new PC_PacketSyncTEServer(new Object[] { 0, teb.getCoord() }));
 		PC_GresWindow w = new PC_GresWindow("tile.PCtr_BlockBeltEjector.name");
 		w.setAlignH(PC_GresAlign.STRETCH);
 		w.gapUnderTitle = 13;
 
 		PC_GresWidget vg, hg;
 
-
 		vg = new PC_GresLayoutV();
 		vg.setAlignH(PC_GresAlign.LEFT);
 
 		PC_GresRadioGroup actionMode = new PC_GresRadioGroup();
-
 
 		vg.add(new PC_GresLabel("pc.gui.ejector.modeEjectTitle"));
 
@@ -118,41 +119,45 @@ public class PCtr_GuiEjectionBelt implements PC_IGresClient {
 	}
 
 	@Override
-	public void onGuiClosed(PC_IGresGui gui) {}
+	public void onGuiClosed(PC_IGresGui gui) {
+	}
 
 	@Override
 	public void actionPerformed(PC_GresWidget widget, PC_IGresGui gui) {
-		if(widget == btnCANCEL){
+		if (widget == btnCANCEL) {
 			gui.close();
-		}else if(widget == btnOK){
-			int actionType=0;
-			if (radioModeStacks.isChecked()) 
+		} else if (widget == btnOK) {
+			int actionType = 0;
+			if (radioModeStacks.isChecked())
 				actionType = 0;
-			if (radioModeItems.isChecked()) 
+			if (radioModeItems.isChecked())
 				actionType = 1;
-			if (radioModeAll.isChecked()) 
+			if (radioModeAll.isChecked())
 				actionType = 2;
 			teb.setActionType(actionType);
-			
-			int itemSelectMode=0;
+
+			int itemSelectMode = 0;
 			if (radioSelectFirst.isChecked())
 				itemSelectMode = 0;
-			if (radioSelectLast.isChecked()) 
+			if (radioSelectLast.isChecked())
 				itemSelectMode = 1;
-			if (radioSelectRandom.isChecked()) 
+			if (radioSelectRandom.isChecked())
 				itemSelectMode = 2;
 			teb.setItemSelectMode(itemSelectMode);
-			
+
 			try {
 				teb.setNumStacksEjected(Integer.parseInt(editSlots.getText()));
-			} catch (NumberFormatException e) {}
+			} catch (NumberFormatException e) {
+			}
 
 			try {
 				teb.setNumItemsEjected(Integer.parseInt(editItems.getText()));
-			} catch (NumberFormatException e) {}
+			} catch (NumberFormatException e) {
+			}
 
-
-			// save data
+			// save data.
+			PC_PacketHandler.sendToServer(new PC_PacketSyncTEServer(new Object[] { 1, teb.getCoord(), actionType,
+					itemSelectMode, Integer.parseInt(editSlots.getText()), Integer.parseInt(editItems.getText()) }));
 
 			gui.close();
 		}
@@ -160,38 +165,40 @@ public class PCtr_GuiEjectionBelt implements PC_IGresClient {
 
 	@Override
 	public void onKeyPressed(PC_IGresGui gui, char c, int i) {
-		if(i==Keyboard.KEY_RETURN){
+		if (i == Keyboard.KEY_RETURN) {
 			actionPerformed(btnOK, gui);
-		}else if(i==Keyboard.KEY_ESCAPE || i==Keyboard.KEY_E){
+		} else if (i == Keyboard.KEY_ESCAPE || i == Keyboard.KEY_E) {
 			gui.close();
 		}
 	}
 
 	@Override
-	public void updateTick(PC_IGresGui gui) {}
+	public void updateTick(PC_IGresGui gui) {
+	}
 
 	@Override
-	public void updateScreen(PC_IGresGui gui) {}
+	public void updateScreen(PC_IGresGui gui) {
+	}
 
 	@Override
-	public boolean drawBackground(PC_IGresGui gui, int par1, int par2,float par3) {
+	public boolean drawBackground(PC_IGresGui gui, int par1, int par2, float par3) {
 		return false;
 	}
 
 	@Override
 	public void keyChange(String key, Object value) {
-		if(key.equals("actionType")){
-			radioModeStacks.check((Integer)value == 0);
-			radioModeItems.check((Integer)value == 1);
-			radioModeAll.check((Integer)value == 2);
-		}else if(key.equals("numStacksEjected")){
-			editSlots.setText(""+(Integer)value);
-		}else if(key.equals("numItemsEjected")){
-			editItems.setText(""+(Integer)value);
-		}else if(key.equals("itemSelectMode")){
-			radioSelectFirst.check((Integer)value == 0);
-			radioSelectLast.check((Integer)value == 1);
-			radioSelectRandom.check((Integer)value == 2);
+		if (key.equals("actionType")) {
+			radioModeStacks.check((Integer) value == 0);
+			radioModeItems.check((Integer) value == 1);
+			radioModeAll.check((Integer) value == 2);
+		} else if (key.equals("numStacksEjected")) {
+			editSlots.setText("" + (Integer) value);
+		} else if (key.equals("numItemsEjected")) {
+			editItems.setText("" + (Integer) value);
+		} else if (key.equals("itemSelectMode")) {
+			radioSelectFirst.check((Integer) value == 0);
+			radioSelectLast.check((Integer) value == 1);
+			radioSelectRandom.check((Integer) value == 2);
 		}
 	}
 

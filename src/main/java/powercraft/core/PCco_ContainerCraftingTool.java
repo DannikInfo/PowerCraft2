@@ -6,8 +6,7 @@ import powercraft.api.tileentity.PC_TileEntity;
 
 public class PCco_ContainerCraftingTool extends PC_GresBaseWithInventory<PC_TileEntity> {
 
-	public PCco_ContainerCraftingTool(EntityPlayer player, PC_TileEntity te,
-			Object[] o) {
+	public PCco_ContainerCraftingTool(EntityPlayer player, PC_TileEntity te, Object[] o) {
 		super(player, te, o);
 	}
 

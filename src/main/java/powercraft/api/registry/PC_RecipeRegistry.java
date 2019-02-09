@@ -28,30 +28,29 @@ import powercraft.api.recipes.PC_SmeltRecipe;
 import powercraft.api.reflect.PC_ReflectHelper;
 import powercraft.api.utils.PC_VecI;
 
-
 public class PC_RecipeRegistry {
 
 	private static List<PC_SmeltRecipe> smeltings = new ArrayList<PC_SmeltRecipe>();
 	private static List<PC_3DRecipe> recipes3d = new ArrayList<PC_3DRecipe>();
-	
-	public static void register(PC_IRecipe recipe){
-		if(recipe instanceof IRecipe){
-			GameRegistry.addRecipe((IRecipe)recipe);
-		}else if(recipe instanceof PC_3DRecipe){
-			add3DRecipe((PC_3DRecipe)recipe);
-		}else if(recipe instanceof PC_SmeltRecipe){
-			addSmeltingRecipes((PC_SmeltRecipe)recipe);
+
+	public static void register(PC_IRecipe recipe) {
+		if (recipe instanceof IRecipe) {
+			GameRegistry.addRecipe((IRecipe) recipe);
+		} else if (recipe instanceof PC_3DRecipe) {
+			add3DRecipe((PC_3DRecipe) recipe);
+		} else if (recipe instanceof PC_SmeltRecipe) {
+			addSmeltingRecipes((PC_SmeltRecipe) recipe);
 		}
 	}
-	
-	public static void add3DRecipe(PC_3DRecipe recipe){
+
+	public static void add3DRecipe(PC_3DRecipe recipe) {
 		recipes3d.add(recipe);
 	}
-	
-	public static void add3DRecipe(PC_I3DRecipeHandler obj, Object...o){
+
+	public static void add3DRecipe(PC_I3DRecipeHandler obj, Object... o) {
 		recipes3d.add(new PC_3DRecipe(obj, o));
 	}
-	
+
 	public static void addSmeltingRecipes(PC_SmeltRecipe smeltRecipe) {
 		smeltings.add(smeltRecipe);
 		ItemStack isInput = smeltRecipe.getInput();
@@ -60,18 +59,15 @@ public class PC_RecipeRegistry {
 	}
 
 	public static List<IRecipe> getRecipesForProduct(ItemStack prod) {
-		List<IRecipe> recipes = new ArrayList<IRecipe>(CraftingManager
-				.getInstance().getRecipeList());
+		List<IRecipe> recipes = new ArrayList<IRecipe>(CraftingManager.getInstance().getRecipeList());
 		List<IRecipe> ret = new ArrayList<IRecipe>();
 
 		for (IRecipe recipe : recipes) {
 			try {
 				if (recipe.getRecipeOutput().isItemEqual(prod)
-						|| (recipe.getRecipeOutput().getItem() == prod.getItem() && prod
-								.getItemDamage() == -1)) {
-					if (recipe instanceof ShapedOreRecipe
-							|| recipe instanceof ShapelessOreRecipe) {
-						//ret.add(resolveForgeRecipe(recipe));
+						|| (recipe.getRecipeOutput().getItem() == prod.getItem() && prod.getItemDamage() == -1)) {
+					if (recipe instanceof ShapedOreRecipe || recipe instanceof ShapelessOreRecipe) {
+						// ret.add(resolveForgeRecipe(recipe));
 					} else {
 						ret.add(recipe);
 					}
@@ -83,7 +79,7 @@ public class PC_RecipeRegistry {
 
 		return ret;
 	}
-	
+
 	public static boolean isFuel(ItemStack itemstack) {
 		if (itemstack == null) {
 			return false;
@@ -92,25 +88,24 @@ public class PC_RecipeRegistry {
 	}
 
 	public static boolean isSmeltable(ItemStack itemstack) {
-		if (itemstack == null
-				|| FurnaceRecipes.smelting().getSmeltingResult(itemstack) == null) {
+		if (itemstack == null || FurnaceRecipes.smelting().getSmeltingResult(itemstack) == null) {
 			return false;
 		}
 
 		return true;
 	}
-	
+
 	public static List<ItemStack> getFeedstock(ItemStack itemstack) {
 		List<ItemStack> l = new ArrayList<ItemStack>();
 		if (itemstack != null) {
-			Map<Integer, ItemStack> map = FurnaceRecipes.smelting()
-					.getSmeltingList();
+			Map<Integer, ItemStack> map = FurnaceRecipes.smelting().getSmeltingList();
 			for (Entry<Integer, ItemStack> e : map.entrySet()) {
 				if (e.getValue().isItemEqual(itemstack)) {
 					l.add(new ItemStack(e.getValue().getItem(), 1, 0));
 				}
 			}
-			Map<List<Integer>, ItemStack> map2 = PC_ReflectHelper.getValue(FurnaceRecipes.class, FurnaceRecipes.smelting(), 3, Map.class);
+			Map<List<Integer>, ItemStack> map2 = PC_ReflectHelper.getValue(FurnaceRecipes.class,
+					FurnaceRecipes.smelting(), 3, Map.class);
 			for (Entry<List<Integer>, ItemStack> e : map2.entrySet()) {
 				if (e.getValue().isItemEqual(itemstack)) {
 					l.add(new ItemStack(e.getValue().getItem(), 1, e.getKey().get(1)));
@@ -119,9 +114,8 @@ public class PC_RecipeRegistry {
 		}
 		return l;
 	}
-	
-	public static List<ItemStack>[][] getExpectedInput(IRecipe recipe,
-			int width, int hight) {
+
+	public static List<ItemStack>[][] getExpectedInput(IRecipe recipe, int width, int hight) {
 		List<ItemStack>[][] list;
 		if (recipe instanceof PC_IRecipeInfo) {
 			PC_IRecipeInfo ri = (PC_IRecipeInfo) recipe;
@@ -208,41 +202,43 @@ public class PC_RecipeRegistry {
 	public static ItemStack getSmeltingResult(ItemStack item) {
 		return FurnaceRecipes.smelting().getSmeltingResult(item);
 	}
-	
-	public static boolean searchRecipe3DAndDo(EntityPlayer entityplayer, World world, PC_VecI pos){
-		for(PC_3DRecipe recipe:recipes3d){
-			if(recipe.isStruct(entityplayer, world, pos)){
+
+	public static boolean searchRecipe3DAndDo(EntityPlayer entityplayer, World world, PC_VecI pos) {
+		for (PC_3DRecipe recipe : recipes3d) {
+			if (recipe.isStruct(entityplayer, world, pos)) {
 				return true;
 			}
 		}
 		return false;
 	}
-	
-	public static void unloadSmeltRecipes(){
+
+	public static void unloadSmeltRecipes() {
 		FurnaceRecipes smlt = FurnaceRecipes.smelting();
-		for(PC_SmeltRecipe smelting:smeltings){
+		for (PC_SmeltRecipe smelting : smeltings) {
 			ItemStack is = smelting.getInput();
-			if(is!=null){
+			if (is != null) {
 				smlt.getSmeltingList().remove(Integer.valueOf(is.getItem().toString()));
-				
+
 				Map map = PC_ReflectHelper.getValue(FurnaceRecipes.class, smlt, 3, HashMap.class);
-				map.remove(Arrays.asList(Integer.valueOf(is.getItem().toString()), Integer.valueOf(is.getItemDamage())));
-				
+				map.remove(
+						Arrays.asList(Integer.valueOf(is.getItem().toString()), Integer.valueOf(is.getItemDamage())));
+
 				map = PC_ReflectHelper.getValue(FurnaceRecipes.class, smlt, 2, Map.class);
 				map.remove(Integer.valueOf(is.getItem().toString()));
-				
+
 				map = PC_ReflectHelper.getValue(FurnaceRecipes.class, smlt, 4, HashMap.class);
-				map.remove(Arrays.asList(Integer.valueOf(is.getItem().toString()), Integer.valueOf(is.getItemDamage())));
+				map.remove(
+						Arrays.asList(Integer.valueOf(is.getItem().toString()), Integer.valueOf(is.getItemDamage())));
 			}
 		}
 	}
-	
-	public static void loadSmeltRecipes(){
-		for(PC_SmeltRecipe smelting:smeltings){
+
+	public static void loadSmeltRecipes() {
+		for (PC_SmeltRecipe smelting : smeltings) {
 			ItemStack isInput = smelting.getInput();
 			ItemStack isOutput = smelting.getResult();
 			GameRegistry.addSmelting(isInput.getItem(), isOutput, smelting.getExperience());
 		}
 	}
-	
+
 }

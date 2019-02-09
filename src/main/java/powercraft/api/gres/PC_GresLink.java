@@ -3,8 +3,6 @@ package powercraft.api.gres;
 import powercraft.api.utils.PC_RectI;
 import powercraft.api.utils.PC_VecI;
 
-
-
 /**
  * Resizable GUI hypertext link-like widget
  * 
@@ -92,18 +90,17 @@ public class PC_GresLink extends PC_GresWidget {
 
 		int yy = offsetPos.y + pos.y + getFontRenderer().FONT_HEIGHT;
 
-		if (underline) drawRect(offsetPos.x + pos.x, yy, offsetPos.x + size.x + pos.x + 1, yy + 1, textColor);
-		
+		if (underline)
+			drawRect(offsetPos.x + pos.x, yy, offsetPos.x + size.x + pos.x + 1, yy + 1, textColor);
+
 		return null;
 	}
 
-	
 	@Override
 	public MouseOver mouseOver(PC_VecI mpos) {
 		isMouseOver = true;
 		return MouseOver.THIS;
 	}
-
 
 	@Override
 	public boolean mouseClick(PC_VecI mpos, int key) {
@@ -116,7 +113,7 @@ public class PC_GresLink extends PC_GresWidget {
 		}
 		isClicked = key == -1 ? false : true;
 
-		//if (key != -1) mc.sndManager.playSoundFX("random.click", 1.0F, 1.0F);
+		// if (key != -1) mc.sndManager.playSoundFX("random.click", 1.0F, 1.0F);
 		return false;
 	}
 
@@ -138,8 +135,10 @@ public class PC_GresLink extends PC_GresWidget {
 	}
 
 	@Override
-	public void mouseWheel(int i) {}
+	public void mouseWheel(int i) {
+	}
 
 	@Override
-	public void addedToWidget() {}
+	public void addedToWidget() {
+	}
 }

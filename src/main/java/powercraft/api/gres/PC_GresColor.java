@@ -1,6 +1,5 @@
 package powercraft.api.gres;
 
-
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.util.ResourceLocation;
@@ -8,7 +7,6 @@ import powercraft.api.utils.PC_Color;
 import powercraft.api.utils.PC_RectI;
 import powercraft.api.utils.PC_VecI;
 import powercraft.launcher.mod_PowerCraft;
-
 
 /**
  * Resizable GUI image widget
@@ -38,7 +36,8 @@ public class PC_GresColor extends PC_GresWidget {
 
 	@Override
 	public PC_VecI calcSize() {
-		if (!visible) return zerosize;
+		if (!visible)
+			return zerosize;
 		return size.copy();
 	}
 
@@ -55,10 +54,12 @@ public class PC_GresColor extends PC_GresWidget {
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
-		if(showAsRect) {
-			drawRect(pos.x + offsetPos.x, pos.y + offsetPos.y, pos.x + offsetPos.x+size.x, pos.y + offsetPos.y+size.y, 0xff000000|bulbColor.getHex());
-		}else {
-			drawTexturedModalRect(pos.x + offsetPos.x, pos.y + offsetPos.y, imgOffset.x, imgOffset.y, imgSize.x, imgSize.y);
+		if (showAsRect) {
+			drawRect(pos.x + offsetPos.x, pos.y + offsetPos.y, pos.x + offsetPos.x + size.x,
+					pos.y + offsetPos.y + size.y, 0xff000000 | bulbColor.getHex());
+		} else {
+			drawTexturedModalRect(pos.x + offsetPos.x, pos.y + offsetPos.y, imgOffset.x, imgOffset.y, imgSize.x,
+					imgSize.y);
 		}
 
 		GL11.glDisable(GL11.GL_BLEND);
@@ -89,8 +90,6 @@ public class PC_GresColor extends PC_GresWidget {
 		return MouseOver.THIS;
 	}
 
-
-
 	@Override
 	public boolean mouseClick(PC_VecI mpos, int key) {
 		return false;
@@ -102,7 +101,8 @@ public class PC_GresColor extends PC_GresWidget {
 	}
 
 	@Override
-	public void mouseMove(PC_VecI mpos) {}
+	public void mouseMove(PC_VecI mpos) {
+	}
 
 	@Override
 	public PC_VecI getMinSize() {
@@ -110,10 +110,12 @@ public class PC_GresColor extends PC_GresWidget {
 	}
 
 	@Override
-	public void mouseWheel(int i) {}
+	public void mouseWheel(int i) {
+	}
 
 	@Override
-	public void addedToWidget() {}
+	public void addedToWidget() {
+	}
 
 	/**
 	 * @return color currently shown

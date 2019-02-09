@@ -9,23 +9,23 @@ import powercraft.launcher.update.PC_UpdateManager;
 import powercraft.launcher.updategui.PC_GuiUpdate;
 
 public class PC_LauncherClientUtils extends PC_LauncherUtils {
-	
+
 	public static Minecraft mc() {
 		return Minecraft.getMinecraft();
 	}
-	
+
 	@Override
-	public void pLookForUpdates(){
+	public void pLookForUpdates() {
 		PC_UpdateManager.lookForUpdates();
 	}
-	
+
 	@Override
-	public void pOpenUpdateGui(boolean requestDownloadTarget){
+	public void pOpenUpdateGui(boolean requestDownloadTarget) {
 		PC_GuiUpdate.show(requestDownloadTarget);
 	}
-	
+
 	@Override
-	protected boolean pIsClient(){
+	protected boolean pIsClient() {
 		return true;
 	}
 
@@ -34,7 +34,7 @@ public class PC_LauncherClientUtils extends PC_LauncherUtils {
 		Minecraft mc = null;
 		return mc.getMinecraft().mcDataDir;
 	}
-	
+
 	@Override
 	public EntityPlayer getPlayerEntity(MessageContext ctx) {
 		// Note that if you simply return 'Minecraft.getMinecraft().thePlayer',

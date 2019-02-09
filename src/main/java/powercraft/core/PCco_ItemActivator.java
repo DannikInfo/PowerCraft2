@@ -22,68 +22,69 @@ import powercraft.api.utils.PC_MathHelper;
 import powercraft.api.utils.PC_Utils;
 import powercraft.api.utils.PC_VecI;
 
-public class PCco_ItemActivator extends PC_Item{
-	
+public class PCco_ItemActivator extends PC_Item {
+
 	int Shift = Keyboard.KEY_LSHIFT;
-	
-	public PCco_ItemActivator(int id){
+
+	public PCco_ItemActivator(int id) {
 		super("activator");
-        setMaxDamage(100);
-        setMaxStackSize(1);
-        setCreativeTab(CreativeTabs.tabTools);
-    }
+		setMaxDamage(100);
+		setMaxStackSize(1);
+		setCreativeTab(CreativeTabs.tabTools);
+	}
 
 	@Override
 	public List<LangEntry> getNames(ArrayList<LangEntry> names) {
 		names.add(new LangEntry(getUnlocalizedName(), "Activation Crystal"));
 		return names;
 	}
-	
-    @Override
-    public boolean hasEffect(ItemStack itemstack){
-        return true;
-    }
 
-	
-    @Override
-    public boolean onItemUse(ItemStack itemstack, EntityPlayer entityplayer, World world, int x, int y, int z, int l, float par8, float par9, float par10)
-    {
-    	if(world.isRemote)
-    		return false;
-    	if(world.getBlock(x, y, z) == Blocks.mob_spawner && entityplayer.isSneaking()) {
-    		world.setBlock(x, y, z, Blocks.air);
-    		PC_Utils.dropItemStack(world, x, y, z, new ItemStack(PC_BlockRegistry.getPCBlockByName("PCco_BlockBlockSaver")));
-    		return true;
-    	}
-    	
-    	Boolean ok = (Boolean)PC_MSGRegistry.callAllMSG(new MSGIterator() {
+	@Override
+	public boolean hasEffect(ItemStack itemstack) {
+		return true;
+	}
+
+	@Override
+	public boolean onItemUse(ItemStack itemstack, EntityPlayer entityplayer, World world, int x, int y, int z, int l,
+			float par8, float par9, float par10) {
+		if (world.isRemote)
+			return false;
+		if (world.getBlock(x, y, z) == Blocks.mob_spawner && entityplayer.isSneaking()) {
+			world.setBlock(x, y, z, Blocks.air);
+			PC_Utils.dropItemStack(world, x, y, z,
+					new ItemStack(PC_BlockRegistry.getPCBlockByName("PCco_BlockBlockSaver")));
+			return true;
+		}
+
+		Boolean ok = (Boolean) PC_MSGRegistry.callAllMSG(new MSGIterator() {
 			@Override
 			public Object onRet(Object o) {
-				if(o instanceof Boolean && (Boolean)o){
-	        		return true;
-	        	}
+				if (o instanceof Boolean && (Boolean) o) {
+					return true;
+				}
 				return null;
 			}
 		}, PC_MSGRegistry.MSG_ON_ACTIVATOR_USED_ON_BLOCK, itemstack, entityplayer, world, new PC_VecI(x, y, z));
-    	
-    	if(ok!=null && ok){
-    		return true;
-    	}
-    	
-        if(PC_RecipeRegistry.searchRecipe3DAndDo(entityplayer, world, new PC_VecI(x, y, z)))
-        	return true;
-        
-    	int dir = ((PC_MathHelper.floor_double(((entityplayer.rotationYaw * 4F) / 360F) + 0.5D) & 3) + 2) % 4;
+
+		if (ok != null && ok) {
+			return true;
+		}
+
+		if (PC_RecipeRegistry.searchRecipe3DAndDo(entityplayer, world, new PC_VecI(x, y, z)))
+			return true;
+
+		int dir = ((PC_MathHelper.floor_double(((entityplayer.rotationYaw * 4F) / 360F) + 0.5D) & 3) + 2) % 4;
 
 		for (int i = 0; i < 3; i++) {
 
-			PC_VecI pos = new PC_VecI(x-Direction.offsetX[dir], y+i, z-Direction.offsetZ[dir]);
+			PC_VecI pos = new PC_VecI(x - Direction.offsetX[dir], y + i, z - Direction.offsetZ[dir]);
 			if (i == 2) {
-				//try direct up.
-				pos = new PC_VecI(x, y+1, z);
+				// try direct up.
+				pos = new PC_VecI(x, y + 1, z);
 			}
 
-			if (PC_Utils.getBID(world, pos) == Blocks.chest && PC_Utils.getBID(world, pos.copy().add(0, -1, 0)) == Blocks.iron_block) {
+			if (PC_Utils.getBID(world, pos) == Blocks.chest
+					&& PC_Utils.getBID(world, pos.copy().add(0, -1, 0)) == Blocks.iron_block) {
 				break;
 			}
 
@@ -94,6 +95,6 @@ public class PCco_ItemActivator extends PC_Item{
 			}
 		}
 
-        return false;
-    }
+		return false;
+	}
 }

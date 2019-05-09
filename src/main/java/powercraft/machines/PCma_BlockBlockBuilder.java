@@ -18,10 +18,8 @@ import powercraft.api.interfaces.PC_IBeamHandlerExt;
 import powercraft.api.item.PC_IItemInfo;
 import powercraft.api.network.PC_IPacketHandler;
 import powercraft.api.network.PC_PacketHandler;
-import powercraft.api.network.packet.PC_PacketBuilder;
-import powercraft.api.network.packet.PC_PacketHarvest;
+import powercraft.api.network.packet.PC_PacketSyncTEClient;
 import powercraft.api.registry.PC_GresRegistry;
-import powercraft.api.registry.PC_MSGRegistry;
 import powercraft.api.tileentity.PC_TileEntity;
 import powercraft.api.utils.PC_Color;
 import powercraft.api.utils.PC_Utils;
@@ -64,19 +62,12 @@ public class PCma_BlockBlockBuilder extends PC_Block implements PC_IItemInfo, PC
 		if (l != Blocks.air && l.canProvidePower()) {
 			boolean flag = isIndirectlyPowered(world, i, j, k);
 			if (flag && !world.isRemote) {
-				// world.scheduleBlockUpdate(i, j, k, l, tickRate(world));
+				world.scheduleBlockUpdate(i, j, k, l, tickRate(world));
 				buildBlocks(world, i, j, k, world.getBlockMetadata(i, j, k));
-
 			}
 		}
 	}
 
-	@Override
-	public void updateTick(World world, int i, int j, int k, Random random) {
-		if (isIndirectlyPowered(world, i, j, k)) {
-			// buildBlocks(world, i, j, k, world.getBlockMetadata(i, j, k));
-		}
-	}
 
 	/**
 	 * @param world
@@ -86,9 +77,8 @@ public class PCma_BlockBlockBuilder extends PC_Block implements PC_IItemInfo, PC
 	 * @param deviceMeta
 	 */
 	private void buildBlocks(World world, int x, int y, int z, int deviceMeta) {
-
 		if (!world.isRemote)
-			PC_PacketHandler.sendToAll(new PC_PacketHarvest(new Object[] { x, y, z, deviceMeta }));
+			PC_PacketHandler.sendToAll(new PC_PacketSyncTEClient(new Object[] {0, new PC_VecI(x, y, z), deviceMeta }));
 
 		deviceMeta &= 0x7;
 
@@ -140,19 +130,6 @@ public class PCma_BlockBlockBuilder extends PC_Block implements PC_IItemInfo, PC
 
 	@Override
 	public boolean onBlockHit(PC_BeamTracer beamTracer, Block block, PC_VecI coord) {
-		// if(block == Blocks.air) {
-		// World world = beamTracer.getWorld();
-		// PCma_TileEntityBlockBuilder tebb = PC_Utils.getTE(world,
-		// beamTracer.getStartCoord());
-		// if(!world.isRemote) {
-		// return tebb.useItem(coord);
-		// }else {
-		// PC_PacketHandler.sendToServer(new PC_PacketBuilder(new
-		// Object[]{tebb.getCoord(), beamTracer.getStartCoord(),
-		// Block.getIdFromBlock(block), coord}));
-		// return tebb.useItem(coord);
-		// }
-		// }
 		return onEmptyBlockHit(beamTracer, coord);
 	}
 
@@ -170,8 +147,9 @@ public class PCma_BlockBlockBuilder extends PC_Block implements PC_IItemInfo, PC
 
 	@Override
 	public boolean handleIncomingPacket(EntityPlayer player, Object[] o) {
+		PC_VecI bc = (PC_VecI)o[1];
 		if (player.worldObj.isRemote)
-			buildBlocks(player.worldObj, (Integer) o[0], (Integer) o[1], (Integer) o[2], (Integer) o[3]);
+			buildBlocks(player.worldObj, bc.x, bc.y, bc.z, (Integer) o[2]);
 		return false;
 	}
 

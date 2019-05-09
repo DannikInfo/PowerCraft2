@@ -10,10 +10,8 @@ import net.minecraft.util.AxisAlignedBB;
 import powercraft.api.annotation.PC_ClientServerSync;
 import powercraft.api.network.PC_IPacketHandler;
 import powercraft.api.network.PC_PacketHandler;
-import powercraft.api.network.packet.PC_PacketSyncTEClient;
 import powercraft.api.network.packet.PC_PacketSyncTEServer;
 import powercraft.api.tileentity.PC_TileEntity;
-import powercraft.api.utils.PC_VecI;
 
 public class PCma_TileEntityXPBank extends PC_TileEntity implements PC_IPacketHandler {
 	private Random rand = new Random();
@@ -254,16 +252,14 @@ public class PCma_TileEntityXPBank extends PC_TileEntity implements PC_IPacketHa
 
 	@Override
 	public boolean handleIncomingPacket(EntityPlayer player, Object[] o) {
-		if ((int) o[0] == 0) {
-			PC_PacketHandler.sendToAll(new PC_PacketSyncTEClient(new Object[] { 2, getCoord(), xp }));
-		} else if ((int) o[0] == 1) {
-			setXP((int) o[2]);
-			if ((int) o[3] != 0 && (int) o[4] == 0)
-				givePlayerLevel(player, (int) o[3]);
-			if ((int) o[3] != 0 && (int) o[4] == 1)
-				givePlayerXP(player, (int) o[3]);
-		} else if ((int) o[0] == 2) {
-			setXP((int) o[2]);
+		if ((Integer) o[0] == 1) {
+			setXP((Integer) o[2]);
+			if ((Integer) o[3] != 0 && (Integer) o[4] == 0)
+				givePlayerLevel(player, (Integer) o[3]);
+			if ((Integer) o[3] != 0 && (Integer) o[4] == 1)
+				givePlayerXP(player, (Integer) o[3]);
+		}else if ((Integer) o[0] == 2) {
+			setXP((Integer) o[2]);
 		}
 		return true;
 	}
@@ -271,12 +267,10 @@ public class PCma_TileEntityXPBank extends PC_TileEntity implements PC_IPacketHa
 	@Override
 	public void writeToNBT(NBTTagCompound tag) {
 		super.writeToNBT(tag);
-		tag.setInteger("xp", this.xp);
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound tag) {
 		super.readFromNBT(tag);
-		this.xp = tag.getInteger("xp");
 	}
 }

@@ -59,9 +59,9 @@ public class PC_PacketLaser extends AbstractClientMessage<PC_PacketLaser> {
 					e.printStackTrace();
 				}
 			}
-			PCli_TileEntityLaser te = (PCli_TileEntityLaser) player.worldObj.getTileEntity((int) o[0], (int) o[1],
-					(int) o[2]);
-			te.setPowered((boolean) o[3]);
+			PCli_TileEntityLaser te = (PCli_TileEntityLaser) player.worldObj.getTileEntity((Integer) o[0], (Integer) o[1],
+					(Integer) o[2]);
+			te.setPowered((Boolean) o[3]);
 		}
 	}
 }

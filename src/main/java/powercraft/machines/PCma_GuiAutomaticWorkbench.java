@@ -36,7 +36,6 @@ public class PCma_GuiAutomaticWorkbench extends PCma_ContainerAutomaticWorkbench
 	public void initGui(PC_IGresGui gui) {
 		PC_PacketHandler.sendToServer(new PC_PacketSyncInvTC_pt1(tileEntity, 0));
 		PC_PacketHandler.sendToServer(new PC_PacketSyncPlayerInvTC_pt1(tileEntity));
-		PC_PacketHandler.sendToServer(new PC_PacketSyncTEServer(new Object[] { 0, tileEntity.getCoord() }));
 		PC_GresWindow w = new PC_GresWindow(50, 50, "tile.PCma_BlockAutomaticWorkbench.name");
 
 		PC_GresWidget hg = new PC_GresLayoutH();
@@ -88,9 +87,9 @@ public class PCma_GuiAutomaticWorkbench extends PCma_ContainerAutomaticWorkbench
 
 	@Override
 	public void actionPerformed(PC_GresWidget widget, PC_IGresGui gui) {
-		PC_PacketHandler.sendToServer(
-				new PC_PacketSyncTEServer(new Object[] { 1, tileEntity.getCoord(), checkRedstone.isChecked() }));
 		tileEntity.setRedstoneActivated(checkRedstone.isChecked());
+		PC_PacketHandler.sendToServer(
+				new PC_PacketSyncTEServer(new Object[] {0, tileEntity.getCoord(), checkRedstone.isChecked()}));
 	}
 
 	@Override

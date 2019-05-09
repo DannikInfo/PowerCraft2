@@ -29,7 +29,7 @@ import powercraft.api.utils.PC_Utils;
 import powercraft.api.utils.PC_VecI;
 import powercraft.launcher.mod_PowerCraft;
 
-@PC_BlockInfo(name = "Iron Frame", tileEntity = PCde_TileEntityIronFrame.class)
+@PC_BlockInfo(name = "IronFrame", tileEntity = PCde_TileEntityIronFrame.class)
 public class PCde_BlockIronFrame extends PC_Block implements PC_IItemInfo {
 
 	public PCde_BlockIronFrame(int id) {

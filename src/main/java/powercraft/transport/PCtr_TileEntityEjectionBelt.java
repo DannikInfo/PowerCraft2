@@ -4,10 +4,7 @@ import java.util.Random;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import powercraft.api.annotation.PC_ClientServerSync;
 import powercraft.api.network.PC_IPacketHandler;
-import powercraft.api.network.PC_PacketHandler;
-import powercraft.api.network.packet.PC_PacketSyncTEClient;
 import powercraft.api.tileentity.PC_TileEntity;
 import powercraft.api.utils.PC_VecI;
 import powercraft.api.utils.PC_WorldData;
@@ -15,13 +12,9 @@ import powercraft.api.utils.PC_WorldData;
 public class PCtr_TileEntityEjectionBelt extends PC_TileEntity implements PC_IPacketHandler {
 	public static Random rand = new Random();
 
-	@PC_ClientServerSync
 	public int actionType = 0;
-	@PC_ClientServerSync
 	public int numStacksEjected = 1;
-	@PC_ClientServerSync
 	public int numItemsEjected = 1;
-	@PC_ClientServerSync
 	public int itemSelectMode = 0;
 
 	public boolean isActive = false;
@@ -114,14 +107,11 @@ public class PCtr_TileEntityEjectionBelt extends PC_TileEntity implements PC_IPa
 
 	@Override
 	public boolean handleIncomingPacket(EntityPlayer player, Object[] o) {
-		if ((int) o[0] == 0) {
-			PC_PacketHandler.sendToAll(new PC_PacketSyncTEClient(new Object[] { 1, getCoord(), this.actionType,
-					this.itemSelectMode, this.numItemsEjected, this.numStacksEjected }));
-		} else if ((int) o[0] == 1) {
-			setActionType((int) o[2]);
-			setItemSelectMode((int) o[3]);
-			setNumItemsEjected((int) o[4]);
-			setNumStacksEjected((int) o[5]);
+		if ((Integer) o[0] == 1) {
+			setActionType((Integer) o[2]);
+			setItemSelectMode((Integer) o[3]);
+			setNumStacksEjected((Integer) o[4]);
+			setNumItemsEjected((Integer) o[5]);
 		}
 		return true;
 	}

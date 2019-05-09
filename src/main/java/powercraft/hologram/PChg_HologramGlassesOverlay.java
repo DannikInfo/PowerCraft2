@@ -57,39 +57,38 @@ public class PChg_HologramGlassesOverlay implements PC_IOverlayRenderer {// , PC
 		GL11.glRotatef(player.rotationYaw, 0, 1, 0);
 		GL11.glTranslatef(-(float) player.posX, -(float) player.posY, -(float) player.posZ);
 
-		// mc.renderEngine.bindTexture(new ResourceLocation("/terrain.png"));
-		// if(update || glList==0){
-		// if(glList==0){
-		// glList = GL11.glGenLists(1);
-		// }
-		// GL11.glNewList(glList, GL11.GL_COMPILE_AND_EXECUTE);
-		RenderBlocks renderer = new RenderBlocks(cc);
-		PC_Renderer.tessellatorStartDrawingQuads();
-		for (int yy = -1; yy < 0; yy++) {
-			for (int xx = -14; xx < 0; xx++) {
-				for (int zz = -1; zz < 0; zz++) {
-					Block block = cc.getBlock(pos.x + xx, pos.y + yy, pos.z + zz);
-					if (block != null) {
-						// GL11.glPushAttrib(-1);
-						// GL11.glColor4f(0, 0, 0, 0);
-						if (block.getIcon(0, 0) != null)
-							mc.renderEngine.bindTexture(new ResourceLocation(
-									"textures/blocks/" + block.getIcon(0, 0).getIconName() + ".png"));
-						PC_Renderer.renderBlockByRenderType(renderer, block, pos.x + xx, pos.y + yy, pos.z + zz);
-						// GL11.glPopAttrib();
-					}
-				}
-			}
+		 //mc.renderEngine.bindTexture(new ResourceLocation("/terrain.png"));
+		 if(update || glList==0){
+			 if(glList==0){
+				glList = GL11.glGenLists(1);
+			 }
+			 GL11.glNewList(glList, GL11.GL_COMPILE_AND_EXECUTE);
+			 RenderBlocks renderer = new RenderBlocks(cc);
+			 PC_Renderer.tessellatorStartDrawingQuads();
+			 for (int yy = -1; yy < 0; yy++) {
+				 for (int xx = -14; xx < 0; xx++) {
+					 for (int zz = -1; zz < 0; zz++) {
+						 Block block = cc.getBlock(pos.x + xx, pos.y + yy, pos.z + zz);
+						 if (block != null) {
+							 GL11.glPushAttrib(-1);
+							 GL11.glColor4f(0, 0, 0, 0);
+							 if (block.getIcon(0, 0) != null)
+								 //mc.renderEngine.bindTexture(new ResourceLocation("textures/blocks/" + block.getIcon(0, 0).getIconName() + ".png"));
+							 PC_Renderer.renderBlockByRenderType(renderer, block, pos.x + xx, pos.y + yy, pos.z + zz);
+							 GL11.glPopAttrib();
+						 }
+					 }
+				 }
+			 }
+			 PC_Renderer.tessellatorDraw();
+			 GL11.glEndList();
+			 update = false;
+		}else{
+			GL11.glCallList(glList);
 		}
-		PC_Renderer.tessellatorDraw();
-		// GL11.glEndList();
-		update = false;
-		// }else{
-		// GL11.glCallList(glList);
-		// }
-		//
+		
 		GL11.glColor3f(1.0f, 1.0f, 1.0f);
-		// RenderBlocks renderer = new PChg_HologramRenderBlocks(cc);
+		RenderBlocks renderer = new PChg_HologramRenderBlocks(cc);
 		for (int yy = -8; yy < 8; yy++) {
 			for (int xx = -8; xx < 8; xx++) {
 				for (int zz = -8; zz < 8; zz++) {
@@ -99,13 +98,13 @@ public class PChg_HologramGlassesOverlay implements PC_IOverlayRenderer {// , PC
 						if (tileEntity != null && !(tileEntity instanceof PChg_TileEntityHologramField)) {
 
 							PC_Renderer.renderBlockByRenderType(renderer, block, pos.x + xx, pos.y + yy, pos.z + zz);
-							// if(TileEntityRenderer.instance.getFontRenderer()!=null){
-							// GL11.glPushAttrib(-1);
-							// mc.renderEngine.resetBoundTexture();
-							// TileEntityRenderer.instance.renderTileEntityAt(tileEntity, pos.x+xx,
-							// pos.y+yy, pos.z+zz, 1);
-							// GL11.glPopAttrib();
-							// }
+							/*if(TileEntityRenderer.instance.getFontRenderer()!=null){
+								GL11.glPushAttrib(-1);
+								mc.renderEngine.resetBoundTexture();
+								TileEntityRenderer.instance.renderTileEntityAt(tileEntity, pos.x+xx,
+										pos.y+yy, pos.z+zz, 1);
+								GL11.glPopAttrib();
+							}*/
 						}
 					}
 				}
@@ -128,7 +127,7 @@ public class PChg_HologramGlassesOverlay implements PC_IOverlayRenderer {// , PC
 		for (var6 = 0; var6 < var5.size(); ++var6) {
 			GL11.glPushAttrib(-1);
 			var7 = (Entity) var5.get(var6);
-			// mc.renderEngine.resetBoundTexture();
+			//mc.renderEngine.resetBoundTexture();
 			RenderManager.instance.renderEntitySimple(var7, 1);
 			GL11.glPopAttrib();
 		}

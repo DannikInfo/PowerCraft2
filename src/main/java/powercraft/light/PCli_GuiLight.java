@@ -15,7 +15,7 @@ import powercraft.api.gres.PC_GresWindow;
 import powercraft.api.gres.PC_IGresClient;
 import powercraft.api.gres.PC_IGresGui;
 import powercraft.api.network.PC_PacketHandler;
-import powercraft.api.network.packet.PC_PacketSyncLight;
+import powercraft.api.network.packet.PC_PacketSyncTEServer;
 import powercraft.api.tileentity.PC_TileEntity;
 import powercraft.api.utils.PC_Color;
 
@@ -59,6 +59,7 @@ public class PCli_GuiLight implements PC_IGresClient {
 		gui.add(w);
 		checkHuge.check((Boolean) o[0]);
 		checkStable.check((Boolean) o[1]);
+		colorPicker.setColor(((PC_Color) o[2]).getHex());
 		colorWidget.setColor((PC_Color) o[2]);
 	}
 
@@ -74,8 +75,8 @@ public class PCli_GuiLight implements PC_IGresClient {
 			light.setColor(PC_Color.fromHex(colorPicker.getColor()));
 			light.setHuge(checkHuge.isChecked());
 			light.setStable(checkStable.isChecked());
-			PC_PacketHandler.sendToServer(new PC_PacketSyncLight(PC_Color.fromHex(colorPicker.getColor()),
-					checkHuge.isChecked(), checkStable.isChecked(), light));
+			PC_PacketHandler.sendToServer(new PC_PacketSyncTEServer(new Object[] {0, light.getCoord(), PC_Color.fromHex(colorPicker.getColor()),
+					checkHuge.isChecked(), checkStable.isChecked()}));
 			gui.close();
 		} else if (widget == cancel) {
 			gui.close();

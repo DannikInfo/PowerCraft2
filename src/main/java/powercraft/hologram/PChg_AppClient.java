@@ -65,10 +65,10 @@ public class PChg_AppClient extends PChg_App {
 					for (int zz = -16; zz < 16; zz++) {
 						Block block = te.getWorld().getBlock(offset.x + xx, offset.y + yy, offset.z + zz);
 						if (block != null && block != Blocks.air) {
-							// if(block.getIcon(0, 0) != null)
-							// mc.renderEngine.bindTexture(new
-							// ResourceLocation("textures/blocks/"+block.getIcon(0,
-							// 0).getIconName()+".png"));
+							if(block.getIcon(0, 0) != null)
+							mc.renderEngine.bindTexture(new
+							ResourceLocation("textures/blocks/"+block.getIcon(0,
+							0).getIconName()+".png"));
 							PC_Renderer.renderStandardBlock(renderer, block, offset.x + xx, offset.y + yy,
 									offset.z + zz);
 						}

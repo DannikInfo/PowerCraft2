@@ -30,7 +30,7 @@ public class PChg_BlockHologramField extends PC_Block implements PC_IItemInfo {
 		setHardness(0.5F);
 		setResistance(0.5F);
 		setStepSound(Block.soundTypeGlass);
-		setCreativeTab(CreativeTabs.tabDecorations);
+		//setCreativeTab(CreativeTabs.tabDecorations);
 	}
 
 	@Override

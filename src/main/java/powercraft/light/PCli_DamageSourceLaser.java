@@ -1,6 +1,6 @@
 package powercraft.light;
 
-import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.DamageSource;
 import powercraft.api.registry.PC_LangRegistry;
 
@@ -17,10 +17,5 @@ public class PCli_DamageSourceLaser extends DamageSource {
 	private PCli_DamageSourceLaser(){
 		super("laser");
 	}
-	
-	//@Override
-	//public String getDeathMessage(EntityLiving par1EntityLiving){
-     //   return PC_LangRegistry.tr("pc.damage.laser", par1EntityLiving.getTranslatedEntityName());
-    //}
 	
 }

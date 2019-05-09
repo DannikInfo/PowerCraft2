@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import powercraft.api.network.PC_PacketHandler;
+import powercraft.api.network.packet.PC_PacketSyncPlayerInv;
 import powercraft.api.registry.PC_RecipeRegistry;
 import powercraft.api.utils.PC_GlobalVariables;
 
@@ -18,7 +19,7 @@ public class PCco_CraftingToolCrafter {
 		if (thePlayer.capabilities.isCreativeMode || PC_GlobalVariables.config.getBoolean("cheats.survivalCheating")) {
 			return true;
 		}
-		return craft(product, getPlayerInventory(thePlayer), new ArrayList<ItemStack>(), 0, thePlayer) > 0;
+		return craft(product, getPlayerInventory(thePlayer), new ArrayList<ItemStack>(), 0, thePlayer, false) > 0;
 	}
 
 	public static ItemStack[] getPlayerInventory(EntityPlayer thePlayer) {
@@ -34,6 +35,7 @@ public class PCco_CraftingToolCrafter {
 	public static void setPlayerInventory(ItemStack[] inv, EntityPlayer thePlayer) {
 		for (int i = 0; i < thePlayer.inventory.getSizeInventory(); i++) {
 			thePlayer.inventory.setInventorySlotContents(i, inv[i]);
+			PC_PacketHandler.sendToServer(new PC_PacketSyncPlayerInv(i, inv[i]));
 		}
 	}
 
@@ -68,20 +70,24 @@ public class PCco_CraftingToolCrafter {
 				return i;
 			i++;
 		}
+		
 		for (ItemStack stack : l) {
+			//System.out.println(is);
 			int need = testItem(stack, is);
+			System.out.println(need);
 			ItemStack[] isc = setTo(null, is);
 			int size = 0;
 			List<ItemStack> notc = new ArrayList<ItemStack>(not);
 			while (size < need) {
-				int nSize = craft(stack, isc, notc, rec, thePlayer);
-				if (nSize == 0) {
-					size = 0;
-					break;
-				}
-				size += craft(stack, isc, notc, rec, thePlayer);
+				//int nSize = craft(stack, isc, notc, rec, thePlayer);
+				//if (nSize == 0) {
+				//	size = 0;
+				//	break;
+				//}
+				//size += craft(stack, isc, notc, rec, thePlayer);
 			}
 			if (size > 0) {
+				System.out.println(1);
 				stack = stack.copy();
 				stack.stackSize = size;
 				if (storeTo(stack, isc, thePlayer)) {
@@ -129,17 +135,18 @@ public class PCco_CraftingToolCrafter {
 		}
 	}
 
-	public static int craft(ItemStack craft, ItemStack[] is, List<ItemStack> not, int rec, EntityPlayer thePlayer) {
+	public static int craft(ItemStack craft, ItemStack[] is, List<ItemStack> not, int rec, EntityPlayer thePlayer, boolean type) {
+		
 		if (thePlayer.capabilities.isCreativeMode || PC_GlobalVariables.config.getBoolean("cheats.survivalCheating")) {
 			return 1;
 		}
 		List<IRecipe> recipes = PC_RecipeRegistry.getRecipesForProduct(craft);
-		if (rec > MAX_RECURSION)
-			return 0;
+		//if (rec > MAX_RECURSION)
+		//	return 0;
 		if (not.contains(craft))
 			return 0;
 		not.add(craft);
-		rec++;
+		//rec++;
 		for (IRecipe recipe : recipes) {
 			ItemStack[] isc = setTo(null, is);
 			List<ItemStack>[][] inp = PC_RecipeRegistry.getExpectedInput(recipe, -1, -1);
@@ -154,21 +161,28 @@ public class PCco_CraftingToolCrafter {
 				}
 			}
 
-			int ret;
+			boolean ret = false;
 			boolean con = false;
 			for (List<ItemStack> l : input) {
-				ret = testItem(l, isc, not, rec, thePlayer);
-				if (ret < 0) {
-					con = true;
-					break;
-				}
-				takeOut(l.get(ret), isc);
+					for(int j = 0; j < 36; j++) {
+						if(is[j] != null) {
+							ret = is[j].getItem() == l.get(0).getItem();
+							boolean ret2 = is[j].getItemDamage() == l.get(0).getItemDamage();
+							boolean ret3 = is[j].stackSize >= l.get(0).stackSize;
+							if (ret && ret2 && ret3) {
+								if(type)
+									thePlayer.inventory.decrStackSize(j, l.get(0).stackSize);
+								return recipe.getRecipeOutput().stackSize;
+							}else
+								con = true;
+							
+						}
+					
+					}
+					
 			}
-			if (con)
+			if(con)
 				continue;
-
-			setTo(is, isc);
-			return recipe.getRecipeOutput().stackSize;
 		}
 		return 0;
 	}

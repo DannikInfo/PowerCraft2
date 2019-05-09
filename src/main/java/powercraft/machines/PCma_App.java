@@ -28,7 +28,7 @@ import powercraft.launcher.loader.PC_Module.PC_Instance;
 import powercraft.launcher.loader.PC_Module.PC_RegisterContainers;
 import powercraft.launcher.loader.PC_ModuleObject;
 
-@PC_Module(name = "Machines", version = "1.1.1")
+@PC_Module(name = "Machines", version = "0.0.1")
 public class PCma_App {
 
 	@PC_FieldObject(clazz = PCma_BlockAutomaticWorkbench.class)
@@ -66,19 +66,19 @@ public class PCma_App {
 
 	@PC_InitRecipes
 	public List<PC_IRecipe> initRecipes(List<PC_IRecipe> recipes) {
-		GameRegistry.addRecipe(new ItemStack(automaticWorkbench, 1, 2),
+		GameRegistry.addRecipe(new ItemStack(automaticWorkbench),
 				new Object[] { "X", "Y", "Z", 'X', Items.diamond, 'Y', Blocks.crafting_table, 'Z', Items.redstone });
 		GameRegistry.addRecipe(new ItemStack(roaster),
 				new Object[] { "III", "IFI", "III", 'I', Items.iron_ingot, 'F', Items.flint_and_steel });
 		GameRegistry.addRecipe(new ItemStack(xpBank), new Object[] { "ODO", "OGO", "O O", 'O', Blocks.obsidian, 'D',
 				Blocks.diamond_block, 'G', Items.ghast_tear });
-		GameRegistry.addRecipe(new ItemStack(transmutabox, 1, 0), new Object[] { "SOS", "OPO", "SOS", 'S',
+		GameRegistry.addRecipe(new ItemStack(transmutabox), new Object[] { "SOS", "OPO", "SOS", 'S',
 				Blocks.iron_block, 'O', Blocks.obsidian, 'Z', Blocks.furnace });
-		GameRegistry.addRecipe(new ItemStack(blockBuilder, 1),
-				new Object[] { "G", "D", "", 'G', Items.gold_ingot, 'D', Blocks.dispenser });
-		GameRegistry.addRecipe(new ItemStack(harvester, 1),
-				new Object[] { "P", "D", "", 'P', Items.gold_ingot, 'D', Blocks.dispenser });
-		GameRegistry.addRecipe(new ItemStack(replacer, 1),
+		GameRegistry.addRecipe(new ItemStack(blockBuilder),
+				new Object[] { "G", "D", " ", 'G', Items.gold_ingot, 'D', Blocks.dispenser });
+		GameRegistry.addRecipe(new ItemStack(harvester),
+				new Object[] { "P", "D", " ", 'P', Items.iron_ingot, 'D', Blocks.dispenser });
+		GameRegistry.addRecipe(new ItemStack(replacer),
 				new Object[] { "B", "R", "H", 'B', blockBuilder, 'R', Items.redstone, 'H', harvester });
 
 		recipes.add(new PC_3DRecipe((PC_I3DRecipeHandler) fishingMachine, new String[] { "www", "www", "www" },

@@ -25,10 +25,11 @@ import powercraft.api.gres.PC_GresWindow;
 import powercraft.api.gres.PC_IGresClient;
 import powercraft.api.gres.PC_IGresGui;
 import powercraft.api.network.PC_PacketHandler;
-import powercraft.api.network.packet.PC_PacketSpawnerSet;
+import powercraft.api.network.packet.PC_PacketSyncTEServer;
 import powercraft.api.reflect.PC_ReflectHelper;
 import powercraft.api.registry.PC_LangRegistry;
 import powercraft.api.tileentity.PC_TileEntity;
+import powercraft.api.utils.PC_VecI;
 
 public class PCco_GuiSpawnerEditor implements PC_IGresClient {
 
@@ -37,7 +38,7 @@ public class PCco_GuiSpawnerEditor implements PC_IGresClient {
 	private EntityPlayer thePlayer;
 
 	public PCco_GuiSpawnerEditor(EntityPlayer player, PC_TileEntity te, Object[] o) {
-		tems = (TileEntityMobSpawner) player.worldObj.getTileEntity((Integer) o[1], (Integer) o[2] - 1, (Integer) o[3]);
+		tems = (TileEntityMobSpawner) player.worldObj.getTileEntity((Integer) o[0], (Integer) o[1], (Integer) o[2]);
 		thePlayer = player;
 	}
 
@@ -95,8 +96,8 @@ public class PCco_GuiSpawnerEditor implements PC_IGresClient {
 
 		int id = widget.getId() - 1;
 		if (id >= 0) {
-			PC_PacketHandler
-					.sendToServer(new PC_PacketSpawnerSet(tems.xCoord, tems.yCoord, tems.zCoord, entityIds.get(id)));
+			new PCco_ClientMobSpawnerSetter().handleIncomingPacket(thePlayer, new Object[] { tems.xCoord, tems.yCoord, tems.zCoord, entityIds.get(id) });
+			PC_PacketHandler.sendToServer(new PC_PacketSyncTEServer(new Object[] {0, new PC_VecI(tems.xCoord, tems.yCoord, tems.zCoord), entityIds.get(id)}));
 		}
 
 	}
@@ -109,12 +110,10 @@ public class PCco_GuiSpawnerEditor implements PC_IGresClient {
 	}
 
 	@Override
-	public void updateTick(PC_IGresGui gui) {
-	}
+	public void updateTick(PC_IGresGui gui) {}
 
 	@Override
-	public void updateScreen(PC_IGresGui gui) {
-	}
+	public void updateScreen(PC_IGresGui gui) {}
 
 	@Override
 	public boolean drawBackground(PC_IGresGui gui, int par1, int par2, float par3) {
@@ -122,7 +121,6 @@ public class PCco_GuiSpawnerEditor implements PC_IGresClient {
 	}
 
 	@Override
-	public void keyChange(String key, Object value) {
-	}
+	public void keyChange(String key, Object value) {}
 
 }

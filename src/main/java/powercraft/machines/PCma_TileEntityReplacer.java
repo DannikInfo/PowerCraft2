@@ -10,7 +10,6 @@ import powercraft.api.annotation.PC_ClientServerSync;
 import powercraft.api.inventory.PC_InventoryUtils;
 import powercraft.api.network.PC_IPacketHandler;
 import powercraft.api.network.PC_PacketHandler;
-import powercraft.api.network.packet.PC_PacketSyncTEClient;
 import powercraft.api.network.packet.PC_PacketSyncTEServer;
 import powercraft.api.tileentity.PC_TileEntityWithInventory;
 import powercraft.api.utils.PC_Color;
@@ -164,10 +163,10 @@ public class PCma_TileEntityReplacer extends PC_TileEntityWithInventory implemen
 						new PC_VecF((float) d, (float) d1, (float) d2), getAidcolor(), new PC_VecF(), 0);
 			}
 		}
-		if (sended == 0) {
-			PC_PacketHandler.sendToServer(new PC_PacketSyncTEServer(new Object[] { 0, getCoord() }));
-			sended = 1;
-		}
+		//if (sended == 0) {
+		//	PC_PacketHandler.sendToServer(new PC_PacketSyncTEServer(new Object[] { 0, getCoord() }));
+		//	sended = 1;
+		//}
 		super.updateEntity();
 	}
 
@@ -220,14 +219,8 @@ public class PCma_TileEntityReplacer extends PC_TileEntityWithInventory implemen
 
 	@Override
 	public boolean handleIncomingPacket(EntityPlayer player, Object[] o) {
-		if ((int) o[0] == 0) {
-			PC_PacketHandler.sendToAllAround(
-					new PC_PacketSyncTEClient(new Object[] { 1, getCoord(), coordOffset, aidEnabled }),
-					player.dimension, xCoord, yCoord, zCoord, 10);
-		} else if ((int) o[0] == 1) {
-			setCoordOffset((PC_VecI) o[2]);
-			setAidEnabled((boolean) o[3]);
-		}
+		setCoordOffset((PC_VecI) o[2]);
+		setAidEnabled((Boolean) o[3]);
 		return true;
 	}
 

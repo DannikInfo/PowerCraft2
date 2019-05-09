@@ -6,6 +6,9 @@ import java.util.List;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.world.World;
 import powercraft.api.inventory.PC_InventoryUtils;
 import powercraft.api.network.PC_PacketHandler;
@@ -21,17 +24,25 @@ public class PCtp_TileEntityTeleporter extends PC_TileEntity {
 	public boolean soundEnabled, laserDivert = true;
 	public PC_VecI defaultTarget;
 
+	@Override
+	public Packet getDescriptionPacket() {
+		return new S35PacketUpdateTileEntity(0, 0, 0, 3, new NBTTagCompound());
+	}
+	    
+	@Override
+	public void onDataPacket(NetworkManager networkManager, S35PacketUpdateTileEntity packet) {}
+	
 	public void readFromNBT(NBTTagCompound nbt) {
-		super.readFromNBT(nbt);
 		PCtp_TeleporterManager tm = new PCtp_TeleporterManager();
 		tm.load(nbt);
+		super.readFromNBT(nbt);
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
-		super.writeToNBT(nbt);
 		PCtp_TeleporterManager tm = new PCtp_TeleporterManager();
 		tm.save(nbt);
+		super.writeToNBT(nbt);
 	}
 
 	@Override

@@ -20,6 +20,7 @@ import java.util.zip.ZipFile;
 import org.objectweb.asm.ClassReader;
 
 import powercraft.launcher.PC_LauncherUtils;
+import powercraft.launcher.PC_Logger;
 import powercraft.launcher.PC_Version;
 import powercraft.launcher.asm.PC_ClassVisitor;
 
@@ -196,6 +197,7 @@ public class PC_ModuleDiscovery {
 			ZipFile zip = new ZipFile(file);
 			loadFile = file;
 			for (ZipEntry ze : Collections.list(zip.entries())) {
+				System.out.println(ze.getName());
 				if (!ze.isDirectory()) {
 					if (ze.getName().endsWith(".class")) {
 						loadClass(zip.getInputStream(ze));

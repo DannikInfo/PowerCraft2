@@ -6,12 +6,12 @@ import cpw.mods.fml.relauncher.Side;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.PacketBuffer;
-import powercraft.api.network.PC_IPacketHandler;
+import net.minecraft.tileentity.TileEntityMobSpawner;
 import powercraft.api.network.AbstractMessage.AbstractServerMessage;
+import powercraft.api.network.PC_IPacketHandler;
 import powercraft.api.utils.PC_Serializer;
 import powercraft.api.utils.PC_VecI;
-import powercraft.machines.PCma_TileEntityReplacer;
-import powercraft.machines.PCma_TileEntityXPBank;
+import powercraft.core.PCco_ClientMobSpawnerSetter;
 
 public class PC_PacketSyncTEServer extends AbstractServerMessage<PC_PacketSyncTEServer> {
 
@@ -64,7 +64,10 @@ public class PC_PacketSyncTEServer extends AbstractServerMessage<PC_PacketSyncTE
 			if (player.worldObj.getTileEntity(pos.x, pos.y, pos.z) instanceof PC_IPacketHandler) {
 				PC_IPacketHandler te = (PC_IPacketHandler) player.worldObj.getTileEntity(pos.x, pos.y, pos.z);
 				te.handleIncomingPacket(player, o);
-			}
+			}else if(player.worldObj.getBlock(pos.x, pos.y, pos.z) instanceof PC_IPacketHandler)
+				((PC_IPacketHandler) player.worldObj.getBlock(pos.x, pos.y, pos.z)).handleIncomingPacket(player, o);
+			else if(player.worldObj.getTileEntity(pos.x, pos.y, pos.z) instanceof TileEntityMobSpawner)
+				new PCco_ClientMobSpawnerSetter().handleIncomingPacket(player, new Object[] {pos.x, pos.y, pos.z, (String)o[2] });
 		}
 	}
 }

@@ -1,76 +1,70 @@
 package powercraft.api;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map.Entry;
+import java.util.Random;
 
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.OreDictionary;
-import powercraft.api.item.PC_ItemStack;
-import powercraft.api.reflect.PC_ReflectHelper;
+import cpw.mods.fml.common.IWorldGenerator;
+import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
+import net.minecraft.world.World;
+import net.minecraft.world.chunk.IChunkProvider;
+import net.minecraft.world.gen.feature.WorldGenMinable;
+import powercraft.api.annotation.PC_OreInfo;
+import powercraft.api.block.PC_Block;
 
-public class PC_OreDictionary {
+public class PC_OreDictionary implements IWorldGenerator{
+	
+	private static HashMap<Integer, PC_OreInfo> info = new HashMap<Integer, PC_OreInfo>();
+	private static HashMap<Integer, PC_Block> stacks = new HashMap<Integer, PC_Block>();
+	
+	static int counter = 0;
 
-	private static HashMap<String, List<PC_ItemStack>> ores = new HashMap<String, List<PC_ItemStack>>();
-
-	public static List<PC_ItemStack> getOres(String name) {
-		List<ItemStack> l = OreDictionary.getOres(name);
-		List<PC_ItemStack> ret = new ArrayList<PC_ItemStack>();
-		for (ItemStack is : l) {
-			ret.add(new PC_ItemStack(is));
-		}
-		return ret;
+	public static void register(PC_OreInfo ore, PC_Block block) {
+		info.put(counter, ore);
+		stacks.put(counter++, block);
+	}
+	
+	@Override
+	public void generate(Random rand, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
+		generateOverworld(rand, chunkX, chunkZ, world);
 	}
 
-	public static String[] getOreNames() {
-		return OreDictionary.getOreNames();
+	private void generateOverworld(Random rand, int chunkX, int chunkZ, World world) {
+		generateOverworld(world, rand, chunkX * 16, chunkZ * 16);
 	}
 
-	public static String getOreName(ItemStack is) {
-		String name = OreDictionary.getOreName(OreDictionary.getOreID(is));
-		return name.equals("Unknown") ? null : name;
+	public void generateOverworld(World world, Random rand, int blockXPos, int blockZPos) {
+		for(int i = 0; i < info.size(); i++) {
+			PC_OreInfo ore = info.get(i);
+	    	PC_Block block= stacks.get(i);
+	    	addOreSpawn(block, world, rand, blockXPos, blockZPos, 16, 16, ore.genOresDepositMaxCount(),
+	    			block.getGenOresSpawnMetadata(rand, world, blockXPos, blockZPos), ore.genOresInChunk() * ore.genOresDepositMaxCount(), ore.genOresMinY(), ore.genOresMaxY());                             
+	    }
 	}
-
-	public static void register(String name, ItemStack ore) {
-		// List<PC_ItemStack> l;
-		// if (ores.containsKey(name)) {
-		// l = ores.get(name);
-		// } else {
-		// ores.put(name, l = new ArrayList<PC_ItemStack>());
-		// }
-		// l.add(ore);
-		OreDictionary.registerOre(name, ore);
-	}
-
-	public static void unloadOres() {
-		HashMap<Integer, ArrayList<ItemStack>> hm = PC_ReflectHelper.getValue(OreDictionary.class, OreDictionary.class,
-				3, HashMap.class);
-		for (Entry<String, List<PC_ItemStack>> e : ores.entrySet()) {
-			ArrayList<ItemStack> list = hm.get(OreDictionary.getOreID(e.getKey()));
-			Iterator<ItemStack> i = list.iterator();
-			while (i.hasNext()) {
-				ItemStack is = i.next();
-				for (PC_ItemStack pcis : e.getValue()) {
-					if (pcis.equals(is)) {
-						i.remove();
-						break;
-					}
-				}
-			}
-		}
-	}
-
-	public static void loadOres() {
-		HashMap<Integer, ArrayList<ItemStack>> hm = PC_ReflectHelper.getValue(OreDictionary.class, OreDictionary.class,
-				3, HashMap.class);
-		for (Entry<String, List<PC_ItemStack>> e : ores.entrySet()) {
-			ArrayList<ItemStack> list = hm.get(OreDictionary.getOreID(e.getKey()));
-			for (PC_ItemStack pcis : e.getValue()) {
-				list.add(pcis.toItemStack());
-			}
-		}
-	}
-
+	    
+	/**
+	* @param block Блок, который хотите генерировать
+	* @param world Мир (не измерение), в котором этот блок должен генерироваться
+	* @param random Случайное число для получения координат генерации блока
+	* @param blockXPos Число для того, чтобы было пустое место по координатам X для метода генерации (использует кварцевая руда)
+	* @param blockZPos Число для того, чтобы было пустое место по координатам Z для метода генерации (использует кварцевая руда)
+	* @param maxX Число, которое настроит максимальную X координату для генерации руды на оси X на чанк
+	* @param maxZ Число, которое настроит максимальную Z координату для генерации руды на оси Z на чанк
+	* @param maxVeinSize Максимальное число блоков руды в одной жиле
+	* @param chancesToSpawn Шанс генерации блоков на чанк
+	* @param minY Минимальная координата Y на которой руда может сгенерироваться
+	* @param maxY Максимальная координата Y на которой руда может сгенерироваться
+	*/
+	public void addOreSpawn(Block block, World world, Random random, int blockXPos, int blockZPos, int maxX, int maxZ,
+		int maxVeinSize, int meta, int chancesToSpawn, int minY, int maxY){
+	    int maxPossY = minY + (maxY - 1);
+	                
+	    int diffBtwnMinMaxY = maxY - minY;
+	    for (int x = 0; x < chancesToSpawn; x++){
+	    	int posX = blockXPos + random.nextInt(maxX);
+	        int posY = minY + random.nextInt(diffBtwnMinMaxY);
+	        int posZ = blockZPos + random.nextInt(maxZ);
+	        (new WorldGenMinable(block, meta, maxVeinSize, Blocks.stone)).generate(world, random, posX, posY, posZ);
+	    }
+	}	
 }

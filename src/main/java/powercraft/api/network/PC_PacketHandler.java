@@ -7,19 +7,11 @@ import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.relauncher.Side;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import powercraft.api.network.packet.PC_PacketBuilder;
-import powercraft.api.network.packet.PC_PacketHarvest;
 import powercraft.api.network.packet.PC_PacketLaser;
 import powercraft.api.network.packet.PC_PacketOpenGres;
-import powercraft.api.network.packet.PC_PacketSpawnerSet;
-import powercraft.api.network.packet.PC_PacketSyncHB;
-import powercraft.api.network.packet.PC_PacketSyncHBClient;
-import powercraft.api.network.packet.PC_PacketSyncHBFCTS;
 import powercraft.api.network.packet.PC_PacketSyncInv;
 import powercraft.api.network.packet.PC_PacketSyncInvTC_pt1;
 import powercraft.api.network.packet.PC_PacketSyncInvTC_pt2;
-import powercraft.api.network.packet.PC_PacketSyncLight;
-import powercraft.api.network.packet.PC_PacketSyncLightClient;
 import powercraft.api.network.packet.PC_PacketSyncPlayerInv;
 import powercraft.api.network.packet.PC_PacketSyncPlayerInvTC_pt1;
 import powercraft.api.network.packet.PC_PacketSyncPlayerInvTC_pt2;
@@ -71,24 +63,16 @@ public class PC_PacketHandler {
 		registerMessage(PC_PacketOpenGres.class);
 		registerMessage(PC_PacketSyncInvTC_pt2.class);
 		registerMessage(PC_PacketSyncPlayerInvTC_pt2.class);
-		registerMessage(PC_PacketSyncLightClient.class);
-		registerMessage(PC_PacketSyncHBClient.class);
-		registerMessage(PC_PacketHarvest.class);
-		registerMessage(PC_PacketLaser.class);
 		registerMessage(PC_PacketSyncTEClient.class);
+		registerMessage(PC_PacketLaser.class);
 
 		// Packets handled on SERVER
-		registerMessage(PC_PacketSpawnerSet.class);
 		registerMessage(PC_PacketSyncInv.class);
 		registerMessage(PC_PacketSyncInvTC_pt1.class);
 		registerMessage(PC_PacketSyncPlayerInv.class);
 		registerMessage(PC_PacketSyncPlayerInvTC_pt1.class);
 		registerMessage(PC_PacketTeleporterSync.class);
 		registerMessage(PC_PacketTeleport.class);
-		registerMessage(PC_PacketSyncLight.class);
-		registerMessage(PC_PacketSyncHB.class);
-		registerMessage(PC_PacketSyncHBFCTS.class);
-		registerMessage(PC_PacketBuilder.class);
 		registerMessage(PC_PacketSyncTEServer.class);
 
 		// If you don't want to make a 'registerMessage' method, you can do it directly:

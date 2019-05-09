@@ -659,19 +659,19 @@ public class PC_Utils {
 				e.printStackTrace();
 			}
 		} else if (value instanceof NBTTagByte) {
-			return ((NBTTagByte) value);
+			return ((NBTTagByte) value).func_150290_f();
 		} else if (value instanceof NBTTagShort) {
-			return ((NBTTagShort) value);
+			return ((NBTTagShort) value).func_150289_e();
 		} else if (value instanceof NBTTagInt) {
-			return ((NBTTagInt) value);
+			return ((NBTTagInt) value).func_150287_d();
 		} else if (value instanceof NBTTagLong) {
-			return ((NBTTagLong) value);
+			return ((NBTTagLong) value).func_150291_c();
 		} else if (value instanceof NBTTagFloat) {
-			return ((NBTTagFloat) value);
+			return ((NBTTagFloat) value).func_150288_h();
 		} else if (value instanceof NBTTagDouble) {
-			return ((NBTTagDouble) value);
+			return ((NBTTagDouble) value).func_150286_g();
 		} else if (value instanceof NBTTagString) {
-			return ((NBTTagString) value);
+			return ((NBTTagString) value).func_150285_a_();
 		}
 		return null;
 	}

@@ -3,6 +3,7 @@ package powercraft.api;
 import java.util.ArrayList;
 import java.util.List;
 
+import cpw.mods.fml.common.IWorldGenerator;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
@@ -53,7 +54,7 @@ import powercraft.launcher.loader.PC_Module.PC_PostInit;
 import powercraft.launcher.loader.PC_Module.PC_PreInit;
 import powercraft.launcher.loader.PC_ModuleObject;
 
-@PC_Module(name = "Api", version = "3.5.2", modLoader = PC_ModLoader.FORGE_MODLOADER)
+@PC_Module(name = "Api", version = "0.0.1", modLoader = PC_ModLoader.FORGE_MODLOADER)
 public class PC_APIModule {
 
 	protected PC_PacketHandler packetHandler;
@@ -99,7 +100,8 @@ public class PC_APIModule {
 	@PC_Init
 	public void init() {
 		PC_Logger.enterSection("Init");
-		GameRegistry.registerWorldGenerator(new PC_WorldGeneratorRegistry(), 0);
+		GameRegistry.registerWorldGenerator(new PC_OreDictionary(), 0);
+		//GameRegistry.registerWorldGenerator(new PC_WorldGeneratorRegistry(), 0);
 		GameRegistry.registerFuelHandler(new PC_FuelHandler());
 		PC_ThreadManager.init();
 		PC_BuildingRegistry.register(new PC_CropHarvesting());
@@ -250,9 +252,6 @@ public class PC_APIModule {
 			if (object instanceof PC_IMSG) {
 				PC_MSGRegistry.registerMSGObject((PC_IMSG) object);
 			}
-			// if (object instanceof PC_ITickHandler) {
-			// PC_TickRegistry.register((PC_ITickHandler) object);
-			// }
 			if (object instanceof PC_IWorldGenerator) {
 				PC_WorldGeneratorRegistry.register((PC_IWorldGenerator) object);
 			}

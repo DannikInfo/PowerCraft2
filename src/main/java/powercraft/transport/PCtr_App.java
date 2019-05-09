@@ -19,7 +19,7 @@ import powercraft.launcher.loader.PC_Module;
 import powercraft.launcher.loader.PC_Module.PC_InitRecipes;
 import powercraft.launcher.loader.PC_Module.PC_RegisterContainers;
 
-@PC_Module(name = "Transport", version = "1.1.1")
+@PC_Module(name = "Transport", version = "0.0.1")
 public class PCtr_App {
 
 	@PC_FieldObject(clazz = PCtr_BlockBeltNormal.class)
@@ -45,43 +45,35 @@ public class PCtr_App {
 
 	@PC_InitRecipes
 	public List<PC_IRecipe> initRecipes(List<PC_IRecipe> recipes) {
-		GameRegistry.addRecipe(new ItemStack(PC_BlockRegistry.getPCBlockByName("PCtr_BlockBeltNormal"), 16),
+		GameRegistry.addRecipe(new ItemStack(conveyorBelt, 16),
 				new Object[] { "XXX", "YRY", "   ", 'X', Items.leather, 'Y', Items.iron_ingot, 'R', Items.redstone });
-		GameRegistry.addRecipe(new ItemStack(PC_BlockRegistry.getPCBlockByName("PCtr_BlockBeltNormal"), 4),
+		GameRegistry.addRecipe(new ItemStack(conveyorBelt, 4),
 				new Object[] { "XXX", "YRY", "   ", 'X', Items.paper, 'Y', Items.iron_ingot, 'R', Items.redstone });
-		GameRegistry.addRecipe(new ItemStack(PC_BlockRegistry.getPCBlockByName("PCtr_BlockBeltSpeedy"), 16),
+		GameRegistry.addRecipe(new ItemStack(speedyBelt, 16),
 				new Object[] { "XXX", "YRY", "   ", 'X', Items.leather, 'Y', Items.gold_ingot, 'R', Items.redstone });
-		GameRegistry.addRecipe(new ItemStack(PC_BlockRegistry.getPCBlockByName("PCtr_BlockBeltSpeedy"), 4),
+		GameRegistry.addRecipe(new ItemStack(speedyBelt, 4),
 				new Object[] { "XXX", "YRY", "   ", 'X', Items.paper, 'Y', Items.gold_ingot, 'R', Items.redstone });
-		GameRegistry.addRecipe(new ItemStack(PC_BlockRegistry.getPCBlockByName("PCtr_BlockBeltEjector"), 1),
+		GameRegistry.addRecipe(new ItemStack(ejectionBelt, 1),
 				new Object[] { "X", "Y", "Z", 'X', Items.bow, 'Y', conveyorBelt, 'Z', Items.redstone });
-		GameRegistry.addRecipe(new ItemStack(PC_BlockRegistry.getPCBlockByName("PCtr_BlockBeltDetector"), 1),
-				new Object[] { "X", "Y", "Z", 'X', Blocks.wooden_pressure_plate, Blocks.stone_pressure_plate, 'Y',
-						conveyorBelt, 'Z', Items.redstone });
-		GameRegistry.addRecipe(new ItemStack(PC_BlockRegistry.getPCBlockByName("PCtr_BlockBeltSeparator"), 1),
-				new Object[] { "X", "Y", "Z", 'X', Items.diamond, 'Y',
-						PC_BlockRegistry.getPCBlockByName("PCtr_BlockBeltNormal"), 'Z', Items.redstone });
-		GameRegistry.addRecipe(new ItemStack(PC_BlockRegistry.getPCBlockByName("PCtr_BlockBeltBreak"), 1),
-				new Object[] { "X", "Y", "Z", 'X', Items.iron_ingot, 'Y',
-						PC_BlockRegistry.getPCBlockByName("PCtr_BlockBeltNormal"), 'Z', Items.redstone });
-		GameRegistry.addRecipe(new ItemStack(PC_BlockRegistry.getPCBlockByName("PCtr_BlockBeltRedirector"), 1),
-				new Object[] { "X", "Y", "   ", 'X', PC_BlockRegistry.getPCBlockByName("PCtr_BlockBeltNormal"), 'Y',
-						Items.redstone });
-		GameRegistry.addRecipe(new ItemStack(PC_BlockRegistry.getPCBlockByName("PCtr_BlockElevator"), 6, 0),
-				new Object[] { "XGX", "X X", "XGX", 'X', PC_BlockRegistry.getPCBlockByName("PCtr_BlockBeltNormal"), 'G',
-						Items.gold_ingot });
-		GameRegistry.addRecipe(new ItemStack(PC_BlockRegistry.getPCBlockByName("PCtr_BlockElevator"), 6, 1),
-				new Object[] { "XGX", "XRX", "XGX", 'X', PC_BlockRegistry.getPCBlockByName("PCtr_BlockBeltNormal"), 'G',
-						Items.gold_ingot, 'R', Items.redstone });
-		GameRegistry
-				.addRecipe(new ItemStack(PC_BlockRegistry.getPCBlockByName("PCtr_BlockSplitter"), 1, 0),
-						new Object[] { " U ", "XSX", " D ", 'U',
-								new ItemStack(PC_BlockRegistry.getPCBlockByName("PCtr_BlockElevator").getItemBlock(), 1,
-										0),
-								'X', PC_BlockRegistry.getPCBlockByName("PCtr_BlockBeltNormal"), 'S',
-								PC_BlockRegistry.getPCBlockByName("PCtr_BlockBeltSeparation"), 'D',
-								new ItemStack(PC_BlockRegistry.getPCBlockByName("PCtr_BlockElevator"), 1, 1) });
-		GameRegistry.addRecipe(new ItemStack(PC_ItemRegistry.getPCItemByName("PCtr_ItemArmorStickyBoots"), 1, 0),
+		GameRegistry.addRecipe(new ItemStack(detectionBelt, 1),
+				new Object[] { "X", "Y", "Z", 'X', Blocks.stone_pressure_plate, 'Y', conveyorBelt, 'Z', Items.redstone });
+		GameRegistry.addRecipe(new ItemStack(detectionBelt, 1),
+				new Object[] { "X", "Y", "Z", 'X', Blocks.wooden_pressure_plate, 'Y', conveyorBelt, 'Z', Items.redstone });
+		GameRegistry.addRecipe(new ItemStack(separationBelt, 1),
+				new Object[] { "X", "Y", "Z", 'X', Items.diamond, 'Y', conveyorBelt, 'Z', Items.redstone });
+		GameRegistry.addRecipe(new ItemStack(breakBelt, 1),
+				new Object[] { "X", "Y", "Z", 'X', Items.iron_ingot, 'Y', conveyorBelt, 'Z', Items.redstone });
+		GameRegistry.addRecipe(new ItemStack(redirectionBelt, 1),
+				new Object[] { "X", "Y", " ", 'X', conveyorBelt, 'Y', Items.redstone });
+		GameRegistry.addRecipe(new ItemStack(elevator, 6, 0),
+				new Object[] { "XGX", "X X", "XGX", 'X', conveyorBelt, 'G', Items.gold_ingot });
+		GameRegistry.addRecipe(new ItemStack(elevator, 6, 1),
+				new Object[] { "XGX", "XRX", "XGX", 'X', conveyorBelt, 'G', Items.gold_ingot, 'R', Items.redstone });
+		GameRegistry.addRecipe(new ItemStack(splitter, 1, 0),
+				new Object[] { " U ", "XSX", " D ", 'U',
+						new ItemStack(elevator, 1,0), 'X', conveyorBelt, 'S', separationBelt, 'D', 
+						new ItemStack(elevator, 1, 1) });
+		GameRegistry.addRecipe(new ItemStack(slimeboots, 1, 0),
 				new Object[] { "B", "S", "B", 'B', Items.iron_boots, 'S', Items.slime_ball });
 		return recipes;
 	}

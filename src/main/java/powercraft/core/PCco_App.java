@@ -21,7 +21,7 @@ import powercraft.launcher.loader.PC_Module.PC_InitProperties;
 import powercraft.launcher.loader.PC_Module.PC_InitRecipes;
 import powercraft.launcher.loader.PC_Module.PC_RegisterContainers;
 
-@PC_Module(name = "Core", version = "1.1.1")
+@PC_Module(name = "Core", version = "0.0.1")
 public class PCco_App {
 
 	@PC_FieldObject(clazz = PCco_BlockPowerCrystal.class)
@@ -49,17 +49,19 @@ public class PCco_App {
 
 	@PC_InitRecipes
 	public List<PC_IRecipe> initRecipes(List<PC_IRecipe> recipes) {
-		GameRegistry.addRecipe(new ItemStack(PC_ItemRegistry.getPCItemByName("PCco_ItemActivator"), 1),
-				new Object[] { "#X#", "RYR", " # ", 'X', PC_BlockRegistry.getPCBlockByName("PCco_BlockPowerCrystal"),
-						'#', Items.iron_ingot, 'Y', Items.diamond, 'R', Items.redstone });
-		GameRegistry.addRecipe(new ItemStack(PC_ItemRegistry.getPCItemByName("PCco_ItemCraftingTool"), 1),
+		GameRegistry.addRecipe(new ItemStack(craftingTool, 1),
 				new Object[] { "#R#", "RXR", "#R#", 'X', Blocks.iron_block, '#', Blocks.crafting_table, 'R',
 						Items.redstone });
-		GameRegistry.addShapelessRecipe(new ItemStack(PC_ItemRegistry.getPCItemByName("PCco_ItemPowerDust"), 4),
-				new Object[] { powerCrystal });
-		GameRegistry.addRecipe(new ItemStack(PC_ItemRegistry.getPCItemByName("PCco_ItemOreSniffer"), 1),
-				new Object[] { " GD", "GCG", "DG ", 'G', Items.gold_ingot, 'D', Items.diamond, 'C', powerCrystal });
-
+		for(int i = 0; i < 8; i++) {
+			GameRegistry.addShapelessRecipe(new ItemStack(powerDust, 4), new Object[] { new ItemStack(powerCrystal, 1, i) });
+		
+			GameRegistry.addRecipe(new ItemStack(activator, 1),
+					new Object[] { "#X#", "RYR", " # ", 'X', new ItemStack(powerCrystal, 1, i),
+							'#', Items.iron_ingot, 'Y', Items.diamond, 'R', Items.redstone });
+			
+			GameRegistry.addRecipe(new ItemStack(oreSniffer, 1),
+				new Object[] { " GD", "GCG", "DG ", 'G', Items.gold_ingot, 'D', Items.diamond, 'C', new ItemStack(powerCrystal, 1, i)});
+		}
 		// reverse recipes
 		GameRegistry.addShapelessRecipe(new ItemStack(Blocks.sand, 4), new Object[] { Blocks.sandstone });
 		GameRegistry.addShapelessRecipe(new ItemStack(Blocks.planks, 6), new Object[] { Items.wooden_door });
@@ -92,8 +94,8 @@ public class PCco_App {
 	@PC_RegisterContainers
 	public List<PC_Struct2<String, Class<? extends PC_GresBaseWithInventory>>> registerContainers(
 			List<PC_Struct2<String, Class<? extends PC_GresBaseWithInventory>>> guis) {
-		guis.add(new PC_Struct2<String, Class<? extends PC_GresBaseWithInventory>>("CraftingTool",
-				PCco_ContainerCraftingTool.class));
+		//guis.add(new PC_Struct2<String, Class<? extends PC_GresBaseWithInventory>>("CraftingTool",
+		//		PCco_ContainerCraftingTool.class));
 		return guis;
 	}
 

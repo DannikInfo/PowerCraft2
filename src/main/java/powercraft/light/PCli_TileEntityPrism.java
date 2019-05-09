@@ -24,7 +24,6 @@ public class PCli_TileEntityPrism extends PC_TileEntity implements PC_ITileEntit
 		if (prismSides != null) {
 			return prismSides[side];
 		}
-		System.out.println("EROOR");
 		return false;
 	}
 

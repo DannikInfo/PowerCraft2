@@ -3,6 +3,7 @@ package powercraft.api.network.packet;
 import java.io.IOException;
 
 import cpw.mods.fml.relauncher.Side;
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.PacketBuffer;
@@ -63,7 +64,8 @@ public class PC_PacketSyncTEClient extends AbstractServerMessage<PC_PacketSyncTE
 			if (player.worldObj.getTileEntity(pos.x, pos.y, pos.z) instanceof PC_IPacketHandler) {
 				PC_IPacketHandler te = (PC_IPacketHandler) player.worldObj.getTileEntity(pos.x, pos.y, pos.z);
 				te.handleIncomingPacket(player, o);
-			}
+			}else if(player.worldObj.getBlock(pos.x, pos.y, pos.z) instanceof PC_IPacketHandler)
+				((PC_IPacketHandler) player.worldObj.getBlock(pos.x, pos.y, pos.z)).handleIncomingPacket(player, o);
 		}
 	}
 }

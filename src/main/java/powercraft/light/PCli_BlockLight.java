@@ -21,9 +21,6 @@ import powercraft.api.annotation.PC_Shining.OFF;
 import powercraft.api.annotation.PC_Shining.ON;
 import powercraft.api.block.PC_Block;
 import powercraft.api.item.PC_IItemInfo;
-import powercraft.api.network.PC_PacketHandler;
-import powercraft.api.network.packet.PC_PacketSyncLight;
-import powercraft.api.network.packet.PC_PacketSyncLightClient;
 import powercraft.api.registry.PC_GresRegistry;
 import powercraft.api.registry.PC_TextureRegistry;
 import powercraft.api.renderer.PC_Renderer;
@@ -116,7 +113,6 @@ public class PCli_BlockLight extends PC_Block implements PC_IItemInfo {
 				}
 			}
 		}
-
 		PC_GresRegistry.openGres("Light", entityplayer, te, new Object[] { te.isHuge(), te.isStable(), te.getColor() });
 		return true;
 	}
@@ -124,74 +120,50 @@ public class PCli_BlockLight extends PC_Block implements PC_IItemInfo {
 	@Override
 	public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
 		PCli_TileEntityLight tileentity = PC_Utils.getTE(world, x, y, z);
-
+		
 		if (tileentity == null || tileentity.isStable()) {
 			return;
 		}
 
-		// if (!world.isRemote) {
+		if (!world.isRemote) {
 		int meta = PC_Utils.getMD(world, new PC_VecI(x, y, z));
 		if (world.isBlockIndirectlyGettingPowered(x, y, z)) {
 			if (PC_Utils.getBID(world, new PC_VecI(x, y, z)) == this.off) {
 				PCli_TileEntityLight te = PC_Utils.getTE(world, x, y, z);
 				PC_Utils.setBlockState(world, x, y, z, true);
-				boolean h = te.isHuge();
-				boolean s = te.isStable();
-				PC_Color c = te.getColor();
-				// PC_Utils.setBID(world, x, y, z, this.on, meta);
-				// te = null;
-				// te = PC_Utils.getTE(world, x, y, z);
-				// te.setColor(c);
-				// te.setHuge(h);
-				// te.setStable(s);
-				PC_PacketHandler.sendToAll(new PC_PacketSyncLightClient(new Object[] { te.getCoord(), c, h, s }));
-				// PC_PacketHandler.sendToAll(new PC_PacketSyncLightClient(c, h, s, te));
-				// PC_PacketHandler.sendToServer(new PC_PacketSyncLight(c, h, s, te));
 			}
 		} else {
 			if (PC_Utils.getBID(world, new PC_VecI(x, y, z)) == this.on) {
 				PCli_TileEntityLight te = PC_Utils.getTE(world, x, y, z);
 				PC_Utils.setBlockState(world, x, y, z, false);
-				boolean h = te.isHuge();
-				boolean s = te.isStable();
-				PC_Color c = te.getColor();
-				// PC_Utils.setBID(world, x, y, z, this.off, meta);
-				// te = null;
-				// te = PC_Utils.getTE(world, x, y, z);
-				// te.setColor(c);
-				// te.setHuge(h);
-				// te.setStable(s);
-				PC_PacketHandler.sendToAll(new PC_PacketSyncLightClient(new Object[] { te.getCoord(), c, h, s }));
-				// PC_PacketHandler.sendToAll(new PC_PacketSyncLightClient(c, h, s, te));
-				// PC_PacketHandler.sendToServer(new PC_PacketSyncLight(c, h, s, te));
 			}
 		}
-		// }
+		 }
 
-		boolean powered = PC_Utils.getBlockRedstonePowereValue(world, x, y, z) > 0;
+		//boolean powered = PC_Utils.getBlockRedstonePowereValue(world, x, y, z) > 0;
 
-		if (tileentity.isActive() != powered)
-			world.scheduleBlockUpdate(x, y, z, block, 1);
+		//if (tileentity.isActive() != powered)
+			//world.scheduleBlockUpdate(x, y, z, block, 1);
 	}
 
 	@Override
 	public void updateTick(World world, int x, int y, int z, Random random) {
-		PCli_TileEntityLight tileentity = PC_Utils.getTE(world, x, y, z);
+		//PCli_TileEntityLight tileentity = PC_Utils.getTE(world, x, y, z);
 
-		if (tileentity == null || tileentity.isStable())
-			return;
+		//if (tileentity == null || tileentity.isStable())
+		//	return;
 
-		boolean powered = PC_Utils.getBlockRedstonePowereValue(world, x, y, z) > 0;
+		//boolean powered = PC_Utils.getBlockRedstonePowereValue(world, x, y, z) > 0;
 
 		// if (tileentity.isActive() != powered)
 		// onPoweredBlockChange(world, x, y, z, powered);
 	}
 
 	public static void onPoweredBlockChange(World world, int x, int y, int z, boolean rs_state) {
-		PCli_TileEntityLight tileentity = PC_Utils.getTE(world, x, y, z);
+		//PCli_TileEntityLight tileentity = PC_Utils.getTE(world, x, y, z);
 
-		if ((tileentity == null || tileentity.isStable()) && rs_state == false)
-			return;
+		//if ((tileentity == null || tileentity.isStable()) && rs_state == false)
+		//	return;
 
 		// PC_Utils.setBlockState(world, x, y, z, rs_state);
 	}
@@ -246,7 +218,7 @@ public class PCli_BlockLight extends PC_Block implements PC_IItemInfo {
 
 		if (tei == null)
 			return null;
-
+		
 		return tei.getColor();
 	}
 
@@ -273,7 +245,7 @@ public class PCli_BlockLight extends PC_Block implements PC_IItemInfo {
 
 		int l = world.getBlockMetadata(i, j, k);
 		PC_Color color = getColor(world, i, j, k);
-
+		
 		if (color == null)
 			return;
 

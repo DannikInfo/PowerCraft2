@@ -4,6 +4,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.MobSpawnerBaseLogic;
 import net.minecraft.tileentity.TileEntityMobSpawner;
+import powercraft.api.network.PC_IPacketHandler;
 import powercraft.api.reflect.PC_ReflectHelper;
 
 public class PCco_MobSpawnerSetter {

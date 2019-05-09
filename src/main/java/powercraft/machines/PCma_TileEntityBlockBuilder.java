@@ -5,6 +5,7 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRail;
 import net.minecraft.entity.item.EntityMinecart;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemBlock;
@@ -16,13 +17,14 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import powercraft.api.entity.PC_FakePlayer;
 import powercraft.api.inventory.PC_InventoryUtils;
+import powercraft.api.network.PC_IPacketHandler;
 import powercraft.api.registry.PC_BlockRegistry;
 import powercraft.api.registry.PC_SoundRegistry;
 import powercraft.api.tileentity.PC_TileEntityWithInventory;
 import powercraft.api.utils.PC_Utils;
 import powercraft.api.utils.PC_VecI;
 
-public class PCma_TileEntityBlockBuilder extends PC_TileEntityWithInventory {
+public class PCma_TileEntityBlockBuilder extends PC_TileEntityWithInventory{
 
 	private static Random rand = new Random();
 	private PC_FakePlayer fakeplayer;

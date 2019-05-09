@@ -11,6 +11,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.biome.BiomeGenBase;
@@ -24,6 +27,7 @@ import powercraft.api.registry.PC_LangRegistry;
 import powercraft.api.registry.PC_RecipeRegistry;
 import powercraft.api.tileentity.PC_TileEntityWithInventory;
 import powercraft.api.utils.PC_Utils;
+import powercraft.launcher.PC_Logger;
 
 public class PCma_TileEntityRoaster extends PC_TileEntityWithInventory {
 
@@ -329,24 +333,27 @@ public class PCma_TileEntityRoaster extends PC_TileEntityWithInventory {
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbttagcompound) {
-		super.readFromNBT(nbttagcompound);
-		this.netherActionTime = nbttagcompound.getInteger("netherActionTime");
-		this.netherTime = nbttagcompound.getInteger("netherTime");
-		this.burnTime = nbttagcompound.getInteger("burnTime");
-		this.isActive = nbttagcompound.getBoolean("isActive");
-		this.noNetherrack = nbttagcompound.getBoolean("noNetherrack");
 		PC_InventoryUtils.loadInventoryFromNBT(nbttagcompound, "Items", this);
+		super.readFromNBT(nbttagcompound);
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound nbttagcompound) {
-		super.writeToNBT(nbttagcompound);
-		nbttagcompound.setInteger("netherActionTime", this.netherActionTime);
-		nbttagcompound.setInteger("netherTime", this.netherTime);
-		nbttagcompound.setInteger("burnTime", this.burnTime);
-		nbttagcompound.setBoolean("isActive", this.isActive);
-		nbttagcompound.setBoolean("noNetherrack", this.noNetherrack);
 		PC_InventoryUtils.saveInventoryToNBT(nbttagcompound, "Items", this);
+		super.writeToNBT(nbttagcompound);
+	}
+	
+	@Override
+	public Packet getDescriptionPacket() {
+		NBTTagCompound tagCompound = new NBTTagCompound();
+	    this.writeToNBT(tagCompound);
+	    return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 3, tagCompound);
+	}
+	    
+	@Override
+	public void onDataPacket(NetworkManager networkManager, S35PacketUpdateTileEntity packet) {
+		NBTTagCompound tagCompound = packet.func_148857_g();
+	    this.readFromNBT(tagCompound);
 	}
 
 }

@@ -91,7 +91,7 @@ public class PCco_ItemBlockBlockSaver extends PC_ItemBlock {
 
 			if (PC_Utils.setBID(world, pos, Block.getBlockFromItem(placed), placedMeta)) {
 				if (PC_Utils.getBID(world, pos) == Block.getBlockFromItem(placed)) {
-					/** @todo onBlockPlacedBy */
+					/** TODO onBlockPlacedBy */
 					Block.getBlockFromItem(placed).onBlockPlacedBy(world, x, y, z, entityplayer, setItem);
 
 					// world.playSoundEffect(x + 0.5F, y + 0.5F, z + 0.5F,

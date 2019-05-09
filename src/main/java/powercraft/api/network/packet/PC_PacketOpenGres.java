@@ -39,7 +39,6 @@ public class PC_PacketOpenGres extends AbstractClientMessage<PC_PacketOpenGres> 
 			}
 			if (b != null)
 				nbt.setByteArray("bytesObject", b);
-			// nbt.setByteArray("bytesObject", b);
 		}
 	}
 

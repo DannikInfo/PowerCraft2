@@ -5,23 +5,11 @@ import java.io.File;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
-import powercraft.launcher.update.PC_UpdateManager;
-import powercraft.launcher.updategui.PC_GuiUpdate;
 
 public class PC_LauncherClientUtils extends PC_LauncherUtils {
 
 	public static Minecraft mc() {
 		return Minecraft.getMinecraft();
-	}
-
-	@Override
-	public void pLookForUpdates() {
-		PC_UpdateManager.lookForUpdates();
-	}
-
-	@Override
-	public void pOpenUpdateGui(boolean requestDownloadTarget) {
-		PC_GuiUpdate.show(requestDownloadTarget);
 	}
 
 	@Override

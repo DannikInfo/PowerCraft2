@@ -61,7 +61,7 @@ public class PCli_BlockLaser extends PC_Block implements PC_IItemInfo {
 		if (te != null && te.getItemStack() != null) {
 			ItemStack ihold = entityplayer.getCurrentEquippedItem();
 			if (ihold == null || ihold.getItem() == Items.stick) {
-				// if(!PC_Utils.isCreative(entityplayer)){
+				// if(!PC_Utils.isCreative(entityplayer)){ TODO: fix it
 				PC_Utils.dropItemStack(world, i, j, k, te.getItemStack().toItemStack());
 				// }
 				te.setItemStack(null);

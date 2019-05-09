@@ -201,8 +201,7 @@ public class PCco_CraftingToolCraftingInventory implements PC_IInventory {
 							List<ItemStack> list = expectedInputs[y * 3 + x] = new ArrayList<ItemStack>();
 							for (ItemStack is : list2) {
 								ItemStack isd = is;
-								Item i = isd.getItem();
-								i.getSubItems(i, i.getCreativeTab(), list);
+								list.add(isd);
 							}
 							nums *= list.size();
 						}

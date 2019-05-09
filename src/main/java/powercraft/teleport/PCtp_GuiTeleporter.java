@@ -61,7 +61,6 @@ public class PCtp_GuiTeleporter implements PC_IGresClient {
 		td = (PCtp_TeleporterData) o[0];
 		names = (List<String>) o[1];
 		defaultTarget = (String) o[2];
-		// dimension = (List<Integer>)o[3];
 	}
 
 	@Override
@@ -85,12 +84,6 @@ public class PCtp_GuiTeleporter implements PC_IGresClient {
 		radioBox = new PC_GresLayoutV();
 		radioBox.setAlignH(PC_GresAlign.LEFT);
 		PCtp_TeleporterManager tm = new PCtp_TeleporterManager();
-		// for(String n:names) {
-		// System.out.println(names.get(i));//PC_Utils.getWorldDimension(player.worldObj));//dimension.get(i));
-		// if(dimension.get(i) != PC_Utils.getWorldDimension(player.worldObj))
-		// names.remove(n);
-		// i++;
-		// }
 		for (String name : names) {
 			if (!name.equals(td.name)) {
 				PC_GresRadioButton rb = new PC_GresRadioButton(name, rg);

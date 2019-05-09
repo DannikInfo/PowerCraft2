@@ -74,16 +74,7 @@ public class PCli_TileEntityLaser extends PC_TileEntity implements PC_IBeamHandl
 	}
 
 	@Override
-	public void updateEntity() {// хотя нет все же не работает(( TODO: Починить это говно!
-		if (send != r) { // Это есть лютейщий костыль, но оно хотябы работает \(о_о)/
-			Block block = PC_Utils.getBID(worldObj, xCoord - 1, yCoord, zCoord);
-			if (block != Blocks.stone)
-				PC_Utils.setBID(worldObj, xCoord - 1, yCoord, zCoord, Blocks.stone);
-			else
-				PC_Utils.setBID(worldObj, xCoord - 1, yCoord, zCoord, Blocks.planks);
-			PC_Utils.setBID(worldObj, xCoord - 1, yCoord, zCoord, block);
-			send++;
-		}
+	public void updateEntity() {
 		if (!PCli_ItemLaserComposition.isSensor(getItemStack()) && !isPowered() && !isRoasterBurning())
 			return;
 		if (laser == null) {
@@ -180,31 +171,26 @@ public class PCli_TileEntityLaser extends PC_TileEntity implements PC_IBeamHandl
 	@Override
 	public void readFromNBT(NBTTagCompound nbttagcompound) {
 		super.readFromNBT(nbttagcompound);
-		powered = nbttagcompound.getBoolean("powered");
 		if (nbttagcompound.getBoolean("item")) {
-			ItemStack is = new ItemStack(PCli_App.laserComposition, 1);
-			is.stackTagCompound = new NBTTagCompound();
-			is.stackTagCompound.setInteger("level.distance", nbttagcompound.getInteger("level.sensor"));
-			is.stackTagCompound.setInteger("level.kill", nbttagcompound.getInteger("level.sensor"));
-			is.stackTagCompound.setInteger("level.sensor", nbttagcompound.getInteger("level.sensor"));
-			itemstack = new PC_ItemStack(is);
+			itemstack = new PC_ItemStack(PCli_App.laserComposition, 1);
+			NBTTagCompound t = new NBTTagCompound();
+			t.setInteger("level.kill", nbttagcompound.getInteger("kill"));
+			t.setInteger("level.distance", nbttagcompound.getInteger("distance"));
+			t.setInteger("level.sensor", nbttagcompound.getInteger("sensor"));
+			itemstack.setNBTTag(t);
 		}
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound nbttagcompound) {
 		super.writeToNBT(nbttagcompound);
-		nbttagcompound.setBoolean("powered", powered);
 		if (itemstack != null) {
 			nbttagcompound.setBoolean("item", true);
-			NBTTagCompound nbtTagCompound = itemstack.getNBTTag();
-			nbttagcompound.setInteger("level.kill", nbtTagCompound.getInteger("level.kill"));
-			nbttagcompound.setInteger("level.distance", nbtTagCompound.getInteger("level.distance"));
-			nbttagcompound.setInteger("level.sensor", nbtTagCompound.getInteger("level.sensor"));
-			// nbttagcompound.setInteger("", itemstack.toItemStack().getItemDamage());
+			nbttagcompound.setInteger("kill", itemstack.getNBTTag().getInteger("level.kill"));
+			nbttagcompound.setInteger("distance", itemstack.getNBTTag().getInteger("level.distance"));
+			nbttagcompound.setInteger("sensor", itemstack.getNBTTag().getInteger("level.sensor"));
 		} else
 			nbttagcompound.setBoolean("item", false);
-
 	}
 
 }

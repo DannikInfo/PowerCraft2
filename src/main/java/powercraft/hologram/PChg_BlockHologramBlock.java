@@ -23,7 +23,7 @@ import powercraft.api.utils.PC_MathHelper;
 import powercraft.api.utils.PC_Utils;
 import powercraft.api.utils.PC_VecI;
 
-@PC_BlockInfo(name = "Hologram", itemBlock = PChg_ItemBlockHologramBlock.class, tileEntity = PChg_TileEntityHologramBlock.class, canPlacedRotated = true)
+@PC_BlockInfo(name = "Hologram", tileEntity = PChg_TileEntityHologramBlock.class, canPlacedRotated = true)
 public class PChg_BlockHologramBlock extends PC_Block {
 
 	public PChg_BlockHologramBlock(int id) {

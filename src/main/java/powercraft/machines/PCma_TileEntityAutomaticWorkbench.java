@@ -21,7 +21,6 @@ import powercraft.api.network.packet.PC_PacketSyncInv;
 import powercraft.api.network.packet.PC_PacketSyncInvTC_pt2;
 import powercraft.api.network.packet.PC_PacketSyncPlayerInv;
 import powercraft.api.network.packet.PC_PacketSyncPlayerInvTC_pt2;
-import powercraft.api.network.packet.PC_PacketSyncTEClient;
 import powercraft.api.registry.PC_SoundRegistry;
 import powercraft.api.tileentity.PC_TileEntity;
 import powercraft.api.utils.PC_Utils;
@@ -39,11 +38,7 @@ public class PCma_TileEntityAutomaticWorkbench extends PC_TileEntity implements 
 		}
 
 		@Override
-		public void onCraftMatrixChanged(IInventory iinventory) {
-		}
-
-		// @Override
-		// public void onCraftGuiClosed(EntityPlayer entityplayer) {}
+		public void onCraftMatrixChanged(IInventory iinventory) {}
 	}
 
 	private static Container fakeContainer = new ContainerFake();
@@ -475,14 +470,14 @@ public class PCma_TileEntityAutomaticWorkbench extends PC_TileEntity implements 
 	@Override
 	public void readFromNBT(NBTTagCompound nbttagcompound) {
 		super.readFromNBT(nbttagcompound);
-		this.redstoneActivated = nbttagcompound.getBoolean("redstoneActivated");
+		//this.redstoneActivated = nbttagcompound.getBoolean("redstoneActivated");
 		PC_InventoryUtils.loadInventoryFromNBT(nbttagcompound, "Items", this);
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound nbttagcompound) {
 		super.writeToNBT(nbttagcompound);
-		nbttagcompound.setBoolean("redstoneActivated", this.redstoneActivated);
+		//nbttagcompound.setBoolean("redstoneActivated", this.redstoneActivated);
 		PC_InventoryUtils.saveInventoryToNBT(nbttagcompound, "Items", this);
 	}
 
@@ -613,12 +608,7 @@ public class PCma_TileEntityAutomaticWorkbench extends PC_TileEntity implements 
 
 	@Override
 	public boolean handleIncomingPacket(EntityPlayer player, Object[] o) {
-		if ((int) o[0] == 0) {
-			PC_PacketHandler
-					.sendToAll(new PC_PacketSyncTEClient(new Object[] { 1, getCoord(), this.redstoneActivated }));
-		} else if ((int) o[0] == 1) {
-			setRedstoneActivated((boolean) o[2]);
-		}
+		setRedstoneActivated((Boolean) o[2]);
 		return true;
 	}
 }

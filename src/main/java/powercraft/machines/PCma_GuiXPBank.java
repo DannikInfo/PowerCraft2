@@ -34,8 +34,6 @@ public class PCma_GuiXPBank implements PC_IGresClient {
 
 	@Override
 	public void initGui(PC_IGresGui gui) {
-		PC_PacketHandler.sendToServer(new PC_PacketSyncTEServer(new Object[] { 0, xpbank.getCoord() }));
-
 		PC_GresWindow w = new PC_GresWindow(PCma_App.xpBank.getUnlocalizedName() + ".name");
 		w.setAlignH(PC_GresAlign.CENTER);
 
@@ -102,8 +100,7 @@ public class PCma_GuiXPBank implements PC_IGresClient {
 		switch (widget.getId()) {
 		case 0:
 			gui.close();
-			PC_PacketHandler
-					.sendToServer(new PC_PacketSyncTEServer(new Object[] { 1, xpbank.getCoord(), xpbank.getXP(), 0 }));
+			PC_PacketHandler.sendToServer(new PC_PacketSyncTEServer(new Object[] { 1, xpbank.getCoord(), xpbank.getXP(), 0 }));
 			break;
 
 		case 10: // withdraw one level

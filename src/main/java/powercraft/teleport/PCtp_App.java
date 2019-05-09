@@ -19,7 +19,7 @@ import powercraft.launcher.loader.PC_Module;
 import powercraft.launcher.loader.PC_Module.PC_InitDataHandlers;
 import powercraft.launcher.loader.PC_Module.PC_InitRecipes;
 
-@PC_Module(name = "Teleport", version = "1.1.1")
+@PC_Module(name = "Teleport", version = "0.0.1")
 public class PCtp_App {
 
 	public static PCtp_TeleporterManager teleporterManager = new PCtp_TeleporterManager();
@@ -29,18 +29,17 @@ public class PCtp_App {
 
 	@PC_InitRecipes
 	public List<PC_IRecipe> initRecipes(List<PC_IRecipe> recipes) {
-		PC_ItemStack prism;
+		ItemStack prism;
 
 		Block bprism = PC_BlockRegistry.getPCBlockByName("PCli_BlockPrism");
 
-		if (bprism == null) {
-			prism = new PC_ItemStack(bprism);
-		} else {
-			prism = new PC_ItemStack(Blocks.glass);
-		}
-		GameRegistry.addRecipe(new ItemStack(PC_BlockRegistry.getPCBlockByName("PCtr_BlockTeleporter"), 1),
-				new Object[] { " P ", "PVP", "SSS", 'V', new PC_ItemStack(Items.dye, 1, 5), 'P', prism, 'S',
-						Items.iron_ingot });
+		if (bprism == null)
+			prism = new ItemStack(bprism);
+		else
+			prism = new ItemStack(Blocks.glass);
+		
+		GameRegistry.addRecipe(new ItemStack(teleporter, 1),
+				new Object[] { " P ", "PVP", "SSS", 'V', new ItemStack(Items.dye, 1, 5), 'P', prism, 'S',Items.iron_ingot });
 		return recipes;
 	}
 

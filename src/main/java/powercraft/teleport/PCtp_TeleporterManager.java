@@ -10,6 +10,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import powercraft.api.interfaces.PC_IDataHandler;
+import powercraft.api.network.PC_PacketHandler;
 import powercraft.api.registry.PC_GresRegistry;
 import powercraft.api.utils.PC_Struct2;
 import powercraft.api.utils.PC_Utils;
@@ -30,7 +31,7 @@ public class PCtp_TeleporterManager implements PC_IDataHandler {
 			PCtp_TeleporterData td = new PCtp_TeleporterData();
 			PC_Utils.loadFromNBT(nbtTag, "value[" + i + "]", td);
 			teleporter.add(td);
-			// PC_PacketHandler.sendToAll(new PC_PacketTeleporterSyncClient(td, ""));
+			//PC_PacketHandler.sendToAll(new PC_PacketTeleporterSyncClient(td, ""));
 		}
 	}
 

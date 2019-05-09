@@ -147,10 +147,6 @@ public class PC_ItemBlock extends ItemBlock implements PC_IItemInfo {
 			if (y < 255 && y > 0) {
 
 				if (placeBlockAt(itemStack, entityPlayer, world, x, y, z, dir, xHit, yHit, zHit, metadata)) {
-					// world.playSoundEffect((double) ((float) x + 0.5F), (double) ((float) y +
-					// 0.5F), (double) ((float) z + 0.5F), (float) 1F,
-					// (float) (block.stepSound.getVolume() + 1.0F) / 2.0F, (float)
-					// block.stepSound.getPitch() * 0.8F);
 					--itemStack.stackSize;
 				}
 			}
@@ -159,6 +155,27 @@ public class PC_ItemBlock extends ItemBlock implements PC_IItemInfo {
 		} else {
 			return false;
 		}
+	}
+	
+	@Override
+	public boolean placeBlockAt(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int dir, float hitX, float hitY, float hitZ,
+			int metadata) {
+		Block block = Block.getBlockFromItem(stack.getItem());
+		
+		if (!PC_Utils.setBID(world, x, y, z, block, metadata)) {
+			return false;
+		}
+		
+		if (PC_Utils.getBID(world, x, y, z) == block) {
+			block.onBlockPlacedBy(world, x, y, z, player, stack);
+			TileEntity te = PC_Utils.getTE(world, x, y, z);
+			if(te instanceof PC_TileEntity){
+				((PC_TileEntity)te).create(stack, player, world, x, y, z, dir, hitX, hitY, hitZ);
+			}
+			PC_Utils.setMD(world, x, y, z, metadata);
+		}
+		
+		return true;
 	}
 
 	public void doCrafting(ItemStack itemStack, InventoryCrafting inventoryCrafting) {

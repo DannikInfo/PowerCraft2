@@ -46,7 +46,6 @@ public class PCtr_GuiEjectionBelt implements PC_IGresClient {
 
 	@Override
 	public void initGui(PC_IGresGui gui) {
-		PC_PacketHandler.sendToServer(new PC_PacketSyncTEServer(new Object[] { 0, teb.getCoord() }));
 		PC_GresWindow w = new PC_GresWindow("tile.PCtr_BlockBeltEjector.name");
 		w.setAlignH(PC_GresAlign.STRETCH);
 		w.gapUnderTitle = 13;

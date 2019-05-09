@@ -27,7 +27,7 @@ import powercraft.api.utils.PC_Utils;
 import powercraft.launcher.PC_Property;
 
 @PC_BlockInfo(name = "Power Crystal", itemBlock = PCco_ItemBlockPowerCrystal.class)
-@PC_OreInfo(oreName = "PowerCrystal", genOresInChunk = 3, genOresDepositMaxCount = 4, genOresMaxY = 15, genOresMinY = 5)
+@PC_OreInfo(oreName = "PowerCrystal", genOresInChunk = 3, genChances=30, genOresDepositMaxCount = 4, genOresMaxY = 15, genOresMinY = 5)
 public class PCco_BlockPowerCrystal extends PC_Block {
 
 	@PC_Config
@@ -65,7 +65,7 @@ public class PCco_BlockPowerCrystal extends PC_Block {
 
 	@Override
 	public int getRenderBlockPass() {
-		return 0;
+		return 1;
 	}
 
 	@Override

@@ -8,19 +8,21 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import powercraft.api.annotation.PC_ClientServerSync;
-import powercraft.api.network.PC_PacketHandler;
 import powercraft.api.reflect.PC_FieldWithAnnotation;
 import powercraft.api.reflect.PC_IFieldAnnotationIterator;
 import powercraft.api.reflect.PC_ReflectHelper;
 import powercraft.api.utils.PC_Direction;
-import powercraft.api.utils.PC_Entry;
 import powercraft.api.utils.PC_Struct2;
 import powercraft.api.utils.PC_Utils;
 import powercraft.api.utils.PC_VecI;
 import powercraft.launcher.PC_Logger;
+import powercraft.teleport.PCtp_App;
 
 public class PC_TileEntity extends TileEntity {
 
@@ -42,6 +44,19 @@ public class PC_TileEntity extends TileEntity {
 
 	}
 
+	@Override
+	public Packet getDescriptionPacket() {
+		NBTTagCompound tagCompound = new NBTTagCompound();
+		this.writeToNBT(tagCompound);
+		return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 3, tagCompound);
+	}
+	    
+	@Override
+	public void onDataPacket(NetworkManager networkManager, S35PacketUpdateTileEntity packet) {
+		NBTTagCompound tagCompound = packet.func_148857_g();
+		this.readFromNBT(tagCompound);
+	}
+	
 	@Override
 	public void readFromNBT(NBTTagCompound nbtTagCompound) {
 		super.readFromNBT(nbtTagCompound);

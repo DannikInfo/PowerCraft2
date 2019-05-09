@@ -1,20 +1,25 @@
 package powercraft.hologram;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.block.Block;
+import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 import powercraft.api.annotation.PC_FieldObject;
 import powercraft.api.block.PC_Block;
 import powercraft.api.item.PC_ItemArmor;
 import powercraft.api.item.PC_ItemStack;
+import powercraft.api.recipes.PC_IRecipe;
+import powercraft.api.recipes.PC_ShapedRecipes;
+import powercraft.api.registry.PC_BlockRegistry;
+import powercraft.api.registry.PC_ItemRegistry;
 import powercraft.launcher.loader.PC_Module;
+import powercraft.launcher.loader.PC_Module.PC_InitRecipes;
 import powercraft.launcher.loader.PC_Module.PC_Instance;
 import powercraft.launcher.loader.PC_ModuleObject;
 
-@PC_Module(name = "Hologram", version = "1.1.1")
+@PC_Module(name = "Hologram", version = "0.0.1")
 public class PChg_App {
 
 	@PC_FieldObject(clazz = PChg_BlockHologramBlockEmpty.class)
@@ -32,23 +37,21 @@ public class PChg_App {
 		return (PChg_App) instance.getModule();
 	}
 
-	/*@PC_InitRecipes
+	@PC_InitRecipes
 	public List<PC_IRecipe> initRecipes(List<PC_IRecipe> recipes) {
-		recipes.add(new PC_ShapelessRecipes(new PC_ItemStack(hologramBlock), new PC_ItemStack(hologramBlockEmpty),
-				getAllAccepptedBlocksForHologramBlock()));
-		recipes.add(new PChg_HologramBackRecipe());
-		recipes.add(new PC_ShapedRecipes(new PC_ItemStack(hologramBlockEmpty), " p ", "gcg", "ggg", 'g', Block.glass,
-				'c', Block.chest, 'p',
-				new PC_ItemStack(PC_BlockRegistry.getPCBlockByName("PCco_BlockPowerCrystal"), 1, -1)));
-		recipes.add(new PC_ShapedRecipes(new PC_ItemStack(hologramField), "ggg", "hhh", "ioi", 'i', Item.ingotIron, 'g',
-				Block.glass, 'h', new PC_ItemStack(hologramBlockEmpty), 'o',
-				new PC_ItemStack(PC_ItemRegistry.getPCItemByName("PCco_ItemOreSniffer"))));
-		recipes.add(new PC_ShapedRecipes(new PC_ItemStack(hologramGlasses), "i i", "ghg", 'i', Item.ingotIron, 'g',
-				Block.thinGlass, 'h', new PC_ItemStack(hologramField)));
+		//GameRegistry.addRecipe(new PChg_HologramBackRecipe());
+		for(int i = 0; i < 8; i++)
+			GameRegistry.addRecipe(new ItemStack(hologramBlockEmpty), new Object[] {" p ", "gcg", "ggg", 'g', Blocks.glass,
+					'c', Blocks.chest, 'p', new ItemStack(PC_BlockRegistry.getPCBlockByName("PCco_BlockPowerCrystal"), 1, i)});
+		/*GameRegistry.addRecipe(new ItemStack(hologramField), new Object[] { "ggg", "hhh", "ioi", 'i', Items.iron_ingot, 'g',
+				Blocks.glass, 'h', new PC_ItemStack(hologramBlockEmpty), 'o',
+				new ItemStack(PC_ItemRegistry.getPCItemByName("PCco_ItemOreSniffer"))});
+		GameRegistry.addRecipe(new ItemStack(hologramGlasses), new Object[] {"i i", "ghg", 'i', Items.iron_ingot, 'g',
+				Blocks.glass_pane, 'h', new PC_ItemStack(hologramField)});*/
 		return recipes;
 	}
 
-	public List<PC_ItemStack> getAllAccepptedBlocksForHologramBlock() {
+	/*public List<PC_ItemStack> getAllAccepptedBlocksForHologramBlock() {
 		List<PC_ItemStack> l = new ArrayList<PC_ItemStack>();
 		Block b;
 		for (int i = 1; i < b.blockBlocks.blocksList.length; i++) {

@@ -7,9 +7,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import powercraft.api.annotation.PC_ClientServerSync;
-import powercraft.api.network.PC_PacketHandler;
-import powercraft.api.network.packet.PC_PacketSyncHBClient;
-import powercraft.api.network.packet.PC_PacketSyncHBFCTS;
 import powercraft.api.tileentity.PC_TileEntity;
 
 public class PChg_TileEntityHologramBlock extends PC_TileEntity {

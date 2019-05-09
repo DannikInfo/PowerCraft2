@@ -49,7 +49,6 @@ public class PCma_GuiReplacer extends PCma_ContainerReplacer implements PC_IGres
 	public void initGui(PC_IGresGui gui) {
 		PC_PacketHandler.sendToServer(new PC_PacketSyncInvTC_pt1(tileEntity, 0));
 		PC_PacketHandler.sendToServer(new PC_PacketSyncPlayerInvTC_pt1(tileEntity));
-		PC_PacketHandler.sendToServer(new PC_PacketSyncTEServer(new Object[] { 0, tileEntity.getCoord() }));
 		PC_GresWidget w = new PC_GresWindow("pc.gui.blockReplacer.title").setWidthForInventory()
 				.setAlignH(PC_GresAlign.CENTER);
 

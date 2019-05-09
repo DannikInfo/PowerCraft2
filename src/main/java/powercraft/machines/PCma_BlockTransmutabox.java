@@ -23,12 +23,12 @@ import powercraft.api.utils.PC_VecI;
 
 @PC_BlockInfo(name = "Transmutabox", tileEntity = PCma_TileEntityTransmutabox.class)
 public class PCma_BlockTransmutabox extends PC_Block implements PC_IItemInfo {
-	public PCma_BlockTransmutabox() {
+	public PCma_BlockTransmutabox(int id) {
 		super(Material.rock, "transmutabox");
 		setHardness(1.5F);
 		setResistance(50.0F);
 		setStepSound(Block.soundTypeMetal);
-		setCreativeTab(CreativeTabs.tabDecorations);
+		//setCreativeTab(CreativeTabs.tabDecorations);
 	}
 
 	public void receivePower(IBlockAccess world, int x, int y, int z, float power) {

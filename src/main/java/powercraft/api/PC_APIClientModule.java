@@ -42,15 +42,6 @@ public class PC_APIClientModule extends PC_APIModule {
 	protected void clientPreInit(List<PC_ModuleObject> modules) {
 		// PC_ClientHooks.registerClientHooks();
 		PC_Hooks.registerHooks();
-		PC_Logger.enterSection("Module Language Init");
-		new PC_ThreadLangUpdates();
-		for (PC_ModuleObject module : modules) {
-			List<LangEntry> l = module.initLanguage(new ArrayList<LangEntry>());
-			if (l != null) {
-				PC_LangRegistry.registerLanguage(module, l.toArray(new LangEntry[0]));
-			}
-		}
-		PC_Logger.exitSection();
 		PC_Logger.enterSection("Module Texture Init");
 		for (PC_ModuleObject module : modules) {
 			List<String> l = module.loadTextureFiles(new ArrayList<String>());

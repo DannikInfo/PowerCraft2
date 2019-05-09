@@ -87,7 +87,7 @@ public class PC_LauncherUtils {
 		File modules = PC_LauncherUtils.getPowerCraftModuleFile();
 		File res = null;
 		try {
-			URL url = mod_PowerCraft.class.getResource("../../");
+			URL url = mod_PowerCraft.class.getResource("/");
 			if (url != null) {
 				res = new File(url.toURI());
 			}

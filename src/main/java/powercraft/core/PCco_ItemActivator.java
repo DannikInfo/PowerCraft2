@@ -14,6 +14,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.world.World;
 import powercraft.api.item.PC_Item;
 import powercraft.api.registry.PC_BlockRegistry;
+import powercraft.api.registry.PC_GresRegistry;
 import powercraft.api.registry.PC_LangRegistry.LangEntry;
 import powercraft.api.registry.PC_MSGRegistry;
 import powercraft.api.registry.PC_MSGRegistry.MSGIterator;
@@ -54,13 +55,15 @@ public class PCco_ItemActivator extends PC_Item {
 			PC_Utils.dropItemStack(world, x, y, z,
 					new ItemStack(PC_BlockRegistry.getPCBlockByName("PCco_BlockBlockSaver")));
 			return true;
+		}else if(world.getBlock(x, y, z) == Blocks.mob_spawner) {
+			PC_GresRegistry.openGres("SpawnerEditor", entityplayer, null, new Object[] {x, y, z});
 		}
 
 		Boolean ok = (Boolean) PC_MSGRegistry.callAllMSG(new MSGIterator() {
 			@Override
 			public Object onRet(Object o) {
 				if (o instanceof Boolean && (Boolean) o) {
-					return true;
+					return true; 
 				}
 				return null;
 			}

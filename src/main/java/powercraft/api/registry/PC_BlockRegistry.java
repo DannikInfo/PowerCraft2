@@ -69,12 +69,11 @@ public final class PC_BlockRegistry {
 				block = blockClass.getConstructor(int.class).newInstance(1);
 				blocks.put(blockClass.getSimpleName(), block);
 				block.setBlockName(blockClass.getSimpleName());
-				block.setModule(module);
+				block.setModule(module); 
 				block.initConfig(config);
 
 				if (block.getClass().isAnnotationPresent(PC_OreInfo.class)) {
-					PC_OreDictionary.register(block.getClass().getAnnotation(PC_OreInfo.class).oreName(),
-							new ItemStack(block));
+					PC_OreDictionary.register(block.getClass().getAnnotation(PC_OreInfo.class), block);
 				}
 
 				if (itemBlockClass == null) {

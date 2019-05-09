@@ -163,7 +163,7 @@ public class PCco_GuiCraftingTool extends PC_GresBaseWithInventory<PC_TileEntity
 		if (p != null) {
 			p = p.copy();
 			ItemStack[] pi = PCco_CraftingToolCrafter.getPlayerInventory(thePlayer);
-			p.stackSize = PCco_CraftingToolCrafter.craft(p, pi, new ArrayList<ItemStack>(), 0, thePlayer);
+			p.stackSize = PCco_CraftingToolCrafter.craft(p, pi, new ArrayList<ItemStack>(), 0, thePlayer, true);
 			if (p.stackSize > 0) {
 				ItemStack isp = thePlayer.inventory.getItemStack();
 				if (isp == null) {
@@ -178,9 +178,9 @@ public class PCco_GuiCraftingTool extends PC_GresBaseWithInventory<PC_TileEntity
 					isp.stackSize += p.stackSize;
 					thePlayer.inventory.setItemStack(isp);
 				}
+
 				PCco_CraftingToolCrafter.setPlayerInventory(pi, thePlayer);
-				// TODO: fix it PC_PacketHandler.sendToPacketHandler(true, thePlayer.worldObj,
-				// "CraftingToolCrafter", p.itemID, p.getItemDamage());
+				//PC_PacketHandler.sendToServer(new PC_PacketSyncInv());
 				ctinv.updateAvailability();
 			}
 		}

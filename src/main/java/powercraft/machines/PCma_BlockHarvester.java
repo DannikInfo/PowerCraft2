@@ -36,7 +36,7 @@ import powercraft.api.inventory.PC_InventoryUtils;
 import powercraft.api.item.PC_IItemInfo;
 import powercraft.api.network.PC_IPacketHandler;
 import powercraft.api.network.PC_PacketHandler;
-import powercraft.api.network.packet.PC_PacketHarvest;
+import powercraft.api.network.packet.PC_PacketSyncTEClient;
 import powercraft.api.registry.PC_MSGRegistry;
 import powercraft.api.registry.PC_SoundRegistry;
 import powercraft.api.utils.PC_Color;
@@ -64,7 +64,6 @@ public class PCma_BlockHarvester extends PC_Block implements PC_IBeamHandler, PC
 		setResistance(10.0F);
 		setStepSound(Block.soundTypeStone);
 		setCreativeTab(CreativeTabs.tabDecorations);
-		// PC_PacketHandler.registerPackethandler("PCma_BlockHarvester", this);
 	}
 
 	@Override
@@ -117,10 +116,7 @@ public class PCma_BlockHarvester extends PC_Block implements PC_IBeamHandler, PC
 	private void harvestBlocks(World world, int x, int y, int z, int deviceMeta) {
 
 		if (!world.isRemote)
-			PC_PacketHandler.sendToAll(new PC_PacketHarvest(new Object[] { x, y, z, deviceMeta }));// (true, world,
-																									// "PCma_BlockHarvester",
-																									// x, y, z,
-																									// deviceMeta);
+			PC_PacketHandler.sendToAll(new PC_PacketSyncTEClient(new Object[] {0, new PC_VecI(x, y, z), deviceMeta }));
 
 		deviceMeta &= 0x7;
 
@@ -363,8 +359,9 @@ public class PCma_BlockHarvester extends PC_Block implements PC_IBeamHandler, PC
 
 	@Override
 	public boolean handleIncomingPacket(EntityPlayer player, Object[] o) {
+		PC_VecI bc = (PC_VecI)o[1];
 		if (player.worldObj.isRemote)
-			harvestBlocks(player.worldObj, (Integer) o[0], (Integer) o[1], (Integer) o[2], (Integer) o[3]);
+			harvestBlocks(player.worldObj, bc.x, bc.y, bc.z, (Integer) o[2]);
 		return false;
 	}
 

@@ -1,5 +1,5 @@
 # PowerCraft 2
-Power Craft is the mod about energy and mechanisms such as teleporter, conveyor, logic... and you yourself probably remember what is this mod about. After all this is the old good PowerCraft by XOR and Rapus.
+Power Craft is the mod about energy and mechanisms such as teleporter, conveyor, logic... and you yourself probably remember what is this mod about. After all this is the old good PowerCraft by MightyPork, XOR and Rapus.
 
 Once I saw that it hasn't been updated very long time.
 And I decided that I needed to correct this injustice and started writing code a few years ago. Over time and tediously through the hardships of learning Java and blacksmithing, I achieved a result that can be shown to people.

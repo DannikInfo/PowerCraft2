@@ -23,4 +23,4 @@ You already can enjoy old powercraft on new version of Minecraft
 
 #### [Curse](https://minecraft.curseforge.com/projects/powercraft-2)
 #### [mcmodding(RU)](https://forum.mcmodding.ru/resources/powercraft-2.171/)
-#### [Download](https://cloud.mail.ru/public/2xLj/3kbMxopWF)
+#### [Download](https://cloud.mail.ru/public/2SCq/2necBeJHj)

@@ -11,6 +11,7 @@ Now it ported for 1.7.10 and will be released for newer versions soon.
 - Weasel
 - Hologram (not all, he has big mistakes when rendering)
 - ItemStorage
+- Mobile
 - Core(small fixes craftingtool now it's portable workbench)
 - Checkpoints (I want to know if they really needed)
 All modules will be in the future added and fixes. 

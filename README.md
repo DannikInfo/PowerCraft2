@@ -10,7 +10,6 @@ Now it ported for 1.7.10 and will be released for newer versions soon.
 ### What modules are missing:
 - Weasel
 - Hologram (not all, he has big mistakes when rendering)
-- ItemStorage
 - Mobile
 - Core(small fixes craftingtool now it's portable workbench)
 - Checkpoints (I want to know if they really needed)
@@ -18,9 +17,10 @@ All modules will be in the future added and fixes.
 You already can enjoy old powercraft on new version of Minecraft
 
 ### For installation you need:
+- download launcher(mod file: PowerCraft2_#mcV_#modV.jar) from curse and modules from Dropbox !!
 - move the file PowerCraft2_#mcV_#modV.jar to the mods folder
-- move other files to the #Your minecraft #/PowerCraft/Modules/ folder
+- move  folder PowerCraft from dropbox in root minecraft where is your mods folder
 
 #### [Curse](https://minecraft.curseforge.com/projects/powercraft-2)
 #### [mcmodding(RU)](https://forum.mcmodding.ru/resources/powercraft-2.171/)
-#### [Download](https://cloud.mail.ru/public/2SCq/2necBeJHj)
+#### [Dropbox](https://www.dropbox.com/sh/t6xz5f6qodxutgb/AADMZWCp_OlejjcFDEEClTuqa?dl=0)

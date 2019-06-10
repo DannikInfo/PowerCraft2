@@ -4,14 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.inventory.InventoryCrafting;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import powercraft.api.inventory.PC_IInventory;
 import powercraft.api.registry.PC_RecipeRegistry;
-import powercraft.api.utils.PC_Struct2;
 import powercraft.api.utils.PC_Struct3;
 
 public class PCco_CraftingToolCraftingInventory implements PC_IInventory {
@@ -264,7 +261,7 @@ public class PCco_CraftingToolCraftingInventory implements PC_IInventory {
 	}
 
 	@Override
-	public void syncInventory(int side, EntityPlayer player) {
+	public void syncInventory(int side, EntityPlayer player, int slot) {
 		// TODO Auto-generated method stub
 
 	}

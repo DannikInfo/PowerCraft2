@@ -1,11 +1,22 @@
 package powercraft.api.hooks;
 
-import net.minecraft.entity.monster.EntityEnderman;
-import powercraft.api.reflect.PC_ReflectHelper;
+import powercraft.hooklib.minecraft.HookLoader;
+import powercraft.hooklib.minecraft.PrimaryClassTransformer;
 
-public class PC_Hooks {
+public class PC_Hooks extends HookLoader {
 
-	public static void registerHooks() {
+	@Override
+	public String[] getASMTransformerClass() {
+	    return new String[]{PrimaryClassTransformer.class.getName()};
+	}
+
+	    @Override
+	    public void registerHooks() {
+	        registerHookContainer("powercraft.storage.PCs_TileEntityChest");
+	    }
+	}
+
+	/*public static void registerHooks() {
 		fixEnderman();
 	}
 
@@ -17,6 +28,6 @@ public class PC_Hooks {
 		// newCarriableBlocks[i] = carriableBlocks[i];
 		// }
 		PC_ReflectHelper.setValue(EntityEnderman.class, EntityEnderman.class, 0, carriableBlocks, boolean[].class);
-	}
+	}*/
 
-}
+//}

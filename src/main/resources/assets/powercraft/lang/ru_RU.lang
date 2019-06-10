@@ -230,10 +230,6 @@ pc.gui.special.chestFull.name=Датчик полного сундука
 pc.gui.special.chestFull.inv=Пространство для
 
 //storage module
-pc.gui.compressor.name=name:
-pc.gui.compressor.takeStacks=Fill Stacks
-pc.gui.compressor.putStacks=Fill Inv Stacks
-item.PCis_ItemCompressor.normal.name=Compressor
-item.PCis_ItemCompressor.enderaccess.name=Ender compressor
-item.PCis_ItemCompressor.height.name=Height compressor
-item.PCis_ItemCompressor.big.name=Big compressor
+pc.gui.compressor.name=Имя:
+item.PCs_ItemCompressor.normal.name=Компрессор
+item.PCs_ItemCompressor.enderaccess.name=Компрессор эндера

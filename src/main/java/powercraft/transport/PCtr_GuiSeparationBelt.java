@@ -71,13 +71,7 @@ public class PCtr_GuiSeparationBelt extends PCtr_ContainerSeparationBelt impleme
 		hg = new PC_GresLayoutH();
 		hg.setAlignH(PC_GresAlign.LEFT);
 		hg.setWidgetMargin(0);
-		// hg.add(checkLogs = new
-		// PC_GresCheckBox("pc.gui.separationBelt.groupLogs").check(tileEntity.isGroupLogs()));
-		// hg.add(checkPlanks = new
-		// PC_GresCheckBox("pc.gui.separationBelt.groupPlanks").check(tileEntity.isGroupPlanks()));
-		// hg.add(checkAll = new
-		// PC_GresCheckBox("pc.gui.separationBelt.groupAll").check(tileEntity.isGroupAll()));
-
+		
 		vg.add(hg);
 
 		w.add(new PC_GresGap(0, 2));
@@ -91,13 +85,7 @@ public class PCtr_GuiSeparationBelt extends PCtr_ContainerSeparationBelt impleme
 
 	@Override
 	public void onGuiClosed(PC_IGresGui gui) {
-		tileEntity.syncInventory(0, player);
-		// PC_PacketHandler.sendToServer(new
-		// PC_PacketSyncSepBeltTS(checkAll.isChecked(), checkLogs.isChecked(),
-		// checkPlanks.isChecked(), te));
-		// tileEntity.setGroupLogs(checkLogs.isChecked());
-		// tileEntity.setGroupPlanks(checkPlanks.isChecked());
-		// tileEntity.setGroupAll(checkAll.isChecked());
+		tileEntity.syncInventory(0, player, 0);
 	}
 
 	@Override

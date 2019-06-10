@@ -123,7 +123,7 @@ public class PCma_GuiReplacer extends PCma_ContainerReplacer implements PC_IGres
 
 	@Override
 	public void onGuiClosed(PC_IGresGui gui) {
-		tileEntity.syncInventory(0, player);
+		tileEntity.syncInventory(0, player, 0);
 	}
 
 	@Override

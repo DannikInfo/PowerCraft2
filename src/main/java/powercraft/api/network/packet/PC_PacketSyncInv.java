@@ -11,16 +11,17 @@ import net.minecraft.network.PacketBuffer;
 import powercraft.api.inventory.PC_IInventory;
 import powercraft.api.network.AbstractMessage.AbstractServerMessage;
 import powercraft.api.tileentity.PC_TileEntity;
+import powercraft.storage.PCs_ItemCompressor;
 
 public class PC_PacketSyncInv extends AbstractServerMessage<PC_PacketSyncInv> {
 
 	NBTTagCompound nbt = new NBTTagCompound();
-	int x, y, z, slot;
+	int x, y, z, slot, slot2;
 
 	public PC_PacketSyncInv() {
 	}
 
-	public PC_PacketSyncInv(PC_TileEntity te, int slot, ItemStack is) {
+	public PC_PacketSyncInv(PC_TileEntity te, int slot, ItemStack is, int slot2) {
 		if (te != null) {
 			this.x = te.xCoord;
 			this.y = te.yCoord;
@@ -31,6 +32,7 @@ public class PC_PacketSyncInv extends AbstractServerMessage<PC_PacketSyncInv> {
 			z = 0;
 		}
 		this.slot = slot;
+		this.slot2 = slot2;
 		if (is == null)
 			is = new ItemStack(Blocks.air);
 		is.writeToNBT(nbt);
@@ -42,6 +44,7 @@ public class PC_PacketSyncInv extends AbstractServerMessage<PC_PacketSyncInv> {
 		y = buffer.readInt();
 		z = buffer.readInt();
 		slot = buffer.readInt();
+		slot2 = buffer.readInt();
 		nbt = buffer.readNBTTagCompoundFromBuffer();
 	}
 
@@ -51,6 +54,7 @@ public class PC_PacketSyncInv extends AbstractServerMessage<PC_PacketSyncInv> {
 		buffer.writeInt(y);
 		buffer.writeInt(z);
 		buffer.writeInt(slot);
+		buffer.writeInt(slot2);
 		buffer.writeNBTTagCompoundToBuffer(nbt);
 	}
 
@@ -60,22 +64,10 @@ public class PC_PacketSyncInv extends AbstractServerMessage<PC_PacketSyncInv> {
 		ItemStack is = ItemStack.loadItemStackFromNBT(nbt);
 		if (side == Side.SERVER) {
 			if (te == null) {
-				// if(player.getCurrentEquippedItem().getItem() instanceof PCis_ItemCompressor)
-				// {
-				// PCis_ItemCompressor item =
-				// (PCis_ItemCompressor)player.getCurrentEquippedItem().getItem();
-				// int slot2;
-				// for(slot2 = 0; slot2 < player.inventory.getSizeInventory(); slot2++) {
-				// if(player.inventory.getStackInSlot(slot2) != null)
-				// if(player.inventory.getStackInSlot(slot2) == player.getCurrentEquippedItem())
-				// break;
-				// }
-
-				// PC_IInventory inv = item.getInventoryFor(player, slot2);
-				// inv.setInventorySlotContents(0, new ItemStack(Blocks.acacia_stairs));
-				// inv.setInventorySlotContents(slot, is);
-				// System.out.println(slot2);
-				// }
+				//if(player.getCurrentEquippedItem().getItem() instanceof PCis_ItemCompressor){
+				//	PC_IInventory inv = PCis_ItemCompressor.getInventoryFor(player, slot2);
+				//	inv.setInventorySlotContents(slot, is);
+				//}
 			} else
 				te.setInventorySlotContents(slot, is);
 		}

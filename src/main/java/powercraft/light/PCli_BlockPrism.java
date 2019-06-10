@@ -62,10 +62,7 @@ public class PCli_BlockPrism extends PC_Block implements PC_IItemInfo {
 					return false;
 			}
 		}
-
-		if (world.isRemote)
-			return true;
-
+		
 		int angle = MathHelper.floor_double((((player.rotationYaw + 180F) * 16F) / 360F) + 0.5D) & 0xf;
 		angle &= 0xE;
 		angle = angle >> 1;

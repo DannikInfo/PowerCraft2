@@ -54,7 +54,7 @@ public class PCtr_GuiSplitter extends PCtr_ContainerSplitter implements PC_IGres
 
 	@Override
 	public void onGuiClosed(PC_IGresGui gui) {
-		te.syncInventory(0, player);
+		te.syncInventory(0, player, 0);
 	}
 
 	@Override

@@ -82,7 +82,7 @@ public class PCma_GuiAutomaticWorkbench extends PCma_ContainerAutomaticWorkbench
 	@Override
 	public void onGuiClosed(PC_IGresGui gui) {
 		tileEntity.call("orderAndCraft");
-		tileEntity.syncInventory(0, player);
+		tileEntity.syncInventory(0, player, 0);
 	}
 
 	@Override

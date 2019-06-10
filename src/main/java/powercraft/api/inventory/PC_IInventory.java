@@ -19,5 +19,5 @@ public interface PC_IInventory extends IInventory, ISidedInventory {
 
 	public int getSlotStackLimit(int i);
 
-	public void syncInventory(int side, EntityPlayer player);
+	public void syncInventory(int side, EntityPlayer player, int slot);
 }

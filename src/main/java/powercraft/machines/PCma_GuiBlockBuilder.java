@@ -50,7 +50,7 @@ public class PCma_GuiBlockBuilder extends PCma_ContainerBlockBuilder implements 
 
 	@Override
 	public void onGuiClosed(PC_IGresGui gui) {
-		tileEntity.syncInventory(0, player);
+		tileEntity.syncInventory(0, player, 0);
 	}
 
 	@Override

@@ -144,7 +144,7 @@ public class PCma_BlockReplacer extends PC_Block implements PC_IItemInfo {
 							ter.getCoordOffset());
 					ter.setInventorySlotContents(0, null);
 					ter.extraMeta = -1;
-					ter.syncInventory(1, Minecraft.getMinecraft().thePlayer);
+					ter.syncInventory(1, Minecraft.getMinecraft().thePlayer, 0);
 				}
 			} else {
 				if (!replacer_canHarvestBlockAt(ter.getWorldObj(), ter.getCoord())) {
@@ -152,7 +152,7 @@ public class PCma_BlockReplacer extends PC_Block implements PC_IItemInfo {
 							ter.getCoordOffset());
 					ter.setInventorySlotContents(0, harvested.a);
 					ter.extraMeta = harvested.b;
-					ter.syncInventory(1, Minecraft.getMinecraft().thePlayer);
+					ter.syncInventory(1, Minecraft.getMinecraft().thePlayer, 0);
 				}
 			} // END
 		}
@@ -331,7 +331,7 @@ public class PCma_BlockReplacer extends PC_Block implements PC_IItemInfo {
 				replacer_placeBlockAt(te.getWorldObj(), harvested.b, harvested.a, pos);
 			te.setInventorySlotContents(0, null);
 			te.extraMeta = -1;
-			te.syncInventory(1, Minecraft.getMinecraft().thePlayer);
+			te.syncInventory(1, Minecraft.getMinecraft().thePlayer, 0);
 			return;
 		}
 
@@ -342,7 +342,7 @@ public class PCma_BlockReplacer extends PC_Block implements PC_IItemInfo {
 			te.setInventorySlotContents(0, harvested.a);
 			te.extraMeta = harvested.b;
 		}
-		te.syncInventory(1, Minecraft.getMinecraft().thePlayer);
+		te.syncInventory(1, Minecraft.getMinecraft().thePlayer, 0);
 	}
 
 	@Override

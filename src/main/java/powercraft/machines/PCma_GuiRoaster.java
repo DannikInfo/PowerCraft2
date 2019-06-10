@@ -48,7 +48,7 @@ public class PCma_GuiRoaster extends PCma_ContainerRoaster implements PC_IGresCl
 
 	@Override
 	public void onGuiClosed(PC_IGresGui gui) {
-		tileEntity.syncInventory(0, player);
+		tileEntity.syncInventory(0, player, 0);
 	}
 
 	@Override

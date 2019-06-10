@@ -327,7 +327,7 @@ public abstract class PC_Block extends BlockContainer {
 	}
 
 	@Override
-	public final void registerBlockIcons(IIconRegister iconRegister) {
+	public void registerBlockIcons(IIconRegister iconRegister) {
 		if (sideTextures != null) {
 			sideIcons = new IIcon[sideTextures.length];
 			for (int i = 0; i < sideTextures.length; i++) {

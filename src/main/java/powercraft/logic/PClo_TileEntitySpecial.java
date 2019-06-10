@@ -1,5 +1,6 @@
 package powercraft.logic;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -31,56 +32,57 @@ public class PClo_TileEntitySpecial extends PC_TileEntityWithInventory{
 
     @Override
     public void updateEntity(){
-    	PC_Block block = PC_Utils.getBlock(worldObj, xCoord, yCoord, zCoord);
+    	Block block = PC_Utils.getBlock(worldObj, xCoord, yCoord, zCoord);
     	if(block==null || worldObj.isRemote){
     		return;
+    	}else if(block instanceof PC_Block) {
+	        int nextUpdate = 0;
+	        boolean shouldState = false;
+	        PC_Direction rot = ((PC_Block)block).getRotation(PC_Utils.getMD(worldObj, xCoord, yCoord, zCoord));
+	        int xAdd = rot.getOffset().x, zAdd = rot.getOffset().z;
+	
+	        switch (getType()){
+	            case PClo_SpecialType.DAY:
+	                shouldState = worldObj.isDaytime();
+	                break;
+	
+	            case PClo_SpecialType.NIGHT:
+	                shouldState = !worldObj.isDaytime();
+	                break;
+	
+	            case PClo_SpecialType.RAIN:
+	                shouldState = worldObj.isRaining();
+	                break;
+	
+	            case PClo_SpecialType.CHEST_EMPTY:{
+	            	IInventory inv = PC_InventoryUtils.getInventoryAt(worldObj, xCoord - xAdd, yCoord, zCoord - zAdd);
+	            	if(inv!=null){
+	            		shouldState = PC_InventoryUtils.getInventoryCountOf(inv, getStackInSlot(0))==0;
+	            	}
+	            	break;
+	
+	            }case PClo_SpecialType.CHEST_FULL:{
+	            	IInventory inv = PC_InventoryUtils.getInventoryAt(worldObj, xCoord - xAdd, yCoord, zCoord - zAdd);
+	            	if(inv!=null){
+	            		shouldState = PC_InventoryUtils.getInventorySpaceFor(inv, getStackInSlot(0))==0;
+	            	}
+	            	break;
+	
+	            } case PClo_SpecialType.SPECIAL:
+	                PClo_BlockSpecial.preventSpawnerSpawning(worldObj, xCoord + 1, yCoord, zCoord);
+	                PClo_BlockSpecial.preventSpawnerSpawning(worldObj, xCoord - 1, yCoord, zCoord);
+	                PClo_BlockSpecial.preventSpawnerSpawning(worldObj, xCoord, yCoord + 1, zCoord);
+	                PClo_BlockSpecial.preventSpawnerSpawning(worldObj, xCoord, yCoord, zCoord + 1);
+	                PClo_BlockSpecial.preventSpawnerSpawning(worldObj, xCoord, yCoord, zCoord - 1);
+	
+	            default:
+	                return;
+	        }
+	
+	        if (PClo_BlockSpecial.isActive(worldObj, xCoord, yCoord, zCoord) != shouldState){
+	        	PC_Utils.getBID(worldObj, getCoord()).onNeighborBlockChange(worldObj, xCoord, yCoord, zCoord, blockType);
+	        }
     	}
-        int nextUpdate = 0;
-        boolean shouldState = false;
-        PC_Direction rot = block.getRotation(PC_Utils.getMD(worldObj, xCoord, yCoord, zCoord));
-        int xAdd = rot.getOffset().x, zAdd = rot.getOffset().z;
-
-        switch (getType()){
-            case PClo_SpecialType.DAY:
-                shouldState = worldObj.isDaytime();
-                break;
-
-            case PClo_SpecialType.NIGHT:
-                shouldState = !worldObj.isDaytime();
-                break;
-
-            case PClo_SpecialType.RAIN:
-                shouldState = worldObj.isRaining();
-                break;
-
-            case PClo_SpecialType.CHEST_EMPTY:{
-            	IInventory inv = PC_InventoryUtils.getInventoryAt(worldObj, xCoord - xAdd, yCoord, zCoord - zAdd);
-            	if(inv!=null){
-            		shouldState = PC_InventoryUtils.getInventoryCountOf(inv, getStackInSlot(0))==0;
-            	}
-            	break;
-
-            }case PClo_SpecialType.CHEST_FULL:{
-            	IInventory inv = PC_InventoryUtils.getInventoryAt(worldObj, xCoord - xAdd, yCoord, zCoord - zAdd);
-            	if(inv!=null){
-            		shouldState = PC_InventoryUtils.getInventorySpaceFor(inv, getStackInSlot(0))==0;
-            	}
-            	break;
-
-            } case PClo_SpecialType.SPECIAL:
-                PClo_BlockSpecial.preventSpawnerSpawning(worldObj, xCoord + 1, yCoord, zCoord);
-                PClo_BlockSpecial.preventSpawnerSpawning(worldObj, xCoord - 1, yCoord, zCoord);
-                PClo_BlockSpecial.preventSpawnerSpawning(worldObj, xCoord, yCoord + 1, zCoord);
-                PClo_BlockSpecial.preventSpawnerSpawning(worldObj, xCoord, yCoord, zCoord + 1);
-                PClo_BlockSpecial.preventSpawnerSpawning(worldObj, xCoord, yCoord, zCoord - 1);
-
-            default:
-                return;
-        }
-
-        if (PClo_BlockSpecial.isActive(worldObj, xCoord, yCoord, zCoord) != shouldState){
-        	PC_Utils.getBID(worldObj, getCoord()).onNeighborBlockChange(worldObj, xCoord, yCoord, zCoord, blockType);
-        }
     }
 
     @Override

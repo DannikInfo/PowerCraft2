@@ -24,11 +24,11 @@ public abstract class PCtr_TileEntitySeparationBeltBase extends PCtr_TileEntityR
 	private boolean group_all;
 
 	@Override
-	public void syncInventory(int side, EntityPlayer player) {
+	public void syncInventory(int side, EntityPlayer player, int slot) {
 		if (side == 0) {
 			if (worldObj.isRemote) {
 				for (int i = 0; i < this.getSizeInventory(); i++) {
-					PC_PacketHandler.sendToServer(new PC_PacketSyncInv(this, i, this.getStackInSlot(i)));
+					PC_PacketHandler.sendToServer(new PC_PacketSyncInv(this, i, this.getStackInSlot(i), 0));
 				}
 				for (int c = 0; c < player.inventory.getSizeInventory(); c++) {
 					PC_PacketHandler.sendToServer(new PC_PacketSyncPlayerInv(c, player.inventory.getStackInSlot(c)));
@@ -38,7 +38,7 @@ public abstract class PCtr_TileEntitySeparationBeltBase extends PCtr_TileEntityR
 		if (side == 1) {
 			if (!worldObj.isRemote) {
 				for (int i = 0; i < this.getSizeInventory(); i++) {
-					PC_PacketHandler.sendToAllAround(new PC_PacketSyncInvTC_pt2(this, i, this.getStackInSlot(i)),
+					PC_PacketHandler.sendToAllAround(new PC_PacketSyncInvTC_pt2(this, i, this.getStackInSlot(i), 0),
 							player.dimension, xCoord, yCoord, zCoord, 10);
 				}
 

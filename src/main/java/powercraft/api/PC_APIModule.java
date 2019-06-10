@@ -3,17 +3,16 @@ package powercraft.api;
 import java.util.ArrayList;
 import java.util.List;
 
-import cpw.mods.fml.common.IWorldGenerator;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
+import net.minecraftforge.common.MinecraftForge;
 import powercraft.api.annotation.PC_FieldObject;
 import powercraft.api.block.PC_Block;
 import powercraft.api.building.PC_CropHarvesting;
 import powercraft.api.building.PC_ISpecialHarvesting;
 import powercraft.api.building.PC_TreeHarvesting;
 import powercraft.api.gres.PC_GresBaseWithInventory;
-import powercraft.api.hooks.PC_Hooks;
 import powercraft.api.hooks.PC_ServerHooks;
 import powercraft.api.interfaces.PC_IDataHandler;
 import powercraft.api.interfaces.PC_IMSG;
@@ -66,6 +65,7 @@ public class PC_APIModule {
 
 	@PC_PreInit
 	public void preInit() {
+		MinecraftForge.EVENT_BUS.register(new PC_KeyRegistry());
 		initVars();
 		PC_Logger.enterSection("PreInit");
 		PC_GlobalVariables.loadConfig();
@@ -94,7 +94,7 @@ public class PC_APIModule {
 
 	protected void clientPreInit(List<PC_ModuleObject> modules) {
 		PC_ServerHooks.registerServerHooks();
-		PC_Hooks.registerHooks();
+		//PC_Hooks.registerHooks();
 	}
 
 	@PC_Init

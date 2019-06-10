@@ -1,5 +1,6 @@
 package powercraft.logic;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -61,11 +62,11 @@ public class PClo_TileEntityDelayer extends PC_TileEntity implements PC_IPacketH
         boolean stop = false;
         boolean reset = false;
 
-        PC_Block b = PC_Utils.getBlock(worldObj, getCoord());
+        Block b = PC_Utils.getBlock(worldObj, getCoord());
         
-        if (getType() == PClo_DelayerType.FIFO){
-            stop = b.getRedstonePowerValueFromInput(worldObj, xCoord, yCoord, zCoord, PC_Direction.RIGHT)>0;
-            reset = b.getRedstonePowerValueFromInput(worldObj, xCoord, yCoord, zCoord, PC_Direction.LEFT)>0;
+        if (b instanceof PC_Block && getType() == PClo_DelayerType.FIFO){
+            stop = ((PC_Block)b).getRedstonePowerValueFromInput(worldObj, xCoord, yCoord, zCoord, PC_Direction.RIGHT)>0;
+            reset = ((PC_Block)b).getRedstonePowerValueFromInput(worldObj, xCoord, yCoord, zCoord, PC_Direction.LEFT)>0;
         }
         
         if (!stop || reset){

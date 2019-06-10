@@ -8,6 +8,7 @@ import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.tileentity.TileEntity;
 import powercraft.api.tileentity.PC_ITileEntityWatcher;
@@ -49,7 +50,7 @@ public class PC_GresGui extends GuiScreen implements PC_IGresGui, PC_ITileEntity
 		// if(tileEntity!=null)
 		// tileEntity.addTileEntityWatcher(this);
 	}
-
+	
 	@Override
 	public PC_GresWidget add(PC_GresWidget widget) {
 		PC_GresWidget c = child.add(widget);

@@ -6,11 +6,8 @@ import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.CraftingManager;
-import net.minecraft.item.crafting.IRecipe;
 import powercraft.api.inventory.PC_IInventory;
 import powercraft.api.inventory.PC_IInventoryBackground;
 import powercraft.api.registry.PC_RecipeRegistry;
@@ -336,7 +333,7 @@ public class PCco_CraftingToolInventory implements PC_IInventory, PC_IInventoryB
 	}
 
 	@Override
-	public void syncInventory(int side, EntityPlayer player) {
+	public void syncInventory(int side, EntityPlayer player, int slot) {
 		// TODO Auto-generated method stub
 
 	}

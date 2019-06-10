@@ -41,7 +41,7 @@ public class PC_APIClientModule extends PC_APIModule {
 	@Override
 	protected void clientPreInit(List<PC_ModuleObject> modules) {
 		// PC_ClientHooks.registerClientHooks();
-		PC_Hooks.registerHooks();
+		//PC_Hooks.registerHooks();
 		PC_Logger.enterSection("Module Texture Init");
 		for (PC_ModuleObject module : modules) {
 			List<String> l = module.loadTextureFiles(new ArrayList<String>());
@@ -73,7 +73,7 @@ public class PC_APIClientModule extends PC_APIModule {
 		PC_ClientUtils.registerEnitiyFX("EntitySmokeFX", EntitySmokeFX.class);
 		RenderingRegistry.registerBlockHandler(new PC_ClientRenderer(true));
 		RenderingRegistry.registerBlockHandler(new PC_ClientRenderer(false));
-		// TickRegistry.registerTickHandler(new PC_ClientHooks(), Side.CLIENT);
+		//TickRegistry.registerTickHandler(new PC_ClientHooks(), Side.CLIENT);
 		// TickRegistry.registerTickHandler(new PC_ClientTickHandler(),
 		// Side.CLIENT);
 		// TickRegistry.registerTickHandler(new PC_ClientTickHandler(),

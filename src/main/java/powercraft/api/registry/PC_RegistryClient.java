@@ -11,6 +11,8 @@ import java.util.Set;
 
 import cpw.mods.fml.client.registry.ClientRegistry;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -22,11 +24,10 @@ import powercraft.api.gres.PC_GresBaseWithInventory;
 import powercraft.api.gres.PC_GresContainerGui;
 import powercraft.api.gres.PC_GresGui;
 import powercraft.api.gres.PC_IGresClient;
-import powercraft.api.network.PC_PacketHandler;
+import powercraft.api.gres.PC_IGresGui;
 import powercraft.api.reflect.PC_ReflectHelper;
 import powercraft.api.registry.PC_LangRegistry.LangEntry;
 import powercraft.api.renderer.PC_TileEntitySpecialRenderer;
-import powercraft.api.tileentity.PC_TileEntity;
 import powercraft.api.utils.PC_ClientUtils;
 import powercraft.api.utils.PC_Struct3;
 import powercraft.api.utils.PC_Utils;
@@ -41,7 +42,7 @@ public class PC_RegistryClient extends PC_RegistryServer {
 	private IIconRegister iconRegister;
 
 	public PC_RegistryClient() {
-		// KeyBindingRegistry.registerKeyBinding(keyHandler = new PC_KeyHandler());
+	//	KeyBindingRegistry.registerKeyBinding(keyHandler = new PC_KeyHandler());
 	}
 
 	public static boolean create() {

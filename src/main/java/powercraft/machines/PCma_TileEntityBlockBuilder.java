@@ -84,7 +84,7 @@ public class PCma_TileEntityBlockBuilder extends PC_TileEntityWithInventory{
 						}
 					}
 
-					syncInventory(1, null);
+					syncInventory(1, null, 0);
 				}
 				return true;
 			} else {

@@ -7,7 +7,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.PacketBuffer;
 import powercraft.api.inventory.PC_IInventory;
 import powercraft.api.network.AbstractMessage.AbstractServerMessage;
+import powercraft.api.network.PC_PacketHandler;
 import powercraft.api.tileentity.PC_TileEntity;
+import powercraft.storage.PCs_ItemCompressor;
 
 public class PC_PacketSyncInvTC_pt1 extends AbstractServerMessage<PC_PacketSyncInvTC_pt1> {
 
@@ -50,25 +52,10 @@ public class PC_PacketSyncInvTC_pt1 extends AbstractServerMessage<PC_PacketSyncI
 		PC_IInventory te = (PC_IInventory) player.worldObj.getTileEntity(x, y, z);
 		if (side == Side.SERVER) {
 			if (te == null) {
-				// PC_IInventory item =
-				// (PC_IInventory)player.getCurrentEquippedItem().getItem();
-				// item.syncInventory(1, player);
-				// if(player.getCurrentEquippedItem().getItem() instanceof PCis_ItemCompressor)
-				// {
-				// PCis_ItemCompressor item =
-				// (PCis_ItemCompressor)player.getCurrentEquippedItem().getItem();
-				// item.getInventoryFor(player,
-				// player.getCurrentEquippedItem().geti)//.syncInventory(2, player);
-				// PCis_ItemCompressor item =
-				// (PCis_ItemCompressor)player.getCurrentEquippedItem().getItem();
-				// PCis_CompressorInventory inv =
-				// (PCis_CompressorInventory)item.getInventoryFor(player,
-				// player.inventory.currentItem);
-				// inv.setInventorySlotContents(0, new ItemStack(Blocks.acacia_stairs));
-				// inv.syncInventory(1, player);
-				// }
+				//PC_IInventory inv = PCis_ItemCompressor.getInventoryFor(player, slot);
+				//inv.syncInventory(1, player, slot);
 			} else {
-				te.syncInventory(1, player);
+				te.syncInventory(1, player, 0);
 			}
 		}
 	}

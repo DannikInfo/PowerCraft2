@@ -32,11 +32,11 @@ public class PCnt_GuiRadio implements PC_IGresClient {
 	private PC_GresCheckBox checkLabel;
 
 	private PC_GresCheckBox checkMicro;
-	
+
 	public PCnt_GuiRadio(EntityPlayer player, PC_TileEntity te, Object[] o) {
 		ter = (PCnt_TileEntityRadio)te;
 	}
-	
+
 	@Override
 	public void initGui(PC_IGresGui gui) {
 		String title = "";
@@ -98,9 +98,9 @@ public class PCnt_GuiRadio implements PC_IGresClient {
 			ter.setChannel(newChannel);
 			ter.setRenderMicro(checkMicro.isChecked());
 			ter.setHideLabel(!checkLabel.isChecked());
-			
+
 			PC_PacketHandler.sendToServer(new PC_PacketSyncTEServer(new Object[] {0, ter.getCoord(), newChannel, checkMicro.isChecked(), !checkLabel.isChecked()}));
-			
+
 			gui.close();
 
 		} else if (widget.getId() == 1) {

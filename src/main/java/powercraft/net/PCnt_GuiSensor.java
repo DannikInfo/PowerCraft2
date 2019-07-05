@@ -23,14 +23,14 @@ public class PCnt_GuiSensor implements PC_IGresClient {
 
 	private PC_GresWidget buttonOK, buttonCancel;
 	private PC_GresProgressBar slider;
-	
+
 	/**
 	 * @param tes Sensor tile entity
 	 */
 	public PCnt_GuiSensor(EntityPlayer player, PC_TileEntity te, Object[] o) {
 		sensor = (PCnt_TileEntitySensor)te; 
 	}
-	
+
 	@Override
 	public void initGui(PC_IGresGui gui) {
 		String title = "";
@@ -79,9 +79,9 @@ public class PCnt_GuiSensor implements PC_IGresClient {
 		if (widget.getId() == 0) {
 
 			sensor.setRange(Math.round(slider.getFraction() * 32));
-			
+
 			PC_PacketHandler.sendToServer(new PC_PacketSyncTEServer(new Object[] {0, sensor.getCoord(), Math.round(slider.getFraction() * 32)}));
-			
+
 			gui.close();
 
 		} else if (widget.getId() == 1) {

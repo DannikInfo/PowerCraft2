@@ -70,7 +70,7 @@ public class PCco_CraftingToolCrafter {
 				return i;
 			i++;
 		}
-		
+
 		for (ItemStack stack : l) {
 			//System.out.println(is);
 			int need = testItem(stack, is);
@@ -136,7 +136,7 @@ public class PCco_CraftingToolCrafter {
 	}
 
 	public static int craft(ItemStack craft, ItemStack[] is, List<ItemStack> not, int rec, EntityPlayer thePlayer, boolean type) {
-		
+
 		if (thePlayer.capabilities.isCreativeMode || PC_GlobalVariables.config.getBoolean("cheats.survivalCheating")) {
 			return 1;
 		}
@@ -164,22 +164,22 @@ public class PCco_CraftingToolCrafter {
 			boolean ret = false;
 			boolean con = false;
 			for (List<ItemStack> l : input) {
-					for(int j = 0; j < 36; j++) {
-						if(is[j] != null) {
-							ret = is[j].getItem() == l.get(0).getItem();
-							boolean ret2 = is[j].getItemDamage() == l.get(0).getItemDamage();
-							boolean ret3 = is[j].stackSize >= l.get(0).stackSize;
-							if (ret && ret2 && ret3) {
-								if(type)
-									thePlayer.inventory.decrStackSize(j, l.get(0).stackSize);
-								return recipe.getRecipeOutput().stackSize;
-							}else
-								con = true;
-							
-						}
-					
+				for(int j = 0; j < 36; j++) {
+					if(is[j] != null) {
+						ret = is[j].getItem() == l.get(0).getItem();
+						boolean ret2 = is[j].getItemDamage() == l.get(0).getItemDamage();
+						boolean ret3 = is[j].stackSize >= l.get(0).stackSize;
+						if (ret && ret2 && ret3) {
+							if(type)
+								thePlayer.inventory.decrStackSize(j, l.get(0).stackSize);
+							return recipe.getRecipeOutput().stackSize;
+						}else
+							con = true;
+
 					}
-					
+
+				}
+
 			}
 			if(con)
 				continue;

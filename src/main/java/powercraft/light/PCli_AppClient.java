@@ -20,14 +20,6 @@ public class PCli_AppClient extends PCli_App {
 		return textures;
 	}
 
-	@PC_InitLanguage
-	public List<LangEntry> initLanguage(List<LangEntry> lang) {
-		lang.add(new LangEntry("pc.gui.light.isHuge", "is Huge"));
-		lang.add(new LangEntry("pc.gui.light.isStable", "is Stable"));
-		lang.add(new LangEntry("pc.damage.laser", "%s wanted to know his reflexivity"));
-		return lang;
-	}
-
 	@PC_RegisterGuis
 	public List<PC_Struct2<String, Class<? extends PC_IGresClient>>> registerGuis(
 			List<PC_Struct2<String, Class<? extends PC_IGresClient>>> guis) {

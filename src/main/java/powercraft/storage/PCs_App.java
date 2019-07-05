@@ -27,7 +27,7 @@ public class PCs_App {
 	public static PC_Block bigChest;
 	@PC_FieldObject(clazz=PCs_ItemCompressor.class)
 	public static PC_Item compressor;
-	
+
 	@PC_InitRecipes
 	public List<PC_IRecipe> initRecipes(List<PC_IRecipe> recipes) {
 		recipes.add(new PC_3DRecipe((PC_I3DRecipeHandler)bigChest, 

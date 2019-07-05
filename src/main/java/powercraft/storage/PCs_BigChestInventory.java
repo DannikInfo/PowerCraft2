@@ -25,11 +25,11 @@ public class PCs_BigChestInventory implements IInventory {
 	private PC_VecI mid;
 	private PCs_TileEntityBigChest te;
 	public boolean destroy;
-	
+
 	public PCs_BigChestInventory(PCs_TileEntityBigChest te) {
 		this.te = te;
 	}
-	
+
 	public PCs_BigChestInventory(World world, PC_VecI mid, PCs_TileEntityBigChest te){
 		this.world = world;
 		this.mid = mid;
@@ -43,7 +43,7 @@ public class PCs_BigChestInventory implements IInventory {
 			onSlotChange(i);
 		}
 	}
-	
+
 	@Override
 	public int getSizeInventory() {
 		return inv.length;
@@ -133,7 +133,7 @@ public class PCs_BigChestInventory implements IInventory {
 					NBTTagCompound nbtTag = new NBTTagCompound();
 					is.writeToNBT(nbtTag);
 					//try {
-						//PC_PacketHandler.setTileEntity(te, new PC_Entry("slotChange", new PC_Struct2<Integer, byte[]>(slot, CompressedStreamTools.compress(nbtTag))));
+					//PC_PacketHandler.setTileEntity(te, new PC_Entry("slotChange", new PC_Struct2<Integer, byte[]>(slot, CompressedStreamTools.compress(nbtTag))));
 					//} catch (IOException e) {
 					//	e.printStackTrace();
 					//}
@@ -141,14 +141,14 @@ public class PCs_BigChestInventory implements IInventory {
 			}
 		}
 	}
-	
+
 	private PCs_EntityItemInBigChest makeEntity(World world, PC_VecF pos, PC_VecI mid, PC_VecF move, int slot){
 		PCs_EntityItemInBigChest e = new PCs_EntityItemInBigChest(world, pos, mid, move, slot);
 		world.spawnEntityInWorld(e);
 		entity[slot] = e;
 		return e;
 	}
-	
+
 	public void collectItem(EntityItem entity){
 		if(entity.isDead)
 			return;
@@ -179,5 +179,5 @@ public class PCs_BigChestInventory implements IInventory {
 	public boolean isItemValidForSlot(int p_94041_1_, ItemStack p_94041_2_) {
 		return false;
 	}
-	
+
 }

@@ -35,13 +35,10 @@ public class PC_APIClientModule extends PC_APIModule {
 	@Override
 	protected void initVars() {
 		PC_ClientUtils.create();
-		// packetHandler = new PC_ClientPacketHandler();
 	}
 
 	@Override
 	protected void clientPreInit(List<PC_ModuleObject> modules) {
-		// PC_ClientHooks.registerClientHooks();
-		//PC_Hooks.registerHooks();
 		PC_Logger.enterSection("Module Texture Init");
 		for (PC_ModuleObject module : modules) {
 			List<String> l = module.loadTextureFiles(new ArrayList<String>());
@@ -73,17 +70,10 @@ public class PC_APIClientModule extends PC_APIModule {
 		PC_ClientUtils.registerEnitiyFX("EntitySmokeFX", EntitySmokeFX.class);
 		RenderingRegistry.registerBlockHandler(new PC_ClientRenderer(true));
 		RenderingRegistry.registerBlockHandler(new PC_ClientRenderer(false));
-		//TickRegistry.registerTickHandler(new PC_ClientHooks(), Side.CLIENT);
-		// TickRegistry.registerTickHandler(new PC_ClientTickHandler(),
-		// Side.CLIENT);
-		// TickRegistry.registerTickHandler(new PC_ClientTickHandler(),
-		// Side.SERVER);
 		PC_ClientUtils.registerEnitiyFX(PC_EntityLaserParticleFX.class);
 		PC_ClientUtils.registerEnitiyFX(PC_EntityLaserFX.class);
 		PC_ClientUtils.registerEnitiyFX(PC_EntityFanFX.class);
 		PC_ClientUtils.registerEnitiyFX("EntitySmokeFX", EntitySmokeFX.class);
-		// NetworkRegistry.instance().registerConnectionHandler(new
-		// PC_ConnectionHandler());
 
 		PC_Logger.enterSection("Register EntityRender");
 		for (PC_ModuleObject module : modules) {
@@ -168,9 +158,6 @@ public class PC_APIClientModule extends PC_APIModule {
 	@Override
 	protected void clientPostInit(List<PC_ModuleObject> modules) {
 		PC_Logger.enterSection("Module Language Saving");
-		// for (PC_ModuleObject module : modules) {
-		// PC_LangRegistry.saveLanguage(module);
-		// }
 		PC_Logger.exitSection();
 	}
 

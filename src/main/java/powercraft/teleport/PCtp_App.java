@@ -37,7 +37,7 @@ public class PCtp_App {
 			prism = new ItemStack(bprism);
 		else
 			prism = new ItemStack(Blocks.glass);
-		
+
 		GameRegistry.addRecipe(new ItemStack(teleporter, 1),
 				new Object[] { " P ", "PVP", "SSS", 'V', new ItemStack(Items.dye, 1, 5), 'P', prism, 'S',Items.iron_ingot });
 		return recipes;

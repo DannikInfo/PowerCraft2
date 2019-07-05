@@ -16,7 +16,6 @@ import powercraft.api.gres.PC_GresBaseWithInventory;
 import powercraft.api.hooks.PC_ServerHooks;
 import powercraft.api.interfaces.PC_IDataHandler;
 import powercraft.api.interfaces.PC_IMSG;
-import powercraft.api.interfaces.PC_IWorldGenerator;
 import powercraft.api.item.PC_Item;
 import powercraft.api.item.PC_ItemArmor;
 import powercraft.api.network.PC_IPacketHandler;
@@ -36,7 +35,6 @@ import powercraft.api.registry.PC_KeyRegistry;
 import powercraft.api.registry.PC_MSGRegistry;
 import powercraft.api.registry.PC_ModuleRegistry;
 import powercraft.api.registry.PC_RecipeRegistry;
-import powercraft.api.registry.PC_WorldGeneratorRegistry;
 import powercraft.api.renderer.PC_Renderer;
 import powercraft.api.thread.PC_ThreadManager;
 import powercraft.api.utils.PC_GlobalVariables;
@@ -89,19 +87,16 @@ public class PC_APIModule {
 
 	protected void initVars() {
 		PC_Utils.create();
-		// packetHandler = new PC_PacketHandler();
 	}
 
 	protected void clientPreInit(List<PC_ModuleObject> modules) {
 		PC_ServerHooks.registerServerHooks();
-		//PC_Hooks.registerHooks();
 	}
 
 	@PC_Init
 	public void init() {
 		PC_Logger.enterSection("Init");
-		GameRegistry.registerWorldGenerator(new PC_OreDictionary(), 0);
-		//GameRegistry.registerWorldGenerator(new PC_WorldGeneratorRegistry(), 0);
+		GameRegistry.registerWorldGenerator(new PC_WorldGenerator(), 0);
 		GameRegistry.registerFuelHandler(new PC_FuelHandler());
 		PC_ThreadManager.init();
 		PC_BuildingRegistry.register(new PC_CropHarvesting());
@@ -153,15 +148,11 @@ public class PC_APIModule {
 	protected void clientInit(List<PC_ModuleObject> modules) {
 		new PC_Renderer(true);
 		new PC_Renderer(false);
-		// NetworkRegistry.INSTANCE.registerConnectionHandler(new
-		// PC_ConnectionHandler());
-		// TickRegistry.registerTickHandler(new PC_TickHandler(), Side.SERVER);
 	}
 
 	@PC_PostInit
 	public void postInit() {
 		PC_Logger.enterSection("PostInit");
-		// PC_TickRegistry.register(PC_ChunkForcerRegistry.getInstance());
 		PC_Logger.enterSection("Module Recipes Init");
 		List<PC_ModuleObject> modules = PC_ModuleRegistry.getModuleList();
 		for (PC_ModuleObject module : modules) {
@@ -185,15 +176,10 @@ public class PC_APIModule {
 			}
 		}
 		PC_Logger.exitSection();
-		PC_Logger.enterSection("Module Packet Handlers Init");
+		PC_Logger.enterSection("Module Packet Handlers Init (need to change!)");
 		for (PC_ModuleObject module : modules) {
 			List<PC_Struct2<String, PC_IPacketHandler>> l = module
 					.initPacketHandlers(new ArrayList<PC_Struct2<String, PC_IPacketHandler>>());
-			if (l != null) {
-				for (PC_Struct2<String, PC_IPacketHandler> packetHandler : l) {
-					// PC_PacketHandler.registerPackethandler(packetHandler.a, packetHandler.b);
-				}
-			}
 		}
 		PC_Logger.exitSection();
 		PC_Logger.enterSection("Module PostInit");
@@ -251,9 +237,6 @@ public class PC_APIModule {
 		protected void registerObject(Object object) {
 			if (object instanceof PC_IMSG) {
 				PC_MSGRegistry.registerMSGObject((PC_IMSG) object);
-			}
-			if (object instanceof PC_IWorldGenerator) {
-				PC_WorldGeneratorRegistry.register((PC_IWorldGenerator) object);
 			}
 			if (object instanceof PC_ISpecialHarvesting) {
 				PC_BuildingRegistry.register((PC_ISpecialHarvesting) object);

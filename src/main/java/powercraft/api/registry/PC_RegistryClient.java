@@ -42,7 +42,7 @@ public class PC_RegistryClient extends PC_RegistryServer {
 	private IIconRegister iconRegister;
 
 	public PC_RegistryClient() {
-	//	KeyBindingRegistry.registerKeyBinding(keyHandler = new PC_KeyHandler());
+		//	KeyBindingRegistry.registerKeyBinding(keyHandler = new PC_KeyHandler());
 	}
 
 	public static boolean create() {
@@ -218,7 +218,7 @@ public class PC_RegistryClient extends PC_RegistryServer {
 
 	@Override
 	protected void registerTexture(String texture) {
-		if (texture == null)
+		if (texture == null || mod_PowerCraft.MODID == null || iconRegister == null)
 			return;
 
 		this.iconRegister.registerIcon(mod_PowerCraft.MODID + ":textures/" + texture);

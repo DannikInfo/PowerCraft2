@@ -198,41 +198,41 @@ public class PCma_TileEntityRoaster extends PC_TileEntityWithInventory {
 				AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 2, zCoord + 1));
 		nextItem:
 
-		for (EntityItem entityitem : itemsList) {
-			if (entityitem.isDead || PCma_App.roasterIgnoreBlockIDs.contains(entityitem.getEntityId())) {
-				continue nextItem;
-			}
-
-			ItemStack result = getResult(entityitem.getEntityItem());
-
-			if (result == null) {
-				continue nextItem;
-			}
-
-			if (getBurnTime() <= getItemSmeltTime(entityitem.getEntityItem())) {
-				if (!addFuelForItem(entityitem.getEntityItem())) {
+			for (EntityItem entityitem : itemsList) {
+				if (entityitem.isDead || PCma_App.roasterIgnoreBlockIDs.contains(entityitem.getEntityId())) {
 					continue nextItem;
 				}
-			}
 
-			if (getBurnTime() >= getItemSmeltTime(entityitem.getEntityItem())) {
-				setBurnTime(getBurnTime() - getItemSmeltTime(entityitem.getEntityItem()));
-				EntityItem eitem = new EntityItem(worldObj, entityitem.posX - 0.1F + random.nextFloat() * 0.2F,
-						entityitem.posY, entityitem.posZ - 0.1F + random.nextFloat() * 0.2F, result.copy());
-				eitem.motionX = entityitem.motionX;
-				eitem.motionY = entityitem.motionY;
-				eitem.motionZ = entityitem.motionZ;
-				eitem.delayBeforeCanPickup = 7;
+				ItemStack result = getResult(entityitem.getEntityItem());
 
-				if (!worldObj.isRemote) {
-					worldObj.spawnEntityInWorld(eitem);
+				if (result == null) {
+					continue nextItem;
 				}
 
-				if (--entityitem.getEntityItem().stackSize <= 0) {
-					entityitem.setDead();
+				if (getBurnTime() <= getItemSmeltTime(entityitem.getEntityItem())) {
+					if (!addFuelForItem(entityitem.getEntityItem())) {
+						continue nextItem;
+					}
+				}
+
+				if (getBurnTime() >= getItemSmeltTime(entityitem.getEntityItem())) {
+					setBurnTime(getBurnTime() - getItemSmeltTime(entityitem.getEntityItem()));
+					EntityItem eitem = new EntityItem(worldObj, entityitem.posX - 0.1F + random.nextFloat() * 0.2F,
+							entityitem.posY, entityitem.posZ - 0.1F + random.nextFloat() * 0.2F, result.copy());
+					eitem.motionX = entityitem.motionX;
+					eitem.motionY = entityitem.motionY;
+					eitem.motionZ = entityitem.motionZ;
+					eitem.delayBeforeCanPickup = 7;
+
+					if (!worldObj.isRemote) {
+						worldObj.spawnEntityInWorld(eitem);
+					}
+
+					if (--entityitem.getEntityItem().stackSize <= 0) {
+						entityitem.setDead();
+					}
 				}
 			}
-		}
 	}
 
 	public void burnCreatures() {
@@ -244,19 +244,19 @@ public class PCma_TileEntityRoaster extends PC_TileEntityWithInventory {
 				AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 2, zCoord + 1));
 		nextEliving:
 
-		for (EntityLiving eliving : entities) {
-			if (eliving.isDead) {
-				continue nextEliving;
-			}
+			for (EntityLiving eliving : entities) {
+				if (eliving.isDead) {
+					continue nextEliving;
+				}
 
-			if (!eliving.isImmuneToFire()) {
-				eliving.attackEntityFrom(DamageSource.inFire, 3);
-			}
+				if (!eliving.isImmuneToFire()) {
+					eliving.attackEntityFrom(DamageSource.inFire, 3);
+				}
 
-			if (!eliving.isWet()) {
-				eliving.setFire(15);
+				if (!eliving.isWet()) {
+					eliving.setFire(15);
+				}
 			}
-		}
 	}
 
 	public boolean netherAction() {
@@ -342,18 +342,18 @@ public class PCma_TileEntityRoaster extends PC_TileEntityWithInventory {
 		PC_InventoryUtils.saveInventoryToNBT(nbttagcompound, "Items", this);
 		super.writeToNBT(nbttagcompound);
 	}
-	
+
 	@Override
 	public Packet getDescriptionPacket() {
 		NBTTagCompound tagCompound = new NBTTagCompound();
-	    this.writeToNBT(tagCompound);
-	    return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 3, tagCompound);
+		this.writeToNBT(tagCompound);
+		return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 3, tagCompound);
 	}
-	    
+
 	@Override
 	public void onDataPacket(NetworkManager networkManager, S35PacketUpdateTileEntity packet) {
 		NBTTagCompound tagCompound = packet.func_148857_g();
-	    this.readFromNBT(tagCompound);
+		this.readFromNBT(tagCompound);
 	}
 
 }

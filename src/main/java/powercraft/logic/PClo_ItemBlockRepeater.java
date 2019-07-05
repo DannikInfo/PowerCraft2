@@ -13,48 +13,48 @@ import powercraft.api.registry.PC_LangRegistry.LangEntry;
 import powercraft.api.utils.PC_MathHelper;
 
 public class PClo_ItemBlockRepeater extends PC_ItemBlock{
-    public PClo_ItemBlockRepeater(Block block){
-        super(block);
-        setMaxDamage(0);
-        setHasSubtypes(true);
-    }
+	public PClo_ItemBlockRepeater(Block block){
+		super(block);
+		setMaxDamage(0);
+		setHasSubtypes(true);
+	}
 
-    @Override
-    public List<ItemStack> getItemStacks(List<ItemStack> arrayList){
-        for (int i = 0; i < PClo_RepeaterType.TOTAL_REPEATER_COUNT; i++){
-            arrayList.add(new ItemStack(this, 1, i));
-        }
+	@Override
+	public List<ItemStack> getItemStacks(List<ItemStack> arrayList){
+		for (int i = 0; i < PClo_RepeaterType.TOTAL_REPEATER_COUNT; i++){
+			arrayList.add(new ItemStack(this, 1, i));
+		}
 
-        return arrayList;
-    }
+		return arrayList;
+	}
 
-    @Override
-    public IIcon getIconFromDamage(int i){
-        return PClo_App.repeater.getIcon(1, 0);
-    }
+	@Override
+	public IIcon getIconFromDamage(int i){
+		return PClo_App.repeater.getIcon(1, 0);
+	}
 
-    @Override
-    public String getUnlocalizedName(ItemStack itemstack){
-        return getUnlocalizedName() + ".repeater" + itemstack.getItemDamage();
-    }
+	@Override
+	public String getUnlocalizedName(ItemStack itemstack){
+		return getUnlocalizedName() + ".repeater" + itemstack.getItemDamage();
+	}
 
-    @Override
-    public boolean isFull3D(){
-        return false;
-    }
+	@Override
+	public boolean isFull3D(){
+		return false;
+	}
 
-    @Override
-    public boolean shouldRotateAroundWhenRendering(){
-        return false;
-    }
+	@Override
+	public boolean shouldRotateAroundWhenRendering(){
+		return false;
+	}
 
-    @Override
-    public void addInformation(ItemStack itemStack, EntityPlayer player, List list, boolean b){
-        list.add(getDescriptionForRepeater(itemStack.getItemDamage()));
-    }
+	@Override
+	public void addInformation(ItemStack itemStack, EntityPlayer player, List list, boolean b){
+		list.add(getDescriptionForRepeater(itemStack.getItemDamage()));
+	}
 
-    public static String getDescriptionForRepeater(int dmg){
-        return PC_LangRegistry.tr("pc.repeater." + PClo_RepeaterType.names[PC_MathHelper.clamp_int(dmg, 0, PClo_RepeaterType.TOTAL_REPEATER_COUNT - 1)] + ".desc");
-    }
-	
+	public static String getDescriptionForRepeater(int dmg){
+		return PC_LangRegistry.tr("pc.repeater." + PClo_RepeaterType.names[PC_MathHelper.clamp_int(dmg, 0, PClo_RepeaterType.TOTAL_REPEATER_COUNT - 1)] + ".desc");
+	}
+
 }

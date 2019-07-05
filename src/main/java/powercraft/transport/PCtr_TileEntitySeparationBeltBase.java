@@ -12,7 +12,7 @@ import powercraft.api.network.packet.PC_PacketSyncPlayerInv;
 import powercraft.api.network.packet.PC_PacketSyncPlayerInvTC_pt2;
 
 public abstract class PCtr_TileEntitySeparationBeltBase extends PCtr_TileEntityRedirectionBeltBase
-		implements PC_IInventory {
+implements PC_IInventory {
 
 	public ItemStack separatorContents[];
 

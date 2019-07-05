@@ -16,7 +16,7 @@ public @interface PC_OreInfo {
 	public int genOresDepositMaxCount();
 
 	public int genChances();
-	
+
 	public int genOresMaxY();
 
 	public int genOresMinY();

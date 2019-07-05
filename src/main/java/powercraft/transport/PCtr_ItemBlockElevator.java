@@ -32,10 +32,4 @@ public class PCtr_ItemBlockElevator extends PC_ItemBlock {
 		return arrayList;
 	}
 
-	// @Override
-	// public List<LangEntry> getNames(ArrayList<LangEntry> names) {
-	// names.add(new LangEntry(getUnlocalizedName() + ".up", "elevator up"));
-	// names.add(new LangEntry(getUnlocalizedName() + ".down", "elevator down"));
-	// return names;
-//	}
 }

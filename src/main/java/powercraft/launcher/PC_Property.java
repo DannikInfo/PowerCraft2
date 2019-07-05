@@ -88,8 +88,8 @@ public class PC_Property {
 	public PC_Property(Object value, String... desc) {
 		if (value == null)
 			value = new HashMap<String, PC_Property>();
-		this.value = value;
-		comment = desc;
+			this.value = value;
+			comment = desc;
 	}
 
 	public PC_Property() {

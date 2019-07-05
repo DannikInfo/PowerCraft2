@@ -30,11 +30,11 @@ import powercraft.api.utils.PC_Utils;
 import powercraft.launcher.PC_Property;
 
 public class PCma_ItemRanking {
-	
+
 	private static List<PC_Struct3<ItemStack, Float, Integer>> ranking = new ArrayList<PC_Struct3<ItemStack, Float, Integer>>();
 	private static List<ItemStack> alreadyDone = new ArrayList<ItemStack>();
 	private static boolean hasInit = false;
-	
+
 	private static void setRank(ItemStack itemstack, int rank){
 		PC_Struct3<ItemStack, Float, Integer> s = get(itemstack);
 		if(s==null){
@@ -45,7 +45,7 @@ public class PCma_ItemRanking {
 		s.c++;
 		s.b /= s.c;
 	}
-	
+
 	private static PC_Struct3<ItemStack, Float, Integer> get(ItemStack pcisi){
 		for(PC_Struct3<ItemStack, Float, Integer> s:ranking){
 			if(s.a.equals(pcisi)){
@@ -54,7 +54,7 @@ public class PCma_ItemRanking {
 		}
 		return null;
 	}
-	
+
 	public static float getRank(ItemStack itemstack){
 		PC_Struct3<ItemStack, Float, Integer> s = get(itemstack);
 		if(s!=null){
@@ -62,7 +62,7 @@ public class PCma_ItemRanking {
 		}
 		return 0;
 	}
-	
+
 	private static boolean makeTree(){
 		boolean anyDone = false;
 		/*for(Item item: GameData.getItemRegistry().getKeys().makeTree()){
@@ -180,13 +180,13 @@ public class PCma_ItemRanking {
 		}*/
 		return anyDone;
 	}
-	
+
 	private static Item getItem(String key){
 		//if(i!=null && key.equals(i.getUnlocalizedName()))
 		//	return i;
 		return null;
 	}
-	
+
 	private static void load(String key, PC_Property prop){
 		if(prop.hasChildren()){
 			if(!key.equals("")){
@@ -208,29 +208,29 @@ public class PCma_ItemRanking {
 			}
 		}
 	}
-	
+
 	private static void reg(PC_Property prop, Item item, String nums){
-	//	prop.getString(item, nums, item.getUnlocalizedName());
+		//	prop.getString(item, nums, item.getUnlocalizedName());
 	}
-	
+
 	private static void reg(PC_Property prop, Block block, String nums){
-	//	prop.getString(block, nums, Item.getItemFromBlock(block).getUnlocalizedName());
+		//	prop.getString(block, nums, Item.getItemFromBlock(block).getUnlocalizedName());
 	}
-	
+
 	public static void init(){
 		if(hasInit)
 			return;
-		
+
 		File file = new File(PC_Utils.getPowerCraftFile(), "/itemRanks.cfg");
-		
+
 		PC_Property prop;
-		
+
 		try {
 			prop = PC_Property.loadFromFile(new FileInputStream(file));
 		} catch (FileNotFoundException e) {
 			prop = new PC_Property();
 		}
-		
+
 		reg(prop, Blocks.bedrock, "0");
 		reg(prop, Blocks.grass, "1");
 		reg(prop, Blocks.dirt, "1");
@@ -264,7 +264,7 @@ public class PCma_ItemRanking {
 		reg(prop, Blocks.nether_brick, "10");
 		reg(prop, Blocks.nether_wart, "10");
 		reg(prop, Blocks.cauldron, "1");
-		//reg(prop, Blocks.whiteStone, "100");
+		reg(prop, Blocks.end_stone, "100");
 		reg(prop, Blocks.dragon_egg, "100000");
 		reg(prop, Blocks.emerald_ore, "4000");
 		reg(prop, Blocks.tripwire, "100");
@@ -320,11 +320,11 @@ public class PCma_ItemRanking {
 		reg(prop, Items.record_ward, "10000");
 		reg(prop, Items.record_11, "10000");
 		reg(prop, Items.record_wait, "10000");
-		
+
 		TreeMap<String, PC_Block> blocks = PC_BlockRegistry.getPCBlocks();
 		TreeMap<String, PC_Item> items = PC_ItemRegistry.getPCItems();
 		TreeMap<String, PC_ItemArmor> itemArmors = PC_ItemRegistry.getPCItemArmors();
-		
+
 		for(PC_Block block:blocks.values()){
 			/** TODO Object o = block.msg(PC_MSGRegistry.MSG_RATING);
 			if(o instanceof List){
@@ -338,7 +338,7 @@ public class PCma_ItemRanking {
 				reg(prop, block, s);
 			}*/
 		}
-		
+
 		for(PC_Item item:items.values()){
 			/** TODO Object o = item.msg(PC_MSGRegistry.MSG_RATING);
 			if(o instanceof List){
@@ -352,7 +352,7 @@ public class PCma_ItemRanking {
 				reg(prop, item, s);
 			}*/
 		}
-		
+
 		for(PC_ItemArmor itemArmor:itemArmors.values()){
 			/** TODO Object o = itemArmor.msg(PC_MSGRegistry.MSG_RATING);
 			if(o instanceof List){
@@ -366,18 +366,18 @@ public class PCma_ItemRanking {
 				reg(prop, itemArmor, s);
 			}*/
 		}
-		
+
 		load("", prop);
-		
+
 		while(makeTree());
-		
+
 		try {
 			prop.save(new FileOutputStream(file));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		
+
 		hasInit = true;
 	}
-	
+
 }

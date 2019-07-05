@@ -21,7 +21,7 @@ public class PCs_EntityItemInBigChest extends EntityItem {
 		this.mid = mid.copy();
 		this.move = move.copy();
 	}
-	
+
 	@Override
 	public void onUpdate(){
 		move.add(new PC_VecF(mid).sub((float)posX, (float)posY, (float)posZ));
@@ -32,12 +32,12 @@ public class PCs_EntityItemInBigChest extends EntityItem {
 		super.onUpdate();
 		isDead = false;
 	}
-	
+
 	@Override
 	public float getCollisionBorderSize(){
 		return 0.3f;
 	}
-	
+
 	@Override
 	public boolean combineItems(EntityItem entityItem){
 		return false;
@@ -45,14 +45,14 @@ public class PCs_EntityItemInBigChest extends EntityItem {
 
 	@Override
 	public void onCollideWithPlayer(EntityPlayer par1EntityPlayer){}
-	
+
 	//@Override
 	//public boolean interact(EntityPlayer entityPlayer) {
 	///	PC_PacketHandler.setTileEntity(getChest(), new PC_Entry("interact", slot));
 	//	getInv().interact(entityPlayer, slot);
 	//	return true;
 	//}
-	
+
 	@Override
 	public boolean canBeCollidedWith() {
 		return true;
@@ -78,9 +78,9 @@ public class PCs_EntityItemInBigChest extends EntityItem {
 			return null;
 		return chest.getInventory();
 	}
-	
+
 	private PCs_TileEntityBigChest getChest(){
 		return PC_Utils.getTE(worldObj, mid.offset(-2));
 	}
-	
+
 }

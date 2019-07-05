@@ -7,16 +7,16 @@ public class PC_Hooks extends HookLoader {
 
 	@Override
 	public String[] getASMTransformerClass() {
-	    return new String[]{PrimaryClassTransformer.class.getName()};
+		return new String[]{PrimaryClassTransformer.class.getName()};
 	}
 
-	    @Override
-	    public void registerHooks() {
-	        registerHookContainer("powercraft.storage.PCs_TileEntityChest");
-	    }
+	@Override
+	public void registerHooks() {
+		registerHookContainer("powercraft.storage.PCs_TileEntityChest");
 	}
+}
 
-	/*public static void registerHooks() {
+/*public static void registerHooks() {
 		fixEnderman();
 	}
 

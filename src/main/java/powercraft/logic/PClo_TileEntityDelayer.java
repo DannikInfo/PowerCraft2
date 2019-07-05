@@ -17,65 +17,65 @@ public class PClo_TileEntityDelayer extends PC_TileEntity implements PC_IPacketH
 	@PC_ClientServerSync
 	private boolean stateBuffer[] = new boolean[20];
 	private int remainingTicks = 0;
-    private int ticks = 20;
-    
-    public void create(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ){
-    	type = stack.getItemDamage();
-    }
+	private int ticks = 20;
 
-    public int getType(){
-    	return type;
-    }
+	public void create(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ){
+		type = stack.getItemDamage();
+	}
 
-    public boolean[] getStateBuffer(){
-    	return stateBuffer;
-    }
+	public int getType(){
+		return type;
+	}
 
-    public int getDelay(){
-        return getStateBuffer().length;
-    }
+	public boolean[] getStateBuffer(){
+		return stateBuffer;
+	}
 
-    public void setDelay(int delay){
-    	stateBuffer = new boolean[delay];
-    	ticks = delay;
-    	notifyChanges("stateBuffer");
-    }
+	public int getDelay(){
+		return getStateBuffer().length;
+	}
 
-    public void resetRemainingTicks(){
-    	remainingTicks = ticks;
-    }
-    
-    public boolean decRemainingTicks(){
-    	if(remainingTicks>0){
-	    	remainingTicks--;
-	    	if(remainingTicks==0){
-	    		remainingTicks = 0;
-	    	}else{
-	    		return false;
-	    	}
-    	}
-    	return true;
-    }
-    
-    @Override
-    public void updateEntity(){
-        boolean stop = false;
-        boolean reset = false;
+	public void setDelay(int delay){
+		stateBuffer = new boolean[delay];
+		ticks = delay;
+		notifyChanges("stateBuffer");
+	}
 
-        Block b = PC_Utils.getBlock(worldObj, getCoord());
-        
-        if (b instanceof PC_Block && getType() == PClo_DelayerType.FIFO){
-            stop = ((PC_Block)b).getRedstonePowerValueFromInput(worldObj, xCoord, yCoord, zCoord, PC_Direction.RIGHT)>0;
-            reset = ((PC_Block)b).getRedstonePowerValueFromInput(worldObj, xCoord, yCoord, zCoord, PC_Direction.LEFT)>0;
-        }
-        
-        if (!stop || reset){
-            worldObj.scheduleBlockUpdate(xCoord, yCoord, zCoord, PC_Utils.getBID(worldObj, xCoord, yCoord, zCoord), PClo_App.delayer.tickRate(worldObj));
-            PC_Utils.getBID(worldObj, getCoord()).onNeighborBlockChange(worldObj, xCoord, yCoord, zCoord, blockType);
-        }
-    }
-    
-    @Override
+	public void resetRemainingTicks(){
+		remainingTicks = ticks;
+	}
+
+	public boolean decRemainingTicks(){
+		if(remainingTicks>0){
+			remainingTicks--;
+			if(remainingTicks==0){
+				remainingTicks = 0;
+			}else{
+				return false;
+			}
+		}
+		return true;
+	}
+
+	@Override
+	public void updateEntity(){
+		boolean stop = false;
+		boolean reset = false;
+
+		Block b = PC_Utils.getBlock(worldObj, getCoord());
+
+		if (b instanceof PC_Block && getType() == PClo_DelayerType.FIFO){
+			stop = ((PC_Block)b).getRedstonePowerValueFromInput(worldObj, xCoord, yCoord, zCoord, PC_Direction.RIGHT)>0;
+			reset = ((PC_Block)b).getRedstonePowerValueFromInput(worldObj, xCoord, yCoord, zCoord, PC_Direction.LEFT)>0;
+		}
+
+		if (!stop || reset){
+			worldObj.scheduleBlockUpdate(xCoord, yCoord, zCoord, PC_Utils.getBID(worldObj, xCoord, yCoord, zCoord), PClo_App.delayer.tickRate(worldObj));
+			PC_Utils.getBID(worldObj, getCoord()).onNeighborBlockChange(worldObj, xCoord, yCoord, zCoord, blockType);
+		}
+	}
+
+	@Override
 	public int getPickMetadata() {
 		return type;
 	}
@@ -85,5 +85,5 @@ public class PClo_TileEntityDelayer extends PC_TileEntity implements PC_IPacketH
 		setDelay((Integer)o[2]);
 		return false;
 	}
-    
+
 }

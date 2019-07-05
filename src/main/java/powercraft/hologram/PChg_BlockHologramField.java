@@ -22,7 +22,7 @@ import powercraft.api.renderer.PC_Renderer;
 import powercraft.api.utils.PC_Utils;
 import powercraft.api.utils.PC_VecI;
 
-@PC_BlockInfo(name = "Hologram Field", itemBlock = PChg_ItemBlockHologramBlockEmpty.class, tileEntity = PChg_TileEntityHologramField.class)
+@PC_BlockInfo(name = "Hologram Field", tileEntity = PChg_TileEntityHologramField.class)
 public class PChg_BlockHologramField extends PC_Block implements PC_IItemInfo {
 
 	public PChg_BlockHologramField(int id) {
@@ -30,7 +30,7 @@ public class PChg_BlockHologramField extends PC_Block implements PC_IItemInfo {
 		setHardness(0.5F);
 		setResistance(0.5F);
 		setStepSound(Block.soundTypeGlass);
-		//setCreativeTab(CreativeTabs.tabDecorations);
+		setCreativeTab(CreativeTabs.tabDecorations);
 	}
 
 	@Override

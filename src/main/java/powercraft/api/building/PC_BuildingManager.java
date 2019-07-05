@@ -50,8 +50,9 @@ public class PC_BuildingManager {
 			return null;
 		}
 		List<ItemStack> drops = block.getDrops(world, x, y, z, PC_Utils.getMD(world, x, y, z), fortune);
-		if (!world.isRemote)
+		if (!world.isRemote) {
 			PC_Utils.setBlock(world, x, y, z, Blocks.air, 0);
+		}
 		return drops;
 	}
 

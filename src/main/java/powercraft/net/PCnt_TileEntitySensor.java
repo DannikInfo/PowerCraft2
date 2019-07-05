@@ -22,7 +22,7 @@ import powercraft.api.utils.PC_Direction;
 import powercraft.api.utils.PC_Utils;
 
 public class PCnt_TileEntitySensor extends PC_TileEntity implements PC_ITileEntityRenderer, PC_IPacketHandler {
-	
+
 	/** Flag that the sensor is active - giving power */
 	@PC_ClientServerSync(clientChangeAble=false)
 	private boolean active = false;
@@ -31,9 +31,9 @@ public class PCnt_TileEntitySensor extends PC_TileEntity implements PC_ITileEnti
 	private int range = 3;
 	@PC_ClientServerSync(clientChangeAble=false)
 	private int type;
-	
+
 	private static PCnt_ModelSensor model = new PCnt_ModelSensor();
-	
+
 	@Override
 	public void create(ItemStack stack, EntityPlayer player, World world,
 			int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
@@ -46,7 +46,7 @@ public class PCnt_TileEntitySensor extends PC_TileEntity implements PC_ITileEnti
 			notifyChanges("range");
 		}
 	}
-	
+
 	/**
 	 * show range using
 	 */
@@ -75,22 +75,22 @@ public class PCnt_TileEntitySensor extends PC_TileEntity implements PC_ITileEnti
 	public boolean canUpdate() {
 		return true;
 	}
-	
+
 	@Override
 	public void updateEntity() {
 		int count = 0;
 		AxisAlignedBB bb=AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 1, zCoord + 1).expand(getRange(), getRange(), getRange());
 		if (getGroup() == 0) {
-			
+
 			count += worldObj.getEntitiesWithinAABB(
 					EntityItem.class, bb).size();
-			
+
 			count += worldObj.getEntitiesWithinAABB(
 					EntityXPOrb.class, bb).size();
-			
+
 			count += worldObj.getEntitiesWithinAABB(
 					EntityArrow.class, bb).size();
-			
+
 		} else if (getGroup() == 1) {
 			count += worldObj.getEntitiesWithinAABB(
 					EntityAnimal.class, bb).size();
@@ -133,7 +133,7 @@ public class PCnt_TileEntitySensor extends PC_TileEntity implements PC_ITileEnti
 	public int getProvidingStrongRedstonePowerValue(PC_Direction dir) {
 		return isActive()?15:0;
 	}
-	
+
 	/**
 	 * Get detected entity group (item, mob, player)
 	 * 
@@ -155,12 +155,12 @@ public class PCnt_TileEntitySensor extends PC_TileEntity implements PC_ITileEnti
 	public boolean isActive() {
 		return active;
 	}
-	
+
 	@Override
 	public int getPickMetadata() {
 		return type;
 	}
-	
+
 	@Override
 	public void writeToNBT(NBTTagCompound tag) {
 		super.writeToNBT(tag);
@@ -172,7 +172,7 @@ public class PCnt_TileEntitySensor extends PC_TileEntity implements PC_ITileEnti
 		super.readFromNBT(tag);
 		range = tag.getInteger("range");
 	}
-	
+
 	@Override
 	public void renderTileEntityAt(double x, double y, double z, float rot) {
 

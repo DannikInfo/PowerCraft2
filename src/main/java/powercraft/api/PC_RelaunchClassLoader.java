@@ -13,9 +13,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
 
-import cpw.mods.fml.relauncher.FMLRelaunchLog;
+import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.launchwrapper.IClassTransformer;
 
 public class PC_RelaunchClassLoader extends URLClassLoader {
@@ -39,7 +38,7 @@ public class PC_RelaunchClassLoader extends URLClassLoader {
 		this.parent = getClass().getClassLoader();
 		this.cachedClasses = new HashMap<String, Class>(1000);
 		this.transformers = new ArrayList<IClassTransformer>(2);
-//        ReflectionHelper.setPrivateValue(ClassLoader.class, null, this, "scl");
+		//ReflectionHelper.setPrivateValue(ClassLoader.class, null, this, "scl");
 		Thread.currentThread().setContextClassLoader(this);
 
 		// standard classloader exclusions

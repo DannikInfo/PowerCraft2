@@ -14,9 +14,9 @@ import powercraft.api.gres.PC_IGresGui;
 import powercraft.api.tileentity.PC_TileEntity;
 
 public class PClo_GuiSpecial extends PClo_ContainerSpecial implements PC_IGresClient {
-	
+
 	private String addString;
-	
+
 	public PClo_GuiSpecial(EntityPlayer player, PC_TileEntity te, Object[] o) {
 		super(player, te, o);
 		addString = PClo_SpecialType.names[tileEntity.getType()];
@@ -25,18 +25,18 @@ public class PClo_GuiSpecial extends PClo_ContainerSpecial implements PC_IGresCl
 	@Override
 	public void initGui(PC_IGresGui gui) {
 		PC_GresWindow w = new PC_GresWindow("pc.gui.special."+addString+".name");
-		
+
 		PC_GresWidget lh = new PC_GresLayoutH();
-		
+
 		lh.add(new PC_GresLabel("pc.gui.special."+addString+".inv"));
 		PC_GresInventory inv = new PC_GresInventory(1, 1);
 		inv.setSlot(0, 0, invSlots[0]);
 		lh.add(inv);
-		
+
 		w.add(lh);
-		
+
 		w.add(new PC_GresInventoryPlayer(true));
-		
+
 		gui.add(w);
 	}
 

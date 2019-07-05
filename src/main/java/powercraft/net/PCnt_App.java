@@ -22,7 +22,7 @@ import powercraft.launcher.loader.PC_Module.PC_InitRecipes;
 import powercraft.launcher.loader.PC_Module.PC_Instance;
 import powercraft.launcher.loader.PC_ModuleObject;
 
-@PC_Module(name="Net", version="0.0.1a")
+@PC_Module(name="Net", version="0.0.1")
 public class PCnt_App {
 
 	@PC_FieldObject(clazz=PCnt_BlockSensor.class)
@@ -39,35 +39,35 @@ public class PCnt_App {
 	@PC_InitRecipes
 	public List<PC_IRecipe> initRecipes(List<PC_IRecipe> recipes) {
 		GameRegistry.addRecipe(new ItemStack(sensor, 1, 1), new Object[] {
-					"R", 
-					"I", 
-					"S",
-						'I', Items.iron_ingot, 'R', Items.redstone, 'S', Blocks.stone });
+				"R", 
+				"I", 
+				"S",
+				'I', Items.iron_ingot, 'R', Items.redstone, 'S', Blocks.stone });
 		GameRegistry.addRecipe(new ItemStack(sensor, 1, 0), new Object[] {
-					"R", 
-					"I", 
-					"W",
-						'I', Items.iron_ingot, 'R', Items.redstone, 'W', Blocks.planks });
+				"R", 
+				"I", 
+				"W",
+				'I', Items.iron_ingot, 'R', Items.redstone, 'W', Blocks.planks });
 
 		GameRegistry.addRecipe(new ItemStack(sensor, 1, 2), new Object[] {
-					"R", 
-					"I", 
-					"O",
-						'I', Items.iron_ingot, 'R', Items.redstone, 'O', Blocks.obsidian });
+				"R", 
+				"I", 
+				"O",
+				'I', Items.iron_ingot, 'R', Items.redstone, 'O', Blocks.obsidian });
 		GameRegistry.addRecipe(new ItemStack(radio,1,0), new Object[] {
-					" I ", 
-					"RIR", 
-					"SSS",
-						'I', Items.gold_ingot, 'R', Items.redstone, 'S', Blocks.stone });
+				" I ", 
+				"RIR", 
+				"SSS",
+				'I', Items.gold_ingot, 'R', Items.redstone, 'S', Blocks.stone });
 		GameRegistry.addRecipe(new ItemStack(radio,1,1), new Object[] {
-					" I ", 
-					"RIR", 
-					"SSS",
-						'I', Items.iron_ingot, 'R', Items.redstone, 'S', Blocks.stone });
+				" I ", 
+				"RIR", 
+				"SSS",
+				'I', Items.iron_ingot, 'R', Items.redstone, 'S', Blocks.stone });
 		GameRegistry.addRecipe(new ItemStack(portableTx), new Object[] {
-					"T", 
-					"B",
-						'B', Blocks.stone_button, 'T', radio });
+				"T", 
+				"B",
+				'B', Blocks.stone_button, 'T', radio });
 		return recipes;
 	}
 
@@ -77,5 +77,5 @@ public class PCnt_App {
 		dataHandlers.add(new PC_Struct2<String, PC_IDataHandler>("Radio", radioManager));
 		return dataHandlers;
 	}
-	
+
 }

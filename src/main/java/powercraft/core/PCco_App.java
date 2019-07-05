@@ -54,13 +54,13 @@ public class PCco_App {
 						Items.redstone });
 		for(int i = 0; i < 8; i++) {
 			GameRegistry.addShapelessRecipe(new ItemStack(powerDust, 4), new Object[] { new ItemStack(powerCrystal, 1, i) });
-		
+
 			GameRegistry.addRecipe(new ItemStack(activator, 1),
 					new Object[] { "#X#", "RYR", " # ", 'X', new ItemStack(powerCrystal, 1, i),
 							'#', Items.iron_ingot, 'Y', Items.diamond, 'R', Items.redstone });
-			
+
 			GameRegistry.addRecipe(new ItemStack(oreSniffer, 1),
-				new Object[] { " GD", "GCG", "DG ", 'G', Items.gold_ingot, 'D', Items.diamond, 'C', new ItemStack(powerCrystal, 1, i)});
+					new Object[] { " GD", "GCG", "DG ", 'G', Items.gold_ingot, 'D', Items.diamond, 'C', new ItemStack(powerCrystal, 1, i)});
 		}
 		// reverse recipes
 		GameRegistry.addShapelessRecipe(new ItemStack(Blocks.sand, 4), new Object[] { Blocks.sandstone });

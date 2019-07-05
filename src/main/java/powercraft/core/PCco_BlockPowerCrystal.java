@@ -101,7 +101,7 @@ public class PCco_BlockPowerCrystal extends PC_Block {
 			EntityPlayer player = world.getClosestPlayer(i + 0.5D, j + 0.5D, k + 0.5D, 12);
 
 			if (player != null) {
-				if (block == Blocks.stone)// || id_under == 7 || id_under == blockID
+				if (block == Blocks.stone)// || id_under == 7 || id_under == blockID ??????
 				{
 					int distance = (int) Math.round(player.getDistanceSq(i + 0.5D, j + 0.5D, k + 0.5D) / 10);
 

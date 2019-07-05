@@ -7,7 +7,7 @@ import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
-import powercraft.api.PC_OreDictionary;
+import powercraft.api.PC_WorldGenerator;
 import powercraft.api.annotation.PC_BlockInfo;
 import powercraft.api.annotation.PC_OreInfo;
 import powercraft.api.annotation.PC_Shining;
@@ -73,7 +73,7 @@ public final class PC_BlockRegistry {
 				block.initConfig(config);
 
 				if (block.getClass().isAnnotationPresent(PC_OreInfo.class)) {
-					PC_OreDictionary.register(block.getClass().getAnnotation(PC_OreInfo.class), block);
+					PC_WorldGenerator.register(block.getClass().getAnnotation(PC_OreInfo.class), block);
 				}
 
 				if (itemBlockClass == null) {

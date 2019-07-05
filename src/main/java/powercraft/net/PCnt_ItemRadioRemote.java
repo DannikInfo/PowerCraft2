@@ -16,7 +16,7 @@ import powercraft.api.registry.PC_MSGRegistry;
 import powercraft.api.utils.PC_Utils;
 
 public class PCnt_ItemRadioRemote extends PC_Item {
-	
+
 	/**
 	 * @param i ID
 	 */
@@ -45,7 +45,7 @@ public class PCnt_ItemRadioRemote extends PC_Item {
 		}
 		world.playSoundAtEntity(entityplayer, "random.click", (world.rand.nextFloat() + 0.7F) / 2.0F,
 				1.0F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.4F);
-		
+
 		entityplayer.setItemInUse(itemstack, getMaxItemUseDuration(itemstack));
 		return itemstack;
 	}
@@ -84,7 +84,7 @@ public class PCnt_ItemRadioRemote extends PC_Item {
 	 * @param output 
 	 */
 	public static void setChannel(ItemStack itemstack, String channel, boolean output) {
-			
+
 		NBTTagCompound tag = itemstack.getTagCompound();
 		if(tag==null){
 			tag = new NBTTagCompound();
@@ -108,7 +108,7 @@ public class PCnt_ItemRadioRemote extends PC_Item {
 	@Override
 	public List<LangEntry> getNames(ArrayList<LangEntry> names) {
 		names.add(new LangEntry(getUnlocalizedName(), "Radio Remote"));
-        return names;
+		return names;
 	}
-	
+
 }

@@ -8,55 +8,55 @@ import powercraft.api.tileentity.PC_TileEntity;
 import powercraft.api.utils.PC_Utils;
 
 public class PClo_TileEntityRepeater extends PC_TileEntity{
-	
+
 	@PC_ClientServerSync(clientChangeAble=false)
 	private int type = 0;
 	@PC_ClientServerSync(clientChangeAble=false)
-    private int state = 0;
+	private int state = 0;
 	@PC_ClientServerSync
-    private int inp = 0;
-	
-    public void create(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ){
-    	type = stack.getItemDamage();
-    }
+	private int inp = 0;
 
-    public int getType(){
-        return type;
-    }
+	public void create(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ){
+		type = stack.getItemDamage();
+	}
 
-    public int getState(){
-    	 return state;
-    }
+	public int getType(){
+		return type;
+	}
 
-    public void setState(int b){
-    	if(state!=b){
-    		state = b;
-    		notifyChanges("state");
-	        PC_Utils.hugeUpdate(worldObj, xCoord, yCoord, zCoord);
-	        worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-    	}
-    }
+	public int getState(){
+		return state;
+	}
 
-    public int getInp(){
-    	return inp;
-    }
-    
-    @Override
+	public void setState(int b){
+		if(state!=b){
+			state = b;
+			notifyChanges("state");
+			PC_Utils.hugeUpdate(worldObj, xCoord, yCoord, zCoord);
+			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+		}
+	}
+
+	public int getInp(){
+		return inp;
+	}
+
+	@Override
 	protected void dataRecieved() {
-    	worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 	}
 
 	public void change(){
-    	inp = PClo_RepeaterType.change(type, inp);
-    	notifyChanges("inp");
-        worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-        PC_Utils.notifyBlockOfNeighborChange(worldObj, xCoord, yCoord, zCoord, worldObj.getBlock(xCoord, yCoord, zCoord));
-        PC_Utils.hugeUpdate(worldObj, xCoord, yCoord, zCoord);
-    }
-	
+		inp = PClo_RepeaterType.change(type, inp);
+		notifyChanges("inp");
+		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+		PC_Utils.notifyBlockOfNeighborChange(worldObj, xCoord, yCoord, zCoord, worldObj.getBlock(xCoord, yCoord, zCoord));
+		PC_Utils.hugeUpdate(worldObj, xCoord, yCoord, zCoord);
+	}
+
 	@Override
 	public int getPickMetadata() {
 		return type;
 	}
-	
+
 }

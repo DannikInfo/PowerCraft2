@@ -52,7 +52,6 @@ item.PCco_ItemActivator.name=Активационный кристалл
 item.PCco_ItemCraftingTool.name=Портативный верстак
 item.PCco_ItemOreSniffer.name=Рудный радар
 tile.PCco_BlockBlockSaver.name=Блок хранения
-pc.notstable.desc=Не стабильно!!
 
 //teleporter module
 tile.PCtp_BlockTeleporter.name=Телепортер
@@ -98,8 +97,8 @@ tile.PCde_BlockStairs.name=Лестница
 
 //hologram module
 tile.PChg_BlockHologramBlockEmpty.name=Блок голограмма
-tile.PChg_BlockHologramField.name=Hologram field
-item.PChg_ItemArmorHologramGlasses.name=Hologram glasses
+tile.PChg_BlockHologramField.name=Голограммное поле
+item.PChg_ItemArmorHologramGlasses.name=Голограммные очки
 
 //light module
 tile.PCli_BlockLight.name=Лампа

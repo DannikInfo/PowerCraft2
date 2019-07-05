@@ -131,7 +131,7 @@ public class PCnt_BlockSensor extends PC_Block {
 	}
 
 	PCnt_ModelSensor model = new PCnt_ModelSensor();
-	
+
 	@Override
 	public boolean renderInventoryBlock(int metadata, Object renderer){
 
@@ -152,7 +152,7 @@ public class PCnt_BlockSensor extends PC_Block {
 		PC_Renderer.glPopMatrix();
 		return true;
 	}
-	
+
 	@Override
 	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Object renderer) {
 		return true;

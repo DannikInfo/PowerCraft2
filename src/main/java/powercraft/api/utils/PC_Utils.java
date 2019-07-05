@@ -708,7 +708,6 @@ public class PC_Utils {
 		te.writeToNBT(blocktag);
 		Block dmgB = PC_Utils.getBID(world, pos);
 		Item dmg = Item.getItemFromBlock(dmgB);
-		// stack.setItemDamage(dmg);
 		blocktag.setInteger("BlockMeta", PC_Utils.getMD(world, pos));
 		stack.setTagCompound(blocktag);
 

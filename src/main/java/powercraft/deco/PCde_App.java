@@ -16,7 +16,7 @@ import powercraft.launcher.loader.PC_Module.PC_InitRecipes;
 import powercraft.launcher.loader.PC_Module.PC_Instance;
 import powercraft.launcher.loader.PC_ModuleObject;
 
-@PC_Module(name = "Deco", version = "0.0.1")
+@PC_Module(name = "Deco", version = "0.0.2")
 public class PCde_App {
 
 	@PC_FieldObject(clazz = PCde_BlockRedstoneStorage.class)
@@ -34,9 +34,9 @@ public class PCde_App {
 
 	@PC_InitRecipes
 	public List<PC_IRecipe> initRecipes(List<PC_IRecipe> recipes) {
-		
+
 		GameRegistry.addRecipe(new ItemStack(ironFrame, 32, 0), new Object[]{ "XXX",
-		  "X X", "XXX", 'X', Items.iron_ingot});
+				"X X", "XXX", 'X', Items.iron_ingot});
 		GameRegistry.addRecipe(new ItemStack(platform, 15),
 				new Object[] { "X  ", "X  ", "XXX", 'X', Items.iron_ingot });
 		GameRegistry.addRecipe(new ItemStack(stairs, 15), new Object[] { "X  ", "XX  ", " XX", 'X', Items.iron_ingot });

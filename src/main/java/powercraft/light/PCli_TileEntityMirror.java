@@ -11,7 +11,7 @@ public class PCli_TileEntityMirror extends PC_TileEntity implements PC_ITileEnti
 
 	private static PCli_ModelMirror modelMirror = new PCli_ModelMirror();
 
-	//@PC_ClientServerSync
+	//@PC_ClientServerSync???
 	private int mirrorColor = -1;
 
 	public void setMirrorColor(int mirrorColor) {

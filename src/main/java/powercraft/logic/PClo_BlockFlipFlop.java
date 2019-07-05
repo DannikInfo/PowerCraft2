@@ -28,240 +28,240 @@ import powercraft.launcher.PC_Property;
 @PC_Shining
 @PC_BlockInfo(name="FlipFlop", itemBlock=PClo_ItemBlockFlipFlop.class, tileEntity=PClo_TileEntityFlipFlop.class, canPlacedRotated=true)
 public class PClo_BlockFlipFlop extends PC_Block{
-    private static Random rand = new Random();
+	private static Random rand = new Random();
 
-    @ON
-    public static PClo_BlockFlipFlop on;
-    @OFF
-    public static PClo_BlockFlipFlop off;
+	@ON
+	public static PClo_BlockFlipFlop on;
+	@OFF
+	public static PClo_BlockFlipFlop off;
 
-    public PClo_BlockFlipFlop(boolean on){
-        super(Material.ground, PClo_FlipFlopType.getTextures());
-        setHardness(0.35F);
-        setStepSound(Block.soundTypeWood);
-        disableStats();
-        setResistance(30.0F);
-        setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.1875F, 1.0F);
+	public PClo_BlockFlipFlop(boolean on){
+		super(Material.ground, PClo_FlipFlopType.getTextures());
+		setHardness(0.35F);
+		setStepSound(Block.soundTypeWood);
+		disableStats();
+		setResistance(30.0F);
+		setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.1875F, 1.0F);
 
-        if (on)
-            setCreativeTab(CreativeTabs.tabRedstone);
-    }
+		if (on)
+			setCreativeTab(CreativeTabs.tabRedstone);
+	}
 
-    @Override
+	@Override
 	public void initConfig(PC_Property config) {
 		super.initConfig(config);
 		on.setLightLevel(config.getInt("brightness", 7) * 0.0625F);
 	}
 
-    @Override
-    public int tickRate(World world){
-        return 1;
-    }
+	@Override
+	public int tickRate(World world){
+		return 1;
+	}
 
-    @Override
-    public void onNeighborBlockChange(World world, int x, int y, int z, Block block){
-    	PClo_TileEntityFlipFlop te = getTE(world, x, y, z);
-        boolean state = isActive(world, x, y, z);
-        boolean i1 = getRedstonePowerValueFromInput(world, x, y, z, PC_Direction.RIGHT)>0;
-        boolean i2 = getRedstonePowerValueFromInput(world, x, y, z, PC_Direction.BACK)>0;
-        boolean i3 = getRedstonePowerValueFromInput(world, x, y, z, PC_Direction.LEFT)>0;
-        boolean shouldState = state;
+	@Override
+	public void onNeighborBlockChange(World world, int x, int y, int z, Block block){
+		PClo_TileEntityFlipFlop te = getTE(world, x, y, z);
+		boolean state = isActive(world, x, y, z);
+		boolean i1 = getRedstonePowerValueFromInput(world, x, y, z, PC_Direction.RIGHT)>0;
+		boolean i2 = getRedstonePowerValueFromInput(world, x, y, z, PC_Direction.BACK)>0;
+		boolean i3 = getRedstonePowerValueFromInput(world, x, y, z, PC_Direction.LEFT)>0;
+		boolean shouldState = state;
 
-        switch (te.getType()){
-            case PClo_FlipFlopType.D:
-            	
-            	if (i3){
-            		shouldState = false;
-            	}
-            	
-                if (i1){
-                    shouldState = i2;
-                }
-                	
+		switch (te.getType()){
+		case PClo_FlipFlopType.D:
 
-                break;
+			if (i3){
+				shouldState = false;
+			}
 
-            case PClo_FlipFlopType.RS:
+			if (i1){
+				shouldState = i2;
+			}
 
-                if (i1){
-                    shouldState = false;
-                }
 
-                if (i3){
-                    shouldState = true;
-                }
+			break;
 
-                break;
+		case PClo_FlipFlopType.RS:
 
-            case PClo_FlipFlopType.T:
+			if (i1){
+				shouldState = false;
+			}
 
-                if (i2){
-                    if (!te.getClock()){
-                        te.setClock(true);
-                        shouldState = !state;
-                    }
-                }else{
-                    if (te.getClock()){
-                        te.setClock(false);
-                    }
-                }
+			if (i3){
+				shouldState = true;
+			}
 
-                if (i1 || i3){
-                    shouldState = false;
-                }
+			break;
 
-                break;
+		case PClo_FlipFlopType.T:
 
-            case PClo_FlipFlopType.RANDOM:
+			if (i2){
+				if (!te.getClock()){
+					te.setClock(true);
+					shouldState = !state;
+				}
+			}else{
+				if (te.getClock()){
+					te.setClock(false);
+				}
+			}
 
-                if (i2){
-                    if (!te.getClock()){
-                        te.setClock(true);
-                        shouldState = rand.nextBoolean();
-                    }
-                }else{
-                    if (te.getClock()){
-                        te.setClock(false);
-                    }
-                }
-        }
+			if (i1 || i3){
+				shouldState = false;
+			}
 
-        if (state != shouldState){
-            PC_Utils.setBlockState(world, x, y, z, shouldState);
-        }
-    }
-    
-    @Override
+			break;
+
+		case PClo_FlipFlopType.RANDOM:
+
+			if (i2){
+				if (!te.getClock()){
+					te.setClock(true);
+					shouldState = rand.nextBoolean();
+				}
+			}else{
+				if (te.getClock()){
+					te.setClock(false);
+				}
+			}
+		}
+
+		if (state != shouldState){
+			PC_Utils.setBlockState(world, x, y, z, shouldState);
+		}
+	}
+
+	@Override
 	public int getProvidingWeakRedstonePowerValue(IBlockAccess world, int x, int y, int z, PC_Direction dir) {
 		return getProvidingStrongRedstonePowerValue(world, x, y, z, dir);
 	}
-    
-    @Override
-    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entityliving, ItemStack itmeStack){
-        world.scheduleBlockUpdate(x, y, z, this, tickRate(world));
-        PC_Utils.hugeUpdate(world, x, y, z);
-        onNeighborBlockChange(world, x, y, z, this);
-    }
-    
-    @Override
-	public int getProvidingStrongRedstonePowerValue(IBlockAccess world, int x, int y, int z, PC_Direction dir) {
-    	if (!isActive(world, x, y, z)){
-            return 0;
-        }
 
-        if (PC_Direction.FRONT == dir){
-            return 15;
-        }
-
-        if (getType(world, x, y, z) == PClo_FlipFlopType.RS){
-            if (PC_Direction.BACK == dir){
-                return 15;
-            }
-        }
-
-        return 0;
+	@Override
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entityliving, ItemStack itmeStack){
+		world.scheduleBlockUpdate(x, y, z, this, tickRate(world));
+		PC_Utils.hugeUpdate(world, x, y, z);
+		onNeighborBlockChange(world, x, y, z, this);
 	}
 
-    @Override
-    public boolean canProvidePower(){
-        return true;
-    }
+	@Override
+	public int getProvidingStrongRedstonePowerValue(IBlockAccess world, int x, int y, int z, PC_Direction dir) {
+		if (!isActive(world, x, y, z)){
+			return 0;
+		}
 
-    @Override
-    public boolean renderAsNormalBlock(){
-        return false;
-    }
+		if (PC_Direction.FRONT == dir){
+			return 15;
+		}
 
-    @Override
-    public int getRenderType(){
-        return PC_Renderer.getRendererID(true);
-    }
+		if (getType(world, x, y, z) == PClo_FlipFlopType.RS){
+			if (PC_Direction.BACK == dir){
+				return 15;
+			}
+		}
 
-    public static PClo_TileEntityFlipFlop getTE(IBlockAccess world, int x, int y, int z){
-        TileEntity te = PC_Utils.getTE(world, x, y, z);;
+		return 0;
+	}
 
-        if (te instanceof PClo_TileEntityFlipFlop){
-            return (PClo_TileEntityFlipFlop)te;
-        }
+	@Override
+	public boolean canProvidePower(){
+		return true;
+	}
 
-        return null;
-    }
+	@Override
+	public boolean renderAsNormalBlock(){
+		return false;
+	}
 
-    public static int getType(IBlockAccess world, int x, int y, int z){
-        PClo_TileEntityFlipFlop te = getTE(world, x, y, z);
+	@Override
+	public int getRenderType(){
+		return PC_Renderer.getRendererID(true);
+	}
 
-        if (te != null){
-            return te.getType();
-        }
+	public static PClo_TileEntityFlipFlop getTE(IBlockAccess world, int x, int y, int z){
+		TileEntity te = PC_Utils.getTE(world, x, y, z);;
 
-        return 0;
-    }
+		if (te instanceof PClo_TileEntityFlipFlop){
+			return (PClo_TileEntityFlipFlop)te;
+		}
 
-    public static boolean isActive(IBlockAccess world, int x, int y, int z){
-        return PC_Utils.getBID(world, x, y, z) == on;
-    }
+		return null;
+	}
 
-    @Override
-    public IIcon getIcon(IBlockAccess iblockaccess, int x, int y, int z, int side){
-        if (side == 1){
-            return sideIcons[getType(iblockaccess, x, y, z)+2+(isActive(iblockaccess, x, y, z) ? 0 : PClo_FlipFlopType.TOTAL_FLIPFLOP_COUNT)];
-        }
+	public static int getType(IBlockAccess world, int x, int y, int z){
+		PClo_TileEntityFlipFlop te = getTE(world, x, y, z);
 
-        if (side == 0){
-            return sideIcons[0];
-        }
+		if (te != null){
+			return te.getType();
+		}
 
-        return sideIcons[1];
-    }
+		return 0;
+	}
 
-    @Override
-    public IIcon getIcon(PC_Direction side, int meta){
-        if (side == PC_Direction.BOTTOM){
-            return sideIcons[0];
-        }
+	public static boolean isActive(IBlockAccess world, int x, int y, int z){
+		return PC_Utils.getBID(world, x, y, z) == on;
+	}
 
-        if (side == PC_Direction.TOP){
-            return sideIcons[meta+2];
-        }else{
-            return sideIcons[1];
-        }
-    }
+	@Override
+	public IIcon getIcon(IBlockAccess iblockaccess, int x, int y, int z, int side){
+		if (side == 1){
+			return sideIcons[getType(iblockaccess, x, y, z)+2+(isActive(iblockaccess, x, y, z) ? 0 : PClo_FlipFlopType.TOTAL_FLIPFLOP_COUNT)];
+		}
 
-    @Override
-    public boolean isOpaqueCube(){
-        return false;
-    }
+		if (side == 0){
+			return sideIcons[0];
+		}
 
-    @Override
-    public void setBlockBoundsBasedOnState(IBlockAccess iblockaccess, int x, int y, int z){
-        setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.1875F, 1.0F);
-    }
+		return sideIcons[1];
+	}
 
-    @Override
-    public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z){
-        setBlockBoundsBasedOnState(world, x, y, z);
-        return super.getCollisionBoundingBoxFromPool(world, x, y, z);
-    }
+	@Override
+	public IIcon getIcon(PC_Direction side, int meta){
+		if (side == PC_Direction.BOTTOM){
+			return sideIcons[0];
+		}
 
-    @Override
-    public void randomDisplayTick(World world, int x, int y, int z, Random random){
-        if (!isActive(world, x, y, z)){
-            return;
-        }
+		if (side == PC_Direction.TOP){
+			return sideIcons[meta+2];
+		}else{
+			return sideIcons[1];
+		}
+	}
 
-        if (random.nextInt(3) != 0){
-            return;
-        }
+	@Override
+	public boolean isOpaqueCube(){
+		return false;
+	}
 
-        double d = (x + 0.5F) + (random.nextFloat() - 0.5F) * 0.20000000000000001D;
-        double d1 = (y + 0.2F) + (random.nextFloat() - 0.5F) * 0.20000000000000001D;
-        double d2 = (z + 0.5F) + (random.nextFloat() - 0.5F) * 0.20000000000000001D;
-        world.spawnParticle("reddust", d, d1, d2, 0.0D, 0.0D, 0.0D);
-    }
+	@Override
+	public void setBlockBoundsBasedOnState(IBlockAccess iblockaccess, int x, int y, int z){
+		setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.1875F, 1.0F);
+	}
 
-    @Override
-    public int quantityDropped(Random random){
-        return 1;
-    }
-   	
+	@Override
+	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z){
+		setBlockBoundsBasedOnState(world, x, y, z);
+		return super.getCollisionBoundingBoxFromPool(world, x, y, z);
+	}
+
+	@Override
+	public void randomDisplayTick(World world, int x, int y, int z, Random random){
+		if (!isActive(world, x, y, z)){
+			return;
+		}
+
+		if (random.nextInt(3) != 0){
+			return;
+		}
+
+		double d = (x + 0.5F) + (random.nextFloat() - 0.5F) * 0.20000000000000001D;
+		double d1 = (y + 0.2F) + (random.nextFloat() - 0.5F) * 0.20000000000000001D;
+		double d2 = (z + 0.5F) + (random.nextFloat() - 0.5F) * 0.20000000000000001D;
+		world.spawnParticle("reddust", d, d1, d2, 0.0D, 0.0D, 0.0D);
+	}
+
+	@Override
+	public int quantityDropped(Random random){
+		return 1;
+	}
+
 }

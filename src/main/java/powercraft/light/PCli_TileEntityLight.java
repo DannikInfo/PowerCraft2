@@ -74,39 +74,39 @@ public class PCli_TileEntityLight extends PC_TileEntity implements PC_ITileEntit
 		float f = 1.0F;
 
 		PC_Renderer.glRotatef(90, 0, 1, 0);
-		
+
 		PC_Renderer.bindTexture(PC_TextureRegistry.getPowerCraftImageDir()
 				+ PC_TextureRegistry.getTextureName(PCli_App.instance, "block_light.png"));
-		
+
 		PC_Renderer.glScalef(f, -f, -f);
-		 
+
 		PC_Color clr = getColor();
 		if (clr != null) 
 			PC_Renderer.glColor4f(clr.x, clr.y, clr.z, 1.0f);
 		else 
 			PC_Renderer.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-		  
+
 		int meta = PC_Utils.getMD(worldObj, getCoord());
 		switch (meta) {
-			case 0:
-				break;
-		 	case 1:
-		 		PC_Renderer.glRotatef(-90, 1, 0, 0); 
-		 		break;
-		 	case 2:
-		 		PC_Renderer.glRotatef(90, 1, 0, 0);
-		 		break;
-		 	case 3:
-		 		PC_Renderer.glRotatef(-90, 0, 0, 1);
-		 		break;
-		 	case 4:
-		 		PC_Renderer.glRotatef(90, 0, 0, 1);
-		 		break;
-		 	case 5:
-		 		PC_Renderer.glRotatef(180, 1, 0, 0); 
-		 		break;
+		case 0:
+			break;
+		case 1:
+			PC_Renderer.glRotatef(-90, 1, 0, 0); 
+			break;
+		case 2:
+			PC_Renderer.glRotatef(90, 1, 0, 0);
+			break;
+		case 3:
+			PC_Renderer.glRotatef(-90, 0, 0, 1);
+			break;
+		case 4:
+			PC_Renderer.glRotatef(90, 0, 0, 1);
+			break;
+		case 5:
+			PC_Renderer.glRotatef(180, 1, 0, 0); 
+			break;
 		}
-		 
+
 
 		if (isHuge()) {
 			model.renderHuge();
@@ -114,10 +114,10 @@ public class PCli_TileEntityLight extends PC_TileEntity implements PC_ITileEntit
 			model.renderNormal();
 		}
 
-		
+
 		PC_Renderer.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		PC_Renderer.glPopMatrix();
-		 
+
 	}
 
 	@Override

@@ -26,108 +26,108 @@ import powercraft.launcher.PC_Property;
 @PC_Shining
 @PC_BlockInfo(name="Redstone Pulsar", tileEntity=PClo_TileEntityPulsar.class)
 public class PClo_BlockPulsar extends PC_Block implements PC_IItemInfo{
-    @ON
-    public static PClo_BlockPulsar on;
-    @OFF
-    public static PClo_BlockPulsar off;
+	@ON
+	public static PClo_BlockPulsar on;
+	@OFF
+	public static PClo_BlockPulsar off;
 
-    public PClo_BlockPulsar(boolean on){
-        super(Material.wood, "pulsar");
-        setHardness(0.8F);
-        setResistance(30.0F);
-        setStepSound(Block.soundTypeWood);
+	public PClo_BlockPulsar(boolean on){
+		super(Material.wood, "pulsar");
+		setHardness(0.8F);
+		setResistance(30.0F);
+		setStepSound(Block.soundTypeWood);
 
-        if (on){
-            setCreativeTab(CreativeTabs.tabRedstone);
-        }
-    }
-    
-    @Override
+		if (on){
+			setCreativeTab(CreativeTabs.tabRedstone);
+		}
+	}
+
+	@Override
 	public void initConfig(PC_Property config) {
 		super.initConfig(config);
 		on.setLightLevel(config.getInt("brightness", 7) * 0.0625F);
 	}
-    
-    @Override
+
+	@Override
 	public boolean showInCraftingTool() {
-    	if(this==on)
+		if(this==on)
 			return true;
 		return false;
 	}
 
-    @Override
-    public boolean canProvidePower(){
-        return true;
-    }
-
-    @Override
-    public boolean renderAsNormalBlock(){
-        return false;
-    }
+	@Override
+	public boolean canProvidePower(){
+		return true;
+	}
 
 	@Override
-    public boolean onBlockActivated(World world, int i, int j, int k, EntityPlayer player, int par6, float par7, float par8, float par9){
-        ItemStack ihold = player.getCurrentEquippedItem();
+	public boolean renderAsNormalBlock(){
+		return false;
+	}
 
-        if (ihold != null){
+	@Override
+	public boolean onBlockActivated(World world, int i, int j, int k, EntityPlayer player, int par6, float par7, float par8, float par9){
+		ItemStack ihold = player.getCurrentEquippedItem();
 
-            if (ihold.getItem() == Items.stick){
-                changeDelay(world, player, i, j, k, player.isSneaking() ? -1 : 1);
-                return true;
-            }
-        }
+		if (ihold != null){
 
-        if (world.isRemote){
-            PC_GresRegistry.openGres("Pulsar", player, PC_Utils.<PC_TileEntity>getTE(world, i, j, k));
-        }
+			if (ihold.getItem() == Items.stick){
+				changeDelay(world, player, i, j, k, player.isSneaking() ? -1 : 1);
+				return true;
+			}
+		}
 
-        return true;
-    }
+		if (world.isRemote){
+			PC_GresRegistry.openGres("Pulsar", player, PC_Utils.<PC_TileEntity>getTE(world, i, j, k));
+		}
 
-    @Override
-    public void onBlockClicked(World world, int i, int j, int k, EntityPlayer entityplayer){
-        printDelay(world, i, j, k);
-    }
+		return true;
+	}
 
-    public static void changeDelay(World world, EntityPlayer player, int x, int y, int z, int delay){
-        PClo_TileEntityPulsar ent = (PClo_TileEntityPulsar) world.getTileEntity(x, y, z);
-        ent.setTimes(delay, ent.getHold());
-        ent.printDelay();
-    }
+	@Override
+	public void onBlockClicked(World world, int i, int j, int k, EntityPlayer entityplayer){
+		printDelay(world, i, j, k);
+	}
 
-    public static void printDelay(World world, int x, int y, int z){
-        PClo_TileEntityPulsar ent = (PClo_TileEntityPulsar) world.getTileEntity(x, y, z);
+	public static void changeDelay(World world, EntityPlayer player, int x, int y, int z, int delay){
+		PClo_TileEntityPulsar ent = (PClo_TileEntityPulsar) world.getTileEntity(x, y, z);
+		ent.setTimes(delay, ent.getHold());
+		ent.printDelay();
+	}
 
-        if (!world.isRemote){
-            ent.printDelayTime();
-        }
-    }
+	public static void printDelay(World world, int x, int y, int z){
+		PClo_TileEntityPulsar ent = (PClo_TileEntityPulsar) world.getTileEntity(x, y, z);
 
-    @Override
-    public void randomDisplayTick(World world, int i, int j, int k, Random random){
-        if (isActive(world, i, j, k) && world.isRemote){
-            world.spawnParticle("reddust", i + 0.5D, j + 1.0D, k + 0.5D, 0D, 0D, 0D);
-        }
-    }
+		if (!world.isRemote){
+			ent.printDelayTime();
+		}
+	}
 
-    public boolean isActive(IBlockAccess iblockaccess, int x, int y, int z){
-        return PC_Utils.getBID(iblockaccess, x, y, z) == PClo_BlockPulsar.on;
-    }
+	@Override
+	public void randomDisplayTick(World world, int i, int j, int k, Random random){
+		if (isActive(world, i, j, k) && world.isRemote){
+			world.spawnParticle("reddust", i + 0.5D, j + 1.0D, k + 0.5D, 0D, 0D, 0D);
+		}
+	}
 
-    @Override
-    public int colorMultiplier(IBlockAccess iblockaccess, int i, int j, int k){
-        if (isActive(iblockaccess, i, j, k)){
-            return 0xffffff;
-        }else{
-            return 0x777777;
-        }
-    }
+	public boolean isActive(IBlockAccess iblockaccess, int x, int y, int z){
+		return PC_Utils.getBID(iblockaccess, x, y, z) == PClo_BlockPulsar.on;
+	}
 
-    @Override
-    public List<ItemStack> getItemStacks(List<ItemStack> arrayList){
-        arrayList.add(new ItemStack(this));
-        return arrayList;
-    }
+	@Override
+	public int colorMultiplier(IBlockAccess iblockaccess, int i, int j, int k){
+		if (isActive(iblockaccess, i, j, k)){
+			return 0xffffff;
+		}else{
+			return 0x777777;
+		}
+	}
+
+	@Override
+	public List<ItemStack> getItemStacks(List<ItemStack> arrayList){
+		arrayList.add(new ItemStack(this));
+		return arrayList;
+	}
 
 	@Override
 	public int getProvidingWeakRedstonePowerValue(IBlockAccess world, int x, int y, int z, PC_Direction dir) {
@@ -139,5 +139,5 @@ public class PClo_BlockPulsar extends PC_Block implements PC_IItemInfo{
 		PClo_TileEntityPulsar te = PC_Utils.getTE(world, x, y, z);
 		return te.isActive()?15:0;
 	}
-    
+
 }

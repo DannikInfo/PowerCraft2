@@ -156,16 +156,16 @@ public class PC_ItemBlock extends ItemBlock implements PC_IItemInfo {
 			return false;
 		}
 	}
-	
+
 	@Override
 	public boolean placeBlockAt(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int dir, float hitX, float hitY, float hitZ,
 			int metadata) {
 		Block block = Block.getBlockFromItem(stack.getItem());
-		
+
 		if (!PC_Utils.setBID(world, x, y, z, block, metadata)) {
 			return false;
 		}
-		
+
 		if (PC_Utils.getBID(world, x, y, z) == block) {
 			block.onBlockPlacedBy(world, x, y, z, player, stack);
 			TileEntity te = PC_Utils.getTE(world, x, y, z);
@@ -174,7 +174,7 @@ public class PC_ItemBlock extends ItemBlock implements PC_IItemInfo {
 			}
 			PC_Utils.setMD(world, x, y, z, metadata);
 		}
-		
+
 		return true;
 	}
 

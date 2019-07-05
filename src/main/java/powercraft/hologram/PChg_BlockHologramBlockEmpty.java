@@ -16,6 +16,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import powercraft.api.annotation.PC_BlockInfo;
+import powercraft.api.annotation.PC_ClientServerSync;
 import powercraft.api.block.PC_Block;
 import powercraft.api.registry.PC_LangRegistry;
 import powercraft.api.renderer.PC_Renderer;
@@ -24,6 +25,9 @@ import powercraft.api.utils.PC_Utils;
 
 @PC_BlockInfo(name = "Hologramblock", itemBlock = PChg_ItemBlockHologramBlockEmpty.class)
 public class PChg_BlockHologramBlockEmpty extends PC_Block {
+
+	@PC_ClientServerSync
+	private Block containingBlock;
 
 	public PChg_BlockHologramBlockEmpty(int id) {
 		super(Material.ground, "hologram");
@@ -48,15 +52,16 @@ public class PChg_BlockHologramBlockEmpty extends PC_Block {
 		return false;
 	}
 
-	/*
-	 * @Override public boolean onBlockActivated(World world, int i, int j, int k,
-	 * EntityPlayer entityplayer, int par6, float par7, float par8, float par9) {
-	 * if(world.isRemote) { PChg_TileEntityHologramBlock te = PC_Utils.getTE(world,
-	 * new PC_VecI(i, j, k)); int sw = te.getSwitchBlock(); int swMax =
-	 * te.getSwitchBlockMax(); if(sw < swMax) sw++; else sw = 0;
-	 * te.setSwitchBlock(sw); PC_PacketHandler.sendToServer(new PC_PacketSyncHB(sw,
-	 * swMax, te)); } return true; }
-	 */
+	@Override
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer entityplayer, int par6, float par7,
+			float par8, float par9) {
+		Block newCont = Blocks.air;
+		if(entityplayer.getCurrentEquippedItem() != null)
+			newCont = Block.getBlockFromItem(entityplayer.getCurrentEquippedItem().getItem());
+		containingBlock = newCont;
+		PC_Utils.markBlockForUpdate(world, x, y, z);
+		return true;
+	}
 
 	@Override
 	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Object renderer) {
@@ -65,14 +70,12 @@ public class PChg_BlockHologramBlockEmpty extends PC_Block {
 		for (int xOff = -1; xOff < 2; xOff++) {
 			for (int yOff = -1; yOff < 2; yOff++) {
 				for (int zOff = -1; zOff < 2; zOff++) {
-					if ((zOff | xOff | yOff) == 0)
+					if ((xOff & zOff) != 0 || (xOff & yOff) != 0 || (zOff & yOff) != 0 || (zOff & yOff & xOff) != 0)
 						continue;
 					Block b = PC_Utils.getBID(world, xOff + x, yOff + y, zOff + z);
-					if (b != Blocks.water && b != Blocks.lava && b != Blocks.flowing_lava && b != Blocks.flowing_water)
-						// if(!map.containsValue(b)) {
+					if (b != Blocks.water && b != Blocks.lava && b != Blocks.flowing_lava && b != Blocks.flowing_water && b != PChg_App.hologramBlockEmpty)
 						map.put(i, b);
 					i++;
-					// }
 				}
 			}
 		}
@@ -94,7 +97,7 @@ public class PChg_BlockHologramBlockEmpty extends PC_Block {
 			PC_Renderer.renderStandardBlock(renderer, this, x, y, z);
 		} else {
 			if (!renderingBlock.hasTileEntity()) {
-				PC_Renderer.renderBlockByRenderType(renderer, renderingBlock, x, y, z);
+				PC_Renderer.renderStandardBlock(renderer, renderingBlock, x, y, z);
 			} else {
 				PC_Renderer.renderStandardBlock(renderer, this, x, y, z);
 			}

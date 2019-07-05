@@ -25,35 +25,35 @@ public class PCs_BlockBigChest extends PC_Block implements PC_I3DRecipeHandler {
 	public PCs_BlockBigChest(int id) {
 		super(Material.glass);
 	}
-	
+
 	@Override
 	public boolean showInCraftingTool() {
 		return false;
 	}
-	
+
 	@Override
 	public TileEntity newTileEntity(World world) {
 		return new PCs_TileEntityBigChest();
 	}
-	
+
 	public int quantityDropped(Random par1Random){
-        return 0;
-    }
-	
+		return 0;
+	}
+
 	public boolean isOpaqueCube(){
-        return false;
-    }
-	
+		return false;
+	}
+
 	public boolean renderAsNormalBlock(){
-        return false;
-    }
-	
+		return false;
+	}
+
 	@Override
 	public void breakBlock(World world, int x, int y, int z, Block par5, int par6) {
 		PCs_TileEntityBigChest te = PC_Utils.getTE(world, x, y, z);
 		PC_VecI pos = new PC_VecI(x, y, z);
 		IInventory inv = te.getInventory();
-		
+
 		if(inv!=null && !world.isRemote){
 			if(!world.isRemote){
 				if(inv instanceof PCs_BigChestInventory){
@@ -74,47 +74,47 @@ public class PCs_BlockBigChest extends PC_Block implements PC_I3DRecipeHandler {
 	public boolean foundStructAt(EntityPlayer entityplayer, World world, PC_Struct2<PC_VecI, Integer> structStart) {
 		PC_VecI pos;
 		PCs_TileEntityBigChest te;
-		
+
 		pos = structStart.a;
 		PC_Utils.setBID(world, pos, this, 0);
 		te = PC_Utils.getTE(world, pos);
 		te.setPos(PCs_TileEntityBigChest.BOTTOMBACKLEFT);
-		
+
 		pos = structStart.a.offset(0, 3, 0);
 		PC_Utils.setBID(world, pos, this, 0);
 		te = PC_Utils.getTE(world, pos);
 		te.setPos(PCs_TileEntityBigChest.TOPBACKLEFT);
-		
+
 		pos = structStart.a.offset(3, 0, 0);
 		PC_Utils.setBID(world, pos, this, 0);
 		te = PC_Utils.getTE(world, pos);
 		te.setPos(PCs_TileEntityBigChest.BOTTOMBACKRIGHT);
-		
+
 		pos = structStart.a.offset(3, 3, 0);
 		PC_Utils.setBID(world, pos, this, 0);
 		te = PC_Utils.getTE(world, pos);
 		te.setPos(PCs_TileEntityBigChest.TOPBACKRIGHT);
-		
+
 		pos = structStart.a.offset(0, 0, 3);
 		PC_Utils.setBID(world, pos, this, 0);
 		te = PC_Utils.getTE(world, pos);
 		te.setPos(PCs_TileEntityBigChest.BOTTOMFRONTLEFT);
-		
+
 		pos = structStart.a.offset(0, 3, 3);
 		PC_Utils.setBID(world, pos, this, 0);
 		te = PC_Utils.getTE(world, pos);
 		te.setPos(PCs_TileEntityBigChest.TOPFRONTLEFT);
-		
+
 		pos = structStart.a.offset(3, 0, 3);
 		PC_Utils.setBID(world, pos, this, 0);
 		te = PC_Utils.getTE(world, pos);
 		te.setPos(PCs_TileEntityBigChest.BOTTOMFRONTRIGHT);
-		
+
 		pos = structStart.a.offset(3, 3, 3);
 		PC_Utils.setBID(world, pos, this, 0);
 		te = PC_Utils.getTE(world, pos);
 		te.setPos(PCs_TileEntityBigChest.TOPFRONTRIGHT);
-		
+
 		return true;
 	}
 
@@ -127,5 +127,5 @@ public class PCs_BlockBigChest extends PC_Block implements PC_I3DRecipeHandler {
 	public boolean canBeCrafted() {
 		return true;
 	}
-	
+
 }

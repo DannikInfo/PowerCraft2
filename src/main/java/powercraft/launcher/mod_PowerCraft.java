@@ -19,7 +19,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
  * @author XOR
  * 
  */
-@Mod(modid = "PowerCraft", name = "PowerCraft", version = "1.0.1a", dependencies = "after:*")
+@Mod(modid = "PowerCraft", name = "PowerCraft", version = "1.0.2a", dependencies = "after:*")
 public class mod_PowerCraft {
 
 	public static final String MODID = "powercraft"; // initialization mod id

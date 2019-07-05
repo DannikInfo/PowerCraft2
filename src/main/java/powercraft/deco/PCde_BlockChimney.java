@@ -76,7 +76,7 @@ public class PCde_BlockChimney extends PC_Block {
 			return Blocks.stonebrick.getIcon(par1.getMCDir(), 1);
 
 		if (par2 == 14)
-			return Blocks.clay.getBlockTextureFromSide(par1.getMCDir());
+			return Blocks.hardened_clay.getBlockTextureFromSide(par1.getMCDir());
 		if (par2 == 15)
 			return Blocks.iron_block.getBlockTextureFromSide(par1.getMCDir());
 
@@ -106,7 +106,7 @@ public class PCde_BlockChimney extends PC_Block {
 
 		final float px = 0.0625F;
 		float w = px * 3;
-		
+
 		setBlockBounds(0, 0, 0, 1, 1, w);
 		PC_Renderer.renderStandardBlock(renderer, this, x, y, z);
 		setBlockBounds(1 - w, 0, w, 1, 1, 1 - w);

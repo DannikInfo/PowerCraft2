@@ -39,11 +39,11 @@ public class PC_CropHarvesting implements PC_ISpecialHarvesting {
 	private static final PC_Direction sideList[] = {PC_Direction.TOP, PC_Direction.FRONT, PC_Direction.BACK, PC_Direction.LEFT, PC_Direction.RIGHT, PC_Direction.BOTTOM};
 	private static List<Crop> crops;
 	private static Random rand = new Random();
-	
+
 	public PC_CropHarvesting(){
 		loadCrops();
 	}
-	
+
 	@Override
 	public boolean useFor(World world, int x, int y, int z, Block block, int meta, int priority) {
 		if(priority<2){
@@ -72,7 +72,7 @@ public class PC_CropHarvesting implements PC_ISpecialHarvesting {
 		}
 		return null;
 	}
-	
+
 	private List<PC_Struct2<PC_VecI, ItemStack>> harvestNormalCrop(World world, int x, int y, int z, Block block, int meta, int fortune){
 		if(meta<7){
 			return null;
@@ -101,12 +101,12 @@ public class PC_CropHarvesting implements PC_ISpecialHarvesting {
 		}
 		return dropsWithPlace;
 	}
-	
+
 	private List<PC_Struct2<PC_VecI, ItemStack>> harvestSpecialCrop(World world, int x, int y, int z, Block block, int meta, Crop crop){
 		if(crop.isFinished(block, meta)){
 			//CropReplant replant = crop.getReplant(block.blockID, meta);
 			//if(!world.isRemote)
-				//PC_Utils.setBID(world, x, y, z, replant.replant.blockID, replant.replant.metadata);
+			//PC_Utils.setBID(world, x, y, z, replant.replant.blockID, replant.replant.metadata);
 			List<PC_Struct2<PC_VecI, ItemStack>> drops = new ArrayList<PC_Struct2<PC_VecI, ItemStack>>();
 			//for(ItemStack drop:replant.getDrops(meta)){
 			//	drops.add(new PC_Struct2<PC_VecI, ItemStack>(new PC_VecI(x, y, z), drop));
@@ -115,7 +115,7 @@ public class PC_CropHarvesting implements PC_ISpecialHarvesting {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Call this method to explicitly init static fields -> list of crops from
 	 * XML files
@@ -126,7 +126,7 @@ public class PC_CropHarvesting implements PC_ISpecialHarvesting {
 		}
 
 		crops = new ArrayList<Crop>();
-		
+
 		PC_Logger.finer("Loading XML configuration for crops.");
 
 		if (!folder.exists()) {
@@ -214,218 +214,218 @@ public class PC_CropHarvesting implements PC_ISpecialHarvesting {
 			NodeList cropsList = doc.getElementsByTagName("crop");
 
 			croploop:
-			for (int i = 0; i < cropsList.getLength(); i++) {
+				for (int i = 0; i < cropsList.getLength(); i++) {
 
-				Node cropNode = cropsList.item(i);
-				if (cropNode.getNodeType() == Node.ELEMENT_NODE) {
+					Node cropNode = cropsList.item(i);
+					if (cropNode.getNodeType() == Node.ELEMENT_NODE) {
 
-					// process one crop entry
+						// process one crop entry
 
-					Element crop = (Element) cropNode;
+						Element crop = (Element) cropNode;
 
-					// <block>
-					NodeList blocks = crop.getElementsByTagName("block");
+						// <block>
+						NodeList blocks = crop.getElementsByTagName("block");
 
-					// <item>
-					NodeList items = crop.getElementsByTagName("item");
-					if (blocks.getLength() < 1) {
-						PC_Logger.warning("Crop manager - parseFile - Error while parsing " + file + " - no <item>s in <crop>");
-						continue croploop;
-					}
-
-					int itemCount = items.getLength();
-					
-					Crop c = new Crop();
-					
-					for(int j=0; j<blocks.getLength(); j++){
-						
-						Element block = (Element) blocks.item(j);
-	
-						// <block attrs>
-						String block_id_s = block.getAttribute("id");
-	
-						if (block_id_s.equals("") || !block_id_s.matches("[0-9]+")) {
-							PC_Logger.warning("Crop manager - parseFile - Error while parsing " + file + " - bad block ID");
+						// <item>
+						NodeList items = crop.getElementsByTagName("item");
+						if (blocks.getLength() < 1) {
+							PC_Logger.warning("Crop manager - parseFile - Error while parsing " + file + " - no <item>s in <crop>");
 							continue croploop;
 						}
-	
-						int id = Integer.parseInt(block_id_s);
-	
-						String block_meta_replant_s = block.getAttribute("metaReplant");
-	
-						if (block_meta_replant_s.equals("") || !block_meta_replant_s.matches("[-]?[0-9]+")) {
-							PC_Logger.warning("Crop manager - parseFile - Error while parsing " + file + " - bad replant meta");
-							continue croploop;
+
+						int itemCount = items.getLength();
+
+						Crop c = new Crop();
+
+						for(int j=0; j<blocks.getLength(); j++){
+
+							Element block = (Element) blocks.item(j);
+
+							// <block attrs>
+							String block_id_s = block.getAttribute("id");
+
+							if (block_id_s.equals("") || !block_id_s.matches("[0-9]+")) {
+								PC_Logger.warning("Crop manager - parseFile - Error while parsing " + file + " - bad block ID");
+								continue croploop;
+							}
+
+							int id = Integer.parseInt(block_id_s);
+
+							String block_meta_replant_s = block.getAttribute("metaReplant");
+
+							if (block_meta_replant_s.equals("") || !block_meta_replant_s.matches("[-]?[0-9]+")) {
+								PC_Logger.warning("Crop manager - parseFile - Error while parsing " + file + " - bad replant meta");
+								continue croploop;
+							}
+
+							int meta_replant = Integer.parseInt(block_meta_replant_s);
+
+							String block_meta_mature_s = block.getAttribute("metaMature");
+
+							if (block_meta_mature_s.equals("") || !block_meta_mature_s.matches("[-]?[0-9]+")) {
+								PC_Logger.warning("Crop manager - parseFile - Error while parsing " + file + " - bad mature meta");
+								continue croploop;
+							}
+
+							int meta = Integer.parseInt(block_meta_mature_s);
+
+							//c.replant.put(new CropState(block, meta), new CropReplant(block, meta_replant));
+
 						}
-	
-						int meta_replant = Integer.parseInt(block_meta_replant_s);
-	
-						String block_meta_mature_s = block.getAttribute("metaMature");
-	
-						if (block_meta_mature_s.equals("") || !block_meta_mature_s.matches("[-]?[0-9]+")) {
-							PC_Logger.warning("Crop manager - parseFile - Error while parsing " + file + " - bad mature meta");
-							continue croploop;
-						}
-	
-						int meta = Integer.parseInt(block_meta_mature_s);
-						
-						//c.replant.put(new CropState(block, meta), new CropReplant(block, meta_replant));
-						
-					}
 
-					itemloop:
-					for (int j = 0; j < itemCount; j++) {
+						itemloop:
+							for (int j = 0; j < itemCount; j++) {
 
-						try {
-							int itemMetaA, itemMetaB, itemCountA, itemCountB, itemRarityA, itemRarityB, itemPriority, itemId;
+								try {
+									int itemMetaA, itemMetaB, itemCountA, itemCountB, itemRarityA, itemRarityB, itemPriority, itemId;
 
-							Element item = (Element) items.item(j);
+									Element item = (Element) items.item(j);
 
-							// id
-							String item_id_s = item.getAttribute("id");
+									// id
+									String item_id_s = item.getAttribute("id");
 
-							if (item_id_s.equals("") || !item_id_s.matches("[0-9]+")) {
-								PC_Logger.warning("Crop manager - parseFile - Error while parsing " + file + " - bad item ID");
-								continue croploop;
+									if (item_id_s.equals("") || !item_id_s.matches("[0-9]+")) {
+										PC_Logger.warning("Crop manager - parseFile - Error while parsing " + file + " - bad item ID");
+										continue croploop;
+									}
+
+									itemId = Integer.parseInt(item_id_s);
+
+									// priority
+									String item_priority_s = item.getAttribute("priority");
+
+									if (item_id_s.equals("")) {
+
+										item_priority_s = "1";
+
+									} else if (!item_id_s.matches("[0-9]+")) {
+										PC_Logger.warning("Crop manager - parseFile - Error while parsing " + file + " - bad item ID");
+										continue croploop;
+									}
+
+									itemPriority = Integer.parseInt(item_priority_s);
+
+									// rarity 1/200
+									String item_rarity_s = item.getAttribute("rarity");
+
+									if (item_rarity_s.equals("")) {
+
+										item_rarity_s = "1";
+
+									}
+									if (!item_rarity_s.matches("[0-9]+([/][0-9]+)?")) {
+										PC_Logger.warning("Crop manager - parseFile - Error while parsing " + file + " - bad item rarity");
+										continue croploop;
+									}
+
+									String[] item_rarity_parts = item_rarity_s.split("/");
+
+									if (item_rarity_parts.length == 1) {
+										itemRarityA = 1;
+										itemRarityB = Integer.parseInt(item_rarity_parts[0]);
+									} else {
+										itemRarityA = Integer.parseInt(item_rarity_parts[0]);
+										itemRarityB = Integer.parseInt(item_rarity_parts[1]);
+
+										if (itemRarityA > itemRarityB) {
+											itemRarityA = itemRarityB = 1;
+										}
+									}
+
+									// meta start-stop
+									String item_meta_s = item.getAttribute("meta");
+
+									if (item_meta_s.equals("")) {
+										item_meta_s = "0";
+									} else if (!item_meta_s.matches("[-]?[0-9]+") && !item_meta_s.matches("[0-9]+[-][0-9]+")) {
+										PC_Logger.warning("Crop manager - parseFile - Error while parsing " + file + " - bad item meta");
+										continue croploop;
+									}
+
+									String[] item_meta_parts;
+
+									if (item_meta_s.matches("[-]?[0-9]+")) {
+										item_meta_parts = new String[1];
+										item_meta_parts[0] = item_meta_s;
+
+									} else {
+										item_meta_parts = item_meta_s.split("-");
+									}
+
+									if (item_meta_parts.length == 1) {
+										itemMetaA = itemMetaB = Integer.parseInt(item_meta_parts[0]);
+									} else {
+										itemMetaA = Integer.parseInt(item_meta_parts[0]);
+										itemMetaB = Integer.parseInt(item_meta_parts[1]);
+
+										if (itemMetaB < itemMetaA) {
+											itemMetaB = itemMetaA;
+										}
+									}
+
+									// cout start-stop
+									String item_count_s = item.getAttribute("count");
+
+									if (item_count_s.equals("")) {
+
+										item_count_s = "1";
+
+									} else if (!item_count_s.matches("[0-9]+(-[0-9]+)?")) {
+										PC_Logger.warning("Crop manager - parseFile - Error while parsing " + file + " - bad item count");
+										continue croploop;
+									}
+
+									String[] item_count_parts = item_count_s.split("-");
+
+									if (item_count_parts.length == 1) {
+										itemCountA = itemCountB = Integer.parseInt(item_count_parts[0]);
+									} else {
+										itemCountA = Integer.parseInt(item_count_parts[0]);
+										itemCountB = Integer.parseInt(item_count_parts[1]);
+
+										if (itemCountB < itemCountA) {
+											itemCountB = itemCountA;
+										}
+									}
+
+									for(CropReplant replant:c.replant.values()){
+										replant.drops.add(new CropDrops(itemId, itemMetaA, itemMetaB, itemCountA, itemCountB, itemRarityA, itemRarityB, itemPriority));
+									}
+
+								} catch (NumberFormatException e) {
+									continue itemloop;
+								}
+
 							}
 
-							itemId = Integer.parseInt(item_id_s);
+						crops.add(c);
 
-							// priority
-							String item_priority_s = item.getAttribute("priority");
 
-							if (item_id_s.equals("")) {
-
-								item_priority_s = "1";
-
-							} else if (!item_id_s.matches("[0-9]+")) {
-								PC_Logger.warning("Crop manager - parseFile - Error while parsing " + file + " - bad item ID");
-								continue croploop;
-							}
-
-							itemPriority = Integer.parseInt(item_priority_s);
-
-							// rarity 1/200
-							String item_rarity_s = item.getAttribute("rarity");
-
-							if (item_rarity_s.equals("")) {
-
-								item_rarity_s = "1";
-
-							}
-							if (!item_rarity_s.matches("[0-9]+([/][0-9]+)?")) {
-								PC_Logger.warning("Crop manager - parseFile - Error while parsing " + file + " - bad item rarity");
-								continue croploop;
-							}
-
-							String[] item_rarity_parts = item_rarity_s.split("/");
-
-							if (item_rarity_parts.length == 1) {
-								itemRarityA = 1;
-								itemRarityB = Integer.parseInt(item_rarity_parts[0]);
-							} else {
-								itemRarityA = Integer.parseInt(item_rarity_parts[0]);
-								itemRarityB = Integer.parseInt(item_rarity_parts[1]);
-
-								if (itemRarityA > itemRarityB) {
-									itemRarityA = itemRarityB = 1;
+						HashMap<Block, Integer> mainMeta = new HashMap<Block, Integer>();
+						for(CropReplant replant:c.replant.values()){
+							Integer meta;
+							if((meta = mainMeta.get(replant.replant.blockID))==null){
+								mainMeta.put(replant.replant.blockID, replant.replant.metadata);
+							}else{
+								if((meta<replant.replant.metadata || replant.replant.metadata==-1) && meta!=-1){
+									mainMeta.put(replant.replant.blockID, replant.replant.metadata);
 								}
 							}
+						}
 
-							// meta start-stop
-							String item_meta_s = item.getAttribute("meta");
-
-							if (item_meta_s.equals("")) {
-								item_meta_s = "0";
-							} else if (!item_meta_s.matches("[-]?[0-9]+") && !item_meta_s.matches("[0-9]+[-][0-9]+")) {
-								PC_Logger.warning("Crop manager - parseFile - Error while parsing " + file + " - bad item meta");
-								continue croploop;
-							}
-
-							String[] item_meta_parts;
-
-							if (item_meta_s.matches("[-]?[0-9]+")) {
-								item_meta_parts = new String[1];
-								item_meta_parts[0] = item_meta_s;
-
-							} else {
-								item_meta_parts = item_meta_s.split("-");
-							}
-
-							if (item_meta_parts.length == 1) {
-								itemMetaA = itemMetaB = Integer.parseInt(item_meta_parts[0]);
-							} else {
-								itemMetaA = Integer.parseInt(item_meta_parts[0]);
-								itemMetaB = Integer.parseInt(item_meta_parts[1]);
-
-								if (itemMetaB < itemMetaA) {
-									itemMetaB = itemMetaA;
+						for(Entry<Block, Integer> growing:mainMeta.entrySet()){
+							if(growing.getValue()>0){
+								for(int j=0; j<growing.getValue(); j++){
+									c.replant.put(new CropState(growing.getKey(), j), null);
 								}
 							}
-
-							// cout start-stop
-							String item_count_s = item.getAttribute("count");
-
-							if (item_count_s.equals("")) {
-
-								item_count_s = "1";
-
-							} else if (!item_count_s.matches("[0-9]+(-[0-9]+)?")) {
-								PC_Logger.warning("Crop manager - parseFile - Error while parsing " + file + " - bad item count");
-								continue croploop;
-							}
-
-							String[] item_count_parts = item_count_s.split("-");
-
-							if (item_count_parts.length == 1) {
-								itemCountA = itemCountB = Integer.parseInt(item_count_parts[0]);
-							} else {
-								itemCountA = Integer.parseInt(item_count_parts[0]);
-								itemCountB = Integer.parseInt(item_count_parts[1]);
-
-								if (itemCountB < itemCountA) {
-									itemCountB = itemCountA;
-								}
-							}
-
-							for(CropReplant replant:c.replant.values()){
-								replant.drops.add(new CropDrops(itemId, itemMetaA, itemMetaB, itemCountA, itemCountB, itemRarityA, itemRarityB, itemPriority));
-							}
-
-						} catch (NumberFormatException e) {
-							continue itemloop;
 						}
 
-					}
+						PC_Logger.finest("   - Loaded crop \"" + crop.getAttribute("name") + "\".");
 
-					crops.add(c);
-					
-					
-					HashMap<Integer, Integer> mainMeta = new HashMap<Integer, Integer>();
-					for(CropReplant replant:c.replant.values()){
-						Integer meta;
-						if((meta = mainMeta.get(replant.replant.blockID))==null){
-							//mainMeta.put(replant.replant.blockID, replant.replant.metadata);
-						}else{
-							if((meta<replant.replant.metadata || replant.replant.metadata==-1) && meta!=-1){
-							//	mainMeta.put(replant.replant.blockID, replant.replant.metadata);
-							}
-						}
 					}
-					
-					for(Entry<Integer, Integer> growing:mainMeta.entrySet()){
-						if(growing.getValue()>0){
-							for(int j=0; j<growing.getValue(); j++){
-								//c.replant.put(new CropState(growing.getKey(), j), null);
-							}
-						}
-					}
-					
-					PC_Logger.finest("   - Loaded crop \"" + crop.getAttribute("name") + "\".");
 
 				}
-
-			}
 
 		} catch (SAXParseException err) {
 			PC_Logger.severe("** Parsing error" + ", line " + err.getLineNumber() + ", uri " + err.getSystemId());
@@ -437,17 +437,17 @@ public class PC_CropHarvesting implements PC_ISpecialHarvesting {
 			t.printStackTrace();
 		}
 	}
-	
+
 	private static class CropState{
-		
+
 		public Block blockID;
 		public int metadata;
-		
+
 		public CropState(Block blockID, int metadata){
 			this.blockID = blockID;
 			this.metadata = metadata;
 		}
-		
+
 		@Override
 		public boolean equals(Object obj) {
 			if(!(obj instanceof CropState)){
@@ -456,11 +456,11 @@ public class PC_CropHarvesting implements PC_ISpecialHarvesting {
 			CropState other = (CropState)obj;
 			return other.blockID == blockID && (other.metadata == metadata || metadata==-1);
 		}
-		
+
 	}
-	
+
 	private static class CropDrops{
-		
+
 		public int itemId;
 		public int itemMetaA;
 		public int itemMetaB;
@@ -469,7 +469,7 @@ public class PC_CropHarvesting implements PC_ISpecialHarvesting {
 		public int itemRarityA;
 		public int itemRarityB;
 		public int itemPriority;
-		
+
 		public CropDrops(int itemId, int itemMetaA, int itemMetaB,
 				int itemCountA, int itemCountB, int itemRarityA,
 				int itemRarityB, int itemPriority) {
@@ -482,18 +482,18 @@ public class PC_CropHarvesting implements PC_ISpecialHarvesting {
 			this.itemRarityB = itemRarityB;
 			this.itemPriority = itemPriority;
 		}
-		
+
 	}
-	
+
 	private static class CropReplant{
-		
+
 		public CropState replant;
 		public List<CropDrops> drops = new ArrayList<CropDrops>();
-		
+
 		public CropReplant(Block block, int metadata) {
 			replant = new CropState(block, metadata);
 		}
-		
+
 		public List<ItemStack> getDrops(int meta){
 			ArrayList<ItemStack> stacks = new ArrayList<ItemStack>();
 
@@ -547,34 +547,34 @@ public class PC_CropHarvesting implements PC_ISpecialHarvesting {
 
 			return stacks;
 		}
-		
+
 	}
-	
+
 	private static class Crop{
-		
+
 		public HashMap<CropState, CropReplant> replant = new HashMap<CropState, CropReplant>();
-		
+
 		public boolean isCrop(Block blockID, int metadata){
 			if(isGrowing(blockID, metadata)){
 				return true;
 			}
 			return isFinished(blockID, metadata);
 		}
-		
+
 		public boolean isGrowing(Block blockID, int metadata){
 			CropState cs = new CropState(blockID, metadata);
 			return replant.containsKey(cs) && replant.get(cs)==null;
 		}
-		
+
 		public boolean isFinished(Block blockID, int metadata){
 			CropState cs = new CropState(blockID, metadata);
 			return replant.containsKey(cs) && replant.get(cs)!=null;
 		}
-		
+
 		public CropReplant getReplant(Block blockID, int metadata){
 			return replant.get(new CropState(blockID, metadata));
 		}
-		
+
 	}
-	
+
 }

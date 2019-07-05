@@ -19,8 +19,8 @@ public class PCde_TileEntityStairs extends PC_TileEntity implements PC_ITileEnti
 		float f = 1.0F;
 
 		Minecraft.getMinecraft().getTextureManager()
-				.bindTexture(new ResourceLocation(mod_PowerCraft.MODID, PC_TextureRegistry.getPowerCraftImageDir()
-						+ PC_TextureRegistry.getTextureName(PCde_App.instance, "block_deco.png")));
+		.bindTexture(new ResourceLocation(mod_PowerCraft.MODID, PC_TextureRegistry.getPowerCraftImageDir()
+				+ PC_TextureRegistry.getTextureName(PCde_App.instance, "block_deco.png")));
 
 		PC_Renderer.glPushMatrix();
 		PC_Renderer.glRotatef(180, 0, 1, 0);

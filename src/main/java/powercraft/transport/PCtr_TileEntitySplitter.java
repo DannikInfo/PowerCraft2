@@ -36,9 +36,9 @@ public class PCtr_TileEntitySplitter extends PCtr_TileEntitySeparationBeltBase {
 				ItemStack stack = separatorContents[s * 5 + i];
 				if (stack != null && (stack.isItemEqual(itemstack)
 						|| (isGroupLogs() && stack.getItem() == Item.getItemFromBlock(Blocks.log)
-								&& itemstack.getItem() == Item.getItemFromBlock(Blocks.log))
+						&& itemstack.getItem() == Item.getItemFromBlock(Blocks.log))
 						|| (isGroupPlanks() && stack.getItem() == Item.getItemFromBlock(Blocks.planks)
-								&& itemstack.getItem() == Item.getItemFromBlock(Blocks.planks))
+						&& itemstack.getItem() == Item.getItemFromBlock(Blocks.planks))
 						|| (isGroupAll() && stack.getItem() == itemstack.getItem()))) {
 					count[s] += stack.stackSize;
 				}

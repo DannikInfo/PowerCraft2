@@ -106,11 +106,6 @@ public class PC_RegistryServer implements PC_IPacketHandler {
 
 	@Override
 	public boolean handleIncomingPacket(EntityPlayer player, Object[] o) {
-		//switch ((Integer) o[0]) {
-		//case KEYEVENT:
-			//PC_KeyRegistry.onKeyEvent(player, (Boolean) o[1], (String) o[2]);
-		//	break;
-		//}
 		return false;
 	}
 

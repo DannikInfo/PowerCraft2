@@ -50,7 +50,7 @@ public class PC_GresGui extends GuiScreen implements PC_IGresGui, PC_ITileEntity
 		// if(tileEntity!=null)
 		// tileEntity.addTileEntityWatcher(this);
 	}
-	
+
 	@Override
 	public PC_GresWidget add(PC_GresWidget widget) {
 		PC_GresWidget c = child.add(widget);

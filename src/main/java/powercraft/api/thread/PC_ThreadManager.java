@@ -70,14 +70,14 @@ public class PC_ThreadManager {
 
 	// @Override
 	// public void tickEvent() {
-//		while(true){
-//			PC_ThreadJob job = PC_ThreadManager.getNextJob();
-//			if(job==null){
-//				break;
-//			}else{
-//				job.doJob();
-//			}
-//		}
-//	}
+	//		while(true){
+	//			PC_ThreadJob job = PC_ThreadManager.getNextJob();
+	//			if(job==null){
+	//				break;
+	//			}else{
+	//				job.doJob();
+	//			}
+	//		}
+	//	}
 
 }

@@ -100,7 +100,7 @@ public class PCma_App {
 		packetHandlers.add(
 				new PC_Struct2<String, PC_IPacketHandler>("PCma_BlockBlockBuilder", (PC_IPacketHandler) blockBuilder));
 		packetHandlers
-				.add(new PC_Struct2<String, PC_IPacketHandler>("PCma_BlockHarvester", (PC_IPacketHandler) harvester));
+		.add(new PC_Struct2<String, PC_IPacketHandler>("PCma_BlockHarvester", (PC_IPacketHandler) harvester));
 		return packetHandlers;
 	}
 

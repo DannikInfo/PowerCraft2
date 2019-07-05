@@ -11,7 +11,7 @@ import powercraft.api.registry.PC_LangRegistry.LangEntry;
 import powercraft.api.registry.PC_MSGRegistry;
 
 public class PCnt_ItemBlockRadio extends PC_ItemBlock {
-	
+
 	Block block;
 
 	/**
@@ -38,9 +38,9 @@ public class PCnt_ItemBlockRadio extends PC_ItemBlock {
 	public boolean isFull3D() {
 		return true;
 	}
-	
-	
-	
+
+
+
 	@Override
 	public List<ItemStack> getItemStacks(List<ItemStack> arrayList) {
 		arrayList.add(new ItemStack(this, 1, 0));
@@ -52,7 +52,7 @@ public class PCnt_ItemBlockRadio extends PC_ItemBlock {
 	public List<LangEntry> getNames(ArrayList<LangEntry> names) {
 		names.add(new LangEntry(getUnlocalizedName() + ".tx", "Redstone Radio Transmitter"));
 		names.add(new LangEntry(getUnlocalizedName() + ".rx", "Redstone Radio Receiver"));
-        return names;
+		return names;
 	}
-	
+
 }

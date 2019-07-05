@@ -71,7 +71,7 @@ public class PCtr_GuiSeparationBelt extends PCtr_ContainerSeparationBelt impleme
 		hg = new PC_GresLayoutH();
 		hg.setAlignH(PC_GresAlign.LEFT);
 		hg.setWidgetMargin(0);
-		
+
 		vg.add(hg);
 
 		w.add(new PC_GresGap(0, 2));

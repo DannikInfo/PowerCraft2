@@ -18,7 +18,7 @@ public class PCs_GuiCompressor implements PC_IGresClient {
 
 	public PC_GresTextEdit name;
 	public EntityPlayer player;
-	
+
 	public PCs_GuiCompressor(EntityPlayer player, PC_TileEntity te, Object[] o) {
 		this.player = player;
 	}
@@ -47,7 +47,7 @@ public class PCs_GuiCompressor implements PC_IGresClient {
 			PCs_ItemCompressor.setName(player, name.getText());
 		}
 	}
-	
+
 	@Override
 	public void onKeyPressed(PC_IGresGui gui, char c, int i) {
 		if(i==Keyboard.KEY_RETURN || i==Keyboard.KEY_ESCAPE || i==Keyboard.KEY_E){

@@ -19,7 +19,7 @@ public class PCnt_RadioManager implements PC_IDataHandler, PC_IMSG {
 	private static HashMap<String, Integer> remoteChannels = new HashMap<String, Integer>();
 	private static List<String> weaselChannels = new ArrayList<String>();
 	private static boolean needSave=false;
-	
+
 	public static void transmitterOn(String channel) {
 		needSave = true;
 		int num=1;
@@ -59,7 +59,7 @@ public class PCnt_RadioManager implements PC_IDataHandler, PC_IMSG {
 			}
 		}
 	}
-	
+
 	public static void weaselOn(String channel) {
 		if(!weaselChannels.contains(channel)){
 			weaselChannels.add(channel);
@@ -71,7 +71,7 @@ public class PCnt_RadioManager implements PC_IDataHandler, PC_IMSG {
 			weaselChannels.remove(channel);
 		}
 	}
-	
+
 	public static boolean getChannelState(String channel) {
 		return weaselChannels.contains(channel) || channels.containsKey(channel) || remoteChannels.containsKey(channel);
 	}
@@ -126,7 +126,7 @@ public class PCnt_RadioManager implements PC_IDataHandler, PC_IMSG {
 	}
 
 	public static class FunctionProvider{
-		
+
 		public void tx(String channel, boolean state){
 			if(state){
 				weaselOn(channel);
@@ -134,13 +134,13 @@ public class PCnt_RadioManager implements PC_IDataHandler, PC_IMSG {
 				weaselOff(channel);
 			}
 		}
-		
+
 		public boolean rx(String channel){
 			return getChannelState(channel);
 		}
-		
+
 	}
-	
+
 	@Override
 	public Object msg(int msg, Object... obj) {
 		switch(msg){

@@ -19,7 +19,7 @@ public class PChg_HologramRenderBlocks extends PC_RenderBlocks {
 		if (block != PC_Utils.getBlock(blockAccess, x, y, z)) {
 			return true;
 		}
-		return block.shouldSideBeRendered(blockAccess, x, y, z, 0);
+		return block.shouldSideBeRendered(blockAccess, x, y, z, dir);
 	}
 
 }

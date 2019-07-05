@@ -15,7 +15,7 @@ import powercraft.api.utils.PC_Utils;
 import powercraft.api.utils.PC_VecF;
 
 public class PCnt_TileEntityRadio extends PC_TileEntity implements PC_ITileEntityRenderer, PC_IPacketHandler {
-	
+
 	/** Device channel */
 	@PC_ClientServerSync
 	private String channel = PCnt_RadioManager.default_radio_channel;
@@ -39,7 +39,7 @@ public class PCnt_TileEntityRadio extends PC_TileEntity implements PC_ITileEntit
 			int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
 		type = stack.getItemDamage();
 	}
-	
+
 	public boolean isHideLabel() {
 		return hideLabel;
 	}
@@ -190,7 +190,7 @@ public class PCnt_TileEntityRadio extends PC_TileEntity implements PC_ITileEntit
 	public int getPickMetadata() {
 		return type;
 	}
-	
+
 	@Override
 	public void writeToNBT(NBTTagCompound tag) {
 		super.writeToNBT(tag);
@@ -206,21 +206,20 @@ public class PCnt_TileEntityRadio extends PC_TileEntity implements PC_ITileEntit
 		this.channel = tag.getString("channel");
 		this.hideLabel = tag.getBoolean("hideLabel");
 	}
-	
+
 	@Override
 	public void renderTileEntityAt(double x, double y, double z, float rot) {
 
 		PC_Renderer.glPushMatrix();
 		float f = 1.0F;
-		
+
 		PC_Renderer.glTranslatef(0, -0.5F, 0);
-		
+
 		PC_Renderer.bindTexture(PC_TextureRegistry.getPowerCraftImageDir()+PC_TextureRegistry.getTextureName(PCnt_App.instance, "block_radio.png"));
 
 		PC_Renderer.glPushMatrix();
 		PC_Renderer.glScalef(f, -f, -f);
 		model.setType(isReceiver(), isActive());
-
 		model.tiny = isRenderMicro();
 
 		model.render();
@@ -228,7 +227,7 @@ public class PCnt_TileEntityRadio extends PC_TileEntity implements PC_ITileEntit
 
 		PC_Renderer.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		PC_Renderer.glPopMatrix();
-		
+
 		if (!isHideLabel()) {
 			String foo = getChannel();
 			PC_Renderer.glRotatef(90, 0, 1, 0);

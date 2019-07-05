@@ -66,7 +66,7 @@ public abstract class PC_GresWidget extends Gui implements PC_ITileEntityWatcher
 
 	@SuppressWarnings("javadoc")
 	public static final int textColorEnabled = 0, textColorShadowEnabled = 1, textColorDisabled = 2,
-			textColorShadowDisabled = 3, textColorHover = 4, textColorClicked = 5;
+	textColorShadowDisabled = 3, textColorHover = 4, textColorClicked = 5;
 
 	/** Array of text colors */
 	protected int color[] = { 0x000000, 0, 0x333333, 0, 0x000000, 0x000000 };

@@ -296,9 +296,9 @@ public class PCtp_BlockTeleporter extends PC_Block implements PC_IItemInfo {
 		PCtp_TileEntityTeleporter teTP = PC_Utils.getTE(world, bs.getPos());
 		if (teTP.defaultTarget != null) {
 			bs.getBeamTracer()
-					.forkBeam(new BeamSettings(bs.getBeamTracer(), teTP.defaultTarget,
-							PCtp_TeleporterManager.coords[teTP.defaultTargetDirection], bs.getColor(), bs.getStrength(),
-							bs.getLength() - 1));
+			.forkBeam(new BeamSettings(bs.getBeamTracer(), teTP.defaultTarget,
+					PCtp_TeleporterManager.coords[teTP.defaultTargetDirection], bs.getColor(), bs.getStrength(),
+					bs.getLength() - 1));
 			return BeamHitResult.STOP;
 		}
 		return BeamHitResult.CONTINUE;

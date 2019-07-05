@@ -27,134 +27,134 @@ import powercraft.launcher.PC_Property;
 @PC_Shining
 @PC_BlockInfo(name="Repeater", itemBlock=PClo_ItemBlockRepeater.class, tileEntity=PClo_TileEntityRepeater.class, canPlacedRotated=true)
 public class PClo_BlockRepeater extends PC_Block{
-    @ON
-    public static PClo_BlockRepeater on;
-    @OFF
-    public static PClo_BlockRepeater off;
+	@ON
+	public static PClo_BlockRepeater on;
+	@OFF
+	public static PClo_BlockRepeater off;
 
-    public PClo_BlockRepeater(boolean on){
-    	super(Material.ground, PClo_RepeaterType.getTextures());
-        setHardness(0.35F);
-        setStepSound(Block.soundTypeWood);
-        disableStats();
-        setResistance(30.0F);
-        setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.1875F, 1.0F);
+	public PClo_BlockRepeater(boolean on){
+		super(Material.ground, PClo_RepeaterType.getTextures());
+		setHardness(0.35F);
+		setStepSound(Block.soundTypeWood);
+		disableStats();
+		setResistance(30.0F);
+		setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.1875F, 1.0F);
 
-        if (on){
-            setCreativeTab(CreativeTabs.tabRedstone);
-        }
-    }
-    
-    @Override
-    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entityliving, ItemStack itmeStack){
-        world.scheduleBlockUpdate(x, y, z, this, tickRate(world));
-        PC_Utils.hugeUpdate(world, x, y, z);
-    }
+		if (on){
+			setCreativeTab(CreativeTabs.tabRedstone);
+		}
+	}
 
-    @Override
+	@Override
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entityliving, ItemStack itmeStack){
+		world.scheduleBlockUpdate(x, y, z, this, tickRate(world));
+		PC_Utils.hugeUpdate(world, x, y, z);
+	}
+
+	@Override
 	public void initConfig(PC_Property config) {
 		super.initConfig(config);
 		on.setLightLevel(config.getInt("brightness", 7) * 0.0625F);
 	}
-    
-    @Override
-    public void updateTick(World world, int x, int y, int z, Random random){
-        PClo_TileEntityRepeater te = getTE(world, x, y, z);
 
-        if (te.getType() == PClo_RepeaterType.CROSSING){
-            int[] inp = {getRedstonePowerValueFromInput(world, x, y, z, PC_Direction.LEFT)>0 ? 1 : 0, 
-            			getRedstonePowerValueFromInput(world, x, y, z, PC_Direction.BACK)>0 ? 1 : 0,
-            			getRedstonePowerValueFromInput(world, x, y, z, PC_Direction.RIGHT)>0 ? 1 : 0, 
-            			getRedstonePowerValueFromInput(world, x, y, z, PC_Direction.FRONT)>0 ? 1 : 0};
-            int variant = te.getInp();
-            int shouldState = 0;
+	@Override
+	public void updateTick(World world, int x, int y, int z, Random random){
+		PClo_TileEntityRepeater te = getTE(world, x, y, z);
 
-            switch (variant){
-                case 0:
-                    shouldState = inp[0] | inp[1] << 1;
-                    break;
+		if (te.getType() == PClo_RepeaterType.CROSSING){
+			int[] inp = {getRedstonePowerValueFromInput(world, x, y, z, PC_Direction.LEFT)>0 ? 1 : 0, 
+					getRedstonePowerValueFromInput(world, x, y, z, PC_Direction.BACK)>0 ? 1 : 0,
+							getRedstonePowerValueFromInput(world, x, y, z, PC_Direction.RIGHT)>0 ? 1 : 0, 
+									getRedstonePowerValueFromInput(world, x, y, z, PC_Direction.FRONT)>0 ? 1 : 0};
+			int variant = te.getInp();
+			int shouldState = 0;
 
-                case 1:
-                    shouldState = inp[1] | inp[2] << 1;
-                    break;
+			switch (variant){
+			case 0:
+				shouldState = inp[0] | inp[1] << 1;
+				break;
 
-                case 2:
-                    shouldState = inp[0] | inp[3] << 1;
-                    break;
+			case 1:
+				shouldState = inp[1] | inp[2] << 1;
+				break;
 
-                case 3:
-                    shouldState = inp[2] | inp[3] << 1;
-                    break;
-            }
+			case 2:
+				shouldState = inp[0] | inp[3] << 1;
+				break;
 
-            if (te.getState() != shouldState){
-                te.setState(shouldState);
-            }
-            if((shouldState != 0) != isActive(world, x, y, z)){
-            	PC_Utils.setBlockState(world, x, y, z, shouldState != 0);
-            }
-        }else{
-            boolean shouldState = getRedstonePowerValueFromInput(world, x, y, z, PC_Direction.BACK)>0;
+			case 3:
+				shouldState = inp[2] | inp[3] << 1;
+				break;
+			}
 
-            if (isActive(world, x, y, z) != shouldState){
-                PC_Utils.setBlockState(world, x, y, z, shouldState);
-            }
-        }
-    }
+			if (te.getState() != shouldState){
+				te.setState(shouldState);
+			}
+			if((shouldState != 0) != isActive(world, x, y, z)){
+				PC_Utils.setBlockState(world, x, y, z, shouldState != 0);
+			}
+		}else{
+			boolean shouldState = getRedstonePowerValueFromInput(world, x, y, z, PC_Direction.BACK)>0;
 
-    @Override
-    public int tickRate(World world){
-        return 1;
-    }
+			if (isActive(world, x, y, z) != shouldState){
+				PC_Utils.setBlockState(world, x, y, z, shouldState);
+			}
+		}
+	}
 
-    @Override
-    public void onNeighborBlockChange(World world, int x, int y, int z, Block block){
-    	if(world.isRemote)
-    		return;
-    	
-        PClo_TileEntityRepeater te = getTE(world, x, y, z);
+	@Override
+	public int tickRate(World world){
+		return 1;
+	}
 
-        if (te.getType() == PClo_RepeaterType.CROSSING){
-            int[] inp = {getRedstonePowerValueFromInput(world, x, y, z, PC_Direction.LEFT)>0 ? 1 : 0, 
-            			getRedstonePowerValueFromInput(world, x, y, z, PC_Direction.BACK)>0 ? 1 : 0,
-            			getRedstonePowerValueFromInput(world, x, y, z, PC_Direction.RIGHT)>0 ? 1 : 0, 
-            			getRedstonePowerValueFromInput(world, x, y, z, PC_Direction.FRONT)>0 ? 1 : 0};
-            int variant = te.getInp();
-            int shouldState = 0;
+	@Override
+	public void onNeighborBlockChange(World world, int x, int y, int z, Block block){
+		if(world.isRemote)
+			return;
 
-            switch (variant){
-                case 0:
-                    shouldState = inp[0] | inp[1] << 1;
-                    break;
+		PClo_TileEntityRepeater te = getTE(world, x, y, z);
 
-                case 1:
-                    shouldState = inp[1] | inp[2] << 1;
-                    break;
+		if (te.getType() == PClo_RepeaterType.CROSSING){
+			int[] inp = {getRedstonePowerValueFromInput(world, x, y, z, PC_Direction.LEFT)>0 ? 1 : 0, 
+					getRedstonePowerValueFromInput(world, x, y, z, PC_Direction.BACK)>0 ? 1 : 0,
+							getRedstonePowerValueFromInput(world, x, y, z, PC_Direction.RIGHT)>0 ? 1 : 0, 
+									getRedstonePowerValueFromInput(world, x, y, z, PC_Direction.FRONT)>0 ? 1 : 0};
+			int variant = te.getInp();
+			int shouldState = 0;
 
-                case 2:
-                    shouldState = inp[0] | inp[3] << 1;
-                    break;
+			switch (variant){
+			case 0:
+				shouldState = inp[0] | inp[1] << 1;
+				break;
 
-                case 3:
-                    shouldState = inp[2] | inp[3] << 1;
-                    break;
-            }
+			case 1:
+				shouldState = inp[1] | inp[2] << 1;
+				break;
 
-            if (te.getState() != shouldState){
-                te.setState(shouldState);
-            }
-            if((shouldState != 0) != isActive(world, x, y, z)){
-            	PC_Utils.setBlockState(world, x, y, z, shouldState != 0);
-            }
-        }else{
-            boolean shouldState = getRedstonePowerValueFromInput(world, x, y, z, PC_Direction.BACK)>0;
+			case 2:
+				shouldState = inp[0] | inp[3] << 1;
+				break;
 
-            if (isActive(world, x, y, z) != shouldState){
-                PC_Utils.setBlockState(world, x, y, z, shouldState);
-            }
-        }
+			case 3:
+				shouldState = inp[2] | inp[3] << 1;
+				break;
+			}
 
-        /*if (te.getType() == PClo_RepeaterType.REPEATER_STRAIGHT_I || te.getType() == PClo_RepeaterType.REPEATER_CORNER_I){
+			if (te.getState() != shouldState){
+				te.setState(shouldState);
+			}
+			if((shouldState != 0) != isActive(world, x, y, z)){
+				PC_Utils.setBlockState(world, x, y, z, shouldState != 0);
+			}
+		}else{
+			boolean shouldState = getRedstonePowerValueFromInput(world, x, y, z, PC_Direction.BACK)>0;
+
+			if (isActive(world, x, y, z) != shouldState){
+				PC_Utils.setBlockState(world, x, y, z, shouldState);
+			}
+		}
+
+		/*if (te.getType() == PClo_RepeaterType.REPEATER_STRAIGHT_I || te.getType() == PClo_RepeaterType.REPEATER_CORNER_I){
             updateTick(world, x, y, z, new Random());
         }else{
         	boolean shouldState = getRedstonePowerValueFromInput(world, x, y, z, PC_Direction.BACK)>0;
@@ -162,218 +162,218 @@ public class PClo_BlockRepeater extends PC_Block{
         		world.scheduleBlockUpdate(x, y, z, block, tickRate(world));
         	} TODO: work without it??
         }*/
-    }
+	}
 
-    @Override
-   	public int getProvidingWeakRedstonePowerValue(IBlockAccess world, int x, int y, int z, PC_Direction dir) {
-   		return getProvidingStrongRedstonePowerValue(world, x, y, z, dir);
-   	}
-    
-    @Override
-   	public int getProvidingStrongRedstonePowerValue(IBlockAccess world, int x, int y, int z, PC_Direction dir) {
-        PClo_TileEntityRepeater te = getTE(world, x, y, z);
-        int type = te.getType();
-        boolean L = false, R = false, F = false, B = false;
-        int variant = te.getInp();
-        
-        if (type == PClo_RepeaterType.CROSSING){
-            int state = te.getState();
-            boolean power1 = (state & 1) != 0 ;
-            boolean power2 = (state & 2) != 0 ;
+	@Override
+	public int getProvidingWeakRedstonePowerValue(IBlockAccess world, int x, int y, int z, PC_Direction dir) {
+		return getProvidingStrongRedstonePowerValue(world, x, y, z, dir);
+	}
 
-            switch (variant){
-                case 0:
-                    if (dir == PC_Direction.RIGHT){
-                        return power1?15:0;
-                    }
+	@Override
+	public int getProvidingStrongRedstonePowerValue(IBlockAccess world, int x, int y, int z, PC_Direction dir) {
+		PClo_TileEntityRepeater te = getTE(world, x, y, z);
+		int type = te.getType();
+		boolean L = false, R = false, F = false, B = false;
+		int variant = te.getInp();
 
-                    if (dir == PC_Direction.FRONT){
-                        return power2?15:0;
-                    }
-                    break;
-                case 1:
-                    if (dir == PC_Direction.FRONT){
-                        return power1?15:0;
-                    }
+		if (type == PClo_RepeaterType.CROSSING){
+			int state = te.getState();
+			boolean power1 = (state & 1) != 0 ;
+			boolean power2 = (state & 2) != 0 ;
 
-                    if (dir == PC_Direction.LEFT){
-                        return power2?15:0;
-                    }
-                    break;
+			switch (variant){
+			case 0:
+				if (dir == PC_Direction.RIGHT){
+					return power1?15:0;
+				}
 
-                case 2:
-                    if (dir == PC_Direction.RIGHT){
-                        return power1?15:0;
-                    }
+				if (dir == PC_Direction.FRONT){
+					return power2?15:0;
+				}
+				break;
+			case 1:
+				if (dir == PC_Direction.FRONT){
+					return power1?15:0;
+				}
 
-                    if (dir == PC_Direction.BACK){
-                        return power2?15:0;
-                    }
-                    break;
-                case 3:
-                    if (dir == PC_Direction.LEFT){
-                        return power1?15:0;
-                    }
+				if (dir == PC_Direction.LEFT){
+					return power2?15:0;
+				}
+				break;
 
-                    if (dir == PC_Direction.BACK){
-                        return power2?15:0;
-                    }
-                    break;
-            }
-            return 0;
-        }
+			case 2:
+				if (dir == PC_Direction.RIGHT){
+					return power1?15:0;
+				}
 
-        boolean power = isActive(world, x, y, z);
+				if (dir == PC_Direction.BACK){
+					return power2?15:0;
+				}
+				break;
+			case 3:
+				if (dir == PC_Direction.LEFT){
+					return power1?15:0;
+				}
 
-        if (!power)
-            return 0;
+				if (dir == PC_Direction.BACK){
+					return power2?15:0;
+				}
+				break;
+			}
+			return 0;
+		}
 
-        if (type == PClo_RepeaterType.SPLITTER_I){
-            L = variant != 3;
-            R = variant != 1;
-            F = variant != 2;
-            B = false;
-        }else if (type == PClo_RepeaterType.REPEATER_STRAIGHT_I || type == PClo_RepeaterType.REPEATER_STRAIGHT){
-            F = true;
-        }else if (type == PClo_RepeaterType.REPEATER_CORNER_I || type == PClo_RepeaterType.REPEATER_CORNER){
-            L = variant == 0;
-            R = variant == 1;
-        }
+		boolean power = isActive(world, x, y, z);
 
-        if(dir==PC_Direction.LEFT)
-        	return L?15:0;
-        if(dir==PC_Direction.RIGHT)
-        	return R?15:0;
-        if(dir==PC_Direction.FRONT)
-        	return F?15:0;
-        if(dir==PC_Direction.BOTTOM)
-        	return B?15:0;
+		if (!power)
+			return 0;
 
-        return 0;
-   	}
+		if (type == PClo_RepeaterType.SPLITTER_I){
+			L = variant != 3;
+			R = variant != 1;
+			F = variant != 2;
+			B = false;
+		}else if (type == PClo_RepeaterType.REPEATER_STRAIGHT_I || type == PClo_RepeaterType.REPEATER_STRAIGHT){
+			F = true;
+		}else if (type == PClo_RepeaterType.REPEATER_CORNER_I || type == PClo_RepeaterType.REPEATER_CORNER){
+			L = variant == 0;
+			R = variant == 1;
+		}
 
-    @Override
-    public boolean canProvidePower(){
-        return true;
-    }
+		if(dir==PC_Direction.LEFT)
+			return L?15:0;
+		if(dir==PC_Direction.RIGHT)
+			return R?15:0;
+		if(dir==PC_Direction.FRONT)
+			return F?15:0;
+		if(dir==PC_Direction.BOTTOM)
+			return B?15:0;
 
-    @Override
-    public boolean renderAsNormalBlock(){
-        return false;
-    }
+		return 0;
+	}
 
-    @Override
-    public int getRenderType(){
-        return PC_Renderer.getRendererID(true);
-    }
+	@Override
+	public boolean canProvidePower(){
+		return true;
+	}
 
-    public static PClo_TileEntityRepeater getTE(IBlockAccess world, int x, int y, int z){
-        TileEntity te = PC_Utils.getTE(world, x, y, z);
+	@Override
+	public boolean renderAsNormalBlock(){
+		return false;
+	}
 
-        if (te instanceof PClo_TileEntityRepeater){
-            return (PClo_TileEntityRepeater)te;
-        }
+	@Override
+	public int getRenderType(){
+		return PC_Renderer.getRendererID(true);
+	}
 
-        return null;
-    }
+	public static PClo_TileEntityRepeater getTE(IBlockAccess world, int x, int y, int z){
+		TileEntity te = PC_Utils.getTE(world, x, y, z);
 
-    public static int getType(IBlockAccess world, int x, int y, int z){
-        PClo_TileEntityRepeater te = getTE(world, x, y, z);
+		if (te instanceof PClo_TileEntityRepeater){
+			return (PClo_TileEntityRepeater)te;
+		}
 
-        if (te != null){
-            return te.getType();
-        }
+		return null;
+	}
 
-        return 0;
-    }
+	public static int getType(IBlockAccess world, int x, int y, int z){
+		PClo_TileEntityRepeater te = getTE(world, x, y, z);
 
-    public static int getInp(IBlockAccess world, int x, int y, int z){
-        PClo_TileEntityRepeater te = getTE(world, x, y, z);
+		if (te != null){
+			return te.getType();
+		}
 
-        if (te != null){
-            return te.getInp();
-        }
+		return 0;
+	}
 
-        return 0;
-    }
+	public static int getInp(IBlockAccess world, int x, int y, int z){
+		PClo_TileEntityRepeater te = getTE(world, x, y, z);
 
-    public static boolean isActive(IBlockAccess world, int x, int y, int z){
-        return PC_Utils.getBID(world, x, y, z) == on;
-    }
+		if (te != null){
+			return te.getInp();
+		}
 
-    @Override
-    public IIcon getIcon(IBlockAccess iblockaccess, int x, int y, int z, int side){
-        if (side == 1)
-            return sideIcons[PClo_RepeaterType.getTextureIndex(getType(iblockaccess, x, y, z), isActive(iblockaccess, x, y, z)) + getInp(iblockaccess, x, y, z)];
+		return 0;
+	}
 
-        if (side == 0)
-            return sideIcons[0];
+	public static boolean isActive(IBlockAccess world, int x, int y, int z){
+		return PC_Utils.getBID(world, x, y, z) == on;
+	}
 
-        return sideIcons[1];
-    }
+	@Override
+	public IIcon getIcon(IBlockAccess iblockaccess, int x, int y, int z, int side){
+		if (side == 1)
+			return sideIcons[PClo_RepeaterType.getTextureIndex(getType(iblockaccess, x, y, z), isActive(iblockaccess, x, y, z)) + getInp(iblockaccess, x, y, z)];
 
-    @Override
-    public IIcon getIcon(PC_Direction side, int meta){
-        if (side == PC_Direction.BOTTOM)
-            return sideIcons[0];
+		if (side == 0)
+			return sideIcons[0];
 
-        if (side == PC_Direction.TOP)
-            return sideIcons[PClo_RepeaterType.getTextureIndex(meta, true)];
-        else
-            return sideIcons[1];
-    }
+		return sideIcons[1];
+	}
 
-    @Override
-    public boolean isOpaqueCube(){
-        return false;
-    }
+	@Override
+	public IIcon getIcon(PC_Direction side, int meta){
+		if (side == PC_Direction.BOTTOM)
+			return sideIcons[0];
 
-    @Override
-    public void setBlockBoundsBasedOnState(IBlockAccess iblockaccess, int x, int y, int z){
-        setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.1875F, 1.0F);
-    }
+		if (side == PC_Direction.TOP)
+			return sideIcons[PClo_RepeaterType.getTextureIndex(meta, true)];
+		else
+			return sideIcons[1];
+	}
 
-    @Override
-    public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z){
-        setBlockBoundsBasedOnState(world, x, y, z);
-        return super.getCollisionBoundingBoxFromPool(world, x, y, z);
-    }
+	@Override
+	public boolean isOpaqueCube(){
+		return false;
+	}
 
-    @Override
-    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int par6, float par7, float par8, float par9){
-        ItemStack ihold = player.getCurrentEquippedItem();
+	@Override
+	public void setBlockBoundsBasedOnState(IBlockAccess iblockaccess, int x, int y, int z){
+		setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.1875F, 1.0F);
+	}
 
-        if (ihold != null){
-            if (ihold.getItem() == Items.stick){
-                if (!world.isRemote){
-                    getTE(world, x, y, z).change();
-                }
+	@Override
+	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z){
+		setBlockBoundsBasedOnState(world, x, y, z);
+		return super.getCollisionBoundingBoxFromPool(world, x, y, z);
+	}
 
-                return true;
-            }
-        }
+	@Override
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int par6, float par7, float par8, float par9){
+		ItemStack ihold = player.getCurrentEquippedItem();
 
-        return false;
-    }
+		if (ihold != null){
+			if (ihold.getItem() == Items.stick){
+				if (!world.isRemote){
+					getTE(world, x, y, z).change();
+				}
 
-    @Override
-    public void randomDisplayTick(World world, int x, int y, int z, Random random){
-        if (!isActive(world, x, y, z))
-            return;
+				return true;
+			}
+		}
 
-        if (random.nextInt(3) != 0)
-            return;
+		return false;
+	}
 
-        double d = (x + 0.5F) + (random.nextFloat() - 0.5F) * 0.20000000000000001D;
-        double d1 = (y + 0.2F) + (random.nextFloat() - 0.5F) * 0.20000000000000001D;
-        double d2 = (z + 0.5F) + (random.nextFloat() - 0.5F) * 0.20000000000000001D;
-        world.spawnParticle("reddust", d, d1, d2, 0.0D, 0.0D, 0.0D);
-    }
+	@Override
+	public void randomDisplayTick(World world, int x, int y, int z, Random random){
+		if (!isActive(world, x, y, z))
+			return;
 
-    @Override
-    public int quantityDropped(Random random){
-        return 1;
-    }
-    
+		if (random.nextInt(3) != 0)
+			return;
+
+		double d = (x + 0.5F) + (random.nextFloat() - 0.5F) * 0.20000000000000001D;
+		double d1 = (y + 0.2F) + (random.nextFloat() - 0.5F) * 0.20000000000000001D;
+		double d2 = (z + 0.5F) + (random.nextFloat() - 0.5F) * 0.20000000000000001D;
+		world.spawnParticle("reddust", d, d1, d2, 0.0D, 0.0D, 0.0D);
+	}
+
+	@Override
+	public int quantityDropped(Random random){
+		return 1;
+	}
+
 
 }

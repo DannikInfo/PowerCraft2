@@ -32,7 +32,7 @@ public class PCma_GuiRoaster extends PCma_ContainerRoaster implements PC_IGresCl
 
 		PC_GresWidget w = new PC_GresWindow(
 				PC_LangRegistry.tr("tile.PCma_BlockRoaster.name") + " - " + PC_LangRegistry.tr("pc.roaster.insertFuel"))
-						.setWidthForInventory();
+				.setWidthForInventory();
 
 		w.setAlignH(PC_GresAlign.CENTER);
 

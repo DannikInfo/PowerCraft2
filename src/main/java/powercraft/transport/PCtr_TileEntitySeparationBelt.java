@@ -88,10 +88,10 @@ public class PCtr_TileEntitySeparationBelt extends PCtr_TileEntitySeparationBelt
 
 			translate[2] = (PCtr_BeltHelper.isTransporterAt(worldObj, new PC_VecI(leftX, yCoord, leftZ))
 					? PC_Direction.LEFT
-					: PC_Direction.FRONT);
+							: PC_Direction.FRONT);
 			translate[0] = (PCtr_BeltHelper.isTransporterAt(worldObj, new PC_VecI(rightX, yCoord, rightZ))
 					? PC_Direction.RIGHT
-					: PC_Direction.FRONT);
+							: PC_Direction.FRONT);
 
 			if (translate[0] == translate[2]) {
 				translate[0] = PC_Direction.LEFT;

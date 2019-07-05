@@ -7,6 +7,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.entity.Entity;
 import net.minecraft.server.integrated.IntegratedServer;
+import net.minecraft.util.IChatComponent;
 import net.minecraft.world.World;
 import powercraft.api.reflect.PC_ReflectHelper;
 import powercraft.api.registry.PC_RegistryClient;
@@ -85,8 +86,8 @@ public class PC_ClientUtils extends PC_Utils {
 
 	}
 
-	/*
-	 * @Override protected void iChatMsg(String tr) {
-	 * mc().ingameGUI.getChatGUI().printChatMessage(tr); }
-	 */
+	@Override 
+	protected void iChatMsg(String tr) {
+		//mc().ingameGUI.getChatGUI().printChatMessage(new IChatComponent().appendText(tr));
+	}
 }

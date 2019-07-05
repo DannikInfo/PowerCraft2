@@ -21,9 +21,4 @@ public class PChg_ItemBlockHologramBlockEmpty extends PC_ItemBlock {
 		return true;
 	}
 
-	@Override
-	public void addInformation(ItemStack itemStack, EntityPlayer player, List list, boolean b) {
-		list.add(PC_LangRegistry.tr("pc.notstable.desc"));
-	}
-
 }

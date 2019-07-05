@@ -12,7 +12,7 @@ public class PC_Serializer {
 		ByteArrayOutputStream b = new ByteArrayOutputStream();
 		ObjectOutputStream o = new ObjectOutputStream(b);
 		o.writeObject(obj);	
-		
+
 		return b.toByteArray();
 	}
 

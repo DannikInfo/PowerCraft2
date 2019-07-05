@@ -24,24 +24,24 @@ import powercraft.api.utils.PC_Utils;
 public class PClo_GuiPulsar implements PC_IGresClient {
 
 	private PClo_TileEntityPulsar pulsar;
-	
+
 	private PC_GresWidget buttonOK, buttonCancel;
 	private PC_GresWidget editDelay;
 	private PC_GresWidget editHold;
 	private PC_GresWidget txError;
-	
+
 	private PC_GresCheckBox checkSilent, checkPaused;
-	
+
 	private boolean error = false;
-	
+
 	public PClo_GuiPulsar(EntityPlayer player, PC_TileEntity te, Object[] o){
 		pulsar = (PClo_TileEntityPulsar)te;
 	}
-	
+
 	@Override
 	public void initGui(PC_IGresGui gui) {
 		PC_GresWindow w = new PC_GresWindow("tile.PClo_BlockPulsar.name");
-		
+
 		w.setAlignH(PC_GresAlign.STRETCH);
 		PC_GresWidget hg, vg;
 
@@ -80,19 +80,19 @@ public class PClo_GuiPulsar implements PC_IGresClient {
 		hg.add(buttonCancel = new PC_GresButton("pc.gui.cancel").setId(1));
 		hg.add(buttonOK = new PC_GresButton("pc.gui.ok").setId(0));
 		w.add(hg);
-		
+
 		gui.add(w);
-		
+
 	}
 
 	@Override
 	public void onGuiClosed(PC_IGresGui gui) {
-		
+
 	}
 
 	@Override
 	public void actionPerformed(PC_GresWidget widget, PC_IGresGui gui) {
-		
+
 		if(widget==editDelay || widget==editHold){
 			String delay = editDelay.getText();
 			String hold = editHold.getText();
@@ -107,11 +107,11 @@ public class PClo_GuiPulsar implements PC_IGresClient {
 				}
 			}
 		}
-		
+
 		if(widget==buttonCancel){
 			gui.close();
 		}
-		
+
 		if(widget==buttonOK){
 			String delay = editDelay.getText();
 			String hold = editHold.getText();
@@ -132,7 +132,7 @@ public class PClo_GuiPulsar implements PC_IGresClient {
 				}
 			}
 		}
-		
+
 	}
 
 	@Override

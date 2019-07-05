@@ -9,6 +9,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
@@ -17,6 +18,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.ChunkCache;
 import powercraft.api.annotation.PC_FieldObject;
 import powercraft.api.renderer.PC_Renderer;
+import powercraft.api.renderer.PC_TileEntitySpecialRenderer;
+import powercraft.api.tileentity.PC_ITileEntityRenderer;
 import powercraft.api.utils.PC_ClientUtils;
 import powercraft.api.utils.PC_VecI;
 import powercraft.launcher.loader.PC_ClientModule;
@@ -53,24 +56,20 @@ public class PChg_AppClient extends PChg_App {
 		PC_Renderer.glScalef(1 / 16.0f, 1 / 16.0f, 1 / 16.0f);
 		PC_Renderer.glTranslatef(-offset.x, -offset.y, -offset.z);
 
+		RenderBlocks renderer = new PChg_HologramRenderBlocks(cc);
+		mc.getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
 		if (te == PChg_HologramGlassesOverlay.fieldToUpdate || te.glList == 0) {
 			if (te.glList == 0) {
 				te.glList = GL11.glGenLists(1);
 			}
 			GL11.glNewList(te.glList, GL11.GL_COMPILE_AND_EXECUTE);
-			RenderBlocks renderer = new PChg_HologramRenderBlocks(cc);
 			PC_Renderer.tessellatorStartDrawingQuads();
 			for (int yy = -16; yy < 16; yy++) {
 				for (int xx = -16; xx < 16; xx++) {
 					for (int zz = -16; zz < 16; zz++) {
 						Block block = te.getWorld().getBlock(offset.x + xx, offset.y + yy, offset.z + zz);
 						if (block != null && block != Blocks.air) {
-							if(block.getIcon(0, 0) != null)
-							mc.renderEngine.bindTexture(new
-							ResourceLocation("textures/blocks/"+block.getIcon(0,
-							0).getIconName()+".png"));
-							PC_Renderer.renderStandardBlock(renderer, block, offset.x + xx, offset.y + yy,
-									offset.z + zz);
+							PC_Renderer.renderBlockByRenderType(renderer, block, offset.x+xx, offset.y+yy, offset.z+zz);
 						}
 					}
 				}
@@ -89,12 +88,9 @@ public class PChg_AppClient extends PChg_App {
 					Block block = te.getWorld().getBlock(offset.x + xx, offset.y + yy, offset.z + zz);
 					if (block != null) {
 						TileEntity tileEntity = cc.getTileEntity(offset.x + xx, offset.y + yy, offset.z + zz);
-						if (tileEntity != null && !(tileEntity instanceof PChg_TileEntityHologramField)) {
+						if (tileEntity != null && !(tileEntity instanceof PChg_TileEntityHologramField) && tileEntity instanceof PC_ITileEntityRenderer) {
 							GL11.glPushAttrib(-1);
-							RenderBlocks renderer = new PChg_HologramRenderBlocks(cc);
-							PC_Renderer.renderStandardBlock(renderer, block, offset.x + xx, offset.y + yy,
-									offset.z + zz);// tileEntity.renrenderTileEntityAt(tileEntity, offset.x+xx,
-													// offset.y+yy, offset.z+zz, 1);
+							PC_TileEntitySpecialRenderer.getInstance().renderTileEntityAt(tileEntity, offset.x+xx, offset.y+yy, offset.z+zz, 1);
 							GL11.glPopAttrib();
 						}
 					}
@@ -118,7 +114,6 @@ public class PChg_AppClient extends PChg_App {
 		for (var6 = 0; var6 < var5.size(); ++var6) {
 			GL11.glPushAttrib(-1);
 			var7 = (Entity) var5.get(var6);
-			// mc.renderEngine.resetBoundTexture();
 			RenderManager.instance.renderEntitySimple(var7, 1);
 			GL11.glPopAttrib();
 		}

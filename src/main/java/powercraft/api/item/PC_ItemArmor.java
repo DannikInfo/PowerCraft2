@@ -89,6 +89,6 @@ public abstract class PC_ItemArmor extends ItemArmor implements PC_IItemInfo {
 	@Override
 	public String getArmorTexture(ItemStack itemstack, Entity entity, int slot, String type) {
 		return mod_PowerCraft.MODID + ":" + PC_TextureRegistry.getPowerCraftImageDir()
-				+ PC_TextureRegistry.getTextureName(module, armorTexture);
+		+ PC_TextureRegistry.getTextureName(module, armorTexture);
 	}
 }

@@ -27,7 +27,7 @@ public class PCma_BlockXPBank extends PC_Block implements PC_IItemInfo {
 		setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
 		setHardness(6.0F);
 		setResistance(100.0F);
-		// setLightOpacity(0.5F);
+		setLightLevel(0.5F);
 		setCreativeTab(CreativeTabs.tabDecorations);
 	}
 

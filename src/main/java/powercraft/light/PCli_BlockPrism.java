@@ -62,7 +62,7 @@ public class PCli_BlockPrism extends PC_Block implements PC_IItemInfo {
 					return false;
 			}
 		}
-		
+
 		int angle = MathHelper.floor_double((((player.rotationYaw + 180F) * 16F) / 360F) + 0.5D) & 0xf;
 		angle &= 0xE;
 		angle = angle >> 1;
@@ -233,9 +233,9 @@ public class PCli_BlockPrism extends PC_Block implements PC_IItemInfo {
 			for (int h = 0; h < sideCount; h++) {
 				PC_VecI newMove = getPrismOutputMove(side[h]).copy();
 				settings.getBeamTracer()
-						.forkBeam(new BeamSettings(settings.getBeamTracer(), settings.getPos(), newMove,
-								settings.getColor(), settings.getStrength(),
-								settings.getLength() / Math.round(sideCount * 0.75F)));
+				.forkBeam(new BeamSettings(settings.getBeamTracer(), settings.getPos(), newMove,
+						settings.getColor(), settings.getStrength(),
+						settings.getLength() / Math.round(sideCount * 0.75F)));
 			}
 
 		}

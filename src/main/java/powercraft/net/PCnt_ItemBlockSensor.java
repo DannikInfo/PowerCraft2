@@ -14,13 +14,13 @@ public class PCnt_ItemBlockSensor extends PC_ItemBlock {
 		super(block);
 		setHasSubtypes(true);
 	}
-	
+
 	@Override
 	public String getUnlocalizedName(ItemStack itemstack) {
 		return (new StringBuilder()).append(super.getUnlocalizedName()).append(".")
 				.append(itemstack.getItemDamage() == 0 ? "item" : itemstack.getItemDamage() == 1 ? "living" : "player").toString();
 	}
-	
+
 	@Override
 	public List<ItemStack> getItemStacks(List<ItemStack> arrayList) {
 		arrayList.add(new ItemStack(this, 1, 0));
@@ -34,7 +34,7 @@ public class PCnt_ItemBlockSensor extends PC_ItemBlock {
 		names.add(new LangEntry(getUnlocalizedName() + ".item", "Item Proximity Detector"));
 		names.add(new LangEntry(getUnlocalizedName() + ".living", "Mob Proximity Detector"));
 		names.add(new LangEntry(getUnlocalizedName() + ".player", "Player Proximity Detector"));
-        return names;
+		return names;
 	}
-	
+
 }

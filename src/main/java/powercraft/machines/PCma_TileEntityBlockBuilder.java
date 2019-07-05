@@ -135,8 +135,8 @@ public class PCma_TileEntityBlockBuilder extends PC_TileEntityWithInventory{
 
 			// ending block
 			if (block == Blocks.obsidian || block == Blocks.bedrock || block == Blocks.stonebrick
-			/** TODO || (PC_MSGRegistry.hasFlag(worldObj, front, PC_Utils.HARVEST_STOP)) */
-			) {
+					/** TODO || (PC_MSGRegistry.hasFlag(worldObj, front, PC_Utils.HARVEST_STOP)) */
+					) {
 				return -1;
 			}
 
@@ -188,7 +188,7 @@ public class PCma_TileEntityBlockBuilder extends PC_TileEntityWithInventory{
 					// if not bonemeal, or if target block was changed
 					if (!(itemstack.getItem() == Items.dye && itemstack.getItemDamage() == 15)
 							|| (blockFront != blockFrontNew || metaFront != metaFrontNew || blockAbove != blockAboveNew
-									|| metaAbove != metaAboveNew)) {
+							|| metaAbove != metaAboveNew)) {
 						if (dmgOrig != dmgNew) {
 							return 2;
 						}
@@ -221,7 +221,7 @@ public class PCma_TileEntityBlockBuilder extends PC_TileEntityWithInventory{
 					// if not bonemeal, or if target block was changed
 					if (!(itemstack.getItem() == Items.dye && itemstack.getItemDamage() == 15)
 							|| (blockBelow != blockBelowNew || metaBelow != metaBelowNew || blockFront != blockFrontNew
-									|| metaFront != metaFrontNew)) {
+							|| metaFront != metaFrontNew)) {
 						if (dmg1 != dmg2) {
 							return 2;
 						}

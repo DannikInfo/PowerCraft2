@@ -309,7 +309,7 @@ public class PC_TreeHarvesting implements PC_ISpecialHarvesting {
 
 					if (woodMeta_s.equals("") || !woodMeta_s.matches("-?[0-9]+")) {
 						PC_Logger
-								.warning("Tree manager - parseFile - Error while parsing " + file + " - bad wood meta");
+						.warning("Tree manager - parseFile - Error while parsing " + file + " - bad wood meta");
 						continue treeloop;
 					}
 

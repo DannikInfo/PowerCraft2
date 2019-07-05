@@ -28,10 +28,10 @@ public class PCtp_TileEntityTeleporter extends PC_TileEntity {
 	public Packet getDescriptionPacket() {
 		return new S35PacketUpdateTileEntity(0, 0, 0, 3, new NBTTagCompound());
 	}
-	    
+
 	@Override
 	public void onDataPacket(NetworkManager networkManager, S35PacketUpdateTileEntity packet) {}
-	
+
 	public void readFromNBT(NBTTagCompound nbt) {
 		PCtp_TeleporterManager tm = new PCtp_TeleporterManager();
 		tm.load(nbt);

@@ -234,7 +234,37 @@ pc.gui.compressor.name=name:
 item.PCs_ItemCompressor.normal.name=Compressor
 item.PCs_ItemCompressor.enderaccess.name=Ender compressor
 
-//weasel
+//miner
+pc.miner.disconnected=Miner %s disconnected from keyboard.
+pc.miner.connected=Miner %s connected to keyboard.
+pc.miner.bridgeOn=Bridge building enabled.
+pc.miner.bridgeOff=Bridge building disabled.
+pc.miner.launchedAll=Miners launched and disconnected.
+pc.miner.miningOn=Mining enabled.
+pc.miner.miningOff=Mining disabled.
+pc.miner.operationsCancelled=All operations cancelled.
+pc.miner.build.errInvalidStructure=Not a valid Miner's structure!
+pc.miner.build.errMissingCrystals=Put some Power Crystals into the chest!
+
+pc.gui.miner.settings=Settings
+pc.gui.miner.cargo=Cargo
+
+pc.gui.miner.opt.mining=Mining enabled
+pc.gui.miner.opt.bridge=Bridge building
+pc.gui.miner.opt.lavaFill=Lava filling
+pc.gui.miner.opt.waterFill=Water filling
+pc.gui.miner.opt.airFill=Air filling - tunnel mode
+pc.gui.miner.opt.keepFuel=Keep all fuel
+pc.gui.miner.opt.torchPlacing=Place torches
+pc.gui.miner.opt.torchesOnlyOnFloor=Torches only on floor
+pc.gui.miner.opt.compress=Compress items
+pc.gui.miner.opt.makeCobble=Make cobble (water & lava)
+
+pc.gui.miner.title=Miner
+
+pc.miner.chestName=Miner Cargo Storage
+
+//weasel remove?
 pc.gui.weasel.device.name=device name:
 pc.gui.weasel.device.rename=rename device
 pc.gui.weasel.network.tab=Network

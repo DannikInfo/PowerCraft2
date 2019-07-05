@@ -45,23 +45,23 @@ public class PCma_TileEntityXPBank extends PC_TileEntity implements PC_IPacketHa
 		if (hitList.size() > 0) {
 			Loop:
 
-			for (EntityXPOrb orb : hitList) {
-				if (orb.isDead) {
-					continue Loop;
-				}
+				for (EntityXPOrb orb : hitList) {
+					if (orb.isDead) {
+						continue Loop;
+					}
 
-				int oldxp = xp;
-				worldObj.playSoundAtEntity(orb, "random.orb", 0.1F,
-						0.5F * ((rand.nextFloat() - rand.nextFloat()) * 0.7F + 1.8F));
-				xp += orb.getXpValue();
-				orb.setDead();
+					int oldxp = xp;
+					worldObj.playSoundAtEntity(orb, "random.orb", 0.1F,
+							0.5F * ((rand.nextFloat() - rand.nextFloat()) * 0.7F + 1.8F));
+					xp += orb.getXpValue();
+					orb.setDead();
 
-				if (oldxp == 0 && xp > 0) {
-					notifyChange();
-				} else {
-					notifyResize();
+					if (oldxp == 0 && xp > 0) {
+						notifyChange();
+					} else {
+						notifyResize();
+					}
 				}
-			}
 		}
 
 		if (xp != xp2) {

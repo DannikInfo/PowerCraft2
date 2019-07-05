@@ -12,6 +12,8 @@ import powercraft.api.network.packet.PC_PacketOpenGres;
 import powercraft.api.network.packet.PC_PacketSyncInv;
 import powercraft.api.network.packet.PC_PacketSyncInvTC_pt1;
 import powercraft.api.network.packet.PC_PacketSyncInvTC_pt2;
+import powercraft.api.network.packet.PC_PacketSyncMinerClient;
+import powercraft.api.network.packet.PC_PacketSyncMinerServer;
 import powercraft.api.network.packet.PC_PacketSyncPlayerInv;
 import powercraft.api.network.packet.PC_PacketSyncPlayerInvTC_pt1;
 import powercraft.api.network.packet.PC_PacketSyncPlayerInvTC_pt2;
@@ -65,6 +67,7 @@ public class PC_PacketHandler {
 		registerMessage(PC_PacketSyncPlayerInvTC_pt2.class);
 		registerMessage(PC_PacketSyncTEClient.class);
 		registerMessage(PC_PacketLaser.class);
+		registerMessage(PC_PacketSyncMinerClient.class);
 
 		// Packets handled on SERVER
 		registerMessage(PC_PacketSyncInv.class);
@@ -74,6 +77,7 @@ public class PC_PacketHandler {
 		registerMessage(PC_PacketTeleporterSync.class);
 		registerMessage(PC_PacketTeleport.class);
 		registerMessage(PC_PacketSyncTEServer.class);
+		registerMessage(PC_PacketSyncMinerServer.class);
 
 		// If you don't want to make a 'registerMessage' method, you can do it directly:
 		// PacketDispatcher.dispatcher.registerMessage(SyncPlayerPropsMessage.class,

@@ -48,11 +48,11 @@ public class PC_PacketSyncPlayerInvTC_pt1 extends AbstractServerMessage<PC_Packe
 		if (side == Side.SERVER) {
 			if (te == null) {
 				//if(player.getCurrentEquippedItem().getItem() instanceof PCis_ItemCompressor){
-				 //PCis_ItemCompressor item = (PCis_ItemCompressor)player.getCurrentEquippedItem().getItem();
-				 //item.getInventoryFor(player, player.inventory.currentItem);
-				 //PC_IInventory inv = (PC_IInventory)new PCis_NormalCompressorInventory(player,
-				 //0);
-				 //inv.syncInventory(2, player, 0);
+				//PCis_ItemCompressor item = (PCis_ItemCompressor)player.getCurrentEquippedItem().getItem();
+				//item.getInventoryFor(player, player.inventory.currentItem);
+				//PC_IInventory inv = (PC_IInventory)new PCis_NormalCompressorInventory(player,
+				//0);
+				//inv.syncInventory(2, player, 0);
 				//}
 			} else
 				te.syncInventory(2, player, 0);

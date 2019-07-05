@@ -340,8 +340,8 @@ public class PCtr_BeltHelper {
 	public static boolean storeItemIntoMinecart(World world, PC_VecI beltPos, EntityItem entity) {
 		List<EntityMinecart> hitList = world.getEntitiesWithinAABB(EntityMinecart.class,
 				AxisAlignedBB
-						.getBoundingBox(beltPos.x, beltPos.y, beltPos.z, beltPos.x + 1, beltPos.y + 1, beltPos.z + 1)
-						.expand(1.0D, 1.0D, 1.0D));
+				.getBoundingBox(beltPos.x, beltPos.y, beltPos.z, beltPos.x + 1, beltPos.y + 1, beltPos.z + 1)
+				.expand(1.0D, 1.0D, 1.0D));
 
 		if (hitList.size() > 0) {
 			for (EntityMinecart cart : hitList) {
@@ -915,8 +915,8 @@ public class PCtr_BeltHelper {
 	public static boolean dispenseStackFromNearbyMinecart(World world, PC_VecI beltPos) {
 		List<Entity> hitList = world.getEntitiesWithinAABB(IInventory.class,
 				AxisAlignedBB
-						.getBoundingBox(beltPos.x, beltPos.y, beltPos.z, beltPos.x + 1, beltPos.y + 1, beltPos.z + 1)
-						.expand(0.6D, 0.6D, 0.6D));
+				.getBoundingBox(beltPos.x, beltPos.y, beltPos.z, beltPos.x + 1, beltPos.y + 1, beltPos.z + 1)
+				.expand(0.6D, 0.6D, 0.6D));
 
 		if (hitList.size() > 0) {
 			for (Entity entityWithInventory : hitList) {
@@ -931,8 +931,8 @@ public class PCtr_BeltHelper {
 
 		List<Entity> hitList2 = world.getEntitiesWithinAABB(PC_IInventoryWrapper.class,
 				AxisAlignedBB
-						.getBoundingBox(beltPos.x, beltPos.y, beltPos.z, beltPos.x + 1, beltPos.y + 1, beltPos.z + 1)
-						.expand(0.6D, 0.6D, 0.6D));
+				.getBoundingBox(beltPos.x, beltPos.y, beltPos.z, beltPos.x + 1, beltPos.y + 1, beltPos.z + 1)
+				.expand(0.6D, 0.6D, 0.6D));
 
 		if (hitList2.size() > 0) {
 			for (Entity entityWithInventory : hitList2) {
@@ -1005,7 +1005,7 @@ public class PCtr_BeltHelper {
 			}
 
 			for (int i = last ? 3 : 0; (last ? i > 0 : i < 4)
-					&& (modeStacks ? numStacks - 1 >= l.size() : true); i = (last ? i - 1 : i + 1)) {
+			&& (modeStacks ? numStacks - 1 >= l.size() : true); i = (last ? i - 1 : i + 1)) {
 				int index = i;
 
 				if (random) {

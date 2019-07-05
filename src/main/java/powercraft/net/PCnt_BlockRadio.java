@@ -36,14 +36,12 @@ public class PCnt_BlockRadio extends PC_Block {
 		setResistance(30.0F);
 		setCreativeTab(CreativeTabs.tabRedstone);
 	}
-	
+
 	@Override
 	public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB collidedbox, List list, Entity par7Entity) {
 		setBlockBoundsBasedOnState(world, x, y, z);
+		setBlockBounds(0.65F, 0, 0.65F, 0.95F, 0.9F, 0.65F);
 		super.addCollisionBoxesToList(world, x, y, z, collidedbox, list, par7Entity);
-//
-//		setBlockBounds(0.65F, 0, 0.65F, 0.95F, 0.9F, 0.65F);
-//		super.getCollidingBoundingBoxes(world, x, y, z, collidedbox, list);
 	}
 
 	@Override
@@ -100,7 +98,7 @@ public class PCnt_BlockRadio extends PC_Block {
 					if (ihold.hasTagCompound()) {
 						String chnl = ihold.getTagCompound().getString("RadioChannel");
 						if (!chnl.equals("")) {
-							
+
 							ter.setChannel(chnl);
 
 							PC_VecI pos = ter.getCoord();
@@ -136,7 +134,7 @@ public class PCnt_BlockRadio extends PC_Block {
 		}
 		if(!world.isRemote)
 			PC_GresRegistry.openGres("Radio", entityplayer, ter);
-		
+
 		/*int rtype = ter.isTransmitter() ? PClo_GuiRadio.TRANSMITTER : PClo_GuiRadio.RECEIVER;
 		String channel = ter.getChannel();
 
@@ -145,8 +143,8 @@ public class PCnt_BlockRadio extends PC_Block {
 		return true;
 	}
 
-	
-	
+
+
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack itemStack) {
 		world.scheduleBlockUpdate(x, y, z, this, tickRate(world));
@@ -162,20 +160,20 @@ public class PCnt_BlockRadio extends PC_Block {
 	public void onBlockHarvested(World world, int x, int y, int z, int metadata, EntityPlayer player) {
 		PCnt_TileEntityRadio te = PC_Utils.getTE(world, x, y, z);
 
-        if (te.isTransmitter() && te.isActive() && !world.isRemote) {
-    		PCnt_RadioManager.transmitterOff(te.getChannel());
-        }
-    }
+		if (te.isTransmitter() && te.isActive() && !world.isRemote) {
+			PCnt_RadioManager.transmitterOff(te.getChannel());
+		}
+	}
 
 	@Override
 	public void updateTick(World world, int i, int j, int k, Random random) {
 
 		PCnt_TileEntityRadio ter = PC_Utils.getTE(world, i, j, k);
-		
+
 		if (ter.isTransmitter()) {
 
 			ter.setTransmitterState(isGettingPower(world, i, j, k));
-			
+
 		}
 
 		world.markBlockForUpdate(i, j, k);
@@ -191,7 +189,7 @@ public class PCnt_BlockRadio extends PC_Block {
 		PCnt_TileEntityRadio ter = PC_Utils.getTE(world, i, j, k);
 		if (ter.isTransmitter()) 
 			ter.setTransmitterState(isGettingPower(world, i, j, k));
-			
+
 		world.scheduleBlockUpdate(i, j, k, block, 1);
 	}
 
@@ -207,11 +205,11 @@ public class PCnt_BlockRadio extends PC_Block {
 
 	@Override
 	public void randomDisplayTick(World world, int i, int j, int k, Random random) {
-		
+
 		PCnt_TileEntityRadio te = PC_Utils.getTE(world, i, j, k);
 		if(!te.isActive())
 			return;
-		
+
 		boolean tiny = te.isRenderMicro();
 
 		double x = (i + 0.5F) + (random.nextFloat() - 0.5F) * 0.20000000000000001D;
@@ -226,14 +224,14 @@ public class PCnt_BlockRadio extends PC_Block {
 		return 2;
 	}
 	PCnt_ModelRadio model = new PCnt_ModelRadio();
-	
+
 	@Override
 	public boolean renderInventoryBlock(int metadata, Object renderer){
 		PC_Renderer.glPushMatrix();
 		float f = 1.0F;
-		
+
 		PC_Renderer.glTranslatef(0, -0.5F, 0);
-		
+
 		PC_Renderer.bindTexture(PC_TextureRegistry.getPowerCraftImageDir()+PC_TextureRegistry.getTextureName(PCnt_App.instance, "block_radio.png"));
 
 		PC_Renderer.glPushMatrix();
@@ -247,11 +245,11 @@ public class PCnt_BlockRadio extends PC_Block {
 
 		PC_Renderer.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		PC_Renderer.glPopMatrix();
-		
+
 
 		return true;
 	}
-	
+
 	@Override
 	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Object renderer) {
 		return true;

@@ -22,19 +22,19 @@ import powercraft.api.utils.PC_Utils;
 public class PClo_GuiDelayer implements PC_IGresClient {
 
 	private PClo_TileEntityDelayer delayer;
-	
+
 	private PC_GresWidget buttonOK, buttonCancel;
 	private PC_GresWidget editDelay;
 	private PC_GresWidget txError;
-	
+
 	public PClo_GuiDelayer(EntityPlayer player, PC_TileEntity te, Object[] o){
 		delayer = (PClo_TileEntityDelayer)te;
 	}
-	
+
 	@Override
 	public void initGui(PC_IGresGui gui) {
 		PC_GresWindow w = new PC_GresWindow("tile.PClo_BlockDelayer.delayer"+delayer.getType()+".name");
-		
+
 		w.setAlignH(PC_GresAlign.STRETCH);
 		PC_GresWidget hg, vg;
 
@@ -46,14 +46,14 @@ public class PClo_GuiDelayer implements PC_IGresClient {
 
 
 		w.add(txError = new PC_GresLabel("").setColor(PC_GresWidget.textColorEnabled, 0x990000).setColor(PC_GresWidget.textColorHover, 0x990000));
-		
+
 		// buttons
 		hg = new PC_GresLayoutH().setAlignH(PC_GresAlign.CENTER);
 		hg.setAlignH(PC_GresAlign.JUSTIFIED);
 		hg.add(buttonCancel = new PC_GresButton("pc.gui.cancel").setId(1));
 		hg.add(buttonOK = new PC_GresButton("pc.gui.ok").setId(0));
 		w.add(hg);
-		
+
 		gui.add(w);
 	}
 

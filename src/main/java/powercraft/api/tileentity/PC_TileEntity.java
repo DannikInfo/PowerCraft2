@@ -50,13 +50,13 @@ public class PC_TileEntity extends TileEntity {
 		this.writeToNBT(tagCompound);
 		return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 3, tagCompound);
 	}
-	    
+
 	@Override
 	public void onDataPacket(NetworkManager networkManager, S35PacketUpdateTileEntity packet) {
 		NBTTagCompound tagCompound = packet.func_148857_g();
 		this.readFromNBT(tagCompound);
 	}
-	
+
 	@Override
 	public void readFromNBT(NBTTagCompound nbtTagCompound) {
 		super.readFromNBT(nbtTagCompound);

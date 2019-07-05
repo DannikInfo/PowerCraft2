@@ -71,7 +71,7 @@ public final class PC_MSGRegistry {
 			ret = iterator.onRet(ret);
 			if (ret != null)
 				return ret;
-			
+
 		}
 		return null;
 	}

@@ -51,7 +51,7 @@ public final class PC_DataHandlerRegistry {
 					if (dataHandlers.containsKey(name)) {
 						try {
 							dataHandlers.get(name)
-									.load(CompressedStreamTools.readCompressed(new FileInputStream(file)));
+							.load(CompressedStreamTools.readCompressed(new FileInputStream(file)));
 						} catch (Exception e) {
 							e.printStackTrace();
 						}

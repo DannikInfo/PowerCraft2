@@ -9,7 +9,6 @@ Now it ported for 1.7.10 and will be released for newer versions soon.
 
 ### What modules are missing:
 - Weasel(Need to understand the concept and rethink. It can be remove or it can be completely redone.)
-- Hologram(Fully ported in 1.0.2a (coming soon))
 - Mobile
 - Core(small fixes craftingtool now it's portable workbench)
 All modules will be in the future added and fixes. 
@@ -22,4 +21,4 @@ You already can enjoy old powercraft on new version of Minecraft
 
 #### [Curse](https://minecraft.curseforge.com/projects/powercraft-2)
 #### [mcmodding(RU)](https://forum.mcmodding.ru/resources/powercraft-2.171/)
-#### [Dropbox](https://www.dropbox.com/sh/t6xz5f6qodxutgb/AADMZWCp_OlejjcFDEEClTuqa?dl=0)
+#### [Dropbox](https://www.dropbox.com/sh/3lz1672kl7o5xfm/AABOlfny31bBBAPo9kQ64R2Ka?dl=0)

@@ -10,7 +10,8 @@ Now it ported for 1.7.10 and will be released for newer versions soon.
 ### What modules are missing:
 - Weasel(Need to understand the concept and rethink. It can be remove or it can be completely redone.)
 - Mobile
-- Core(small fixes craftingtool now it's portable workbench)
+- Core(small fixes craftingtool now it's portable workbench). P.S. 1.0.3a a regular GUI for craftingTool will be added
+
 All modules will be in the future added and fixes. 
 You already can enjoy old powercraft on new version of Minecraft
 
